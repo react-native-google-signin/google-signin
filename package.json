@@ -1,0 +1,35 @@
+{
+  "name": "react-native-google-signin",
+  "version": "0.1.2",
+  "description": "Google Signin for your react native applications",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "react-component",
+    "react-native",
+    "google signin",
+    "google+",
+    "oauth",
+    "oauth2",
+    "ios"
+  ],
+  "author": {
+    "name": "Apptailor",
+    "email": "apptailor.co@gmail.com",
+    "url": "https://github.com/apptailor"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/apptailor/react-native-google-signin"
+  },
+  "bugs": {
+    "url": "https://github.com/apptailor/react-native-google-signin/issues"
+  },
+  "homepage": "https://github.com/apptailor/react-native-google-signin",
+  "peerDependencies": {
+    "react-native": ">= 0.8"
+  },
+  "license": "MIT"
+}
