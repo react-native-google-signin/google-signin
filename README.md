@@ -1,6 +1,8 @@
 # react-native-google-sign
 Let your users sign in with their Google account.
 
+[![xcode config](https://github.com/apptailor/react-native-google-signin/raw/master/img/demo-app.gif)](#demo)
+
 Includes Google Sign-In SDK v2.2.0
 
 ## Google project configuration
@@ -70,5 +72,5 @@ NativeAppEventEmitter.addListener('googleSignIn', (user) => {
 GoogleSignin.signIn();
 
 // remove user credentials. next time user starts the application, a signin promp will be displayed
-GoogleSignInManager.signOut();
+GoogleSignin.signOut();
 ```
