@@ -44,6 +44,7 @@ RCT_EXPORT_METHOD(signOut)
     NSDictionary *body = @{
                            @"name": user.profile.name,
                            @"email": user.profile.email,
+                           @"idToken": user.authentication.idToken,
                            @"accessToken": user.authentication.accessToken,
                            @"accessTokenExpirationDate": [NSNumber numberWithDouble:user.authentication.accessTokenExpirationDate.timeIntervalSinceNow]
                            };
