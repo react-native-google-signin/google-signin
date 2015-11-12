@@ -1,9 +1,8 @@
 # react-native-google-sign
 Let your users sign in with their Google account.
+Includes Google Sign-In SDK v2.4.0
 
 [![xcode config](https://github.com/apptailor/react-native-google-signin/raw/master/img/demo-app.gif)](#demo)
-
-Includes Google Sign-In SDK v2.2.0
 
 ## Google project configuration
 
