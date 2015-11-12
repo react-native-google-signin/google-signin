@@ -11,11 +11,11 @@
 #import <UIKit/UIKit.h>
 
 // The various layout styles supported by the GIDSignInButton.
-// The minmum size of the button depends on the language used for text.
+// The minimum size of the button depends on the language used for text.
 // The following dimensions (in points) fit for all languages:
-// kGIDSignInButtonStyleStandard: 224 x 44
-// kGIDSignInButtonStyleWide:     306 x 44
-// kGIDSignInButtonStyleIconOnly: 44 x 44 (no text, fixed size)
+// kGIDSignInButtonStyleStandard: 230 x 48
+// kGIDSignInButtonStyleWide:     312 x 48
+// kGIDSignInButtonStyleIconOnly: 48 x 48 (no text, fixed size)
 typedef NS_ENUM(NSInteger, GIDSignInButtonStyle) {
   kGIDSignInButtonStyleStandard = 0,
   kGIDSignInButtonStyleWide = 1,
@@ -37,15 +37,15 @@ typedef NS_ENUM(NSInteger, GIDSignInButtonColorScheme) {
 
 // The layout style for the sign-in button.
 // Possible values:
-// - kGIDSignInButtonStyleStandard: 224 x 44 (default)
-// - kGIDSignInButtonStyleWide:     306 x 44
-// - kGIDSignInButtonStyleIconOnly: 44 x 44 (no text, fixed size)
+// - kGIDSignInButtonStyleStandard: 230 x 48 (default)
+// - kGIDSignInButtonStyleWide:     312 x 48
+// - kGIDSignInButtonStyleIconOnly: 48 x 48 (no text, fixed size)
 @property(nonatomic, assign) GIDSignInButtonStyle style;
 
 // The color scheme for the sign-in button.
 // Possible values:
-// - kGIDSignInButtonColorSchemeDark (default)
-// - kGIDSignInButtonColorSchemeLight
+// - kGIDSignInButtonColorSchemeDark
+// - kGIDSignInButtonColorSchemeLight (default)
 @property(nonatomic, assign) GIDSignInButtonColorScheme colorScheme;
 
 // The view controller with which the button is associated.

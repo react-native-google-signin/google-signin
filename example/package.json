@@ -1,13 +1,13 @@
 {
-  "name": "GoogleSigninApp",
+  "name": "RNGoogleSiginExample",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node_modules/react-native/packager/packager.sh"
+    "start": "react-native start"
   },
   "dependencies": {
-    "react-native": "^0.8.0",
-    "react-native-google-signin": "file:../",
-    "react-native-icons": "^0.3.4"
+    "react-native": "^0.14.2",
+    "react-native-google-signin": "^0.1.3",
+    "react-native-icons": "^0.6.2"
   }
 }

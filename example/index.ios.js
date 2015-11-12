@@ -15,7 +15,7 @@ var {
   TouchableHighlight
 } = React;
 
-class GoogleSigninApp extends React.Component {
+class RNGoogleSiginExample extends React.Component {
 
   constructor(props) {
     super(props);
@@ -103,4 +103,4 @@ var styles = StyleSheet.create({
   }
 });
 
-AppRegistry.registerComponent('GoogleSigninApp', () => GoogleSigninApp);
+AppRegistry.registerComponent('RNGoogleSiginExample', () => RNGoogleSiginExample);
