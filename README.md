@@ -14,9 +14,14 @@ Includes Google Sign-In SDK v2.4.0
 
 ## XCode configuration
 
-- Add ```RNGoogleSignin``` folder to your XCode project (make sure 'copy items if needed' is ticked)
+- Add ```RNGoogleSignin``` folder to your XCode project (click on 'Options' button and make sure 'copy items if needed' is ticked and 'create groups' is selected)
+
+[![xcode dialog](https://github.com/apptailor/react-native-google-signin/raw/master/img/lib-dialog.png)]
 
 - Link your project with the following frameworks: ```AddressBook.framework``` ```StoreKit.framework``` ```SystemConfiguration.framework```
+
+- If you run into link issues when building your project try to add ```libz.tbd``` library (see [Stackoverflow](http://stackoverflow.com/a/18296731) for more details).
+
 
 Add the end of this step, your Xcode config should look like this:
 
