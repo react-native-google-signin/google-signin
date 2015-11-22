@@ -11,6 +11,9 @@ import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 
+import co.apptailor.googlesignin.RNGoogleSigninModule;
+import co.apptailor.googlesignin.RNGoogleSigninPackage;
+
 public class MainActivity extends Activity implements DefaultHardwareBackBtnHandler {
 
     private ReactInstanceManager mReactInstanceManager;
@@ -26,6 +29,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
                 .setBundleAssetName("index.android.bundle")
                 .setJSMainModuleName("index.android")
                 .addPackage(new MainReactPackage())
+                .addPackage(new RNGoogleSigninPackage(this))
                 .setUseDeveloperSupport(BuildConfig.DEBUG)
                 .setInitialLifecycleState(LifecycleState.RESUMED)
                 .build();
@@ -33,6 +37,14 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
         mReactRootView.startReactApplication(mReactInstanceManager, "RNGoogleSiginExample", null);
 
         setContentView(mReactRootView);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, android.content.Intent data) {
+        if (requestCode == RNGoogleSigninModule.RC_SIGN_IN) {
+            RNGoogleSigninModule.onActivityResult(data);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

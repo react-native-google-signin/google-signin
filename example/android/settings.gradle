@@ -1,3 +1,5 @@
 rootProject.name = 'RNGoogleSiginExample'
 
 include ':app'
+include ':react-native-google-signin', ':app'
+project(':react-native-google-signin').projectDir = new File(rootProject.projectDir, '../../android')
