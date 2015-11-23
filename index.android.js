@@ -1,7 +1,7 @@
 var {
   NativeModules: {
-    RNGoogleSignin
+    GoogleSignin
   }
 } = require('react-native');
 
-module.exports = RNGoogleSignin;
+module.exports = GoogleSignin;
