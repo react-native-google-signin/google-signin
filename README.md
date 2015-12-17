@@ -75,9 +75,15 @@ NativeAppEventEmitter.addListener('googleSignInError', (error) => {
   ....
 });
 
-// called on signin success, you get user data (email) and access token
+// called on signin success, you get user data (email), access token and idToken
 NativeAppEventEmitter.addListener('googleSignIn', (user) => {
-  console.log('Access token', user.accessToken)
+  User: {
+    name
+    email
+    accessToken
+    idToken (IOS ONLY)
+    accessTokenExpirationDate (IOS ONLY)
+  }
 });
 
 // call this method when user clicks the 'Signin with google' button
