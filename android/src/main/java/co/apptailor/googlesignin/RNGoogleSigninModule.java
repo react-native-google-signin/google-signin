@@ -157,6 +157,7 @@ public class RNGoogleSigninModule
 
         if (result.isSuccess()) {
             GoogleSignInAccount acct = result.getSignInAccount();
+            params.putString("id", acct.getId());
             params.putString("name", acct.getDisplayName());
             params.putString("email", acct.getEmail());
             params.putString("accessToken", acct.getIdToken());
