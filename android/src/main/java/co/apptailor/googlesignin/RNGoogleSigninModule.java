@@ -8,18 +8,21 @@ import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.common.api.Scope;
 
 
 public class RNGoogleSigninModule
@@ -44,25 +47,51 @@ public class RNGoogleSigninModule
     }
 
     @ReactMethod
-    public void init() {
+    public void init(final String clientID, final ReadableArray scopes) {
         _activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 System.out.println("YOUHOU");
                 System.out.println("API IS NULL " + _apiClient == null);
 
-                GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                        .requestEmail()
-                        .build();
-
                 _apiClient = new GoogleApiClient.Builder(_activity.getBaseContext())
 //                        .enableAutoManage(_activity, RNGoogleSigninModule.this)
-                        .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                        .addApi(Auth.GOOGLE_SIGN_IN_API, getSignInOptions(clientID, scopes))
                         .build();
                 _apiClient.connect();
                 start();
             }
         });
+    }
+
+    private GoogleSignInOptions getSignInOptions(final String clientID, final ReadableArray scopes) {
+
+      int size = scopes.size();
+      Scope[] _scopes = new Scope[size];
+
+      if(scopes != null && size > 0){
+        for(int i = 0; i < size; i++){
+          if(scopes.getType(i).name() == "String"){
+            String scope = scopes.getString(i);
+            if (scope != "email"){ // will be added by default
+              _scopes[i] = new Scope(scope);
+            }
+          }
+        }
+      }
+
+      if (clientID != null && !clientID.isEmpty()) {
+        return new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+          .requestIdToken(clientID)
+          .requestScopes(new Scope("email"), _scopes)
+          .build();
+      }
+      else {
+        return new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+          .requestScopes(new Scope("email"), _scopes)
+          .build();
+      }
+
     }
 
     @ReactMethod
@@ -135,7 +164,11 @@ public class RNGoogleSigninModule
             _context.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                     .emit("googleSignIn", params);
         } else {
-            params.putString("error", "signin error");
+            int code = result.getStatus().getStatusCode();
+            String error = GoogleSignInStatusCodes.getStatusCodeString(code);
+
+            params.putInt("code", code);
+            params.putString("error", error);
 
             _context.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                     .emit("googleSignInError", params);
