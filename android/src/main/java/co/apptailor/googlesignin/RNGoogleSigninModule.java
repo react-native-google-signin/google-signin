@@ -47,13 +47,10 @@ public class RNGoogleSigninModule
     }
 
     @ReactMethod
-    public void init(final String clientID, final ReadableArray scopes) {
+    public void configure(final String clientID, final ReadableArray scopes) {
         _activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                System.out.println("YOUHOU");
-                System.out.println("API IS NULL " + _apiClient == null);
-
                 _apiClient = new GoogleApiClient.Builder(_activity.getBaseContext())
 //                        .enableAutoManage(_activity, RNGoogleSigninModule.this)
                         .addApi(Auth.GOOGLE_SIGN_IN_API, getSignInOptions(clientID, scopes))
@@ -99,7 +96,6 @@ public class RNGoogleSigninModule
         _activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                System.out.println("YOUHOU");
                 Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(_apiClient);
                 _activity.startActivityForResult(signInIntent, RC_SIGN_IN);
             }

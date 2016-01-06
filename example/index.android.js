@@ -70,7 +70,7 @@ class RNGoogleSiginExample extends React.Component {
   }
 
   _configureOauth(clientId, scopes=[]) {
-    GoogleSignin.init();
+    GoogleSignin.configure();
 
     DeviceEventEmitter.addListener('googleSignInError', (error) => {
       console.log('ERROR signin in', error);
