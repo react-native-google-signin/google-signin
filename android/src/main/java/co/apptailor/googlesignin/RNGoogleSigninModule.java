@@ -9,6 +9,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.google.android.gms.auth.api.Auth;
@@ -150,13 +151,23 @@ public class RNGoogleSigninModule
 
     private static void handleSignInResult(GoogleSignInResult result) {
         WritableMap params = Arguments.createMap();
+        WritableArray scopes = Arguments.createArray();
 
         if (result.isSuccess()) {
             GoogleSignInAccount acct = result.getSignInAccount();
+            for(Scope scope : acct.getGrantedScopes()) {
+                String scopeString = scope.toString();
+                if (scopeString.startsWith("http")) {
+                    scopes.pushString(scopeString);
+                }
+            }
+
             params.putString("id", acct.getId());
             params.putString("name", acct.getDisplayName());
             params.putString("email", acct.getEmail());
+            params.putString("photo", acct.getPhotoUrl().toString());
             params.putString("accessToken", acct.getIdToken());
+            params.putArray("scopes", scopes);
 
             _context.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                     .emit("googleSignIn", params);

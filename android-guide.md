@@ -10,7 +10,7 @@
 
 ### Setup
 
-* In `android/setting.gradle`
+* In `android/settings.gradle`
 
 ```gradle
 ...
@@ -28,6 +28,8 @@ dependencies {
     }
 ```
 
+Note: check this URL for latest version https://jcenter.bintray.com/com/android/tools/build/gradle/
+
 * In `android/app/build.gradle`
 
 ```gradle
@@ -37,7 +39,7 @@ apply plugin: 'com.google.gms.google-services' // <--- add this at the TOP
 dependencies {
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
-    compile "com.facebook.react:react-native:0.14.+"
+    compile "com.facebook.react:react-native:0.17.+"
     compile project(":react-native-google-signin") // <--- add this
 }
 ```
