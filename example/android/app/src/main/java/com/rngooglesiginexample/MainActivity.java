@@ -39,6 +39,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
         setContentView(mReactRootView);
     }
 
+    // add this method inside your activity class
     @Override
     protected void onActivityResult(int requestCode, int resultCode, android.content.Intent data) {
         if (requestCode == RNGoogleSigninModule.RC_SIGN_IN) {
@@ -84,7 +85,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
         super.onResume();
 
         if (mReactInstanceManager != null) {
-            mReactInstanceManager.onResume(this);
+            mReactInstanceManager.onResume(this, this);
         }
     }
 }

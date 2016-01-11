@@ -6,8 +6,8 @@
     "start": "react-native start"
   },
   "dependencies": {
-    "react-native": "^0.14.2",
-    "react-native-google-signin": "^0.1.4",
+    "react-native": "^0.17.0",
+    "react-native-google-signin": "^0.3.0",
     "react-native-icons": "^0.6.2"
   }
 }

@@ -57,7 +57,6 @@ class RNGoogleSiginExample extends React.Component {
         <View style={styles.container}>
           <Text style={{fontSize: 18, fontWeight: 'bold', marginBottom: 20}}>Welcome {this.state.user.name}</Text>
           <Text>Your email is: {this.state.user.email}</Text>
-          <Text>Your token {this.state.user.accessToken}</Text>
 
           <TouchableOpacity onPress={() => {this._signOut(); }}>
             <View style={{marginTop: 50}}>
@@ -70,7 +69,10 @@ class RNGoogleSiginExample extends React.Component {
   }
 
   _configureOauth(clientId, scopes=[]) {
-    GoogleSignin.configure();
+    GoogleSignin.configure(
+      '867788377702-gmfcntqtkrmdh3bh1dat6dac9nfiiku1.apps.googleusercontent.com',
+      ['https://www.googleapis.com/auth/calendar'], // additional scopes (email is the default)
+    );
 
     DeviceEventEmitter.addListener('googleSignInError', (error) => {
       console.log('ERROR signin in', error);
