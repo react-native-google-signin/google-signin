@@ -3,6 +3,7 @@ package co.apptailor.googlesignin;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.net.Uri;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -22,8 +23,8 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.common.api.Status;
 
 
 public class RNGoogleSigninModule
@@ -155,6 +156,8 @@ public class RNGoogleSigninModule
 
         if (result.isSuccess()) {
             GoogleSignInAccount acct = result.getSignInAccount();
+            Uri photoUrl = acct.getPhotoUrl();
+
             for(Scope scope : acct.getGrantedScopes()) {
                 String scopeString = scope.toString();
                 if (scopeString.startsWith("http")) {
@@ -165,7 +168,7 @@ public class RNGoogleSigninModule
             params.putString("id", acct.getId());
             params.putString("name", acct.getDisplayName());
             params.putString("email", acct.getEmail());
-            params.putString("photo", acct.getPhotoUrl().toString());
+            params.putString("photo", photoUrl != null ? photoUrl.toString() : null);
             params.putString("accessToken", acct.getIdToken());
             params.putArray("scopes", scopes);
 
