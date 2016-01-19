@@ -82,6 +82,7 @@ public class RNGoogleSigninModule
       if (clientID != null && !clientID.isEmpty()) {
         return new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
           .requestIdToken(clientID)
+          .requestServerAuthCode(clientID)
           .requestScopes(new Scope("email"), _scopes)
           .build();
       }
@@ -169,7 +170,8 @@ public class RNGoogleSigninModule
             params.putString("name", acct.getDisplayName());
             params.putString("email", acct.getEmail());
             params.putString("photo", photoUrl != null ? photoUrl.toString() : null);
-            params.putString("accessToken", acct.getIdToken());
+            params.putString("idToken", acct.getIdToken());
+            params.putString("code", acct.getServerAuthCode());
             params.putArray("scopes", scopes);
 
             _context.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
