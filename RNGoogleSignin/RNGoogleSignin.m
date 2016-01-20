@@ -37,8 +37,12 @@ RCT_EXPORT_METHOD(signOut)
 - (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
 
     if (error != Nil) {
+        NSDictionary *body = @{
+                               @"message": error.description,
+                               @"code": [NSNumber numberWithInteger: error.code]
+                               };
         return [self.bridge.eventDispatcher sendAppEventWithName:@"googleSignInError"
-                                                            body:@{@"error": error.description}];
+                                                            body:body];
     }
 
     NSDictionary *body = @{
