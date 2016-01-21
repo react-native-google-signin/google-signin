@@ -38,7 +38,7 @@ Add the end of this step, your Xcode config should look like this:
 ### Usage
 
 Inside AppDelegate.m
-```
+```objc
 // add this line before @implementation AppDelegate
 #import "RNGoogleSignin.h"
 
