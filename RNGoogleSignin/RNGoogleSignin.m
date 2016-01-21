@@ -59,7 +59,7 @@ RCT_EXPORT_METHOD(signOut)
                            @"name": user.profile.name,
                            @"email": user.profile.email,
                            @"idToken": user.authentication.idToken,
-                           @"serverAuthCode": user.serverAuthCode,
+                           @"serverAuthToken": user.serverAuthCode ? user.serverAuthCode : [NSNull null],
                            @"accessToken": user.authentication.accessToken,
                            @"accessTokenExpirationDate": [NSNumber numberWithDouble:user.authentication.accessTokenExpirationDate.timeIntervalSinceNow]
                            };
