@@ -80,8 +80,15 @@ var GoogleSignin = require('react-native-google-signin');
 var { DeviceEventEmitter } = require('react-native');
 
 GoogleSignin.configure(
-  clientID, // your client ID
+  clientID, // your client ID (Android type)
   [], // additional scopes (email is the default)
+); // somewhere in a componentDidMount.
+
+// Or if you want to get serverAuthToken
+GoogleSignin.configureWithServerClientId(
+  CLIENT_ID, // your client ID (Android type)
+  SERVER_CLIENT_ID, // client ID from your backend server (Web type)
+  [], // additional scopes (email is the default) calendar
 ); // somewhere in a componentDidMount.
 
 // Callback on sign-in errors
