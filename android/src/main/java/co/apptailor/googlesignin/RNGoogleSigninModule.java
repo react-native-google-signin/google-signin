@@ -50,12 +50,23 @@ public class RNGoogleSigninModule
 
     @ReactMethod
     public void configure(final String clientID, final ReadableArray scopes) {
+      this._configure(clientID, null, scopes);
+    }
+
+    @ReactMethod
+    public void configureWithServerClientId(final String clientID, final String serverClientId, final ReadableArray scopes) {
+      this._configure(clientID, serverClientId, scopes);
+    }
+
+    public void _configure(final String clientID, final String serverClientId, final ReadableArray scopes) {
+        final String _clientID = (clientID != null ? clientID : serverClientId);
+
         _activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 _apiClient = new GoogleApiClient.Builder(_activity.getBaseContext())
 //                        .enableAutoManage(_activity, RNGoogleSigninModule.this)
-                        .addApi(Auth.GOOGLE_SIGN_IN_API, getSignInOptions(clientID, scopes))
+                        .addApi(Auth.GOOGLE_SIGN_IN_API, getSignInOptions(_clientID, scopes))
                         .build();
                 _apiClient.connect();
                 start();
