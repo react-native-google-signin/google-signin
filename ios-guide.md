@@ -52,13 +52,20 @@ Inside AppDelegate.m
 ````
 
 From your JS files
-```
+```js
 var { NativeAppEventEmitter } = require('react-native');
 var GoogleSignin = require('react-native-google-signin');
 
 // configure API keys and access right
 GoogleSignin.configure(
   CLIENT_ID, // from .plist file
+  SCOPES // array of authorization names: eg ['https://www.googleapis.com/auth/calendar'] for requesting access to user calendar
+);
+
+// Or if you want to get serverAuthToken
+GoogleSignin.configureWithServerClientId(
+  CLIENT_ID, // from .plist file
+  SERVER_CLIENT_ID, // client ID from your backend server
   SCOPES // array of authorization names: eg ['https://www.googleapis.com/auth/calendar'] for requesting access to user calendar
 );
 
