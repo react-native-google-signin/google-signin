@@ -15,7 +15,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.1</string>
+	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -24,20 +24,20 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.googleusercontent.apps.867788377702-q7qnmngv0gq8r4fmief9vpjc1sht844o</string>
+			<string>co.apptailor.demoapp</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.867788377702-q7qnmngv0gq8r4fmief9vpjc1sht844o</string>
+				<string>co.apptailor.demoapp</string>
 			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>co.apptailor.demoapp</string>
+			<string>com.googleusercontent.apps.867788377702-q7qnmngv0gq8r4fmief9vpjc1sht844o</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>co.apptailor.demoapp</string>
+				<string>com.googleusercontent.apps.867788377702-q7qnmngv0gq8r4fmief9vpjc1sht844o</string>
 			</array>
 		</dict>
 	</array>

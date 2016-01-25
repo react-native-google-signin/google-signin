@@ -18,6 +18,8 @@ Includes Google Sign-In SDK v2.4.0
 
 - Link your project with the following frameworks: ```AddressBook.framework``` ```StoreKit.framework``` ```SystemConfiguration.framework```
 
+- Disable Bitcode support under ```Build settings```
+
 - If you run into link issues when building your project try to add ```libz.tbd``` library (see [Stackoverflow](http://stackoverflow.com/a/18296731) for more details).
 
 
