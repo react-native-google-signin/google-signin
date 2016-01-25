@@ -28,7 +28,7 @@ dependencies {
     }
 ```
 
-Note: check this URL for latest version https://jcenter.bintray.com/com/android/tools/build/gradle/
+Note: for up-to-date version of this plugin check https://jcenter.bintray.com/com/android/tools/build/gradle/
 
 * In `android/app/build.gradle`
 
@@ -39,7 +39,7 @@ apply plugin: 'com.google.gms.google-services' // <--- add this at the TOP
 dependencies {
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
-    compile "com.facebook.react:react-native:0.17.+"
+    compile "com.facebook.react:react-native:0.18.+"
     compile project(":react-native-google-signin") // <--- add this
 }
 ```
@@ -54,32 +54,19 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
   ......
 
   @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    mReactRootView = new ReactRootView(this);
-
-    mReactInstanceManager = ReactInstanceManager.builder()
-      .setApplication(getApplication())
-      .setBundleAssetName("index.android.bundle")
-      .setJSMainModuleName("index.android")
-      .addPackage(new MainReactPackage())
-      .addPackage(new RNGoogleSigninPackage(this)) // <------ add this line to yout MainActivity class
-      .setUseDeveloperSupport(BuildConfig.DEBUG)
-      .setInitialLifecycleState(LifecycleState.RESUMED)
-      .build();
-
-    mReactRootView.startReactApplication(mReactInstanceManager, "AndroidRNSample", null);
-
-    setContentView(mReactRootView);
+  protected List<ReactPackage> getPackages() {
+    return Arrays.<ReactPackage>asList(
+      new RNGoogleSigninPackage(this), // <------ add this line to yout MainActivity class
+      new MainReactPackage());
   }
 
   // add this method inside your activity class
   @Override
-  protected void onActivityResult(int requestCode, int resultCode, android.content.Intent data) {
-      if (requestCode == RNGoogleSigninModule.RC_SIGN_IN) {
-          RNGoogleSigninModule.onActivityResult(data);
-      }
-      super.onActivityResult(requestCode, resultCode, data);
+  public void onActivityResult(int requestCode, int resultCode, android.content.Intent data) {
+    if (requestCode == RNGoogleSigninModule.RC_SIGN_IN) {
+        RNGoogleSigninModule.onActivityResult(data);
+    }
+    super.onActivityResult(requestCode, resultCode, data);
   }
 
   ......
