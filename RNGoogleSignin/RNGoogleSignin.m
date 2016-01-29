@@ -7,15 +7,25 @@ RCT_EXPORT_MODULE();
 
 @synthesize bridge = _bridge;
 
-RCT_EXPORT_METHOD(configure:(NSString *)clientID withScopes:(NSArray *)scopes)
+RCT_EXPORT_METHOD(configure:(NSString *)clientID  withScopes:(NSArray *)scopes)
 {
-    [GIDSignIn sharedInstance].delegate = self;
-    [GIDSignIn sharedInstance].uiDelegate = self;
+  [self _configure:clientID serverClientID:nil withScopes:scopes];
+}
 
-    [GIDSignIn sharedInstance].clientID = clientID;
-    [GIDSignIn sharedInstance].scopes = scopes;
+RCT_EXPORT_METHOD(configureWithServerClientId:(NSString *)clientID  serverClientID:(NSString *)serverClientID withScopes:(NSArray *)scopes)
+{
+  [self _configure:clientID serverClientID:serverClientID withScopes:scopes];
+}
 
-    [[GIDSignIn sharedInstance] signInSilently];
+- (void) _configure:(NSString *)clientID  serverClientID:(NSString *)serverClientID withScopes:(NSArray *)scopes {
+  [GIDSignIn sharedInstance].delegate = self;
+  [GIDSignIn sharedInstance].uiDelegate = self;
+  
+  [GIDSignIn sharedInstance].clientID = clientID;
+  [GIDSignIn sharedInstance].serverClientID = serverClientID;
+  [GIDSignIn sharedInstance].scopes = scopes;
+  
+  [[GIDSignIn sharedInstance] signInSilently];
 }
 
 RCT_EXPORT_METHOD(signIn)
@@ -37,14 +47,19 @@ RCT_EXPORT_METHOD(signOut)
 - (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
 
     if (error != Nil) {
+        NSDictionary *body = @{
+                               @"message": error.description,
+                               @"code": [NSNumber numberWithInteger: error.code]
+                               };
         return [self.bridge.eventDispatcher sendAppEventWithName:@"googleSignInError"
-                                                            body:@{@"error": error.description}];
+                                                            body:body];
     }
 
     NSDictionary *body = @{
                            @"name": user.profile.name,
                            @"email": user.profile.email,
                            @"idToken": user.authentication.idToken,
+                           @"serverAuthToken": user.serverAuthCode ? user.serverAuthCode : [NSNull null],
                            @"accessToken": user.authentication.accessToken,
                            @"accessTokenExpirationDate": [NSNumber numberWithDouble:user.authentication.accessTokenExpirationDate.timeIntervalSinceNow]
                            };
