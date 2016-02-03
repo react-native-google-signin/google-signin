@@ -20,11 +20,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.api.Status;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class RNGoogleSigninModule
@@ -46,6 +50,18 @@ public class RNGoogleSigninModule
     @Override
     public String getName() {
         return "GoogleSignin";
+    }
+
+    @Override
+    public Map<String, Object> getConstants() {
+        final Map<String, Object> constants = new HashMap<>();
+        constants.put("BUTTON_ICON", SignInButton.SIZE_ICON_ONLY);
+        constants.put("BUTTON_STANDARD", SignInButton.SIZE_STANDARD);
+        constants.put("BUTTON_WIDE", SignInButton.SIZE_WIDE);
+        constants.put("BUTTON_COLOR_AUTO", SignInButton.COLOR_AUTO);
+        constants.put("BUTTON_COLOR_LIGHT", SignInButton.COLOR_LIGHT);
+        constants.put("BUTTON_COLOR_DARK", SignInButton.COLOR_DARK);
+        return constants;
     }
 
     @ReactMethod
