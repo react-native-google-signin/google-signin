@@ -1,21 +1,23 @@
+'use strict';
 
 var React = require('react-native');
 var { NativeAppEventEmitter } = require('react-native');
-var { NativeModules } = require('react-native');
 var { DeviceEventEmitter } = require('react-native');
 
-var GoogleSignin = NativeModules.GoogleSignin;
-
-var { Icon } = require('react-native-icons');
+import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
 
 var {
   AppRegistry,
   StyleSheet,
+  PropTypes,
   Text,
   View,
   TouchableOpacity,
-  TouchableHighlight
+  TouchableHighlight,
+  DeviceEventEmitter
 } = React;
+
+
 
 class RNGoogleSiginExample extends React.Component {
 
@@ -35,19 +37,7 @@ class RNGoogleSiginExample extends React.Component {
     if (!this.state.user) {
       return (
         <View style={styles.container}>
-          <TouchableHighlight onPress={() => {this._signIn(); }}>
-            <View style={{backgroundColor: '#f44336', flexDirection: 'row'}}>
-              <View style={{padding: 12, borderWidth: 1/2, borderColor: 'transparent', borderRightColor: 'white'}}>
-                <Icon
-                  name='ion|social-googleplus'
-                  size={24}
-                  color='white'
-                  style={{width: 24, height: 24}}
-                />
-              </View>
-              <Text style={{color: 'white', padding: 12, marginTop: 2, fontWeight: 'bold'}}>Sign in with Google+</Text>
-            </View>
-          </TouchableHighlight>
+          <GoogleSigninButton style={{width: 120, height: 44}} color={GoogleSignin.BUTTON_COLOR_LIGHT} size={GoogleSignin.BUTTON_ICON} onPress={() => { this._signIn(); }}/>
         </View>
       );
     }
