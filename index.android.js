@@ -49,6 +49,14 @@ GoogleSigninButton.Color = {
   Dark: RNGoogleSignin.BUTTON_COLOR_DARK
 };
 
+class GoogleSigninError extends Error {
+  constructor(error, code) {
+    super(error);
+    this.name = 'GoogleSigninError';
+    this.code  = code;
+  }
+}
+
 class GoogleSignin {
 
   constructor() {
@@ -94,7 +102,7 @@ class GoogleSignin {
 
       const errorCb = DeviceEventEmitter.addListener('RNGoogleSignInError', (err) => {
         this._removeListeners(sucessCb, errorCb);
-        reject(err);
+        reject(new GoogleSigninError(err.error, err.code));
       });
 
       RNGoogleSignin.signIn();
@@ -110,10 +118,26 @@ class GoogleSignin {
 
       const errorCb = DeviceEventEmitter.addListener('RNGoogleSignOutError', (err) => {
         this._removeListeners(sucessCb, errorCb);
-        reject(err);
+        reject(new GoogleSigninError(err.error, err.code));
       });
 
       RNGoogleSignin.signOut();
+    });
+  }
+
+  revokeAccess() {
+    return new Promise((resolve, reject) => {
+      const sucessCb = DeviceEventEmitter.addListener('RNGoogleRevokeSuccess', () => {
+        this._removeListeners(sucessCb, errorCb);
+        resolve();
+      });
+
+      const errorCb = DeviceEventEmitter.addListener('RNGoogleRevokeError', (err) => {
+        this._removeListeners(sucessCb, errorCb);
+        reject(new GoogleSigninError(err.error, err.code));
+      });
+
+      RNGoogleSignin.revokeAccess();
     });
   }
 

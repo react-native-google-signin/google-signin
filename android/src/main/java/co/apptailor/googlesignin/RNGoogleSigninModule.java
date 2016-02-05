@@ -113,26 +113,46 @@ public class RNGoogleSigninModule
 
     @ReactMethod
     public void signOut() {
-        Auth.GoogleSignInApi.signOut(_apiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(Status status) {
-                        if (status.isSuccess()) {
-                            _context.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                                    .emit("RNGoogleSignOutSuccess", null);
-                        }
-                        else {
-                            WritableMap params = Arguments.createMap();
-                            int code = status.getStatusCode();
-                            String error = GoogleSignInStatusCodes.getStatusCodeString(code);
+        Auth.GoogleSignInApi.signOut(_apiClient).setResultCallback(new ResultCallback<Status>() {
+            @Override
+            public void onResult(Status status) {
+                if (status.isSuccess()) {
+                    _context.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                            .emit("RNGoogleSignOutSuccess", null);
+                } else {
+                    WritableMap params = Arguments.createMap();
+                    int code = status.getStatusCode();
+                    String error = GoogleSignInStatusCodes.getStatusCodeString(code);
 
-                            params.putInt("code", code);
-                            params.putString("error", error);
-                            _context.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                                    .emit("RNGoogleSignOutError", null);
-                        }
-                    }
-                });
+                    params.putInt("code", code);
+                    params.putString("error", error);
+                    _context.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                            .emit("RNGoogleSignOutError", params);
+                }
+            }
+        });
+    }
+
+    @ReactMethod
+    public void revokeAccess() {
+        Auth.GoogleSignInApi.revokeAccess(_apiClient).setResultCallback(new ResultCallback<Status>() {
+            @Override
+            public void onResult(Status status) {
+                if (status.isSuccess()) {
+                    _context.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                            .emit("RNGoogleRevokeSuccess", null);
+                } else {
+                    WritableMap params = Arguments.createMap();
+                    int code = status.getStatusCode();
+                    String error = GoogleSignInStatusCodes.getStatusCodeString(code);
+
+                    params.putInt("code", code);
+                    params.putString("error", error);
+                    _context.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                            .emit("RNGoogleRevokeError", params);
+                }
+            }
+        });
     }
 
     public static void onActivityResult(Intent data) {
@@ -171,10 +191,18 @@ public class RNGoogleSigninModule
         }
 
         if (webClientId != null && !webClientId.isEmpty()) {
-            return new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                    .requestIdToken(webClientId)
-                    .requestScopes(new Scope("email"), _scopes)
-                    .build();
+            if (!offlineAcess) {
+                return new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestIdToken(webClientId)
+                        .requestScopes(new Scope("email"), _scopes)
+                        .build();
+            }
+            else {
+                return new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestServerAuthCode(webClientId, false)
+                        .requestScopes(new Scope("email"), _scopes)
+                        .build();
+            }
         }
         else {
             return new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

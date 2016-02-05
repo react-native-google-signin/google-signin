@@ -30,6 +30,7 @@ class RNGoogleSiginExample extends React.Component {
   componentDidMount() {
     this._configureOauth();
     GoogleSignin.currentUserAsync().then((user) => {
+      console.log('USER', user);
       this.setState({user: user});
     })
   }
@@ -62,7 +63,8 @@ class RNGoogleSiginExample extends React.Component {
   _configureOauth(clientId, scopes=[]) {
     GoogleSignin.configure({
       scopes: ['https://www.googleapis.com/auth/calendar'],
-      webClientId: '867788377702-gmfcntqtkrmdh3bh1dat6dac9nfiiku1.apps.googleusercontent.com'
+      webClientId: '867788377702-gmfcntqtkrmdh3bh1dat6dac9nfiiku1.apps.googleusercontent.com',
+      offlineAccess: true
     });
 
     return true;
@@ -80,7 +82,7 @@ class RNGoogleSiginExample extends React.Component {
   }
 
   _signOut() {
-    GoogleSignin.signOut().then(() => {
+    GoogleSignin.revokeAccess().then(() => GoogleSignin.signOut()).then(() => {
       this.setState({user: null});
     })
     .done();
