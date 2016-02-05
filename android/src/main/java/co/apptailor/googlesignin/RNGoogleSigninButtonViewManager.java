@@ -18,7 +18,7 @@ public class RNGoogleSigninButtonViewManager extends SimpleViewManager<SignInBut
     @Override
     protected SignInButton createViewInstance(final ThemedReactContext reactContext) {
         SignInButton button = new SignInButton(reactContext);
-        button.setSize(SignInButton.SIZE_ICON_ONLY);
+        button.setSize(SignInButton.SIZE_STANDARD);
         button.setColorScheme(SignInButton.COLOR_AUTO);
         button.setOnClickListener(new View.OnClickListener() {
             @Override

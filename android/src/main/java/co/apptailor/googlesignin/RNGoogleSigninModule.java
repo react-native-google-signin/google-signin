@@ -49,15 +49,15 @@ public class RNGoogleSigninModule
 
     @Override
     public String getName() {
-        return "GoogleSignin";
+        return "RNGoogleSignin";
     }
 
     @Override
     public Map<String, Object> getConstants() {
         final Map<String, Object> constants = new HashMap<>();
-        constants.put("BUTTON_ICON", SignInButton.SIZE_ICON_ONLY);
-        constants.put("BUTTON_STANDARD", SignInButton.SIZE_STANDARD);
-        constants.put("BUTTON_WIDE", SignInButton.SIZE_WIDE);
+        constants.put("BUTTON_SIZE_ICON", SignInButton.SIZE_ICON_ONLY);
+        constants.put("BUTTON_SIZE_STANDARD", SignInButton.SIZE_STANDARD);
+        constants.put("BUTTON_SIZE_WIDE", SignInButton.SIZE_WIDE);
         constants.put("BUTTON_COLOR_AUTO", SignInButton.COLOR_AUTO);
         constants.put("BUTTON_COLOR_LIGHT", SignInButton.COLOR_LIGHT);
         constants.put("BUTTON_COLOR_DARK", SignInButton.COLOR_DARK);
@@ -65,49 +65,40 @@ public class RNGoogleSigninModule
     }
 
     @ReactMethod
-    public void configure(final String clientID, final ReadableArray scopes) {
+    public void configure(final ReadableArray scopes, final String webClientId, final Boolean offlineAccess) {
         _activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 _apiClient = new GoogleApiClient.Builder(_activity.getBaseContext())
-//                        .enableAutoManage(_activity, RNGoogleSigninModule.this)
-                        .addApi(Auth.GOOGLE_SIGN_IN_API, getSignInOptions(clientID, scopes))
+                        .addApi(Auth.GOOGLE_SIGN_IN_API, getSignInOptions(scopes, webClientId, offlineAccess))
                         .build();
                 _apiClient.connect();
-                start();
             }
         });
     }
 
-    private GoogleSignInOptions getSignInOptions(final String clientID, final ReadableArray scopes) {
+    @ReactMethod
+    public void currentUserAsync() {
+        _activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(_apiClient);
 
-      int size = scopes.size();
-      Scope[] _scopes = new Scope[size];
-
-      if(scopes != null && size > 0){
-        for(int i = 0; i < size; i++){
-          if(scopes.getType(i).name() == "String"){
-            String scope = scopes.getString(i);
-            if (scope != "email"){ // will be added by default
-              _scopes[i] = new Scope(scope);
+                if (opr.isDone()) {
+                    GoogleSignInResult result = opr.get();
+                    handleSignInResult(result, true);
+                } else {
+                    opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+                        @Override
+                        public void onResult(GoogleSignInResult googleSignInResult) {
+                            handleSignInResult(googleSignInResult, true);
+                        }
+                    });
+                }
             }
-          }
-        }
-      }
-
-      if (clientID != null && !clientID.isEmpty()) {
-        return new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-          .requestIdToken(clientID)
-          .requestScopes(new Scope("email"), _scopes)
-          .build();
-      }
-      else {
-        return new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-          .requestScopes(new Scope("email"), _scopes)
-          .build();
-      }
-
+        });
     }
+
 
     @ReactMethod
     public void signIn() {
@@ -126,14 +117,27 @@ public class RNGoogleSigninModule
                 new ResultCallback<Status>() {
                     @Override
                     public void onResult(Status status) {
+                        if (status.isSuccess()) {
+                            _context.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                                    .emit("RNGoogleSignOutSuccess", null);
+                        }
+                        else {
+                            WritableMap params = Arguments.createMap();
+                            int code = status.getStatusCode();
+                            String error = GoogleSignInStatusCodes.getStatusCodeString(code);
 
+                            params.putInt("code", code);
+                            params.putString("error", error);
+                            _context.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                                    .emit("RNGoogleSignOutError", null);
+                        }
                     }
                 });
     }
 
     public static void onActivityResult(Intent data) {
         GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-        handleSignInResult(result);
+        handleSignInResult(result, false);
     }
 
     @Override
@@ -150,23 +154,37 @@ public class RNGoogleSigninModule
         }
     }
 
-    private void start() {
-        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(_apiClient);
+    private GoogleSignInOptions getSignInOptions(final ReadableArray scopes, final String webClientId, final Boolean offlineAcess) {
 
-        if (opr.isDone()) {
-            GoogleSignInResult result = opr.get();
-            handleSignInResult(result);
-        } else {
-            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-                @Override
-                public void onResult(GoogleSignInResult googleSignInResult) {
-                    handleSignInResult(googleSignInResult);
+        int size = scopes.size();
+        Scope[] _scopes = new Scope[size];
+
+        if(scopes != null && size > 0){
+            for(int i = 0; i < size; i++){
+                if(scopes.getType(i).name() == "String"){
+                    String scope = scopes.getString(i);
+                    if (scope != "email"){ // will be added by default
+                        _scopes[i] = new Scope(scope);
+                    }
                 }
-            });
+            }
         }
+
+        if (webClientId != null && !webClientId.isEmpty()) {
+            return new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(webClientId)
+                    .requestScopes(new Scope("email"), _scopes)
+                    .build();
+        }
+        else {
+            return new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestScopes(new Scope("email"), _scopes)
+                    .build();
+        }
+
     }
 
-    private static void handleSignInResult(GoogleSignInResult result) {
+    private static void handleSignInResult(GoogleSignInResult result, Boolean isSilent) {
         WritableMap params = Arguments.createMap();
         WritableArray scopes = Arguments.createArray();
 
@@ -185,11 +203,12 @@ public class RNGoogleSigninModule
             params.putString("name", acct.getDisplayName());
             params.putString("email", acct.getEmail());
             params.putString("photo", photoUrl != null ? photoUrl.toString() : null);
-            params.putString("accessToken", acct.getIdToken());
+            params.putString("idToken", acct.getIdToken());
+            params.putString("serverAuthCode", acct.getServerAuthCode());
             params.putArray("scopes", scopes);
 
             _context.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                    .emit("googleSignIn", params);
+                    .emit(isSilent ? "RNGoogleSignInSilentSuccess" : "RNGoogleSignInSuccess" , params);
         } else {
             int code = result.getStatus().getStatusCode();
             String error = GoogleSignInStatusCodes.getStatusCodeString(code);
@@ -198,7 +217,7 @@ public class RNGoogleSigninModule
             params.putString("error", error);
 
             _context.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                    .emit("googleSignInError", params);
+                    .emit(isSilent ? "RNGoogleSignInSilentError" : "RNGoogleSignInError", params);
         }
     }
 }
