@@ -18,7 +18,6 @@ var {
 } = React;
 
 
-
 class RNGoogleSiginExample extends React.Component {
 
   constructor(props) {
@@ -30,14 +29,16 @@ class RNGoogleSiginExample extends React.Component {
 
   componentDidMount() {
     this._configureOauth();
+    GoogleSignin.currentUserAsync().then((user) => {
+      this.setState({user: user});
+    })
   }
 
   render() {
-
     if (!this.state.user) {
       return (
         <View style={styles.container}>
-          <GoogleSigninButton style={{width: 120, height: 44}} color={GoogleSignin.BUTTON_COLOR_LIGHT} size={GoogleSignin.BUTTON_ICON} onPress={() => { this._signIn(); }}/>
+          <GoogleSigninButton style={{width: 120, height: 44}} color={GoogleSigninButton.Color.Light} size={GoogleSigninButton.Size.Icon} onPress={() => { this._signIn(); }}/>
         </View>
       );
     }
@@ -59,30 +60,30 @@ class RNGoogleSiginExample extends React.Component {
   }
 
   _configureOauth(clientId, scopes=[]) {
-    GoogleSignin.configure(
-      '867788377702-gmfcntqtkrmdh3bh1dat6dac9nfiiku1.apps.googleusercontent.com',
-      ['https://www.googleapis.com/auth/calendar'], // additional scopes (email is the default)
-    );
-
-    DeviceEventEmitter.addListener('googleSignInError', (error) => {
-      console.log('ERROR signin in', error);
-    });
-
-    DeviceEventEmitter.addListener('googleSignIn', (user) => {
-      console.log(user);
-      this.setState({user: user});
+    GoogleSignin.configure({
+      scopes: ['https://www.googleapis.com/auth/calendar'],
+      webClientId: '867788377702-gmfcntqtkrmdh3bh1dat6dac9nfiiku1.apps.googleusercontent.com'
     });
 
     return true;
   }
 
   _signIn() {
-    GoogleSignin.signIn();
+    GoogleSignin.signIn()
+    .then((user) => {
+      this.setState({user: user});
+    })
+    .catch((err) => {
+      console.log('WRONG SIGNIN', err);
+    })
+    .done();
   }
 
   _signOut() {
-    GoogleSignin.signOut();
-    this.setState({user: null});
+    GoogleSignin.signOut().then(() => {
+      this.setState({user: null});
+    })
+    .done();
   }
 };
 
