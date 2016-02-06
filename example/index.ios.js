@@ -1,10 +1,8 @@
 'use strict';
 
 var React = require('react-native');
-var { NativeAppEventEmitter } = require('react-native');
-var GoogleSignin = require('react-native-google-signin');
 
-var { Icon } = require('react-native-icons');
+import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
 
 var {
   AppRegistry,
@@ -25,9 +23,17 @@ class RNGoogleSiginExample extends React.Component {
   }
 
   componentDidMount() {
-    this._configureOauth(
-      '867788377702-q7qnmngv0gq8r4fmief9vpjc1sht844o.apps.googleusercontent.com'
-    );
+    GoogleSignin.configure({
+      scopes: ["https://www.googleapis.com/auth/drive.readonly"],
+      iosClientId: '867788377702-q7qnmngv0gq8r4fmief9vpjc1sht844o.apps.googleusercontent.com',
+      webClientId: '867788377702-gmfcntqtkrmdh3bh1dat6dac9nfiiku1.apps.googleusercontent.com',
+      offlineAccess: false
+    });
+
+    GoogleSignin.currentUserAsync().then((user) => {
+      console.log('USER', user);
+      this.setState({user: user});
+    }).done();
   }
 
   render() {
@@ -35,19 +41,7 @@ class RNGoogleSiginExample extends React.Component {
     if (!this.state.user) {
       return (
         <View style={styles.container}>
-          <TouchableHighlight onPress={() => {this._signIn(); }}>
-            <View style={{backgroundColor: '#f44336', flexDirection: 'row'}}>
-              <View style={{padding: 12, borderWidth: 1/2, borderColor: 'transparent', borderRightColor: 'white'}}>
-                <Icon
-                  name='ion|social-googleplus'
-                  size={24}
-                  color='white'
-                  style={{width: 24, height: 24}}
-                />
-              </View>
-              <Text style={{color: 'white', padding: 12, marginTop: 2, fontWeight: 'bold'}}>Sign in with Google+</Text>
-            </View>
-          </TouchableHighlight>
+          <GoogleSigninButton style={{width: 230, height: 48}} color={1} size={"standard"} onPress={this._signIn.bind(this)}/>
         </View>
       );
     }
@@ -69,28 +63,23 @@ class RNGoogleSiginExample extends React.Component {
     }
   }
 
-  _configureOauth(clientId, scopes=[]) {
-    GoogleSignin.configure(clientId, scopes);
-
-    NativeAppEventEmitter.addListener('googleSignInError', (error) => {
-      console.log('ERROR signin in', error);
-    });
-
-    NativeAppEventEmitter.addListener('googleSignIn', (user) => {
+  _signIn() {
+    GoogleSignin.signIn()
+    .then((user) => {
       console.log(user);
       this.setState({user: user});
-    });
-
-    return true;
-  }
-
-  _signIn() {
-    GoogleSignin.signIn();
+    })
+    .catch((err) => {
+      console.log('WRONG SIGNIN', err);
+    })
+    .done();
   }
 
   _signOut() {
-    GoogleSignin.signOut();
-    this.setState({user: null});
+    GoogleSignin.revokeAccess().then(() => GoogleSignin.signOut()).then(() => {
+      this.setState({user: null});
+    })
+    .done();
   }
 };
 

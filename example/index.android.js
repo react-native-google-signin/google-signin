@@ -1,8 +1,6 @@
 'use strict';
 
 var React = require('react-native');
-var { NativeAppEventEmitter } = require('react-native');
-var { DeviceEventEmitter } = require('react-native');
 
 import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
 
@@ -14,7 +12,6 @@ var {
   View,
   TouchableOpacity,
   TouchableHighlight,
-  DeviceEventEmitter
 } = React;
 
 
@@ -28,11 +25,16 @@ class RNGoogleSiginExample extends React.Component {
   }
 
   componentDidMount() {
-    this._configureOauth();
+    GoogleSignin.configure({
+      scopes: ['https://www.googleapis.com/auth/calendar'],
+      webClientId: '867788377702-gmfcntqtkrmdh3bh1dat6dac9nfiiku1.apps.googleusercontent.com',
+      offlineAccess: true
+    });
+
     GoogleSignin.currentUserAsync().then((user) => {
       console.log('USER', user);
       this.setState({user: user});
-    })
+    }).done();
   }
 
   render() {
@@ -60,19 +62,10 @@ class RNGoogleSiginExample extends React.Component {
     }
   }
 
-  _configureOauth(clientId, scopes=[]) {
-    GoogleSignin.configure({
-      scopes: ['https://www.googleapis.com/auth/calendar'],
-      webClientId: '867788377702-gmfcntqtkrmdh3bh1dat6dac9nfiiku1.apps.googleusercontent.com',
-      offlineAccess: true
-    });
-
-    return true;
-  }
-
   _signIn() {
     GoogleSignin.signIn()
     .then((user) => {
+      console.log(user);
       this.setState({user: user});
     })
     .catch((err) => {
