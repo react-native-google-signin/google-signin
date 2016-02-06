@@ -1,26 +1,37 @@
 #import "RNGoogleSignIn.h"
 #import "RCTEventDispatcher.h"
 
+
 @implementation RNGoogleSignin
 
 RCT_EXPORT_MODULE();
 
 @synthesize bridge = _bridge;
 
-RCT_EXPORT_METHOD(configure:(NSString *)clientID withScopes:(NSArray *)scopes)
+
+RCT_EXPORT_METHOD(configure:(NSArray*)scopes iosClientId:(NSString*)iosClientId webClientId:(NSString*)webClientId)
 {
-    [GIDSignIn sharedInstance].delegate = self;
-    [GIDSignIn sharedInstance].uiDelegate = self;
+  [GIDSignIn sharedInstance].delegate = self;
+  [GIDSignIn sharedInstance].uiDelegate = self;
 
-    [GIDSignIn sharedInstance].clientID = clientID;
-    [GIDSignIn sharedInstance].scopes = scopes;
+  NSArray *currentScopes = [GIDSignIn sharedInstance].scopes;
+  [GIDSignIn sharedInstance].scopes = [currentScopes arrayByAddingObjectsFromArray:scopes];
+  [GIDSignIn sharedInstance].clientID = iosClientId;
 
-    [[GIDSignIn sharedInstance] signInSilently];
+  if ([webClientId length] != 0) {
+    [GIDSignIn sharedInstance].serverClientID = webClientId;
+  }
 }
+
+RCT_EXPORT_METHOD(currentUserAsync)
+{
+  [[GIDSignIn sharedInstance] signInSilently];
+}
+
 
 RCT_EXPORT_METHOD(signIn)
 {
-    [[GIDSignIn sharedInstance] signIn];
+  [[GIDSignIn sharedInstance] signIn];
 }
 
 RCT_EXPORT_METHOD(signOut)
@@ -28,17 +39,35 @@ RCT_EXPORT_METHOD(signOut)
     [[GIDSignIn sharedInstance] signOut];
 }
 
+RCT_EXPORT_METHOD(revokeAccess)
+{
+  [[GIDSignIn sharedInstance] disconnect];
+}
+
+- (NSDictionary *)constantsToExport
+{
+  return @{
+    @"BUTTON_SIZE_ICON" : @(kGIDSignInButtonStyleIconOnly),
+    @"BUTTON_SIZE_STANDARD" : @(kGIDSignInButtonStyleStandard),
+    @"BUTTON_SIZE_WIDE" : @(kGIDSignInButtonStyleWide),
+    @"BUTTON_COLOR_LIGHT" : @(kGIDSignInButtonColorSchemeLight),
+    @"BUTTON_COLOR_DARK" : @(kGIDSignInButtonColorSchemeDark)
+  };
+}
+
 - (dispatch_queue_t)methodQueue
 {
     return dispatch_get_main_queue();
 }
 
-
 - (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
 
     if (error != Nil) {
-        return [self.bridge.eventDispatcher sendAppEventWithName:@"googleSignInError"
-                                                            body:@{@"error": error.description}];
+        return [self.bridge.eventDispatcher sendAppEventWithName:@"RNGoogleSignInError"
+                                                            body:@{
+                                                                   @"message": error.description,
+                                                                   @"code": [NSNumber numberWithInteger: error.code]
+                                                                  }];
     }
 
     NSDictionary *body = @{
@@ -46,19 +75,28 @@ RCT_EXPORT_METHOD(signOut)
                            @"email": user.profile.email,
                            @"idToken": user.authentication.idToken,
                            @"accessToken": user.authentication.accessToken,
+                           @"serverAuthCode": user.serverAuthCode ? user.serverAuthCode : [NSNull null],
                            @"accessTokenExpirationDate": [NSNumber numberWithDouble:user.authentication.accessTokenExpirationDate.timeIntervalSinceNow]
                            };
 
-    return [self.bridge.eventDispatcher sendAppEventWithName:@"googleSignIn" body:body];
+    return [self.bridge.eventDispatcher sendAppEventWithName:@"RNGoogleSignInSuccess" body:body];
 }
 
 - (void) signInWillDispatch:(GIDSignIn *)signIn error:(NSError *)error {
-    return [self.bridge.eventDispatcher sendAppEventWithName:@"googleSignInWillDispatch"
+    return [self.bridge.eventDispatcher sendAppEventWithName:@"RNGoogleSignInWillDispatch"
                                                         body:@{}];
 }
 
 - (void)signIn:(GIDSignIn *)signIn didDisconnectWithUser:(GIDGoogleUser *)user withError:(NSError *)error {
-    NSLog(@"Disconnect");
+  if (error != Nil) {
+    return [self.bridge.eventDispatcher sendAppEventWithName:@"RNGoogleRevokeError"
+                                                        body:@{
+                                                               @"message": error.description,
+                                                               @"code": [NSNumber numberWithInteger: error.code]
+                                                               }];
+  }
+
+  return [self.bridge.eventDispatcher sendAppEventWithName:@"RNGoogleRevokeSuccess" body:@{}];
 }
 
 - (void) signIn:(GIDSignIn *)signIn presentViewController:(UIViewController *)viewController {
