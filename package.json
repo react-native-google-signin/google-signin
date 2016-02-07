@@ -1,6 +1,6 @@
 {
   "name": "react-native-google-signin",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "description": "Google Signin for your react native applications",
   "main": "index",
   "scripts": {
@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/apptailor/react-native-google-signin",
   "peerDependencies": {
-    "react-native": ">= 0.8"
+    "react-native": ">= 0.18"
   },
   "license": "MIT"
 }
