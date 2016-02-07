@@ -70,8 +70,17 @@ RCT_EXPORT_METHOD(revokeAccess)
                                                                   }];
     }
 
+    NSURL *imageURL;
+
+    if ([GIDSignIn sharedInstance].currentUser.profile.hasImage)
+    {
+      imageURL = [user.profile imageURLWithDimension:120];
+    }
+
     NSDictionary *body = @{
                            @"name": user.profile.name,
+                           @"id": user.userID,
+                           @"photo": imageURL ? imageURL.absoluteString : [NSNull null],
                            @"email": user.profile.email,
                            @"idToken": user.authentication.idToken,
                            @"accessToken": user.authentication.accessToken,
