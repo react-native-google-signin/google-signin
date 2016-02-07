@@ -7,7 +7,6 @@
   },
   "dependencies": {
     "react-native": "^0.18.1",
-    "react-native-google-signin": "^0.3.2",
-    "react-native-icons": "^0.6.2"
+    "react-native-google-signin": "^0.4.0"
   }
 }

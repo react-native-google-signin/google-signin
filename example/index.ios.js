@@ -41,7 +41,7 @@ class RNGoogleSiginExample extends React.Component {
     if (!this.state.user) {
       return (
         <View style={styles.container}>
-          <GoogleSigninButton style={{width: 230, height: 48}} color={1} size={"standard"} onPress={this._signIn.bind(this)}/>
+          <GoogleSigninButton style={{width: 212, height: 48}} size={GoogleSigninButton.Size.Standard} color={GoogleSigninButton.Color.Light} onPress={this._signIn.bind(this)}/>
         </View>
       );
     }
