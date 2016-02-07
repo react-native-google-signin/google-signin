@@ -73,32 +73,3 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
 
 }
 ```
-
-### Usage
-```js
-var GoogleSignin = require('react-native-google-signin');
-var { DeviceEventEmitter } = require('react-native');
-
-GoogleSignin.configure(
-  clientID, // your client ID
-  [], // additional scopes (email is the default)
-); // somewhere in a componentDidMount.
-
-// Callback on sign-in errors
-DeviceEventEmitter.addListener('googleSignInError', (error) => {
-  console.log('ERROR signin in', error);
-});
-
-// callback on sign-in success
-DeviceEventEmitter.addListener('googleSignIn', (user) => {
-  console.log(user);
-  this.setState({user: user});
-});
-
-// To sign in
-GoogleSignin.signIn();
-
-// To sign out
-GoogleSignin.signOut();
-
-```

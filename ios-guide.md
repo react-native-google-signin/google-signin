@@ -35,7 +35,7 @@ Add the end of this step, your Xcode config should look like this:
 
 [![xcode config](https://github.com/apptailor/react-native-google-signin/raw/master/img/url-config.png)](#config)
 
-### Usage
+### Project setup
 
 Inside AppDelegate.m
 ```
@@ -50,37 +50,3 @@ Inside AppDelegate.m
 }
 
 ````
-
-From your JS files
-```
-var { NativeAppEventEmitter } = require('react-native');
-var GoogleSignin = require('react-native-google-signin');
-
-// configure API keys and access right
-GoogleSignin.configure(
-  CLIENT_ID, // from .plist file
-  SCOPES // array of authorization names: eg ['https://www.googleapis.com/auth/calendar'] for requesting access to user calendar
-);
-
-// called on signin error
-NativeAppEventEmitter.addListener('googleSignInError', (error) => {
-  ....
-});
-
-// called on signin success, you get user data (email), access token and idToken
-NativeAppEventEmitter.addListener('googleSignIn', (user) => {
-  User: {
-    name
-    email
-    accessToken
-    idToken (IOS ONLY)
-    accessTokenExpirationDate (IOS ONLY)
-  }
-});
-
-// call this method when user clicks the 'Signin with google' button
-GoogleSignin.signIn();
-
-// remove user credentials. next time user starts the application, a signin promp will be displayed
-GoogleSignin.signOut();
-```
