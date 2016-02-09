@@ -74,9 +74,9 @@ class GoogleSignin {
         resolve(user);
       });
 
-      const errorCb = NativeAppEventEmitter.addListener('RNGoogleSignInError', () => {
+      const errorCb = NativeAppEventEmitter.addListener('RNGoogleSignInError', (err) => {
         this._removeListeners(sucessCb, errorCb);
-        resolve(null);
+        reject(err);
       });
 
       RNGoogleSignin.currentUserAsync();
