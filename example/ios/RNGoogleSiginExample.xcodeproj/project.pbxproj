@@ -26,10 +26,10 @@
 		9FB33C551C56364C007BBFC4 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FB33C541C56364C007BBFC4 /* StoreKit.framework */; };
 		9FB33C571C563652007BBFC4 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FB33C561C563652007BBFC4 /* SystemConfiguration.framework */; };
 		9FB33C591C563664007BBFC4 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FB33C581C563664007BBFC4 /* libz.tbd */; };
-		9FBB651D1C67626E004D1C23 /* GoogleSignIn.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9FBB65181C67626E004D1C23 /* GoogleSignIn.bundle */; };
-		9FBB651E1C67626E004D1C23 /* GoogleSignIn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FBB65191C67626E004D1C23 /* GoogleSignIn.framework */; };
-		9FBB651F1C67626E004D1C23 /* RNGoogleSignin.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FBB651B1C67626E004D1C23 /* RNGoogleSignin.m */; };
-		9FBB65201C67626E004D1C23 /* RNGoogleSigninButtonManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FBB651C1C67626E004D1C23 /* RNGoogleSigninButtonManager.m */; };
+		9FB747791C889CD900A89DED /* GoogleSignIn.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9FB747741C889CD900A89DED /* GoogleSignIn.bundle */; };
+		9FB7477A1C889CD900A89DED /* GoogleSignIn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FB747751C889CD900A89DED /* GoogleSignIn.framework */; };
+		9FB7477B1C889CD900A89DED /* RNGoogleSignin.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB747771C889CD900A89DED /* RNGoogleSignin.m */; };
+		9FB7477C1C889CD900A89DED /* RNGoogleSigninButtonManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB747781C889CD900A89DED /* RNGoogleSigninButtonManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -138,11 +138,11 @@
 		9FB33C541C56364C007BBFC4 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		9FB33C561C563652007BBFC4 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		9FB33C581C563664007BBFC4 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
-		9FBB65181C67626E004D1C23 /* GoogleSignIn.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GoogleSignIn.bundle; sourceTree = "<group>"; };
-		9FBB65191C67626E004D1C23 /* GoogleSignIn.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleSignIn.framework; sourceTree = "<group>"; };
-		9FBB651A1C67626E004D1C23 /* RNGoogleSignin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNGoogleSignin.h; sourceTree = "<group>"; };
-		9FBB651B1C67626E004D1C23 /* RNGoogleSignin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNGoogleSignin.m; sourceTree = "<group>"; };
-		9FBB651C1C67626E004D1C23 /* RNGoogleSigninButtonManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNGoogleSigninButtonManager.m; sourceTree = "<group>"; };
+		9FB747741C889CD900A89DED /* GoogleSignIn.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GoogleSignIn.bundle; sourceTree = "<group>"; };
+		9FB747751C889CD900A89DED /* GoogleSignIn.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleSignIn.framework; sourceTree = "<group>"; };
+		9FB747761C889CD900A89DED /* RNGoogleSignin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNGoogleSignin.h; sourceTree = "<group>"; };
+		9FB747771C889CD900A89DED /* RNGoogleSignin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNGoogleSignin.m; sourceTree = "<group>"; };
+		9FB747781C889CD900A89DED /* RNGoogleSigninButtonManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNGoogleSigninButtonManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,7 +161,7 @@
 				9FB33C571C563652007BBFC4 /* SystemConfiguration.framework in Frameworks */,
 				9FB33C551C56364C007BBFC4 /* StoreKit.framework in Frameworks */,
 				9FB33C531C563642007BBFC4 /* AddressBook.framework in Frameworks */,
-				9FBB651E1C67626E004D1C23 /* GoogleSignIn.framework in Frameworks */,
+				9FB7477A1C889CD900A89DED /* GoogleSignIn.framework in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
@@ -284,7 +284,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				9FBB65171C67626E004D1C23 /* RNGoogleSignin */,
+				9FB747731C889CD900A89DED /* RNGoogleSignin */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
 				00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */,
@@ -332,14 +332,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		9FBB65171C67626E004D1C23 /* RNGoogleSignin */ = {
+		9FB747731C889CD900A89DED /* RNGoogleSignin */ = {
 			isa = PBXGroup;
 			children = (
-				9FBB65181C67626E004D1C23 /* GoogleSignIn.bundle */,
-				9FBB65191C67626E004D1C23 /* GoogleSignIn.framework */,
-				9FBB651A1C67626E004D1C23 /* RNGoogleSignin.h */,
-				9FBB651B1C67626E004D1C23 /* RNGoogleSignin.m */,
-				9FBB651C1C67626E004D1C23 /* RNGoogleSigninButtonManager.m */,
+				9FB747741C889CD900A89DED /* GoogleSignIn.bundle */,
+				9FB747751C889CD900A89DED /* GoogleSignIn.framework */,
+				9FB747761C889CD900A89DED /* RNGoogleSignin.h */,
+				9FB747771C889CD900A89DED /* RNGoogleSignin.m */,
+				9FB747781C889CD900A89DED /* RNGoogleSigninButtonManager.m */,
 			);
 			path = RNGoogleSignin;
 			sourceTree = "<group>";
@@ -545,7 +545,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				9FBB651D1C67626E004D1C23 /* GoogleSignIn.bundle in Resources */,
+				9FB747791C889CD900A89DED /* GoogleSignIn.bundle in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -582,10 +582,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9FBB65201C67626E004D1C23 /* RNGoogleSigninButtonManager.m in Sources */,
+				9FB7477C1C889CD900A89DED /* RNGoogleSigninButtonManager.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
-				9FBB651F1C67626E004D1C23 /* RNGoogleSignin.m in Sources */,
+				9FB7477B1C889CD900A89DED /* RNGoogleSignin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

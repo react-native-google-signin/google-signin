@@ -14,8 +14,7 @@ RCT_EXPORT_METHOD(configure:(NSArray*)scopes iosClientId:(NSString*)iosClientId 
   [GIDSignIn sharedInstance].delegate = self;
   [GIDSignIn sharedInstance].uiDelegate = self;
 
-  NSArray *currentScopes = [GIDSignIn sharedInstance].scopes;
-  [GIDSignIn sharedInstance].scopes = [currentScopes arrayByAddingObjectsFromArray:scopes];
+  [GIDSignIn sharedInstance].scopes = scopes;
   [GIDSignIn sharedInstance].clientID = iosClientId;
 
   if ([webClientId length] != 0) {
