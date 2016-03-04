@@ -1,5 +1,13 @@
 ## Android Guide
 
+### Android SDK Requirements
+Need install 2 extra packages.
+
+Go in the Android SDK Manager running : ``` android ```
+Install this packages: 
+- Local Maven repository for Support Libraries
+- Google repository
+
 ### Google project configuration
 
 - Open https://developers.google.com/identity/sign-in/android/start-integrating
