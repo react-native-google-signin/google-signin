@@ -1,12 +1,13 @@
 ## Android Guide
 
 ### Android SDK Requirements
-Need install 2 extra packages.
 
-Go in the Android SDK Manager running : ``` android ```
-Install this packages: 
-- Local Maven repository for Support Libraries
+Install the following packages from the Android SDK Manager (run ``` android ``` from console) :
+- Local Maven repository for Support Libraries or Android support repository
 - Google repository
+- Google play services
+- Android support library
+
 
 ### Google project configuration
 
@@ -81,3 +82,16 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
 
 }
 ```
+
+
+### Running on simulator
+
+Make sure you have a simulator with Google Play installed.
+
+Also to help with performances, install ```HAXM``` from the Android SDK Manager.
+
+### Running on device
+
+Nothing special here, as long as you run your app on a Google Android device (again with play store installed !)
+
+
