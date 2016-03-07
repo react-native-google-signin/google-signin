@@ -26,7 +26,7 @@ See [Android guide](android-guide.md) and [iOS guide](ios-guide.md)
 
 [![signin button](img/signin-button.png)](#button)
 
-```
+```js
 import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
 
 render() {
@@ -55,7 +55,7 @@ Possible value for ```color``` are:
 It is mandatory to call this method before any others.
 
 Example for default configuration. you get user email and basic profile info.
-```
+```js
 import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
 
 GoogleSignin.configure({
@@ -64,7 +64,7 @@ GoogleSignin.configure({
 ```
 
 Example to access Google Drive both from the mobile application and from the backend server
-```
+```js
 GoogleSignin.configure({
   scopes: ["https://www.googleapis.com/auth/drive.readonly"], // what API you want to access on behalf of the user, default is email and profile
   iosClientId: <FROM DEVELOPPER CONSOLE>, // only for iOS
@@ -79,7 +79,7 @@ GoogleSignin.configure({
 #### currentUserAsync
 Typically called on the ```componentDidMount``` of your main component. This method give you the current user if already login or null if not yet signin.
 
-```
+```js
 GoogleSignin.currentUserAsync().then((user) => {
       console.log('USER', user);
       this.setState({user: user});
@@ -88,14 +88,14 @@ GoogleSignin.currentUserAsync().then((user) => {
 
 #### currentUser
 simple getter to access user once signed in.
-```
+```js
 const user = GoogleSignin.currentUser();
 // user is null if not signed in
 ```
 
 #### signIn
 Prompt the modal to let the user signin into your application
-```
+```js
 GoogleSignin.signIn()
 .then((user) => {
   console.log(user);
@@ -111,7 +111,7 @@ GoogleSignin.signIn()
 
 #### signOut
 remove user session from the device
-```
+```js
 GoogleSignin.signOut()
 .then(() => {
   console.log('out');
@@ -125,7 +125,7 @@ GoogleSignin.signOut()
 
 #### revokeAccess
 remove your application from the user authorized applications
-```
+```js
 GoogleSignin.revokeAccess()
 .then(() => {
   console.log('deleted');
