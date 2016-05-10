@@ -1,17 +1,18 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 
 import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
 
-var {
+const {
   AppRegistry,
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
   TouchableHighlight
-} = React;
+} = ReactNative;
 
 class RNGoogleSiginExample extends React.Component {
 

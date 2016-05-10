@@ -1,14 +1,17 @@
 
-const React = require('react-native');
+const React = require('react');
+const ReactNative = require('react-native');
+
+const {
+  PropTypes,
+} = React;
 
 const {
   View,
-  PropTypes,
   DeviceEventEmitter,
   NativeModules: { RNGoogleSignin },
   requireNativeComponent,
-} = React;
-
+} = ReactNative;
 
 const RNGoogleSigninButton = requireNativeComponent('RNGoogleSigninButton', {
   name: 'RNGoogleSigninButton',
