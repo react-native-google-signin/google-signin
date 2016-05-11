@@ -6,7 +6,7 @@
 	<dict>
 		<key>GoogleSignIn.bundle/Info.plist</key>
 		<data>
-		SHw4zp/QBwoMtYljFZuHcfmVNQo=
+		Oa6r4AzGbkRYUYhcX3u3fc+d2c4=
 		</data>
 		<key>GoogleSignIn.bundle/Roboto-Bold.ttf</key>
 		<data>
@@ -362,7 +362,7 @@
 		</dict>
 		<key>Headers/GIDAuthentication.h</key>
 		<data>
-		XsGm7Xkj7mh+RuOvSQ1R6/evvkI=
+		FzK6IwG0rTCDwT4rK1bT7B3NHGQ=
 		</data>
 		<key>Headers/GIDGoogleUser.h</key>
 		<data>
@@ -370,23 +370,19 @@
 		</data>
 		<key>Headers/GIDProfileData.h</key>
 		<data>
-		fAPfby28LMHgDf5WOI3Cm5qIJPI=
+		ggv89d6DwaxI6ObXaT2MPVHk2VM=
 		</data>
 		<key>Headers/GIDSignIn.h</key>
 		<data>
-		JVQCBsoWXGYuwZuCTaf3FFAJtcw=
+		T0HXnKzzAesHHpftstJ35xLVCRo=
 		</data>
 		<key>Headers/GIDSignInButton.h</key>
 		<data>
-		EUkkjyuyqLF5S4I2vIKDNxcOOv4=
+		e3ikDMcw52uX9xkoaRnuZJENnM4=
 		</data>
 		<key>Headers/GoogleSignIn.h</key>
 		<data>
-		0WYRP36GriabtesTBHZeoveBKec=
-		</data>
-		<key>Headers/UIViewController+SignIn.h</key>
-		<data>
-		1NK4fxrG6WN2McfA//SBlfuHkC8=
+		PuskRVBLo+s4+xzs26s8clO3Rg8=
 		</data>
 		<key>embedded.mobileprovision</key>
 		<data>
@@ -397,7 +393,7 @@
 	<dict>
 		<key>GoogleSignIn.bundle/Info.plist</key>
 		<data>
-		SHw4zp/QBwoMtYljFZuHcfmVNQo=
+		Oa6r4AzGbkRYUYhcX3u3fc+d2c4=
 		</data>
 		<key>GoogleSignIn.bundle/Roboto-Bold.ttf</key>
 		<data>
@@ -753,7 +749,7 @@
 		</dict>
 		<key>Headers/GIDAuthentication.h</key>
 		<data>
-		XsGm7Xkj7mh+RuOvSQ1R6/evvkI=
+		FzK6IwG0rTCDwT4rK1bT7B3NHGQ=
 		</data>
 		<key>Headers/GIDGoogleUser.h</key>
 		<data>
@@ -761,23 +757,19 @@
 		</data>
 		<key>Headers/GIDProfileData.h</key>
 		<data>
-		fAPfby28LMHgDf5WOI3Cm5qIJPI=
+		ggv89d6DwaxI6ObXaT2MPVHk2VM=
 		</data>
 		<key>Headers/GIDSignIn.h</key>
 		<data>
-		JVQCBsoWXGYuwZuCTaf3FFAJtcw=
+		T0HXnKzzAesHHpftstJ35xLVCRo=
 		</data>
 		<key>Headers/GIDSignInButton.h</key>
 		<data>
-		EUkkjyuyqLF5S4I2vIKDNxcOOv4=
+		e3ikDMcw52uX9xkoaRnuZJENnM4=
 		</data>
 		<key>Headers/GoogleSignIn.h</key>
 		<data>
-		0WYRP36GriabtesTBHZeoveBKec=
-		</data>
-		<key>Headers/UIViewController+SignIn.h</key>
-		<data>
-		1NK4fxrG6WN2McfA//SBlfuHkC8=
+		PuskRVBLo+s4+xzs26s8clO3Rg8=
 		</data>
 		<key>embedded.mobileprovision</key>
 		<data>

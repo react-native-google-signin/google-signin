@@ -1,6 +1,6 @@
 ## iOS Guide
 
-Includes Google Sign-In SDK v2.4.0
+Includes Google Sign-In SDK v3.0.0
 
 ### Google project configuration
 
@@ -16,9 +16,7 @@ Includes Google Sign-In SDK v2.4.0
 
 [![xcode dialog](https://github.com/apptailor/react-native-google-signin/raw/master/img/lib-dialog.png)]
 
-- Link your project with the following frameworks: ```AddressBook.framework``` ```StoreKit.framework``` ```SystemConfiguration.framework```
-
-- Disable Bitcode support under ```Build settings```
+- Link your project with the following frameworks: ```AddressBook.framework``` ```SafariServices.framework``` ```SystemConfiguration.framework```
 
 - If you run into link issues when building your project try to add ```libz.tbd``` library (see [Stackoverflow](http://stackoverflow.com/a/18296731) for more details).
 

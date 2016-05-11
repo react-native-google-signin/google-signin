@@ -36,7 +36,7 @@ typedef NS_ENUM(NSInteger, GIDSignInErrorCode) {
 };
 
 // A protocol implemented by the delegate of |GIDSignIn| to receive a refresh token or an error.
-@protocol GIDSignInDelegate
+@protocol GIDSignInDelegate <NSObject>
 
 // The sign-in flow has finished and was successful if |error| is |nil|.
 - (void)signIn:(GIDSignIn *)signIn
@@ -134,6 +134,12 @@ typedef NS_ENUM(NSInteger, GIDSignInErrorCode) {
 //
 // This property is optional. If you set it, set it before calling |signIn|.
 @property(nonatomic, copy) NSString *language;
+
+// The login hint to the authorization server, for example the user's ID, or email address,
+// to be prefilled if possible.
+//
+// This property is optional. If you set it, set it before calling |signIn|.
+@property(nonatomic, copy) NSString *loginHint;
 
 // The client ID of the home web server.  This will be returned as the |audience| property of the
 // OpenID Connect ID token.  For more info on the ID token:

@@ -16,8 +16,14 @@
 // The Google user's email.
 @property(nonatomic, readonly) NSString *email;
 
-// The Google user's name.
+// The Google user's full name.
 @property(nonatomic, readonly) NSString *name;
+
+// The Google user's given name.
+@property(nonatomic, readonly) NSString *givenName;
+
+// The Google user's family name.
+@property(nonatomic, readonly) NSString *familyName;
 
 // Whether or not the user has profile image.
 @property(nonatomic, readonly) BOOL hasImage;
