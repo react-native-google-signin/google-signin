@@ -1,6 +1,6 @@
 {
   "name": "react-native-google-signin",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "Google Signin for your react native applications",
   "main": "index",
   "scripts": {
@@ -18,18 +18,18 @@
     "android"
   ],
   "author": {
-    "name": "Apptailor",
+    "name": "devfd",
     "email": "apptailor.co@gmail.com",
-    "url": "https://github.com/apptailor"
+    "url": "https://github.com/devfd"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/apptailor/react-native-google-signin"
+    "url": "https://github.com/devfd/react-native-google-signin"
   },
   "bugs": {
-    "url": "https://github.com/apptailor/react-native-google-signin/issues"
+    "url": "https://github.com/devfd/react-native-google-signin/issues"
   },
-  "homepage": "https://github.com/apptailor/react-native-google-signin",
+  "homepage": "https://github.com/devfd/react-native-google-signin",
   "peerDependencies": {
     "react-native": ">= 0.21"
   },
