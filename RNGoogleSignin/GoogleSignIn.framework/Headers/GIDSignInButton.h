@@ -48,10 +48,4 @@ typedef NS_ENUM(NSInteger, GIDSignInButtonColorScheme) {
 // - kGIDSignInButtonColorSchemeLight (default)
 @property(nonatomic, assign) GIDSignInButtonColorScheme colorScheme;
 
-// The view controller with which the button is associated.
-// Assigning this optional property enables the sign-in button to present the
-// user with a prompt to download the Google iOS app if sign-in with the browser
-// has been disabled.
-@property(nonatomic, weak) IBOutlet UIViewController *delegate;
-
 @end
