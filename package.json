@@ -1,6 +1,6 @@
 {
   "name": "react-native-google-signin",
-  "version": "0.4.6",
+  "version": "0.5.0-beta",
   "description": "Google Signin for your react native applications",
   "main": "index",
   "scripts": {
@@ -30,8 +30,5 @@
     "url": "https://github.com/devfd/react-native-google-signin/issues"
   },
   "homepage": "https://github.com/devfd/react-native-google-signin",
-  "peerDependencies": {
-    "react-native": ">= 0.21"
-  },
   "license": "MIT"
 }

@@ -1,22 +1,17 @@
+import React, { Component } from 'react';
 
-const React = require('react');
-const ReactNative = require('react-native');
-
-const {
+import {
   View,
-  PropTypes,
-} = React;
-
-const {
-  DeviceEventEmitter,
   NativeAppEventEmitter,
-  NativeModules: { RNGoogleSignin },
+  NativeModules,
   requireNativeComponent,
-} = ReactNative;
+} from 'react-native';
+
+const { RNGoogleSignin } = NativeModules;
 
 const RNGoogleSigninButton = requireNativeComponent('RNGoogleSigninButton', null);
 
-class GoogleSigninButton extends React.Component {
+class GoogleSigninButton extends Component {
   componentDidMount() {
     this._clickListener = NativeAppEventEmitter.addListener('RNGoogleSignInWillDispatch', () => {
       GoogleSigninSingleton.signinIsInProcess = true;
@@ -52,6 +47,10 @@ class GoogleSignin {
   constructor() {
     this._user = null;
     this.signinIsInProcess = false;
+  }
+
+  hasPlayServices(params = {autoResolve: true}) {
+    return Promise.resolve(true);
   }
 
   configure(params={}) {

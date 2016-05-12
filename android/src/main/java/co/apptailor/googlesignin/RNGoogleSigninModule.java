@@ -6,6 +6,7 @@ import android.content.IntentSender;
 import android.net.Uri;
 
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -19,7 +20,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
@@ -31,10 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class RNGoogleSigninModule
-        extends ReactContextBaseJavaModule
-        implements GoogleApiClient.OnConnectionFailedListener {
-
+public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
     private Activity _activity;
     private GoogleApiClient _apiClient;
     private static ReactApplicationContext _context;
@@ -45,6 +43,11 @@ public class RNGoogleSigninModule
         super(reactContext);
         _activity = activity;
         _context = reactContext;
+    }
+
+    public static void onActivityResult(Intent data) {
+        GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+        handleSignInResult(result, false);
     }
 
     @Override
@@ -65,6 +68,22 @@ public class RNGoogleSigninModule
     }
 
     @ReactMethod
+    public void playServicesAvailable(boolean autoresolve, Promise promise) {
+        GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
+        int status = googleApiAvailability.isGooglePlayServicesAvailable(_activity);
+
+        if(status != ConnectionResult.SUCCESS) {
+            promise.reject("" + status, "Play services not available");
+            if(autoresolve && googleApiAvailability.isUserResolvableError(status)) {
+                googleApiAvailability.getErrorDialog(_activity, status, 2404).show();
+            }
+        }
+        else {
+            promise.resolve(true);
+        }
+    }
+
+    @ReactMethod
     public void configure(final ReadableArray scopes, final String webClientId, final Boolean offlineAccess) {
         _activity.runOnUiThread(new Runnable() {
             @Override
@@ -79,6 +98,11 @@ public class RNGoogleSigninModule
 
     @ReactMethod
     public void currentUserAsync() {
+        if (_apiClient == null) {
+            emitError("RNGoogleSignInSilentError", -1, "GoogleSignin is undefined - call configure first");
+            return;
+        }
+
         _activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -102,6 +126,11 @@ public class RNGoogleSigninModule
 
     @ReactMethod
     public void signIn() {
+        if (_apiClient == null) {
+            emitError("RNGoogleSignInError", -1, "GoogleSignin is undefined - call configure first");
+            return;
+        }
+
         _activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -113,6 +142,11 @@ public class RNGoogleSigninModule
 
     @ReactMethod
     public void signOut() {
+        if (_apiClient == null) {
+            emitError("RNGoogleSignOutError", -1, "GoogleSignin is undefined - call configure first");
+            return;
+        }
+
         Auth.GoogleSignInApi.signOut(_apiClient).setResultCallback(new ResultCallback<Status>() {
             @Override
             public void onResult(Status status) {
@@ -120,14 +154,9 @@ public class RNGoogleSigninModule
                     _context.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                             .emit("RNGoogleSignOutSuccess", null);
                 } else {
-                    WritableMap params = Arguments.createMap();
                     int code = status.getStatusCode();
                     String error = GoogleSignInStatusCodes.getStatusCodeString(code);
-
-                    params.putInt("code", code);
-                    params.putString("error", error);
-                    _context.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                            .emit("RNGoogleSignOutError", params);
+                    emitError("RNGoogleSignOutError", code, error);
                 }
             }
         });
@@ -135,6 +164,11 @@ public class RNGoogleSigninModule
 
     @ReactMethod
     public void revokeAccess() {
+        if (_apiClient == null) {
+            emitError("RNGoogleRevokeError", -1, "GoogleSignin is undefined - call configure first");
+            return;
+        }
+
         Auth.GoogleSignInApi.revokeAccess(_apiClient).setResultCallback(new ResultCallback<Status>() {
             @Override
             public void onResult(Status status) {
@@ -142,36 +176,22 @@ public class RNGoogleSigninModule
                     _context.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                             .emit("RNGoogleRevokeSuccess", null);
                 } else {
-                    WritableMap params = Arguments.createMap();
                     int code = status.getStatusCode();
                     String error = GoogleSignInStatusCodes.getStatusCodeString(code);
-
-                    params.putInt("code", code);
-                    params.putString("error", error);
-                    _context.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                            .emit("RNGoogleRevokeError", params);
+                    emitError("RNGoogleRevokeError", code, error);
                 }
             }
         });
     }
 
-    public static void onActivityResult(Intent data) {
-        GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-        handleSignInResult(result, false);
-    }
+    /* Private API */
 
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-        if (!connectionResult.hasResolution()) {
-            GooglePlayServicesUtil.getErrorDialog(connectionResult.getErrorCode(), _activity, 0).show();
-            return;
-        }
-
-        try {
-            connectionResult.startResolutionForResult(_activity, RC_SIGN_IN);
-        } catch (IntentSender.SendIntentException e) {
-            e.printStackTrace();
-        }
+    private void emitError(String eventName, int code, String error) {
+        WritableMap params = Arguments.createMap();
+        params.putInt("code", code);
+        params.putString("error", error);
+        _context.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                .emit(eventName, params);
     }
 
     private GoogleSignInOptions getSignInOptions(final ReadableArray scopes, final String webClientId, final Boolean offlineAcess) {

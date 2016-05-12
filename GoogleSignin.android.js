@@ -1,17 +1,13 @@
+import React, { Component, PropTypes } from 'react';
 
-const React = require('react');
-const ReactNative = require('react-native');
-
-const {
-  PropTypes,
-} = React;
-
-const {
+import {
   View,
   DeviceEventEmitter,
-  NativeModules: { RNGoogleSignin },
+  NativeModules,
   requireNativeComponent,
-} = ReactNative;
+} from 'react-native';
+
+const { RNGoogleSignin } = NativeModules;
 
 const RNGoogleSigninButton = requireNativeComponent('RNGoogleSigninButton', {
   name: 'RNGoogleSigninButton',
@@ -22,7 +18,7 @@ const RNGoogleSigninButton = requireNativeComponent('RNGoogleSigninButton', {
   }
 });
 
-class GoogleSigninButton extends React.Component {
+class GoogleSigninButton extends Component {
   componentDidMount() {
     this._clickListener = DeviceEventEmitter.addListener('RNGoogleSigninButtonClicked', () => {
       this.props.onPress && this.props.onPress();
@@ -64,6 +60,10 @@ class GoogleSignin {
 
   constructor() {
     this._user = null;
+  }
+
+  hasPlayServices(params = {autoResolve: true}) {
+    return RNGoogleSignin.playServicesAvailable(params.autoResolve);
   }
 
   configure(params={}) {
@@ -148,7 +148,5 @@ class GoogleSignin {
     listeners.forEach(lt => lt.remove());
   }
 }
-
-
 
 module.exports = {GoogleSignin: new GoogleSignin(), GoogleSigninButton};

@@ -36,6 +36,10 @@ npm-debug.log
 
 # Java class files
 *.class
+*.iml
+*.aar
+*.zip
+google-services.json
 
 # Generated files
 bin/
