@@ -1,53 +1,96 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
 import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,TouchableOpacity,
+  TouchableHighlight,
 } from 'react-native';
 
-class RNGoogleSigninExample extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
-    );
-  }
-}
+import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
 
-const styles = StyleSheet.create({
+class SigninSampleApp extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: null
+    };
+  }
+
+  componentDidMount() {
+    GoogleSignin.hasPlayServices({ autoResolve: true }).then(() => {
+
+      GoogleSignin.configure({
+        scopes: ["https://www.googleapis.com/auth/drive.readonly"],
+        iosClientId: '867788377702-q7qnmngv0gq8r4fmief9vpjc1sht844o.apps.googleusercontent.com',
+        webClientId: '867788377702-gmfcntqtkrmdh3bh1dat6dac9nfiiku1.apps.googleusercontent.com',
+        offlineAccess: false
+      });
+
+      GoogleSignin.currentUserAsync().then((user) => {
+        console.log('USER', user);
+        this.setState({user: user});
+      }).done();
+
+    })
+    .catch((err) => {
+      console.log("Play services error", err.code, err.message);
+    })
+  }
+
+  render() {
+    if (!this.state.user) {
+      return (
+        <View style={styles.container}>
+          <GoogleSigninButton style={{width: 212, height: 48}} size={GoogleSigninButton.Size.Standard} color={GoogleSigninButton.Color.Light} onPress={this._signIn.bind(this)}/>
+        </View>
+      );
+    }
+
+    if (this.state.user) {
+      return (
+        <View style={styles.container}>
+          <Text style={{fontSize: 18, fontWeight: 'bold', marginBottom: 20}}>Welcome {this.state.user.name}</Text>
+          <Text>Your email is: {this.state.user.email}</Text>
+
+          <TouchableOpacity onPress={() => {this._signOut(); }}>
+            <View style={{marginTop: 50}}>
+              <Text>Log out</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+  }
+
+  _signIn() {
+    GoogleSignin.signIn()
+    .then((user) => {
+      console.log(user);
+      this.setState({user: user});
+    })
+    .catch((err) => {
+      console.log('WRONG SIGNIN', err);
+    })
+    .done();
+  }
+
+  _signOut() {
+    GoogleSignin.revokeAccess().then(() => GoogleSignin.signOut()).then(() => {
+      this.setState({user: null});
+    })
+    .done();
+  }
+};
+
+var styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  }
 });
 
-AppRegistry.registerComponent('RNGoogleSigninExample', () => RNGoogleSigninExample);
+AppRegistry.registerComponent('RNGoogleSigninExample', () => SigninSampleApp);

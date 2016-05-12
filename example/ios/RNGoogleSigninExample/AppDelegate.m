@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 
 #import "RCTRootView.h"
+#import "RNGoogleSignin.h"
 
 @implementation AppDelegate
 
@@ -31,7 +32,7 @@
    * on the same Wi-Fi network.
    */
 
-  jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
+  jsCodeLocation = [NSURL URLWithString:@"http://192.168.0.14:8081/index.ios.bundle?platform=ios&dev=true"];
 
   /**
    * OPTION 2
@@ -55,5 +56,13 @@
   [self.window makeKeyAndVisible];
   return YES;
 }
+
+// add this method before @end
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+
+  return [RNGoogleSignin application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+}
+
 
 @end
