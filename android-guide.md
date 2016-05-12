@@ -33,7 +33,7 @@ project(':react-native-google-signin').projectDir = new File(rootProject.project
 ...
 dependencies {
         classpath 'com.android.tools.build:gradle:1.3.1'
-        classpath 'com.google.gms:google-services:1.5.0' // <--- add this
+        classpath 'com.google.gms:google-services:2.1.0' // <--- add this
     }
 ```
 
@@ -42,8 +42,6 @@ Note: for up-to-date version of this plugin check https://jcenter.bintray.com/co
 * In `android/app/build.gradle`
 
 ```gradle
-apply plugin: "com.android.application"
-apply plugin: 'com.google.gms.google-services' // <--- add this at the TOP
 ...
 dependencies {
     compile fileTree(dir: "libs", include: ["*.jar"])
@@ -51,6 +49,8 @@ dependencies {
     compile "com.facebook.react:react-native:0.18.+"
     compile project(":react-native-google-signin") // <--- add this
 }
+
+apply plugin: 'com.google.gms.google-services' // <--- this should be the last line
 ```
 
 * Register Module (in MainActivity.java)
@@ -63,11 +63,11 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
   ......
 
   @Override
-  protected List<ReactPackage> getPackages() {
-    return Arrays.<ReactPackage>asList(
-      new RNGoogleSigninPackage(this), // <------ add this line to yout MainActivity class
-      new MainReactPackage());
-  }
+    protected List<ReactPackage> getPackages() {
+        return Arrays.<ReactPackage>asList(
+            new MainReactPackage(),
+            new RNGoogleSigninPackage(this)); // <-- add this
+    }
 
   // add this method inside your activity class
   @Override
@@ -81,6 +81,18 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
   ......
 
 }
+```
+
+* In `android/gradle/wrapper/gradle-wrapper.properties`
+
+replace 
+```
+distributionUrl=https\://services.gradle.org/distributions/gradle-2.4-all.zip
+```
+
+with
+```
+distributionUrl=https\://services.gradle.org/distributions/gradle-2.13-all.zip
 ```
 
 

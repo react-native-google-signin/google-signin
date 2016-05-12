@@ -51,6 +51,22 @@ Possible value for ```color``` are:
 
 ### GoogleSignin
 
+#### hasPlayServices
+Check if device has google play services installed. Always return true on iOS.
+```js
+GoogleSignin.hasPlayServices({ autoResolve: true }).then(() => {
+    // play services are available. can now configure library
+})
+.catch((err) => {
+  console.log("Play services error", err.code, err.message);
+})
+```
+
+when ```autoResolve``` the library will prompt the user to take action to solve the issue.
+
+For example if the play services are not installed it will prompt:
+[![prompt install](img/prompt-install.png)](#prompt-install)
+
 #### configure
 It is mandatory to call this method before any others.
 

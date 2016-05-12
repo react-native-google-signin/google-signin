@@ -46,6 +46,15 @@ bin/
 gen/
 
 # Gradle files
+.idea
+.gradle
+local.properties
+*.iml
+local.properties
+.idea/workspace.xml
+.idea/libraries
+build
+captures
 .gradle/
 build/
 
