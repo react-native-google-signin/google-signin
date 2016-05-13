@@ -47,6 +47,7 @@ dependencies {
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:0.18.+"
+    compile "com.google.android.gms:play-services-auth:8.4.0" // <--- add this
     compile project(":react-native-google-signin") // <--- add this
 }
 
