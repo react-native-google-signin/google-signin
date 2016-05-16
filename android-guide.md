@@ -56,7 +56,6 @@ apply plugin: 'com.google.gms.google-services' // <--- this should be the last l
 * Register Module (in MainActivity.java)
 
 ```java
-import co.apptailor.googlesignin.RNGoogleSigninModule; // <--- import
 import co.apptailor.googlesignin.RNGoogleSigninPackage;  // <--- import
 
 public class MainActivity extends Activity implements DefaultHardwareBackBtnHandler {
@@ -68,15 +67,6 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
             new MainReactPackage(),
             new RNGoogleSigninPackage(this)); // <-- add this
     }
-
-  // add this method inside your activity class
-  @Override
-  public void onActivityResult(int requestCode, int resultCode, android.content.Intent data) {
-    if (requestCode == RNGoogleSigninModule.RC_SIGN_IN) {
-        RNGoogleSigninModule.onActivityResult(data);
-    }
-    super.onActivityResult(requestCode, resultCode, data);
-  }
 
   ......
 
