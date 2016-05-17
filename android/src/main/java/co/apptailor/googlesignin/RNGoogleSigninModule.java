@@ -13,6 +13,7 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -32,7 +33,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
+public class RNGoogleSigninModule extends ReactContextBaseJavaModule implements ActivityEventListener {
     private Activity _activity;
     private GoogleApiClient _apiClient;
     private static ReactApplicationContext _context;
@@ -43,11 +44,15 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         super(reactContext);
         _activity = activity;
         _context = reactContext;
+        reactContext.addActivityEventListener(this);
     }
 
-    public static void onActivityResult(Intent data) {
-        GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-        handleSignInResult(result, false);
+    @Override
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent intent) {
+        if (requestCode == RNGoogleSigninModule.RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(intent);
+            handleSignInResult(result, false);
+        }
     }
 
     @Override
