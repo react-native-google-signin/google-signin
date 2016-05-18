@@ -1,20 +1,24 @@
 package co.apptailor.googlesignin;
 
+import android.accounts.Account;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.net.Uri;
+import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.google.android.gms.auth.GoogleAuthException;
+import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -29,6 +33,7 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.api.Status;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -187,6 +192,31 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule implements 
                 }
             }
         });
+    }
+
+    @ReactMethod
+    public void getAccessToken(ReadableMap user, Callback successCallback, Callback errorCallback) {
+        Account acct = new Account(user.getString("email"), "com.google");
+        String token = null;
+        ReadableArray array = user.getArray("scopes");
+        try {
+            token = GoogleAuthUtil.getToken(_activity, acct,scopesToString(user.getArray("scopes")));
+            successCallback.invoke(token);
+        } catch (IOException e) {
+            errorCallback.invoke(token);
+            e.printStackTrace();
+        } catch (GoogleAuthException e) {
+            errorCallback.invoke(token);
+            e.printStackTrace();
+        }
+    }
+
+    private  String  scopesToString(ReadableArray scopes) {
+        String temp ="oauth2:";
+        for (int i = 0; i < scopes.size(); i++) {
+            temp += scopes.getString(i)+" ";
+        }
+        return temp.trim();
     }
 
     /* Private API */
