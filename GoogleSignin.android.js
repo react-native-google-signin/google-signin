@@ -78,9 +78,15 @@ class GoogleSignin {
     return new Promise((resolve, reject) => {
       const sucessCb = DeviceEventEmitter.addListener('RNGoogleSignInSilentSuccess', (user) => {
         this._user = user;
-        RNGoogleSignin.getAccessToken(user, (token) => {user.accessToken = token;}, (err) => {console.log("cant find accessToken");});
-        this._removeListeners(sucessCb, errorCb);
-        resolve(user);
+        RNGoogleSignin.getAccessToken(user, (token) => {
+          user.accessToken = token;
+          this._removeListeners(sucessCb, errorCb);
+          resolve(user);
+        }, (err) => {
+          console.log("cant find accessToken", err);
+          this._removeListeners(sucessCb, errorCb);
+          resolve(user);
+        });
       });
 
       const errorCb = DeviceEventEmitter.addListener('RNGoogleSignInSilentError', () => {
@@ -100,9 +106,15 @@ class GoogleSignin {
     return new Promise((resolve, reject) => {
       const sucessCb = DeviceEventEmitter.addListener('RNGoogleSignInSuccess', (user) => {
         this._user = user;
-        RNGoogleSignin.getAccessToken(user, (token) => {user.accessToken = token;}, (err) => {console.log("cant find accessToken");});
-        this._removeListeners(sucessCb, errorCb);
-        resolve(user);
+        RNGoogleSignin.getAccessToken(user, (token) => {
+          user.accessToken = token;
+          this._removeListeners(sucessCb, errorCb);
+          resolve(user);
+        }, (err) => {
+          console.log("cant find accessToken", err);
+          this._removeListeners(sucessCb, errorCb);
+          resolve(user);
+        });
       });
 
       const errorCb = DeviceEventEmitter.addListener('RNGoogleSignInError', (err) => {
