@@ -47,7 +47,7 @@ dependencies {
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:0.18.+"
-    compile "com.google.android.gms:play-services-auth:8.4.0" // <--- add this
+    compile "com.google.android.gms:play-services-auth:8.4.0" // <--- add this (optional, only if the app crashes on run)
     compile project(":react-native-google-signin") // <--- add this
 }
 
@@ -66,7 +66,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
-            new RNGoogleSigninPackage(this)); // <-- add this
+            new RNGoogleSigninPackage()); // <-- add this
     }
 
   ......
