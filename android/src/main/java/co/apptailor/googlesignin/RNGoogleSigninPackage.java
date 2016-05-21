@@ -14,17 +14,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class RNGoogleSigninPackage implements ReactPackage {
-    private Activity _activity;
-
-    public RNGoogleSigninPackage(Activity activity) {
-        super();
-        _activity = activity;
-    }
 
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
         List<NativeModule> modules = new ArrayList<>();
-        modules.add(new RNGoogleSigninModule(reactContext, _activity));
+        modules.add(new RNGoogleSigninModule(reactContext));
         return modules;
     }
 

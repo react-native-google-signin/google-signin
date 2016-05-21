@@ -7,7 +7,6 @@ import com.facebook.react.shell.MainReactPackage;
 import java.util.Arrays;
 import java.util.List;
 
-import co.apptailor.googlesignin.RNGoogleSigninModule; // <--- import
 import co.apptailor.googlesignin.RNGoogleSigninPackage;  // <--- import
 
 public class MainActivity extends ReactActivity {
@@ -38,15 +37,6 @@ public class MainActivity extends ReactActivity {
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
-            new RNGoogleSigninPackage(this));
-    }
-
-    // add this method inside your activity class
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, android.content.Intent data) {
-        if (requestCode == RNGoogleSigninModule.RC_SIGN_IN) {
-            RNGoogleSigninModule.onActivityResult(data);
-        }
-        super.onActivityResult(requestCode, resultCode, data);
+            new RNGoogleSigninPackage());
     }
 }
