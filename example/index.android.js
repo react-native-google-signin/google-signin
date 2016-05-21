@@ -19,23 +19,7 @@ class SigninSampleApp extends React.Component {
   }
 
   componentDidMount() {
-    GoogleSignin.hasPlayServices({ autoResolve: true }).then(() => {
-
-      GoogleSignin.configure({
-        scopes: ['https://www.googleapis.com/auth/calendar'],
-        webClientId: '867788377702-gmfcntqtkrmdh3bh1dat6dac9nfiiku1.apps.googleusercontent.com',
-        offlineAccess: true
-      });
-
-      GoogleSignin.currentUserAsync().then((user) => {
-        console.log('USER', user);
-        this.setState({user: user});
-      }).done();
-
-    })
-    .catch((err) => {
-      console.log("Play services error", err.code, err.message);
-    })
+    this._setupGoogleSignin();
   }
 
   render() {
@@ -60,6 +44,24 @@ class SigninSampleApp extends React.Component {
           </TouchableOpacity>
         </View>
       );
+    }
+  }
+
+  async _setupGoogleSignin() {
+    try {
+      await GoogleSignin.hasPlayServices({ autoResolve: true });
+      await GoogleSignin.configure({
+        scopes: ['https://www.googleapis.com/auth/calendar'],
+        webClientId: '867788377702-gmfcntqtkrmdh3bh1dat6dac9nfiiku1.apps.googleusercontent.com',
+        offlineAccess: true
+      });
+
+      const user = await GoogleSignin.currentUserAsync();
+      console.log(user);
+      this.setState({user});
+    }
+    catch(err) {
+      console.log("Play services error", err.code, err.message);
     }
   }
 

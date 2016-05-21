@@ -71,25 +71,26 @@ class GoogleSignin {
       params.scopes || [], params.webClientId || null, params.offlineAccess || false
     ];
 
-    RNGoogleSignin.configure(...params);
+    return RNGoogleSignin.configure(...params);
   }
 
   currentUserAsync() {
     return new Promise((resolve, reject) => {
       const sucessCb = DeviceEventEmitter.addListener('RNGoogleSignInSilentSuccess', (user) => {
         this._user = user;
-        RNGoogleSignin.getAccessToken(user, (token) => {
-          user.accessToken = token;
+
+        RNGoogleSignin.getAccessToken(user).then((token) => {
+          this._user.accessToken = token;
           this._removeListeners(sucessCb, errorCb);
-          resolve(user);
-        }, (err) => {
-          console.log("cant find accessToken", err);
+          resolve(this._user);
+        })
+        .catch(err => {
           this._removeListeners(sucessCb, errorCb);
-          resolve(user);
+          resolve(this._user);
         });
       });
 
-      const errorCb = DeviceEventEmitter.addListener('RNGoogleSignInSilentError', () => {
+      const errorCb = DeviceEventEmitter.addListener('RNGoogleSignInSilentError', (err) => {
         this._removeListeners(sucessCb, errorCb);
         resolve(null);
       });
@@ -106,14 +107,14 @@ class GoogleSignin {
     return new Promise((resolve, reject) => {
       const sucessCb = DeviceEventEmitter.addListener('RNGoogleSignInSuccess', (user) => {
         this._user = user;
-        RNGoogleSignin.getAccessToken(user, (token) => {
-          user.accessToken = token;
+        RNGoogleSignin.getAccessToken(user).then((token) => {
+          this._user.accessToken = token;
           this._removeListeners(sucessCb, errorCb);
-          resolve(user);
-        }, (err) => {
-          console.log("cant find accessToken", err);
+          resolve(this._user);
+        })
+        .catch(err => {
           this._removeListeners(sucessCb, errorCb);
-          resolve(user);
+          resolve(this._user);
         });
       });
 
@@ -138,6 +139,7 @@ class GoogleSignin {
         reject(new GoogleSigninError(err.error, err.code));
       });
 
+      this._user = null;
       RNGoogleSignin.signOut();
     });
   }

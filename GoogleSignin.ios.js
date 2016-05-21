@@ -67,6 +67,7 @@ class GoogleSignin {
     ];
 
     RNGoogleSignin.configure(...params);
+    return Promise.resolve(true);
   }
 
   currentUserAsync() {
