@@ -219,17 +219,10 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule implements 
 
     @ReactMethod
     public void getAccessToken(ReadableMap user, Promise promise) {
-        final Activity activity = getCurrentActivity();
-
-        if (activity == null) {
-            promise.reject("NO_ACTIVITY", "NO_ACTIVITY");
-            return;
-        }
-
         Account acct = new Account(user.getString("email"), "com.google");
 
         try {
-            String token = GoogleAuthUtil.getToken(activity, acct, scopesToString(user.getArray("scopes")));
+            String token = GoogleAuthUtil.getToken(getReactApplicationContext(), acct, scopesToString(user.getArray("scopes")));
             promise.resolve(token);
         } catch (IOException e) {
             promise.reject(e);
