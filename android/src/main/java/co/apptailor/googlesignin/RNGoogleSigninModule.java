@@ -96,10 +96,11 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule implements 
     }
 
     @ReactMethod
-    public void configure(final ReadableArray scopes, final String webClientId, final Boolean offlineAccess) {
+    public void configure(final ReadableArray scopes, final String webClientId, final Boolean offlineAccess, final Promise promise) {
         final Activity activity = getCurrentActivity();
 
         if (activity == null) {
+            promise.reject("NO_ACTIVITY", "NO_ACTIVITY");
             return;
         }
 
@@ -110,6 +111,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule implements 
                         .addApi(Auth.GOOGLE_SIGN_IN_API, getSignInOptions(scopes, webClientId, offlineAccess))
                         .build();
                 _apiClient.connect();
+                promise.resolve(true);
             }
         });
     }
