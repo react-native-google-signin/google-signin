@@ -29,6 +29,17 @@
   "bugs": {
     "url": "https://github.com/devfd/react-native-google-signin/issues"
   },
+  "rnpm": {
+    "ios": {
+      "project": "ios/RNGoogleSignin.xcodeproj",
+      "sharedLibraries": [
+        "libz",
+        "SafariServices",
+        "SystemConfiguration",
+        "AddressBook"
+      ]
+    }
+  },
   "homepage": "https://github.com/devfd/react-native-google-signin",
   "license": "MIT"
 }
