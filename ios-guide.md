@@ -1,29 +1,37 @@
 ## iOS Guide
 
-Includes Google Sign-In SDK v3.0.0
+Includes Google Sign-In SDK v4.0.0
 
-### Google project configuration
+### 1. Installation
 
-- Open https://developers.google.com/identity/sign-in/ios/sdk/
+#### With RNPM
+
+- make sure you have rnpm version >= 1.9.0
+- link the lib with `rnpm link react-native-google-signin`
+- Drag and drop the `ios/GoogleSdk` folder to your xcode project. 
+
+
+#### Manual installation
+
+- add `ios/RNGoogleSignin.xcodeproj` to your xcode project
+- In your project build phase -> `Link binary with libraries` step, add `libRNGoogleSignin.a`, `AddressBook.framework`, `SafariServices.framework`, `SystemConfiguration.framework` and `libz.tbd`
+- Drag and drop the `ios/GoogleSdk` folder to your xcode project. 
+
+
+### 2. Google project configuration
+
+- Open [https://developers.google.com/identity/sign-in/ios/sdk/](https://developers.google.com/identity/sign-in/ios/sdk/)
 
 - Scroll down and click ```Get a configuration file``` button
 
 - Download the ```GoogleService-Info.plist``` file at the end of the process
 
-### XCode configuration
+### 3. XCode configuration
 
-- Add ```RNGoogleSignin``` folder to your XCode project (click on 'Options' button and make sure 'copy items if needed' is ticked and 'create groups' is selected)
+- Following the installation instructions, in project build phase -> `Link binary with libraries` step you should have:
 
-[![xcode dialog](https://github.com/apptailor/react-native-google-signin/raw/master/img/lib-dialog.png)]
+[![link config](https://github.com/apptailor/react-native-google-signin/raw/master/img/link-config.png)](#config)
 
-- Link your project with the following frameworks: ```AddressBook.framework``` ```SafariServices.framework``` ```SystemConfiguration.framework```
-
-- If you run into link issues when building your project try to add ```libz.tbd``` library (see [Stackoverflow](http://stackoverflow.com/a/18296731) for more details).
-
-
-Add the end of this step, your Xcode config should look like this:
-
-[![xcode config](https://github.com/apptailor/react-native-google-signin/raw/master/img/lib-config.png)](#config)
 
 - Configure URL types in the ```Info``` panel
   - add a URL with scheme set to your ```REVERSED_CLIENT_ID``` (found inside the plist)
