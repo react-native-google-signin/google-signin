@@ -48,6 +48,9 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule implements 
     }
 
     @Override
+    public void onNewIntent(Intent intent) {}
+
+    @Override
     public void onActivityResult(final int requestCode, final int resultCode, final Intent intent) {
         if (requestCode == RNGoogleSigninModule.RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(intent);
