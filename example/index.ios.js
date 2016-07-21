@@ -52,7 +52,7 @@ class GoogleSigninSampleApp extends Component {
       await GoogleSignin.configure({
         // scopes: ["https://www.googleapis.com/auth/drive.readonly"],
         iosClientId: '867788377702-q7qnmngv0gq8r4fmief9vpjc1sht844o.apps.googleusercontent.com',
-        // webClientId: '867788377702-gmfcntqtkrmdh3bh1dat6dac9nfiiku1.apps.googleusercontent.com',
+        webClientId: '867788377702-gmfcntqtkrmdh3bh1dat6dac9nfiiku1.apps.googleusercontent.com',
         offlineAccess: false
       });
 
