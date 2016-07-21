@@ -3,14 +3,13 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View,TouchableOpacity,
-  TouchableHighlight,
+  View,
+  TouchableOpacity,
 } from 'react-native';
 
 import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
 
-class SigninSampleApp extends React.Component {
-
+class GoogleSigninSampleApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -83,15 +82,15 @@ class SigninSampleApp extends React.Component {
     })
     .done();
   }
-};
+}
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
-  }
+  },
 });
 
-AppRegistry.registerComponent('RNGoogleSigninExample', () => SigninSampleApp);
+AppRegistry.registerComponent('GoogleSigninSampleApp', () => GoogleSigninSampleApp);

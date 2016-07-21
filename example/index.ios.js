@@ -3,14 +3,13 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View,TouchableOpacity,
-  TouchableHighlight,
+  View,
+  TouchableOpacity,
 } from 'react-native';
 
 import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
 
-class SigninSampleApp extends React.Component {
-
+class GoogleSigninSampleApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -19,24 +18,7 @@ class SigninSampleApp extends React.Component {
   }
 
   componentDidMount() {
-    GoogleSignin.hasPlayServices({ autoResolve: true }).then(() => {
-
-      GoogleSignin.configure({
-        scopes: ["https://www.googleapis.com/auth/drive.readonly"],
-        iosClientId: '867788377702-q7qnmngv0gq8r4fmief9vpjc1sht844o.apps.googleusercontent.com',
-        webClientId: '867788377702-gmfcntqtkrmdh3bh1dat6dac9nfiiku1.apps.googleusercontent.com',
-        offlineAccess: false
-      });
-
-      GoogleSignin.currentUserAsync().then((user) => {
-        console.log('USER', user);
-        this.setState({user: user});
-      }).done();
-
-    })
-    .catch((err) => {
-      console.log("Play services error", err.code, err.message);
-    })
+    this._setupGoogleSignin();
   }
 
   render() {
@@ -64,6 +46,25 @@ class SigninSampleApp extends React.Component {
     }
   }
 
+  async _setupGoogleSignin() {
+    try {
+      await GoogleSignin.hasPlayServices({ autoResolve: true });
+      await GoogleSignin.configure({
+        // scopes: ["https://www.googleapis.com/auth/drive.readonly"],
+        iosClientId: '867788377702-q7qnmngv0gq8r4fmief9vpjc1sht844o.apps.googleusercontent.com',
+        // webClientId: '867788377702-gmfcntqtkrmdh3bh1dat6dac9nfiiku1.apps.googleusercontent.com',
+        offlineAccess: false
+      });
+
+      const user = await GoogleSignin.currentUserAsync();
+      console.log(user);
+      this.setState({user});
+    }
+    catch(err) {
+      console.log("Google signin error", err.code, err.message);
+    }
+  }
+
   _signIn() {
     GoogleSignin.signIn()
     .then((user) => {
@@ -82,15 +83,25 @@ class SigninSampleApp extends React.Component {
     })
     .done();
   }
-};
+}
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
-  }
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
+  },
 });
 
-AppRegistry.registerComponent('RNGoogleSigninExample', () => SigninSampleApp);
+AppRegistry.registerComponent('GoogleSigninSampleApp', () => GoogleSigninSampleApp);

@@ -46,13 +46,13 @@ android_library(
 
 android_build_config(
   name = 'build_config',
-  package = 'com.rngooglesigninexample',
+  package = 'com.googlesigninsampleapp',
 )
 
 android_resource(
   name = 'res',
   res = 'src/main/res',
-  package = 'com.rngooglesigninexample',
+  package = 'com.googlesigninsampleapp',
 )
 
 android_binary(

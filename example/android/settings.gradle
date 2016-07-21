@@ -1,4 +1,4 @@
-rootProject.name = 'RNGoogleSigninExample'
+rootProject.name = 'GoogleSigninSampleApp'
 
 include ':app'
 include ':react-native-google-signin'

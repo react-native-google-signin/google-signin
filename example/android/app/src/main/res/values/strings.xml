@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">RNGoogleSigninExample</string>
+
+
+    <string name="app_name">GoogleSigninSampleApp</string>
 </resources>
