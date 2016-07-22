@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "react": "15.2.1",
-    "react-native": "0.29.2",
-    "react-native-google-signin": "^0.7.1-rc"
+    "react-native": "0.30.0",
+    "react-native-google-signin": "^0.8.0"
   }
 }
