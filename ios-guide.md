@@ -9,7 +9,7 @@ Includes Google Sign-In SDK v4.0.0
 - make sure you have rnpm version >= 1.9.0
 - link the lib with `rnpm link react-native-google-signin`
 - Drag and drop the `ios/GoogleSdk` folder to your xcode project. (Make sure `Copy items if needed` **IS** ticked)
-
+ - Alternatively, you can install this through cocoapods by adding `pod 'GoogleSignIn'` to your Podfile.
 
 #### Manual installation
 
@@ -57,7 +57,7 @@ Inside AppDelegate.m
 
 ````
 
-If you have multiple components listening for url open events, they can be combined into a single method like so:
+Only one `application:openURL` method can be defined, so if you have multiple things listening for open URL events (like multiple OAUTH providers), you must combine them into a single function like so:
 
 ```
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
