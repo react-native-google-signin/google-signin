@@ -9,7 +9,7 @@ Includes Google Sign-In SDK v4.0.0
 - make sure you have rnpm version >= 1.9.0
 - link the lib with `rnpm link react-native-google-signin`
 - Drag and drop the `ios/GoogleSdk` folder to your xcode project. (Make sure `Copy items if needed` **IS** ticked)
- - Alternatively, you can install this through cocoapods by adding `pod 'GoogleSignIn'` to your Podfile.
+ - Alternatively, you can install this through cocoapods by adding `pod 'GoogleSignIn'` to your Podfile if you are only building for iOS.
 
 #### Manual installation
 
