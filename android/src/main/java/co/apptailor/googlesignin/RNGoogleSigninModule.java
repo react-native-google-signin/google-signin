@@ -1,5 +1,6 @@
 package co.apptailor.googlesignin;
 
+import android.os.Bundle;
 import android.accounts.Account;
 import android.app.Activity;
 import android.content.Intent;
@@ -39,6 +40,7 @@ import java.util.Map;
 
 public class RNGoogleSigninModule extends ReactContextBaseJavaModule implements ActivityEventListener {
     private GoogleApiClient _apiClient;
+    private GoogleApiClient.ConnectionCallbacks mConnectionListener;
 
     public static final int RC_SIGN_IN = 9001;
 
@@ -185,19 +187,23 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule implements 
             return;
         }
 
-        Auth.GoogleSignInApi.signOut(_apiClient).setResultCallback(new ResultCallback<Status>() {
-            @Override
-            public void onResult(Status status) {
-                if (status.isSuccess()) {
-                    getReactApplicationContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                            .emit("RNGoogleSignOutSuccess", null);
-                } else {
-                    int code = status.getStatusCode();
-                    String error = GoogleSignInStatusCodes.getStatusCodeString(code);
-                    emitError("RNGoogleSignOutError", code, error);
+        if (!_apiClient.isConnected()) {
+            GoogleApiClient.ConnectionCallbacks mConnectionListener = new GoogleApiClient.ConnectionCallbacks() {
+                @Override
+                public void onConnected(Bundle bundle) {
+                    _signOut();
                 }
-            }
-        });
+
+                @Override
+                public void onConnectionSuspended(int cause) {
+                }
+            };
+
+            _apiClient.connect();
+            _apiClient.registerConnectionCallbacks(mConnectionListener);
+        } else {
+            _signOut();
+        }
     }
 
     @ReactMethod
@@ -239,6 +245,26 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule implements 
     }
 
     /* Private API */
+
+    private void _signOut() {
+        if (mConnectionListener != null) {
+            _apiClient.unregisterConnectionCallbacks(mConnectionListener);
+        }
+
+        Auth.GoogleSignInApi.signOut(_apiClient).setResultCallback(new ResultCallback<Status>() {
+            @Override
+            public void onResult(Status status) {
+                if (status.isSuccess()) {
+                    getReactApplicationContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                            .emit("RNGoogleSignOutSuccess", null);
+                } else {
+                    int code = status.getStatusCode();
+                    String error = GoogleSignInStatusCodes.getStatusCodeString(code);
+                    emitError("RNGoogleSignOutError", code, error);
+                }
+            }
+        });
+    }
 
     private  String  scopesToString(ReadableArray scopes) {
         String temp ="oauth2:";
