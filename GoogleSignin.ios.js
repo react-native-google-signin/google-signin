@@ -118,6 +118,7 @@ class GoogleSignin {
 
   signOut() {
     return new Promise((resolve, reject) => {
+      this._user = null;
       RNGoogleSignin.signOut();
       resolve();
     });
