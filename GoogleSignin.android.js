@@ -23,10 +23,15 @@ class GoogleSigninButton extends Component {
     this._clickListener = DeviceEventEmitter.addListener('RNGoogleSigninButtonClicked', () => {
       this.props.onPress && this.props.onPress();
     });
+
+    this._signInListener = DeviceEventEmitter.addListener('RNGoogleSignInSuccess', (user) => {
+      GoogleSigninSingleton._user = user;
+    });
   }
 
   componentWillUnmount() {
     this._clickListener && this._clickListener.remove();
+    this._signInListener && this._signInListener.remove();
   }
 
   render() {
