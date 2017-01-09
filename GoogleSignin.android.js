@@ -21,6 +21,7 @@ const RNGoogleSigninButton = requireNativeComponent('RNGoogleSigninButton', {
 class GoogleSigninButton extends Component {
   componentDidMount() {
     this._clickListener = DeviceEventEmitter.addListener('RNGoogleSigninButtonClicked', () => {
+      GoogleSigninSingleton.signIn()
       this.props.onPress && this.props.onPress();
     });
 
@@ -170,4 +171,6 @@ class GoogleSignin {
   }
 }
 
-module.exports = {GoogleSignin: new GoogleSignin(), GoogleSigninButton};
+const GoogleSigninSingleton = new GoogleSignin();
+
+module.exports = {GoogleSignin: GoogleSigninSingleton, GoogleSigninButton};
