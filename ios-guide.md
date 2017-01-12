@@ -46,7 +46,7 @@ Add the end of this step, your Xcode config should look like this:
 Inside AppDelegate.m
 ```
 // add this line before @implementation AppDelegate
-#import "RNGoogleSignin.h"
+#import <RNGoogleSignin/RNGoogleSignin.h>
 
 // add this method before @end
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
