@@ -9,9 +9,9 @@ Pod::Spec.new do |s|
   s.description         = <<-DESC
                             Pod file to enable linking code from React Native Google Signing and Google/Signing Pod.
                          DESC
-  s.homepage            = "http://facebook.github.io/react-native/"
+  s.homepage            = "https://github.com/devfd/react-native-google-signin"
   s.license             = package['license']
-  s.author              = "Radical Candor"
+  s.author              = "devfd & TJ Pavlu"
   s.source              = { :git => "https://github.com/devfd/react-native-google-signin", :tag => "v#{s.version}" }
   s.default_subspec     = 'Core'
   s.requires_arc        = true
