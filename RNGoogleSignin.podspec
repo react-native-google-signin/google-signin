@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
   s.preserve_paths      = "package.json", "LICENSE", "LICENSE-CustomComponents", "PATENTS"
 
   s.subspec 'Core' do |ss|
-    # ss.dependency      'Google/Signin'
+    ss.dependency      'GoogleSignIn'
     ss.source_files  = "ios/**/*.{c,h,m,mm,S}"
     ss.libraries     = "stdc++"
   end
