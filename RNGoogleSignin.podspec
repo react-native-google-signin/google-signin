@@ -22,6 +22,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'Core' do |ss|
     ss.dependency      'GoogleSignIn'
+    ss.dependency      'React'
     ss.source_files  = "ios/**/*.{c,h,m,mm,S}"
     ss.libraries     = "stdc++"
   end
