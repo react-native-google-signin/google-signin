@@ -99,7 +99,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule implements 
     }
 
     @ReactMethod
-    public void configure(final ReadableArray scopes, final String webClientId, final Boolean offlineAccess, final Promise promise) {
+    public void configure(final ReadableArray scopes, final String webClientId, final Boolean offlineAccess, final Boolean forceConsentPrompt, final Promise promise) {
         final Activity activity = getCurrentActivity();
 
         if (activity == null) {
@@ -111,7 +111,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule implements 
             @Override
             public void run() {
                 _apiClient = new GoogleApiClient.Builder(activity.getBaseContext())
-                        .addApi(Auth.GOOGLE_SIGN_IN_API, getSignInOptions(scopes, webClientId, offlineAccess))
+                        .addApi(Auth.GOOGLE_SIGN_IN_API, getSignInOptions(scopes, webClientId, offlineAccess, forceConsentPrompt))
                         .build();
                 _apiClient.connect();
                 promise.resolve(true);
@@ -256,7 +256,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule implements 
                 .emit(eventName, params);
     }
 
-    private GoogleSignInOptions getSignInOptions(final ReadableArray scopes, final String webClientId, final Boolean offlineAcess) {
+    private GoogleSignInOptions getSignInOptions(final ReadableArray scopes, final String webClientId, final Boolean offlineAcess, final Boolean forceConsentPrompt) {
 
         int size = scopes.size();
         Scope[] _scopes = new Scope[size];
@@ -281,7 +281,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule implements 
             }
             else {
                 return new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                        .requestServerAuthCode(webClientId, false)
+                        .requestServerAuthCode(webClientId, forceConsentPrompt)
                         .requestScopes(new Scope("email"), _scopes)
                         .build();
             }

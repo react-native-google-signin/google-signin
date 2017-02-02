@@ -68,7 +68,7 @@ class GoogleSignin {
 
   configure(params={}) {
     params = [
-      params.scopes || [], params.webClientId || null, params.offlineAccess || false
+      params.scopes || [], params.webClientId || null, params.offlineAccess || false, params.forceConsentPrompt || false
     ];
 
     return RNGoogleSignin.configure(...params);
