@@ -15,7 +15,7 @@
 npm install react-native-google-signin --save
 ```
 
-**Warning**: For `react-native` >= v0.30 use `react-native-google-signin` >= v0.8.0
+**Note**: If you use React Native < `v0.40` stick with `v0.8.1` (`npm install react-native-google-signin@0.8 --save`).
 
 ## Project setup and initialization
 
