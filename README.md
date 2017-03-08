@@ -1,4 +1,4 @@
-# react-native-google-sign
+# react-native-google-signin
 
 [![xcode config](https://github.com/apptailor/react-native-google-signin/raw/master/img/demo-app.gif)](#demo)
 
