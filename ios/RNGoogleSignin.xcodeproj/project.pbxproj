@@ -80,6 +80,7 @@
 				9FD3550E1D3E4A2900D06170 /* Sources */,
 				9FD3550F1D3E4A2900D06170 /* Frameworks */,
 				9FD355101D3E4A2900D06170 /* Copy Header */,
+				9F3884B41E32CEF40060427D /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -120,6 +121,22 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		9F3884B41E32CEF40060427D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "echo SRCROOT $SRCROOT\necho PODS_ROOT $PODS_ROOT";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		9FD3550E1D3E4A2900D06170 /* Sources */ = {
@@ -223,10 +240,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/**",
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/../../react-native/React/**",
-				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -240,10 +254,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/**",
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/../../react-native/React/**",
-				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
