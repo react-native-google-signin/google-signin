@@ -6,8 +6,11 @@
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
   "dependencies": {
-    "react": "15.2.1",
-    "react-native": "0.30.0",
-    "react-native-google-signin": "^0.8.0"
+    "react": "~15.4.1",
+    "react-native": "0.42.0",
+    "react-native-google-signin": "file:../"
+  },
+  "devDependencies": {
+    "babel-preset-react-native": "1.9.1"
   }
 }

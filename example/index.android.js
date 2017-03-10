@@ -50,8 +50,7 @@ class GoogleSigninSampleApp extends Component {
     try {
       await GoogleSignin.hasPlayServices({ autoResolve: true });
       await GoogleSignin.configure({
-        scopes: ['https://www.googleapis.com/auth/calendar'],
-        webClientId: '867788377702-gmfcntqtkrmdh3bh1dat6dac9nfiiku1.apps.googleusercontent.com',
+        webClientId: '603421766430-60og8n04mebic8hi49u1mrcmcdmugnd5.apps.googleusercontent.com',
         offlineAccess: true
       });
 

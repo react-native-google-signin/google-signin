@@ -1,4 +1,4 @@
-package com.rngooglesiginexample;
+package com.googlesigninsampleapp;
 
 import com.facebook.react.ReactActivity;
 
