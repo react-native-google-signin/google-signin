@@ -31,7 +31,7 @@ class GoogleSigninButton extends Component {
 
   render() {
     return (
-      <RNGoogleSigninButton {...this.props}/>
+      <RNGoogleSigninButton {...this.props} />
     );
   }
 }
@@ -55,7 +55,7 @@ class GoogleSignin {
     this.signinIsInProcess = false;
   }
 
-  hasPlayServices(params = {autoResolve: true}) {
+  hasPlayServices(params = { autoResolve: true }) {
     return Promise.resolve(true);
   }
 
