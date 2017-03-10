@@ -40,7 +40,8 @@ copyAndWatch(
 // Android
 copyAndWatch(
   '../android',
-  'node_modules/react-native-google-signin/android'
+  'node_modules/react-native-google-signin/android',
+  '*.java'
 );
 
 // iOS
