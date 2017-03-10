@@ -19,7 +19,7 @@ You need the following packages
 
 ### 3. Installation
 
-* run `rnpm link react-native-google-signin`
+* run `react-native link react-native-google-signin`
 
 * In `android/settings.gradle` you should have
 
