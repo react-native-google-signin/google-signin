@@ -1,4 +1,4 @@
-# react-native-google-sign
+# react-native-google-signin
 
 [![xcode config](https://github.com/apptailor/react-native-google-signin/raw/master/img/demo-app.gif)](#demo)
 
@@ -13,9 +13,10 @@
 
 ```bash
 npm install react-native-google-signin --save
+react-native link react-native-google-signin
 ```
 
-**Warning**: For `react-native` >= v0.30 use `react-native-google-signin` >= v0.8.0
+**Note**: If you use React Native < `v0.40` stick with `v0.8.1` (`npm install react-native-google-signin@0.8 --save`).
 
 ## Project setup and initialization
 

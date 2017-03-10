@@ -39,7 +39,6 @@ npm-debug.log
 *.iml
 *.aar
 *.zip
-google-services.json
 
 # Generated files
 bin/

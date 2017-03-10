@@ -4,14 +4,13 @@ Includes Google Sign-In SDK v4.0.0
 
 ### 1. Installation
 
-#### With RNPM
+#### Automatic
 
-- make sure you have rnpm version >= 1.9.0
-- link the lib with `rnpm link react-native-google-signin`
+- link the lib with `react-native link react-native-google-signin`
 - Drag and drop the `ios/GoogleSdk` folder to your xcode project. (Make sure `Copy items if needed` **IS** ticked)
 
 
-#### Manual installation
+#### Manual
 
 - add `ios/RNGoogleSignin.xcodeproj` to your xcode project
 - In your project build phase -> `Link binary with libraries` step, add `libRNGoogleSignin.a`, `AddressBook.framework`, `SafariServices.framework`, `SystemConfiguration.framework` and `libz.tbd`
@@ -46,7 +45,7 @@ Add the end of this step, your Xcode config should look like this:
 Inside AppDelegate.m
 ```
 // add this line before @implementation AppDelegate
-#import "RNGoogleSignin.h"
+#import <RNGoogleSignin/RNGoogleSignin.h>
 
 // add this method before @end
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
