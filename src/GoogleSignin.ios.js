@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 import {
   View,
@@ -12,6 +12,12 @@ const { RNGoogleSignin } = NativeModules;
 const RNGoogleSigninButton = requireNativeComponent('RNGoogleSigninButton', null);
 
 class GoogleSigninButton extends Component {
+  static propTypes = {
+    ...View.propTypes,
+    size: PropTypes.number,
+    color: PropTypes.number
+  };
+
   componentDidMount() {
     this._clickListener = NativeAppEventEmitter.addListener('RNGoogleSignInWillDispatch', () => {
       GoogleSigninSingleton.signinIsInProcess = true;

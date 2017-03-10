@@ -9,16 +9,15 @@ import {
 
 const { RNGoogleSignin } = NativeModules;
 
-const RNGoogleSigninButton = requireNativeComponent('RNGoogleSigninButton', {
-  name: 'RNGoogleSigninButton',
-  propTypes: {
+const RNGoogleSigninButton = requireNativeComponent('RNGoogleSigninButton', null);
+
+class GoogleSigninButton extends Component {
+  static propTypes = {
     ...View.propTypes,
     size: PropTypes.number,
     color: PropTypes.number
-  }
-});
+  };
 
-class GoogleSigninButton extends Component {
   componentDidMount() {
     this._clickListener = DeviceEventEmitter.addListener('RNGoogleSigninButtonClicked', () => {
       this.props.onPress && this.props.onPress();
