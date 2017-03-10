@@ -30,8 +30,10 @@ class GoogleSigninButton extends Component {
   }
 
   render() {
+    const { style, ...props } = this.props;
+
     return (
-      <RNGoogleSigninButton {...this.props} />
+      <RNGoogleSigninButton style={[{ backgroundColor: 'rgba(0,0,0,0)' }, style]} {...props} />
     );
   }
 }
