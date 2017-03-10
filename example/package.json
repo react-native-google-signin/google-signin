@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "watch": "node ./scripts/watch-and-copy-src.js",
-    "packager": "sh node_modules/react-native/packager/packager.sh --root node_modules/react-native-counter",
+    "packager": "sh node_modules/react-native/packager/packager.sh --root node_modules/react-native-google-signin",
     "dev": "concurrently 'npm run watch' 'npm run packager'"
   },
   "dependencies": {
