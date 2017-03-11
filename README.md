@@ -96,6 +96,7 @@ GoogleSignin.configure({
   iosClientId: <FROM DEVELOPPER CONSOLE>, // only for iOS
   webClientId: <FROM DEVELOPPER CONSOLE>, // client ID of type WEB for your server (needed to verify user ID and offline access)
   offlineAccess: true // if you want to access Google API on behalf of the user FROM YOUR SERVER
+  forceConsentPrompt: true // if you want to show the authorization prompt at each login
 })
 .then(() => {
   // you can now call currentUserAsync()
@@ -189,7 +190,7 @@ This is the typical information you obtain once the user sign in:
     idToken: <token to authenticate the user on the backend>
     serverAuthCode: <one-time token to access Google API from the backend on behalf of the user>
     scopes: <list of authorized scopes>
-    accessToken: <needed to access google API from the application> (iOS only)
+    accessToken: <needed to access google API from the application>
   }
 ```
 
