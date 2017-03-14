@@ -110,8 +110,8 @@ RCT_EXPORT_METHOD(revokeAccess)
 }
 
 - (void) signIn:(GIDSignIn *)signIn presentViewController:(UIViewController *)viewController {
-    UIViewController *rootViewController = [[[[UIApplication sharedApplication]delegate] window] rootViewController];
-    [rootViewController presentViewController:viewController animated:true completion:nil];
+    UIViewController *parent = [self topMostViewController];
+    [parent presentViewController:viewController animated:true completion:nil];
 }
 
 - (void) signIn:(GIDSignIn *)signIn dismissViewController:(UIViewController *)viewController {
@@ -126,5 +126,14 @@ RCT_EXPORT_METHOD(revokeAccess)
                                       annotation:annotation];
 }
 
+#pragma mark - Internal Methods
+
+- (UIViewController *)topMostViewController {
+    UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    while (topController.presentedViewController) {
+        topController = topController.presentedViewController;
+    }
+    return topController;
+}
 
 @end
