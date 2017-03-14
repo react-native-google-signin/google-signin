@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 
 import com.facebook.react.bridge.Arguments;
-import com.facebook.react.bridge.ActivityEventListener;
+import com.facebook.react.bridge.BaseActivityEventListener;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -37,24 +37,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class RNGoogleSigninModule extends ReactContextBaseJavaModule implements ActivityEventListener {
+public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
     private GoogleApiClient _apiClient;
 
     public static final int RC_SIGN_IN = 9001;
 
     public RNGoogleSigninModule(final ReactApplicationContext reactContext) {
         super(reactContext);
-        reactContext.addActivityEventListener(this);
+        reactContext.addActivityEventListener(new RNGoogleSigninActivityEventListener());
     }
 
-    @Override
-    public void onNewIntent(Intent intent) {}
-
-    @Override
-    public void onActivityResult(Activity activity, final int requestCode, final int resultCode, final Intent intent) {
-        if (requestCode == RNGoogleSigninModule.RC_SIGN_IN) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(intent);
-            handleSignInResult(result, false);
+    private class RNGoogleSigninActivityEventListener extends BaseActivityEventListener {
+        @Override
+        public void onActivityResult(Activity activity, final int requestCode, final int resultCode, final Intent intent) {
+            if (requestCode == RNGoogleSigninModule.RC_SIGN_IN) {
+                GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(intent);
+                handleSignInResult(result, false);
+            }
         }
     }
 
