@@ -7,8 +7,7 @@ Includes Google Sign-In SDK v4.0.0
 #### Automatic
 
 - link the lib with `react-native link react-native-google-signin`
-- Drag and drop the `ios/GoogleSdk` folder to your xcode project. (Make sure `Copy items if needed` **IS** ticked)
-
+- install the Google Signin SDK with [CocoaPods](https://cocoapods.org/) `pod 'Google/SignIn'`
 
 #### Manual
 
@@ -42,8 +41,8 @@ Add the end of this step, your Xcode config should look like this:
 
 ### Project setup
 
-Inside AppDelegate.m
-```
+Inside `AppDelegate.m`
+```objc
 // add this line before @implementation AppDelegate
 #import <RNGoogleSignin/RNGoogleSignin.h>
 
@@ -54,4 +53,23 @@ Inside AppDelegate.m
   return [RNGoogleSignin application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
 }
 
-````
+```
+
+Only one `openURL` method can be defined, so if you have multiple listeners which should be defined (for instance if you have both Google and Facebook OAuth), you must combine them into a single function like so:
+
+```objc
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+
+  return [[FBSDKApplicationDelegate sharedInstance] application:application
+                                                        openURL:url
+                                              sourceApplication:sourceApplication
+                                                     annotation:annotation
+         ]
+         || [RNGoogleSignin application:application
+                                openURL:url
+                      sourceApplication:sourceApplication
+                             annotation:annotation
+            ];
+}
+```
