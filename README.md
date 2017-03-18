@@ -82,7 +82,7 @@ Example for default configuration. you get user email and basic profile info.
 import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
 
 GoogleSignin.configure({
-  iosClientId: <FROM DEVELOPPER CONSOLE>, // only for iOS
+  iosClientId: <FROM DEVELOPER CONSOLE>, // only for iOS
 })
 .then(() => {
   // you can now call currentUserAsync()
@@ -93,8 +93,8 @@ Example to access Google Drive both from the mobile application and from the bac
 ```js
 GoogleSignin.configure({
   scopes: ["https://www.googleapis.com/auth/drive.readonly"], // what API you want to access on behalf of the user, default is email and profile
-  iosClientId: <FROM DEVELOPPER CONSOLE>, // only for iOS
-  webClientId: <FROM DEVELOPPER CONSOLE>, // client ID of type WEB for your server (needed to verify user ID and offline access)
+  iosClientId: <FROM DEVELOPER CONSOLE>, // only for iOS
+  webClientId: <FROM DEVELOPER CONSOLE>, // client ID of type WEB for your server (needed to verify user ID and offline access)
   offlineAccess: true // if you want to access Google API on behalf of the user FROM YOUR SERVER
   forceConsentPrompt: true // if you want to show the authorization prompt at each login
 })
