@@ -98,7 +98,15 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void configure(final ReadableArray scopes, final String webClientId, final Boolean offlineAccess, final Boolean forceConsentPrompt, final Promise promise) {
+    public void configure(
+            final ReadableArray scopes,
+            final String webClientId,
+            final Boolean offlineAccess,
+            final Boolean forceConsentPrompt,
+            final String accountName,
+            final String hostedDomain,
+            final Promise promise
+    ) {
         final Activity activity = getCurrentActivity();
 
         if (activity == null) {
@@ -110,7 +118,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
             @Override
             public void run() {
                 _apiClient = new GoogleApiClient.Builder(activity.getBaseContext())
-                        .addApi(Auth.GOOGLE_SIGN_IN_API, getSignInOptions(scopes, webClientId, offlineAccess, forceConsentPrompt))
+                        .addApi(Auth.GOOGLE_SIGN_IN_API, getSignInOptions(scopes, webClientId, offlineAccess, forceConsentPrompt, accountName, hostedDomain))
                         .build();
                 _apiClient.connect();
                 promise.resolve(true);
@@ -255,42 +263,44 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
                 .emit(eventName, params);
     }
 
-    private GoogleSignInOptions getSignInOptions(final ReadableArray scopes, final String webClientId, final Boolean offlineAcess, final Boolean forceConsentPrompt) {
+    private GoogleSignInOptions getSignInOptions(
+            final ReadableArray scopes,
+            final String webClientId,
+            final Boolean offlineAcess,
+            final Boolean forceConsentPrompt,
+            final String accountName,
+            final String hostedDomain
+    ) {
 
         int size = scopes.size();
         Scope[] _scopes = new Scope[size];
 
         if(scopes != null && size > 0){
             for(int i = 0; i < size; i++){
-                if(scopes.getType(i).name() == "String"){
+                if(scopes.getType(i).name().equals("String")){
                     String scope = scopes.getString(i);
-                    if (scope != "email"){ // will be added by default
+                    if (!scope.equals("email")){ // will be added by default
                         _scopes[i] = new Scope(scope);
                     }
                 }
             }
         }
 
+        GoogleSignInOptions.Builder googleSignInOptionsBuilder = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestScopes(new Scope("email"), _scopes);
         if (webClientId != null && !webClientId.isEmpty()) {
             if (!offlineAcess) {
-                return new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                        .requestIdToken(webClientId)
-                        .requestScopes(new Scope("email"), _scopes)
-                        .build();
-            }
-            else {
-                return new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                        .requestServerAuthCode(webClientId, forceConsentPrompt)
-                        .requestScopes(new Scope("email"), _scopes)
-                        .build();
+                googleSignInOptionsBuilder.requestIdToken(webClientId);
+            } else {
+                googleSignInOptionsBuilder.requestServerAuthCode(webClientId, forceConsentPrompt);
             }
         }
-        else {
-            return new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                    .requestScopes(new Scope("email"), _scopes)
-                    .build();
+        if (accountName != null && !accountName.isEmpty()) {
+            googleSignInOptionsBuilder.setAccountName(accountName);
         }
-
+        if (hostedDomain != null && !hostedDomain.isEmpty()) {
+            googleSignInOptionsBuilder.setHostedDomain(hostedDomain);
+        }
+        return googleSignInOptionsBuilder.build();
     }
 
     private void handleSignInResult(GoogleSignInResult result, Boolean isSilent) {

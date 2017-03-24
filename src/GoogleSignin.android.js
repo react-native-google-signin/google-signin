@@ -67,9 +67,14 @@ class GoogleSignin {
     return RNGoogleSignin.playServicesAvailable(params.autoResolve);
   }
 
-  configure(params={}) {
+  configure(params = {}) {
     params = [
-      params.scopes || [], params.webClientId || null, params.offlineAccess || false, params.forceConsentPrompt || false
+      params.scopes || [],
+      params.webClientId || null,
+      params.offlineAccess || false,
+      params.forceConsentPrompt || false,
+      params.accountName || null,
+      params.hostedDomain || null,
     ];
 
     return RNGoogleSignin.configure(...params);
