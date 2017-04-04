@@ -11,7 +11,9 @@ RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(configure:(NSArray*)scopes iosClientId:(NSString*)iosClientId webClientId:(NSString*)webClientId hostedDomain:(NSString*)hostedDomain)
 {
-  [GIDSignIn sharedInstance].hostedDomain = hostedDomain;
+  if (hostedDomain != nil) {
+    [GIDSignIn sharedInstance].hostedDomain = hostedDomain;
+  }
   [GIDSignIn sharedInstance].delegate = self;
   [GIDSignIn sharedInstance].uiDelegate = self;
 
