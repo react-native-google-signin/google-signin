@@ -96,9 +96,9 @@ GoogleSignin.configure({
   iosClientId: <FROM DEVELOPER CONSOLE>, // only for iOS
   webClientId: <FROM DEVELOPER CONSOLE>, // client ID of type WEB for your server (needed to verify user ID and offline access)
   offlineAccess: true // if you want to access Google API on behalf of the user FROM YOUR SERVER
+  hostedDomain: '' // specifies a hosted domain restriction
   forceConsentPrompt: true // [Android] if you want to show the authorization prompt at each login
   accountName: '' // [Android] specifies an account name on the device that should be used
-  hostedDomain: '' // [Android] specifies a hosted domain restriction
 })
 .then(() => {
   // you can now call currentUserAsync()

@@ -11,15 +11,15 @@ RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(configure:(NSArray*)scopes iosClientId:(NSString*)iosClientId webClientId:(NSString*)webClientId hostedDomain:(NSString*)hostedDomain)
 {
-  if (hostedDomain != nil) {
-    [GIDSignIn sharedInstance].hostedDomain = hostedDomain;
-  }
   [GIDSignIn sharedInstance].delegate = self;
   [GIDSignIn sharedInstance].uiDelegate = self;
 
   [GIDSignIn sharedInstance].scopes = scopes;
   [GIDSignIn sharedInstance].clientID = iosClientId;
-
+  
+  if (hostedDomain != nil) {
+    [GIDSignIn sharedInstance].hostedDomain = hostedDomain;
+  }
   if ([webClientId length] != 0) {
     [GIDSignIn sharedInstance].serverClientID = webClientId;
   }
