@@ -9,8 +9,11 @@ RCT_EXPORT_MODULE();
 @synthesize bridge = _bridge;
 
 
-RCT_EXPORT_METHOD(configure:(NSArray*)scopes iosClientId:(NSString*)iosClientId webClientId:(NSString*)webClientId)
+RCT_EXPORT_METHOD(configure:(NSArray*)scopes iosClientId:(NSString*)iosClientId webClientId:(NSString*)webClientId hostedDomain:(NSString*)hostedDomain)
 {
+  if (hostedDomain != nil) {
+    [GIDSignIn sharedInstance].hostedDomain = hostedDomain;
+  }
   [GIDSignIn sharedInstance].delegate = self;
   [GIDSignIn sharedInstance].uiDelegate = self;
 
