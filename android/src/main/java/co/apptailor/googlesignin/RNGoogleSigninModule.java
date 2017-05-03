@@ -311,6 +311,8 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule implements 
 
             params.putString("id", acct.getId());
             params.putString("name", acct.getDisplayName());
+            params.putString("givenName", acct.getGivenName());
+            params.putString("familyName", acct.getFamilyName());
             params.putString("email", acct.getEmail());
             params.putString("photo", photoUrl != null ? photoUrl.toString() : null);
             params.putString("idToken", acct.getIdToken());
