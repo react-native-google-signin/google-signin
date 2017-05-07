@@ -146,3 +146,7 @@ keytool -exportcert -keystore ~/.android/debug.keystore -list -v
 ```
 
 Also make sure the application id matches the one you enter on the cloud console.
+
+#### E. I did everything and I still have problems to compile my project.
+
+Read this [medium article](https://medium.com/@suchydan/how-to-solve-google-play-services-version-collision-in-gradle-dependencies-ef086ae5c75f). Basically, if you have other play services libraries installed, you have to exclude some dependencies.
