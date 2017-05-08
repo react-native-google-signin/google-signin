@@ -61,7 +61,7 @@ Only one `openURL` method can be defined, so if you have multiple listeners whic
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
 
-  return [[FBSDKApplicationDelegate sharedInstance] application:application
+  return [FBSDKApplicationDelegate sharedInstance] application:application
                                                         openURL:url
                                               sourceApplication:sourceApplication
                                                      annotation:annotation
