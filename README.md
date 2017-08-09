@@ -183,6 +183,8 @@ This is the typical information you obtain once the user sign in:
   {
     id: <user id. do not use on the backend>
     name: <user name>
+    givenName: <user given name>
+    familyName: <user family name>
     email: <user email>
     photo: <user picture profile>
     idToken: <token to authenticate the user on the backend>
