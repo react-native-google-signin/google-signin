@@ -191,6 +191,8 @@ This is the typical information you obtain once the user sign in:
   {
     id: <user id. do not use on the backend>
     name: <user name>
+    givenName: <user given name> (Android only)
+    familyName: <user family name> (Android only)
     email: <user email>
     photo: <user picture profile>
     idToken: <token to authenticate the user on the backend>
