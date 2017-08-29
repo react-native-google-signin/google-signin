@@ -6,6 +6,7 @@ import {
   NativeAppEventEmitter,
   NativeModules,
   requireNativeComponent,
+  ViewPropTypes,
 } from 'react-native';
 
 const { RNGoogleSignin } = NativeModules;
@@ -14,7 +15,7 @@ const RNGoogleSigninButton = requireNativeComponent('RNGoogleSigninButton', null
 
 class GoogleSigninButton extends Component {
   static propTypes = {
-    ...View.propTypes,
+    ...ViewPropTypes,
     size: PropTypes.number,
     color: PropTypes.number
   };
