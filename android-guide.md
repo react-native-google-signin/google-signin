@@ -147,6 +147,28 @@ keytool -exportcert -keystore ~/.android/debug.keystore -list -v
 
 Also make sure the application id matches the one you enter on the cloud console.
 
-#### E. I did everything and I still have problems to compile my project.
+#### E. Getting `DEVELOPER_ERROR` error message on Android when trying to login
+
+This is configuration mismatch. Make sure that your `android/app/google-services.json` is correct.
+
+If you're passing `webClientId` in configuration object to `GoogleSignin.configure()` make sure it's correct. You can get your `webClientId` from [Google Developer Console](https://console.developers.google.com/apis/credentials). They're listed under "OAuth 2.0 client IDs".
+
+If you're running your app in debug mode and not using `webClientId` or you're sure it's correct the problem might be signature (SHA-1 or SHA-256) mismatch. You need to add the following to `android/app/build.gradle`:
+
+```diff
+signingConfigs {
++    debug {
++        storeFile file(MYAPP_RELEASE_STORE_FILE)
++        storePassword MYAPP_RELEASE_STORE_PASSWORD
++        keyAlias MYAPP_RELEASE_KEY_ALIAS
++        keyPassword MYAPP_RELEASE_KEY_PASSWORD
++    }
+    release {
+        ...
+    }
+ }
+```
+
+#### F. I did everything and I still have problems to compile my project.
 
 Read this [medium article](https://medium.com/@suchydan/how-to-solve-google-play-services-version-collision-in-gradle-dependencies-ef086ae5c75f). Basically, if you have other play services libraries installed, you have to exclude some dependencies.
