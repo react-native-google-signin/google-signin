@@ -151,7 +151,7 @@ Also make sure the application id matches the one you enter on the cloud console
 
 This is configuration mismatch. Make sure that your `android/app/google-services.json` is correct.
 
-If you're passing `webClientId` in configuation object to `GoogleSignin.configure()` make sure it's correct. You can get your `webClientId` from [Google Developer Console](https://console.developers.google.com/apis/credentials). They're listed under "OAuth 2.0 client IDs".
+If you're passing `webClientId` in configuration object to `GoogleSignin.configure()` make sure it's correct. You can get your `webClientId` from [Google Developer Console](https://console.developers.google.com/apis/credentials). They're listed under "OAuth 2.0 client IDs".
 
 If you're running your app in debug mode and not using `webClientId` or you're sure it's correct the problem might be signature (SHA-1 or SHA-256) mismatch. You need to add the following to `android/app/build.gradle`:
 
