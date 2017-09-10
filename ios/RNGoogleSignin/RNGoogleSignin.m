@@ -1,4 +1,4 @@
-#import "RNGoogleSignIn.h"
+#import "RNGoogleSignin.h"
 #import "RCTEventDispatcher.h"
 
 
