@@ -4,6 +4,8 @@ import android.accounts.Account;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.BaseActivityEventListener;
@@ -27,6 +29,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Scope;
@@ -113,15 +116,27 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
             promise.reject("NO_ACTIVITY", "NO_ACTIVITY");
             return;
         }
+        
+        final ConnectionCallbacks connectionCallbacks = new ConnectionCallbacks() {
+            @Override
+            public void onConnected(@Nullable Bundle bundle) {
+                promise.resolve(true);
+            }
+
+            @Override
+            public void onConnectionSuspended(int i) {
+                promise.reject("CONNECT_ERROR", "CONNECT_ERROR");
+            }
+        };
 
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 _apiClient = new GoogleApiClient.Builder(activity.getBaseContext())
                         .addApi(Auth.GOOGLE_SIGN_IN_API, getSignInOptions(scopes, webClientId, offlineAccess, forceConsentPrompt, accountName, hostedDomain))
+                        .addConnectionCallbacks(connectionCallbacks)
                         .build();
                 _apiClient.connect();
-                promise.resolve(true);
             }
         });
     }
