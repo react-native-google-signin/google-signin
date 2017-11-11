@@ -38,7 +38,6 @@
 		36D94E71E1C94780A3818F3A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1573673586EB4E5788532C17 /* SystemConfiguration.framework */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		AAB171231E7060C50069133E /* GoogleSignIn.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AAB1711C1E7060C50069133E /* GoogleSignIn.bundle */; };
 		AAE9A9981E72AEB000305E81 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AAE9A9971E72AEB000305E81 /* GoogleService-Info.plist */; };
 		AFEDA25D2FDD4965A7A9C60B /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 03B9FEDEFB7F4858AEC8F4F8 /* libz.tbd */; };
 		C1DD0064F5975C3C7063B9FB /* libPods-GoogleSigninSampleAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A18FDFC4FEFD3ABBC04BDC01 /* libPods-GoogleSigninSampleAppTests.a */; };
@@ -284,13 +283,6 @@
 		86FA814BCDC444079AD94107 /* RNGoogleSignin.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNGoogleSignin.xcodeproj; path = "../node_modules/react-native-google-signin/ios/RNGoogleSignin.xcodeproj"; sourceTree = "<group>"; };
 		8F6B4AE7F81D4CB5915899E1 /* AddressBook.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		A18FDFC4FEFD3ABBC04BDC01 /* libPods-GoogleSigninSampleAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GoogleSigninSampleAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		AAB171191E7060C50069133E /* GoogleAppUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleAppUtilities.framework; sourceTree = "<group>"; };
-		AAB1711A1E7060C50069133E /* GoogleAuthUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleAuthUtilities.framework; sourceTree = "<group>"; };
-		AAB1711B1E7060C50069133E /* GoogleNetworkingUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleNetworkingUtilities.framework; sourceTree = "<group>"; };
-		AAB1711C1E7060C50069133E /* GoogleSignIn.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GoogleSignIn.bundle; sourceTree = "<group>"; };
-		AAB1711D1E7060C50069133E /* GoogleSignIn.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleSignIn.framework; sourceTree = "<group>"; };
-		AAB1711E1E7060C50069133E /* GoogleSymbolUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleSymbolUtilities.framework; sourceTree = "<group>"; };
-		AAB1711F1E7060C50069133E /* GoogleUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleUtilities.framework; sourceTree = "<group>"; };
 		AAE9A9971E72AEB000305E81 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B714F2F88BDDCC22E075AAE0 /* libPods-GoogleSigninSampleApp-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GoogleSigninSampleApp-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEBCBADDC2E8AB0DA5314E30 /* Pods-GoogleSigninSampleAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoogleSigninSampleAppTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GoogleSigninSampleAppTests/Pods-GoogleSigninSampleAppTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -421,6 +413,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		04E88DEE1FB729BB0026181E /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				33460118C8A84E56B63E7910 /* libRNGoogleSignin.a */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		139105B71AF99BAD00B5F7CC /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -490,7 +490,6 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				AAB171181E7060C50069133E /* GoogleSdk */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -525,6 +524,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				A0263E43D57F4A51A40524F4 /* Frameworks */,
 				A78C65000A0F3B785A7F7B5F /* Pods */,
+				04E88DEE1FB729BB0026181E /* Recovered References */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -577,20 +577,6 @@
 				AAB171171E7060960069133E /* libRNGoogleSignin.a */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		AAB171181E7060C50069133E /* GoogleSdk */ = {
-			isa = PBXGroup;
-			children = (
-				AAB171191E7060C50069133E /* GoogleAppUtilities.framework */,
-				AAB1711A1E7060C50069133E /* GoogleAuthUtilities.framework */,
-				AAB1711B1E7060C50069133E /* GoogleNetworkingUtilities.framework */,
-				AAB1711C1E7060C50069133E /* GoogleSignIn.bundle */,
-				AAB1711D1E7060C50069133E /* GoogleSignIn.framework */,
-				AAB1711E1E7060C50069133E /* GoogleSymbolUtilities.framework */,
-				AAB1711F1E7060C50069133E /* GoogleUtilities.framework */,
-			);
-			path = GoogleSdk;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -977,7 +963,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				AAB171231E7060C50069133E /* GoogleSignIn.bundle in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				AAE9A9981E72AEB000305E81 /* GoogleService-Info.plist in Resources */,
 			);
