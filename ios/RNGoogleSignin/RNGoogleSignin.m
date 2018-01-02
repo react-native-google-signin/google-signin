@@ -129,6 +129,11 @@ RCT_EXPORT_METHOD(revokeAccess)
                                       annotation:annotation];
 }
 
++ (BOOL)requiresMainQueueSetup
+{
+    return YES;
+}
+
 #pragma mark - Internal Methods
 
 - (UIViewController *)topMostViewController {
