@@ -12,6 +12,7 @@ Pod::Spec.new do |s|
   s.source        = { :git => 'https://github.com/devfd/react-native-google-signin.git' }
   s.platform      = :ios, '8.0'
   s.source_files  = "ios/**/*.{h,m}"
+  s.public_header_files = ['ios/RNGoogleSignin/RNGoogleSignin.h']
   s.static_framework = true
 
   s.dependency "React"
