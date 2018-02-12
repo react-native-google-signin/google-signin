@@ -33,6 +33,7 @@ import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.api.Status;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -272,18 +273,21 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
             final String hostedDomain
     ) {
 
-        int size = scopes.size();
-        Scope[] _scopes = new Scope[size];
+        Scope[] _scopes = null;
 
-        if(scopes != null && size > 0){
+        if(scopes != null){
+            int size = scopes.size();
+            ArrayList<Scope> list = new ArrayList<Scope>(size);
             for(int i = 0; i < size; i++){
                 if(scopes.getType(i).name().equals("String")){
                     String scope = scopes.getString(i);
                     if (!scope.equals("email")){ // will be added by default
-                        _scopes[i] = new Scope(scope);
+                        list.add(new Scope(scope));
                     }
                 }
             }
+            _scopes = new Scope[list.size()];
+            list.toArray(_scopes);
         }
 
         GoogleSignInOptions.Builder googleSignInOptionsBuilder = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestScopes(new Scope("email"), _scopes);
