@@ -1,3 +1,9 @@
+def DEFAULT_COMPILE_SDK_VERSION             = 23
+def DEFAULT_BUILD_TOOLS_VERSION             = "23.0.3"
+def DEFAULT_TARGET_SDK_VERSION              = 22
+def DEFAULT_GOOGLE_PLAY_SERVICES_VERSION    = "+"
+
+
 buildscript {
     repositories {
         jcenter()
@@ -29,15 +35,16 @@ android {
             abiFilters "armeabi-v7a", "x86"
         }
     }
-    
+
     lintOptions {
         abortOnError false
     }
 }
 
 dependencies {
+    def googlePlayServicesVersion = project.hasProperty('googlePlayServicesVersion') ? project.googlePlayServicesVersion : DEFAULT_GOOGLE_PLAY_SERVICES_VERSION
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile "com.android.support:appcompat-v7:23.0.1"
-    compile 'com.google.android.gms:play-services-auth:+'
+    compile "com.google.android.gms:play-services-auth:$googlePlayServicesVersion"
     compile "com.facebook.react:react-native:+"
 }
