@@ -16,7 +16,11 @@ npm install react-native-google-signin --save
 react-native link react-native-google-signin
 ```
 
-**Note**: If you use React Native < `v0.40` stick with `v0.8.1` (`npm install react-native-google-signin@0.8 --save`).
+### Note
+
+If you use React Native < `v0.40` stick with `v0.8.1` (`npm install react-native-google-signin@0.8 --save`).
+
+If you use React Native < `v0.47` stick with `v0.10.0` (`npm install react-native-google-signin@0.10 --save`).
 
 ## Project setup and initialization
 
@@ -187,6 +191,8 @@ This is the typical information you obtain once the user sign in:
   {
     id: <user id. do not use on the backend>
     name: <user name>
+    givenName: <user given name> (Android only)
+    familyName: <user family name> (Android only)
     email: <user email>
     photo: <user picture profile>
     idToken: <token to authenticate the user on the backend>

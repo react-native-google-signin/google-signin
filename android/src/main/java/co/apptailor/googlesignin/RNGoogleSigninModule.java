@@ -306,7 +306,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         WritableMap params = Arguments.createMap();
         WritableArray scopes = Arguments.createArray();
 
-        if (result.isSuccess()) {
+        if (result != null && result.isSuccess()) {
             GoogleSignInAccount acct = result.getSignInAccount();
             Uri photoUrl = acct.getPhotoUrl();
 
@@ -319,6 +319,8 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
 
             params.putString("id", acct.getId());
             params.putString("name", acct.getDisplayName());
+            params.putString("givenName", acct.getGivenName());
+            params.putString("familyName", acct.getFamilyName());
             params.putString("email", acct.getEmail());
             params.putString("photo", photoUrl != null ? photoUrl.toString() : null);
             params.putString("idToken", acct.getIdToken());
@@ -328,12 +330,16 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
             getReactApplicationContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                     .emit(isSilent ? "RNGoogleSignInSilentSuccess" : "RNGoogleSignInSuccess" , params);
         } else {
-            int code = result.getStatus().getStatusCode();
-            String error = GoogleSignInStatusCodes.getStatusCodeString(code);
+            if (result != null) {
+                int code = result.getStatus().getStatusCode();
+                String error = GoogleSignInStatusCodes.getStatusCodeString(code);
 
-            params.putInt("code", code);
-            params.putString("error", error);
-
+                params.putInt("code", code);
+                params.putString("error", error);
+            } else {
+                params.putInt("code", -1);
+                params.putString("error", "GoogleSignInResult is NULL");
+            }
             getReactApplicationContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                     .emit(isSilent ? "RNGoogleSignInSilentError" : "RNGoogleSignInError", params);
         }
