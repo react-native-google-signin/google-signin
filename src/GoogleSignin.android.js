@@ -88,7 +88,10 @@ class GoogleSignin {
         this._user = {...user};
 
         RNGoogleSignin.getAccessToken(user).then((token) => {
-          this._user.accessToken = token;
+          this._user = {
+            ...user,
+            accessToken: token
+          };
           this._removeListeners(sucessCb, errorCb);
           resolve(this._user);
         })
@@ -116,7 +119,10 @@ class GoogleSignin {
       const sucessCb = DeviceEventEmitter.addListener('RNGoogleSignInSuccess', (user) => {
         this._user = {...user};
         RNGoogleSignin.getAccessToken(user).then((token) => {
-          this._user.accessToken = token;
+          this._user = {
+            ...user,
+            accessToken: token
+          };
           this._removeListeners(sucessCb, errorCb);
           resolve(this._user);
         })
