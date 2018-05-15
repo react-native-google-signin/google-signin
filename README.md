@@ -1,5 +1,7 @@
 # react-native-google-signin
 
+## On May 15, the repo was moved to react-native-community, and multiple community members have stepped up to collaborate and fix the backlog of isses and pending PRs. Please be patient with us while we're working in this. Thanks.
+
 [![xcode config](https://github.com/apptailor/react-native-google-signin/raw/master/img/demo-app.gif)](#demo)
 
 ## Features
