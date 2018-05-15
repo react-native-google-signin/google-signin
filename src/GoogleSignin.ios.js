@@ -83,7 +83,9 @@ class GoogleSignin {
   currentUserAsync() {
     return new Promise((resolve, reject) => {
       const sucessCb = NativeAppEventEmitter.addListener('RNGoogleSignInSuccess', (user) => {
-        this._user = user;
+        this._user = {
+          ...user,
+        };
         this._removeListeners(sucessCb, errorCb);
         resolve(user);
       });
@@ -104,7 +106,9 @@ class GoogleSignin {
   signIn() {
     return new Promise((resolve, reject) => {
       const sucessCb = NativeAppEventEmitter.addListener('RNGoogleSignInSuccess', (user) => {
-        this._user = user;
+        this._user = {
+          ...user,
+        };
         this.signinIsInProcess = false;
         this._removeListeners(sucessCb, errorCb);
         resolve(user);
