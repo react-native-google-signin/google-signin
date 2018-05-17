@@ -132,10 +132,22 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                GoogleApiClient.ConnectionCallbacks mConnectionListener = new GoogleApiClient.ConnectionCallbacks() {
+                    @Override
+                    public void onConnected(@Nullable Bundle bundle) {
+                        promise.resolve(true);
+                    }
+
+                    @Override
+                    public void onConnectionSuspended(int i) {
+                        promise.reject("GOOGLE_API_CONNECT_ERROR", "GoogleApiClient connect failed");
+                    }
+                };
                 _apiClient = new GoogleApiClient.Builder(activity.getBaseContext())
                         .addApi(Auth.GOOGLE_SIGN_IN_API, getSignInOptions(scopes, webClientId, offlineAccess, forceConsentPrompt, accountName, hostedDomain))
                         .addConnectionCallbacks(connectionCallbacks)
                         .build();
+                _apiClient.registerConnectionCallbacks(mConnectionListener);
                 _apiClient.connect();
             }
         });
