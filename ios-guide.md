@@ -11,9 +11,12 @@ Includes Google Sign-In SDK v4.0.0
 
 #### Manual
 
+if you did `react-native link react-native-google-signin` the first two steps are not necessary
+
 - add `ios/RNGoogleSignin.xcodeproj` to your xcode project
 - In your project build phase -> `Link binary with libraries` step, add `libRNGoogleSignin.a`, `AddressBook.framework`, `SafariServices.framework`, `SystemConfiguration.framework` and `libz.tbd`
-- Drag and drop the `ios/GoogleSdk` folder to your xcode project. (Make sure `Copy items if needed` **IS** ticked) 
+- Drag and drop all files from `<root_project_dir>/node_modules/react-native-google-signin/ios/GoogleSdk` directory that end with `.framework` into the Frameworks group of application (Make sure `Copy items if needed` **IS** ticked)
+- Go to `Build Settings` and add to `Framework Search Paths` path to GoogleSdk: by default `$(PROJECT_DIR)/../node_modules/react-native-google-signin/ios/GoogleSdk`
 
 
 ### 2. Google project configuration
