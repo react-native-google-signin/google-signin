@@ -27,6 +27,11 @@ public class MainApplication extends Application implements ReactApplication {
           new RNGoogleSigninPackage()
       );
     }
+
+    @Override
+    protected String getJSMainModuleName() {
+      return "index";
+    }
   };
 
   @Override

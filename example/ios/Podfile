@@ -1,0 +1,34 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'GoogleSigninSampleApp' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for GoogleSigninSampleApp
+  pod 'GoogleSignIn'
+
+  target 'GoogleSigninSampleApp-tvOSTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'GoogleSigninSampleAppTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
+
+target 'GoogleSigninSampleApp-tvOS' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for GoogleSigninSampleApp-tvOS
+
+  # target 'GoogleSigninSampleApp-tvOSTests' do
+  #   inherit! :search_paths
+  #   # Pods for testing
+  # end
+
+end
