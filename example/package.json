@@ -9,8 +9,9 @@
     "dev": "concurrently 'npm run watch' 'npm run packager'"
   },
   "dependencies": {
-    "react": "~15.4.1",
-    "react-native": "0.42.0",
+    "prop-types": "^15.6.0",
+    "react": "16.0.0",
+    "react-native": "0.50.3",
     "react-native-google-signin": "file:../"
   },
   "devDependencies": {

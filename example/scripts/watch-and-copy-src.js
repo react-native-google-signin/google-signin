@@ -31,6 +31,10 @@ function matchesFile(filename, fileGlob) {
   return minimatch(path.basename(filename), fileGlob);
 }
 
+rimraf('node_modules/react-native-google-signin/example', () => {
+  console.log('Cleaning node_modules/react-native-google-signin/example')
+})
+
 // JavaScript
 copyAndWatch(
   '../src',
