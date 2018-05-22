@@ -1,8 +1,8 @@
-# react-native-google-signin
+![React Native Google Sign In](img/header.png)
 
-## On May 15, the repo was moved to react-native-community, and we're looking for contributors to help get the project back up to speed [see related issue](https://github.com/react-native-community/react-native-google-signin/issues/386).
+## Important!
+> On May 15, the repo was moved to react-native-community, and we're looking for contributors to help get the project back up to speed [see related issue](https://github.com/react-native-community/react-native-google-signin/issues/386).
 
-[![xcode config](https://github.com/apptailor/react-native-google-signin/raw/master/img/demo-app.gif)](#demo)
 
 ## Features
 - Support all 3 types of authentication methods (standard, with server-side validation or with offline access (aka server side access))
@@ -33,7 +33,7 @@ See [Android guide](android-guide.md) and [iOS guide](ios-guide.md)
 
 ### 1. GoogleSigninButton
 
-[![signin button](img/signin-button.png)](#button)
+![signin button](img/signin-button.png)
 
 ```js
 import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
