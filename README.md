@@ -1,5 +1,11 @@
 ![React Native Google Sign In](img/header.png)
 
+<p align="center">
+  <img src="https://badge.fury.io/js/react-native-google-signin.svg" />
+  <img src="https://img.shields.io/npm/dw/react-native-google-signin.svg" />
+</p>
+
+
 ## Important!
 > On May 15, the repo was moved to react-native-community, and we're looking for contributors to help get the project back up to speed [see related issue](https://github.com/react-native-community/react-native-google-signin/issues/386).
 
