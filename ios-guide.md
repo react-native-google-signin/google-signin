@@ -21,9 +21,7 @@ if you did `react-native link react-native-google-signin` the first two steps ar
 
 ### 2. Google project configuration
 
-- Open [https://developers.google.com/identity/sign-in/ios/sdk/](https://developers.google.com/identity/sign-in/ios/sdk/)
-
-- Scroll down and click ```Get a configuration file``` button
+- Follow [this](./get-config-file.md) guide to get the configuration file.
 
 - Download the ```GoogleService-Info.plist``` file at the end of the process
 
