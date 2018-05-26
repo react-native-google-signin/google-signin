@@ -11,9 +11,7 @@ You need the following packages
 
 ### 2. Google project configuration
 
-- Open [https://developers.google.com/identity/sign-in/android/start-integrating](https://developers.google.com/identity/sign-in/android/start-integrating)
-
-- Scroll down and click ```Get a configuration file``` button
+- Follow [this](./get-config-file.md) guide to get the configuration file.
 
 - Place the generated configuration file (```google-services.json```) into ```<YOUR_PROJECT_ROOT>/android/app```
 
