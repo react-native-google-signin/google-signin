@@ -144,4 +144,9 @@ RCT_EXPORT_METHOD(revokeAccess)
     return topController;
 }
 
++ (BOOL)requiresMainQueueSetup
+{
+    return YES;
+}
+
 @end
