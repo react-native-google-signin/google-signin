@@ -17,8 +17,10 @@ If you don't already have a project in Firebase you need to create one in order 
 
 To get the SHA1 key you need to generate your keystore, to generate your keystore follow [this guide](https://facebook.github.io/react-native/docs/signed-apk-android.html)
 
-You can use your debug keystore's SHA1 value, get it by running this command inside $ROOT/android
+You can use your debug keystore's SHA1 value, get it by running this command inside `$ROOT/android`
+
 `keytool -exportcert -keystore ~/.android/debug.keystore -list -v`
+
 This should print out a SHA1 key.
 
 
