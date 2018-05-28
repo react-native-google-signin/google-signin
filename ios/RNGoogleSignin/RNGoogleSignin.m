@@ -72,7 +72,6 @@ RCT_REMAP_METHOD(signOut,
   resolve(nil);
 }
 
-// TODO: Finish revokeAccess method
 RCT_REMAP_METHOD(revokeAccess,
                  revokeAccessResolve:(RCTPromiseResolveBlock)resolve
                  revokeAccessReject:(RCTPromiseRejectBlock)reject)
