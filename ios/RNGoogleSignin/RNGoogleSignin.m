@@ -41,7 +41,7 @@ RCT_EXPORT_METHOD(configure:(NSArray*)scopes
     [GIDSignIn sharedInstance].serverClientID = webClientId;
   }
 
-  resolve(nil);
+  resolve(@YES);
 }
 
 RCT_REMAP_METHOD(currentUserAsync,
