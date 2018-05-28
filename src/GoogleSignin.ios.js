@@ -80,15 +80,22 @@ class GoogleSignin {
   }
 
   currentUserAsync() {
-    return RNGoogleSignin.currentUserAsync().then(user => {
-      if (user === null) {
-        this._user = null
-        return null
-      }
+    return RNGoogleSignin.currentUserAsync()
+      .then(user => {
+        this._user = { ...user }
+        return user
+      })
+      .catch(error => {
+        // The user has never signed in before with the given scopes, or they have since signed out.
+        if (error.code === '-4') {
+          this._user = null
+          this.signinIsInProcess = false
+          return null
+        }
 
-      this._user = { ...user }
-      return user
-    })
+        this.signinIsInProcess = false
+        throw error
+      })
   }
 
   currentUser() {
@@ -113,13 +120,6 @@ class GoogleSignin {
         return user
       })
       .catch(error => {
-        // The user has never signed in before with the given scopes, or they have since signed out.
-        if (error.code === '-4') {
-          this._user = null
-          this.signinIsInProcess = false
-          return null
-        }
-
         this.signinIsInProcess = false
         throw error
       })
