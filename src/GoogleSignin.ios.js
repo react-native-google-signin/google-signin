@@ -122,11 +122,15 @@ class GoogleSignin {
   }
 
   signOut() {
-    return RNGoogleSignin.signOut()
+    return RNGoogleSignin.signOut().then(() => {
+      this._user = null
+    })
   }
 
   revokeAccess() {
-    return RNGoogleSignin.revokeAccess()
+    return RNGoogleSignin.revokeAccess().then(() => {
+      this._user = null
+    })
   }
 }
 
