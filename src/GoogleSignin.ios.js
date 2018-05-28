@@ -16,17 +16,14 @@ class GoogleSigninButton extends Component {
   static propTypes = {
     ...ViewPropTypes,
     size: PropTypes.number,
-    color: PropTypes.number
+    color: PropTypes.number,
+    onPress: PropTypes.func.isRequired
   }
 
   handleOnPress = () => {
     if (this.props.onPress) {
       this.props.onPress()
       return
-    }
-
-    if (__DEV__) {
-      console.warn('RNGoogleSignin: Missing onPress prop.')
     }
   }
 
