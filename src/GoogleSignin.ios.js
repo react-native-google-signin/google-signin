@@ -92,7 +92,11 @@ class GoogleSignin {
   }
 
   currentUser() {
-    return { ...this._user }
+    if (this._user) {
+      return { ...this._user }
+    }
+
+    return null
   }
 
   signIn() {
