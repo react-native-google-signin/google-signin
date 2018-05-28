@@ -62,11 +62,11 @@ class GoogleSignin {
 
   configure(params = {}) {
     if (!params.iosClientId) {
-      throw new Error('RNGoogleSignin: Missing iOS app ClientID')
+      return Promise.reject(new Error('RNGoogleSignin: Missing iOS app ClientID'))
     }
 
     if (params.offlineAccess && !params.webClientId) {
-      throw new Error('RNGoogleSignin: offline use requires server web ClientID')
+      return Promise.reject(new Error('RNGoogleSignin: offline use requires server web ClientID'))
     }
 
     const config = [
