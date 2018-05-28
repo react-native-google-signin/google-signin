@@ -101,7 +101,7 @@ class GoogleSignin {
 
   signIn() {
     if (this.signinIsInProcess) {
-      return Promise.reject(new Error('RNGoogleSignin: Sign in still in progress'))
+      return Promise.reject(new Error('RNGoogleSignin: Previous sign in still in progress.'))
     }
 
     this.signinIsInProcess = true
