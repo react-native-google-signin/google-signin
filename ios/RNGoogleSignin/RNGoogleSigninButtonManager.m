@@ -3,7 +3,7 @@
 #import "RNGoogleSignin.h"
 #import "RNGoogleSignInButton.h"
 
-@interface RNGoogleSigninButtonManager : RCTViewManager <GIDSignInUIDelegate>
+@interface RNGoogleSigninButtonManager : RCTViewManager
 @end
 
 @implementation RNGoogleSigninButtonManager

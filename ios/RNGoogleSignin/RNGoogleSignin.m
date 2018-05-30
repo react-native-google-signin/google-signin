@@ -1,6 +1,5 @@
 #import "RNGoogleSignin.h"
-#import <React/RCTEventDispatcher.h>
-#import <React/RCTLog.h>
+// #import <React/RCTLog.h>
 
 @interface RNGoogleSignin ()
 
@@ -18,8 +17,6 @@
 @implementation RNGoogleSignin
 
 RCT_EXPORT_MODULE();
-
-@synthesize bridge = _bridge;
 
 RCT_EXPORT_METHOD(configure:(NSArray*)scopes
                   iosClientId:(NSString*)iosClientId
@@ -130,13 +127,7 @@ static void RNGoogleSigninRejectWithError(NSString *message, NSError *error, RCT
         RNGoogleSigninRejectWithError(@"Unknown error and error code when signing in.", error, reject);
       }
 
-      self.currentUserAsyncResolve = nil;
-      self.currentUserAsyncReject = nil;
-      self.signInResolve = nil;
-      self.signInReject = nil;
-      self.revokeAccessResolve = nil;
-      self.revokeAccessReject = nil;
-      self.isSigningInSilently = NO;
+      [self cleanAfterSignInProcess];
       return;
     }
 
@@ -162,6 +153,11 @@ static void RNGoogleSigninRejectWithError(NSString *message, NSError *error, RCT
 
     resolve(body);
 
+    [self cleanAfterSignInProcess];
+    return;
+}
+
+- (void) cleanAfterSignInProcess {
     self.currentUserAsyncResolve = nil;
     self.currentUserAsyncReject = nil;
     self.signInResolve = nil;
@@ -169,7 +165,6 @@ static void RNGoogleSigninRejectWithError(NSString *message, NSError *error, RCT
     self.revokeAccessResolve = nil;
     self.revokeAccessReject = nil;
     self.isSigningInSilently = NO;
-    return;
 }
 
 - (void)signIn:(GIDSignIn *)signIn didDisconnectWithUser:(GIDGoogleUser *)user withError:(NSError *)error {
