@@ -28,7 +28,10 @@ RCT_EXPORT_METHOD(configure:(NSArray*)scopes
   [GIDSignIn sharedInstance].delegate = self;
   [GIDSignIn sharedInstance].uiDelegate = self;
 
-  [GIDSignIn sharedInstance].scopes = scopes;
+  NSArray *currentScopes = [GIDSignIn sharedInstance].scopes;
+  [GIDSignIn sharedInstance].scopes = [currentScopes arrayByAddingObjectsFromArray:scopes];
+
+  [GIDSignIn sharedInstance].shouldFetchBasicProfile = YES; // email, profile
   [GIDSignIn sharedInstance].clientID = iosClientId;
   
   if (hostedDomain != nil) {
