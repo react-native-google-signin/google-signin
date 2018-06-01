@@ -3,14 +3,8 @@
 
 @interface RNGoogleSignin ()
 
-@property (nonatomic, strong) RCTPromiseResolveBlock currentUserAsyncResolve;
-@property (nonatomic, strong) RCTPromiseRejectBlock currentUserAsyncReject;
-@property (nonatomic, strong) RCTPromiseResolveBlock signInResolve;
-@property (nonatomic, strong) RCTPromiseRejectBlock signInReject;
-@property (nonatomic, strong) RCTPromiseResolveBlock revokeAccessResolve;
-@property (nonatomic, strong) RCTPromiseRejectBlock revokeAccessReject;
-
-@property (nonatomic, assign) BOOL isSigningInSilently;
+@property (nonatomic, strong) RCTPromiseResolveBlock promiseResolve;
+@property (nonatomic, strong) RCTPromiseRejectBlock promiseReject;
 
 @end
 
@@ -27,10 +21,7 @@ RCT_EXPORT_METHOD(configure:(NSArray*)scopes
 {
   [GIDSignIn sharedInstance].delegate = self;
   [GIDSignIn sharedInstance].uiDelegate = self;
-
-  NSArray *currentScopes = [GIDSignIn sharedInstance].scopes;
-  [GIDSignIn sharedInstance].scopes = [currentScopes arrayByAddingObjectsFromArray:scopes];
-
+  [GIDSignIn sharedInstance].scopes = scopes;
   [GIDSignIn sharedInstance].shouldFetchBasicProfile = YES; // email, profile
   [GIDSignIn sharedInstance].clientID = iosClientId;
   
@@ -48,9 +39,8 @@ RCT_REMAP_METHOD(currentUserAsync,
                  currentUserAsyncResolve:(RCTPromiseResolveBlock)resolve
                 currentUserAsyncReject:(RCTPromiseRejectBlock)reject)
 {
-  self.currentUserAsyncResolve = resolve;
-  self.currentUserAsyncReject = reject;
-  self.isSigningInSilently = YES;
+  self.promiseResolve = resolve;
+  self.promiseReject = reject;
   [[GIDSignIn sharedInstance] signInSilently];
 }
 
@@ -58,9 +48,8 @@ RCT_REMAP_METHOD(signIn,
                  signInResolve:(RCTPromiseResolveBlock)resolve
                  signInReject:(RCTPromiseRejectBlock)reject)
 {
-  self.signInResolve = resolve;
-  self.signInReject = reject;
-  self.isSigningInSilently = NO;
+  self.promiseResolve = resolve;
+  self.promiseReject = reject;
   [[GIDSignIn sharedInstance] signIn];
 }
 
@@ -76,8 +65,8 @@ RCT_REMAP_METHOD(revokeAccess,
                  revokeAccessResolve:(RCTPromiseResolveBlock)resolve
                  revokeAccessReject:(RCTPromiseRejectBlock)reject)
 {
-  self.revokeAccessResolve = resolve;
-  self.revokeAccessReject = reject;
+  self.promiseResolve = resolve;
+  self.promiseReject = reject;
   [[GIDSignIn sharedInstance] disconnect];
 }
 
@@ -102,35 +91,37 @@ RCT_REMAP_METHOD(revokeAccess,
     return dispatch_get_main_queue();
 }
 
-static void RNGoogleSigninRejectWithError(NSString *message, NSError *error, RCTPromiseRejectBlock reject)
+- (void)reject:(NSString *)message withError:(NSError *)error
 {
-  NSString* errorCode = [NSString stringWithFormat:@"%ld", error.code];
-  NSString* errorMessage = [NSString stringWithFormat:@"RNGoogleSignInError: %@, %@", message, error.description];
-
-  reject(errorCode, errorMessage, error);
+    NSString* errorCode = [NSString stringWithFormat:@"%ld", error.code];
+    NSString* errorMessage = [NSString stringWithFormat:@"RNGoogleSignInError: %@, %@", message, error.description];
+    
+    self.promiseReject(errorCode, errorMessage, error);
 }
 
 - (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
-    RCTPromiseResolveBlock resolve = self.isSigningInSilently == YES ? self.currentUserAsyncResolve : self.signInResolve;
-    RCTPromiseRejectBlock reject = self.isSigningInSilently == YES ? self.currentUserAsyncReject : self.signInReject;
-
     if (error != Nil) {
-      if (error.code == -1) {
-        RNGoogleSigninRejectWithError(@"Unknown error when signing in.", error, reject);
-      } else if (error.code == -2) {
-        RNGoogleSigninRejectWithError(@"A problem reading or writing to the application keychain.", error, reject);
-      } else if (error.code == -3) {
-        RNGoogleSigninRejectWithError(@"No appropriate applications are installed on the device which can handle sign-in. Both webview and switching to browser have both been disabled.", error, reject);
-      } else if (error.code == -4) {
-        RNGoogleSigninRejectWithError(@"The user has never signed in before with the given scopes, or they have since signed out.", error, reject);
-      } else if (error.code == -5) {
-        RNGoogleSigninRejectWithError(@"The user has canceled the sign in request.", error, reject);
-      } else {
-        // RCTLogError(@"%s: %@ (%d)", __func__, error, error.code);
-        RNGoogleSigninRejectWithError(@"Unknown error and error code when signing in.", error, reject);
-      }
-
-      [self cleanAfterSignInProcess];
+      switch (error.code) {
+        case kGIDSignInErrorCodeUnknown:
+          [self reject:@"Unknown error when signing in." withError:error];
+          break;
+        case kGIDSignInErrorCodeKeychain:
+          [self reject:@"A problem reading or writing to the application keychain." withError:error];
+          break;
+        case kGIDSignInErrorCodeNoSignInHandlersInstalled:
+          [self reject:@"No appropriate applications are installed on the device which can handle sign-in. Both webview and switching to browser have both been disabled." withError:error];
+          break;
+        case kGIDSignInErrorCodeHasNoAuthInKeychain:
+          [self reject:@"The user has never signed in before with the given scopes, or they have since signed out." withError:error];
+          break;
+        case kGIDSignInErrorCodeCanceled:
+          [self reject:@"Unknown error and error code when signing in." withError:error];
+          break;
+        default:
+          // RCTLogError(@"%s: %@ (%d)", __func__, error, error.code);
+          [self reject:@"Unknown error and error code when signing in." withError:error];
+          break;
+        }
       return;
     }
 
@@ -154,28 +145,16 @@ static void RNGoogleSigninRejectWithError(NSString *message, NSError *error, RCT
                            @"accessTokenExpirationDate": [NSNumber numberWithDouble:user.authentication.accessTokenExpirationDate.timeIntervalSinceNow]
                            };
 
-    resolve(body);
-
-    [self cleanAfterSignInProcess];
+    self.promiseResolve(body);
     return;
-}
-
-- (void) cleanAfterSignInProcess {
-    self.currentUserAsyncResolve = nil;
-    self.currentUserAsyncReject = nil;
-    self.signInResolve = nil;
-    self.signInReject = nil;
-    self.revokeAccessResolve = nil;
-    self.revokeAccessReject = nil;
-    self.isSigningInSilently = NO;
 }
 
 - (void)signIn:(GIDSignIn *)signIn didDisconnectWithUser:(GIDGoogleUser *)user withError:(NSError *)error {
   if (error != Nil) {
-    return RNGoogleSigninRejectWithError(@"Error when revoking access", error, self.revokeAccessReject);
+      return [self reject:@"Error when revoking access." withError:error];
   }
 
-  return self.revokeAccessResolve(nil);
+  return self.promiseResolve(nil);
 }
 
 - (void) signIn:(GIDSignIn *)signIn presentViewController:(UIViewController *)viewController {
