@@ -1,6 +1,7 @@
-
 #import <React/RCTViewManager.h>
+#import <React/RCTLog.h>
 #import "RNGoogleSignin.h"
+#import "RNGoogleSignInButton.h"
 
 @interface RNGoogleSigninButtonManager : RCTViewManager
 @end
@@ -11,30 +12,35 @@ RCT_EXPORT_MODULE()
 
 - (UIView *)view
 {
-  GIDSignInButton *button = [[GIDSignInButton alloc] init];
+  RNGoogleSignInButton *button = [[RNGoogleSignInButton alloc] init];
   button.colorScheme = kGIDSignInButtonColorSchemeLight;
   button.style = kGIDSignInButtonStyleStandard;
 
-//  [button removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
-//  [button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
+  [button removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
+  [button addTarget:self action:@selector(onPress:) forControlEvents:UIControlEventTouchUpInside];
+
   return button;
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(color, NSString, GIDSignInButton)
+RCT_CUSTOM_VIEW_PROPERTY(color, NSString, RNGoogleSignInButton)
 {
-  view.colorScheme = json ? [RCTConvert GIDSignInButtonColorScheme:json] :kGIDSignInButtonColorSchemeLight;
-
+  view.colorScheme = json ? [RCTConvert GIDSignInButtonColorScheme:json] : kGIDSignInButtonColorSchemeLight;
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(size, NSString, GIDSignInButton)
+RCT_CUSTOM_VIEW_PROPERTY(size, NSString, RNGoogleSignInButton)
 {
-  view.style = json ? [RCTConvert GIDSignInButtonStyle:json] :kGIDSignInButtonStyleStandard;
-
+  view.style = json ? [RCTConvert GIDSignInButtonStyle:json] : kGIDSignInButtonStyleStandard;
 }
 
-//-(void)buttonAction:(GIDSignInButton*)sender
-//{
-//
-//}
+RCT_EXPORT_VIEW_PROPERTY(onPress, RCTBubblingEventBlock)
+
+-(void)onPress:(RNGoogleSignInButton *)sender
+{
+  if (!sender.onPress) {
+    return;
+  }
+
+  sender.onPress(nil);
+}
 
 @end

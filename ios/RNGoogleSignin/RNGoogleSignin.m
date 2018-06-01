@@ -1,20 +1,28 @@
 #import "RNGoogleSignin.h"
-#import "RCTEventDispatcher.h"
+// #import <React/RCTLog.h>
 
+@interface RNGoogleSignin ()
+
+@property (nonatomic, strong) RCTPromiseResolveBlock promiseResolve;
+@property (nonatomic, strong) RCTPromiseRejectBlock promiseReject;
+
+@end
 
 @implementation RNGoogleSignin
 
 RCT_EXPORT_MODULE();
 
-@synthesize bridge = _bridge;
-
-
-RCT_EXPORT_METHOD(configure:(NSArray*)scopes iosClientId:(NSString*)iosClientId webClientId:(NSString*)webClientId hostedDomain:(NSString*)hostedDomain)
+RCT_EXPORT_METHOD(configure:(NSArray*)scopes
+                  iosClientId:(NSString*)iosClientId
+                  webClientId:(NSString*)webClientId
+                  hostedDomain:(NSString*)hostedDomain
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
 {
   [GIDSignIn sharedInstance].delegate = self;
   [GIDSignIn sharedInstance].uiDelegate = self;
-
   [GIDSignIn sharedInstance].scopes = scopes;
+  [GIDSignIn sharedInstance].shouldFetchBasicProfile = YES; // email, profile
   [GIDSignIn sharedInstance].clientID = iosClientId;
   
   if (hostedDomain != nil) {
@@ -23,26 +31,42 @@ RCT_EXPORT_METHOD(configure:(NSArray*)scopes iosClientId:(NSString*)iosClientId 
   if ([webClientId length] != 0) {
     [GIDSignIn sharedInstance].serverClientID = webClientId;
   }
+
+  resolve(@YES);
 }
 
-RCT_EXPORT_METHOD(currentUserAsync)
+RCT_REMAP_METHOD(currentUserAsync,
+                 currentUserAsyncResolve:(RCTPromiseResolveBlock)resolve
+                currentUserAsyncReject:(RCTPromiseRejectBlock)reject)
 {
+  self.promiseResolve = resolve;
+  self.promiseReject = reject;
   [[GIDSignIn sharedInstance] signInSilently];
 }
 
-
-RCT_EXPORT_METHOD(signIn)
+RCT_REMAP_METHOD(signIn,
+                 signInResolve:(RCTPromiseResolveBlock)resolve
+                 signInReject:(RCTPromiseRejectBlock)reject)
 {
+  self.promiseResolve = resolve;
+  self.promiseReject = reject;
   [[GIDSignIn sharedInstance] signIn];
 }
 
-RCT_EXPORT_METHOD(signOut)
+RCT_REMAP_METHOD(signOut,
+                 signOutResolve:(RCTPromiseResolveBlock)resolve
+                 signOutReject:(RCTPromiseRejectBlock)reject)
 {
-    [[GIDSignIn sharedInstance] signOut];
+  [[GIDSignIn sharedInstance] signOut];
+  resolve(nil);
 }
 
-RCT_EXPORT_METHOD(revokeAccess)
+RCT_REMAP_METHOD(revokeAccess,
+                 revokeAccessResolve:(RCTPromiseResolveBlock)resolve
+                 revokeAccessReject:(RCTPromiseRejectBlock)reject)
 {
+  self.promiseResolve = resolve;
+  self.promiseReject = reject;
   [[GIDSignIn sharedInstance] disconnect];
 }
 
@@ -67,14 +91,38 @@ RCT_EXPORT_METHOD(revokeAccess)
     return dispatch_get_main_queue();
 }
 
-- (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
+- (void)reject:(NSString *)message withError:(NSError *)error
+{
+    NSString* errorCode = [NSString stringWithFormat:@"%ld", error.code];
+    NSString* errorMessage = [NSString stringWithFormat:@"RNGoogleSignInError: %@, %@", message, error.description];
+    
+    self.promiseReject(errorCode, errorMessage, error);
+}
 
+- (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
     if (error != Nil) {
-        return [self.bridge.eventDispatcher sendAppEventWithName:@"RNGoogleSignInError"
-                                                            body:@{
-                                                                   @"message": error.description,
-                                                                   @"code": [NSNumber numberWithInteger: error.code]
-                                                                  }];
+      switch (error.code) {
+        case kGIDSignInErrorCodeUnknown:
+          [self reject:@"Unknown error when signing in." withError:error];
+          break;
+        case kGIDSignInErrorCodeKeychain:
+          [self reject:@"A problem reading or writing to the application keychain." withError:error];
+          break;
+        case kGIDSignInErrorCodeNoSignInHandlersInstalled:
+          [self reject:@"No appropriate applications are installed on the device which can handle sign-in. Both webview and switching to browser have both been disabled." withError:error];
+          break;
+        case kGIDSignInErrorCodeHasNoAuthInKeychain:
+          [self reject:@"The user has never signed in before with the given scopes, or they have since signed out." withError:error];
+          break;
+        case kGIDSignInErrorCodeCanceled:
+          [self reject:@"Unknown error and error code when signing in." withError:error];
+          break;
+        default:
+          // RCTLogError(@"%s: %@ (%d)", __func__, error, error.code);
+          [self reject:@"Unknown error and error code when signing in." withError:error];
+          break;
+        }
+      return;
     }
 
     NSURL *imageURL;
@@ -97,24 +145,16 @@ RCT_EXPORT_METHOD(revokeAccess)
                            @"accessTokenExpirationDate": [NSNumber numberWithDouble:user.authentication.accessTokenExpirationDate.timeIntervalSinceNow]
                            };
 
-    return [self.bridge.eventDispatcher sendAppEventWithName:@"RNGoogleSignInSuccess" body:body];
-}
-
-- (void) signInWillDispatch:(GIDSignIn *)signIn error:(NSError *)error {
-    return [self.bridge.eventDispatcher sendAppEventWithName:@"RNGoogleSignInWillDispatch"
-                                                        body:@{}];
+    self.promiseResolve(body);
+    return;
 }
 
 - (void)signIn:(GIDSignIn *)signIn didDisconnectWithUser:(GIDGoogleUser *)user withError:(NSError *)error {
   if (error != Nil) {
-    return [self.bridge.eventDispatcher sendAppEventWithName:@"RNGoogleRevokeError"
-                                                        body:@{
-                                                               @"message": error.description,
-                                                               @"code": [NSNumber numberWithInteger: error.code]
-                                                               }];
+      return [self reject:@"Error when revoking access." withError:error];
   }
 
-  return [self.bridge.eventDispatcher sendAppEventWithName:@"RNGoogleRevokeSuccess" body:@{}];
+  return self.promiseResolve(nil);
 }
 
 - (void) signIn:(GIDSignIn *)signIn presentViewController:(UIViewController *)viewController {
