@@ -17,7 +17,7 @@ class GoogleSigninButton extends Component {
   static propTypes = {
     ...ViewPropTypes,
     size: PropTypes.number,
-    color: PropTypes.number
+    color: PropTypes.number,
   };
 
   componentDidMount() {
@@ -33,40 +33,37 @@ class GoogleSigninButton extends Component {
   render() {
     const { style, ...props } = this.props;
 
-    return (
-      <RNGoogleSigninButton style={[{ backgroundColor: 'transparent' }, style]} {...props} />
-    );
+    return <RNGoogleSigninButton style={[{ backgroundColor: 'transparent' }, style]} {...props} />;
   }
 }
 
 GoogleSigninButton.Size = {
   Icon: RNGoogleSignin.BUTTON_SIZE_ICON,
   Standard: RNGoogleSignin.BUTTON_SIZE_STANDARD,
-  Wide: RNGoogleSignin.BUTTON_SIZE_WIDE
+  Wide: RNGoogleSignin.BUTTON_SIZE_WIDE,
 };
 
 GoogleSigninButton.Color = {
   Auto: RNGoogleSignin.BUTTON_COLOR_AUTO,
   Light: RNGoogleSignin.BUTTON_COLOR_LIGHT,
-  Dark: RNGoogleSignin.BUTTON_COLOR_DARK
+  Dark: RNGoogleSignin.BUTTON_COLOR_DARK,
 };
+
 
 class GoogleSigninError extends Error {
   constructor(error, code) {
     super(error);
     this.name = 'GoogleSigninError';
-    this.code  = code;
+    this.code = code;
   }
 }
 
 class GoogleSignin {
-
-  constructor() {
-    this._user = null;
-  }
+  _user = null;
+  signinIsInProcess = false;
 
   hasPlayServices(params = { autoResolve: true }) {
-    return RNGoogleSignin.playServicesAvailable(params.autoResolve);
+    return Promise.resolve(true);
   }
 
   configure(params = {}) {
@@ -83,100 +80,64 @@ class GoogleSignin {
   }
 
   currentUserAsync() {
-    return new Promise((resolve, reject) => {
-      const sucessCb = DeviceEventEmitter.addListener('RNGoogleSignInSilentSuccess', (user) => {
-        this._user = {...user};
+    return RNGoogleSignin.currentUserAsync()
+      .then(user => {
+        this._user = { ...user };
+        return user;
+      })
+      .catch(error => {
+        // The user has never signed in before with the given scopes, or they have since signed out.
+        if (error.code === '-4') {
+          this._user = null;
+          this.signinIsInProcess = false;
+          return null;
+        }
 
-        RNGoogleSignin.getAccessToken(user).then((token) => {
-          this._user = {
-            ...user,
-            accessToken: token
-          };
-          this._removeListeners(sucessCb, errorCb);
-          resolve(this._user);
-        })
-        .catch(err => {
-          this._removeListeners(sucessCb, errorCb);
-          resolve(this._user);
-        });
+        this.signinIsInProcess = false;
+        throw error;
       });
-
-      const errorCb = DeviceEventEmitter.addListener('RNGoogleSignInSilentError', (err) => {
-        this._removeListeners(sucessCb, errorCb);
-        resolve(null);
-      });
-
-      RNGoogleSignin.currentUserAsync();
-    });
   }
 
   currentUser() {
-    return {...this._user};
+    if (this._user) {
+      return { ...this._user };
+    }
+
+    return null;
   }
 
   signIn() {
-    return new Promise((resolve, reject) => {
-      const sucessCb = DeviceEventEmitter.addListener('RNGoogleSignInSuccess', (user) => {
-        this._user = {...user};
-        RNGoogleSignin.getAccessToken(user).then((token) => {
-          this._user = {
-            ...user,
-            accessToken: token
-          };
-          this._removeListeners(sucessCb, errorCb);
-          resolve(this._user);
-        })
-        .catch(err => {
-          this._removeListeners(sucessCb, errorCb);
-          resolve(this._user);
-        });
-      });
+    if (this.signinIsInProcess) {
+      return Promise.reject(new Error('RNGoogleSignin: Previous sign in still in progress.'));
+    }
 
-      const errorCb = DeviceEventEmitter.addListener('RNGoogleSignInError', (err) => {
-        this._removeListeners(sucessCb, errorCb);
-        reject(new GoogleSigninError(err.error, err.code));
-      });
+    this.signinIsInProcess = true;
 
-      RNGoogleSignin.signIn();
-    });
+    return RNGoogleSignin.signIn()
+      .then(user => {
+        this._user = { ...user };
+        this.signinIsInProcess = false;
+        return user;
+      })
+      .catch(error => {
+        this.signinIsInProcess = false;
+        throw error;
+      });
   }
 
   signOut() {
-    return new Promise((resolve, reject) => {
-      const sucessCb = DeviceEventEmitter.addListener('RNGoogleSignOutSuccess', () => {
-        this._removeListeners(sucessCb, errorCb);
-        resolve();
-      });
-
-      const errorCb = DeviceEventEmitter.addListener('RNGoogleSignOutError', (err) => {
-        this._removeListeners(sucessCb, errorCb);
-        reject(new GoogleSigninError(err.error, err.code));
-      });
-
+    return RNGoogleSignin.signOut().then(() => {
       this._user = null;
-      RNGoogleSignin.signOut();
     });
   }
 
   revokeAccess() {
-    return new Promise((resolve, reject) => {
-      const sucessCb = DeviceEventEmitter.addListener('RNGoogleRevokeSuccess', () => {
-        this._removeListeners(sucessCb, errorCb);
-        resolve();
-      });
-
-      const errorCb = DeviceEventEmitter.addListener('RNGoogleRevokeError', (err) => {
-        this._removeListeners(sucessCb, errorCb);
-        reject(new GoogleSigninError(err.error, err.code));
-      });
-
-      RNGoogleSignin.revokeAccess();
+    return RNGoogleSignin.revokeAccess().then(() => {
+      this._user = null;
     });
-  }
-
-  _removeListeners(...listeners) {
-    listeners.forEach(lt => lt.remove());
   }
 }
 
-module.exports = { GoogleSignin: new GoogleSignin(), GoogleSigninButton };
+const GoogleSigninSingleton = new GoogleSignin();
+
+module.exports = { GoogleSignin: GoogleSigninSingleton, GoogleSigninButton };
