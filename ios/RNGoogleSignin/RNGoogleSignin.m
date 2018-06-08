@@ -24,7 +24,7 @@ RCT_EXPORT_METHOD(configure:(NSArray*)scopes
   [GIDSignIn sharedInstance].scopes = scopes;
   [GIDSignIn sharedInstance].shouldFetchBasicProfile = YES; // email, profile
   [GIDSignIn sharedInstance].clientID = iosClientId;
-  
+
   if (hostedDomain != nil) {
     [GIDSignIn sharedInstance].hostedDomain = hostedDomain;
   }
@@ -33,6 +33,13 @@ RCT_EXPORT_METHOD(configure:(NSArray*)scopes
   }
 
   resolve(@YES);
+}
+
+RCT_REMAP_METHOD(hasAuthInKeychain,
+                 hasAuthInKeychainResolve:(RCTPromiseResolveBlock)resolve
+                 hasAuthInKeychainReject:(RCTPromiseRejectBlock)reject)
+{
+  resolve([NSNumber numberWithBool:[[GIDSignIn sharedInstance] hasAuthInKeychain]]);
 }
 
 RCT_REMAP_METHOD(currentUserAsync,
@@ -95,7 +102,7 @@ RCT_REMAP_METHOD(revokeAccess,
 {
     NSString* errorCode = [NSString stringWithFormat:@"%ld", error.code];
     NSString* errorMessage = [NSString stringWithFormat:@"RNGoogleSignInError: %@, %@", message, error.description];
-    
+
     self.promiseReject(errorCode, errorMessage, error);
 }
 

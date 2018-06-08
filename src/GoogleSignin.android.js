@@ -82,6 +82,11 @@ class GoogleSignin {
     return RNGoogleSignin.configure(...params);
   }
 
+  hasAuthInKeychain() {
+    // like iOS returns true for hasPlayServices
+    return Promise.resolve(true);
+  }
+
   currentUserAsync() {
     return new Promise((resolve, reject) => {
       const sucessCb = DeviceEventEmitter.addListener('RNGoogleSignInSilentSuccess', (user) => {

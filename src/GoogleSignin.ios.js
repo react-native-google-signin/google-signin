@@ -79,6 +79,10 @@ class GoogleSignin {
     return RNGoogleSignin.configure(...config)
   }
 
+  hasAuthInKeychain() {
+    return RNGoogleSignin.hasAuthInKeychain();
+  }
+
   currentUserAsync() {
     return RNGoogleSignin.currentUserAsync()
       .then(user => {
