@@ -1,62 +1,14 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
 import {
   View,
-  DeviceEventEmitter,
+  NativeAppEventEmitter,
   NativeModules,
   requireNativeComponent,
   ViewPropTypes,
 } from 'react-native';
 
 const { RNGoogleSignin } = NativeModules;
-
-const RNGoogleSigninButton = requireNativeComponent('RNGoogleSigninButton', null);
-
-class GoogleSigninButton extends Component {
-  static propTypes = {
-    ...ViewPropTypes,
-    size: PropTypes.number,
-    color: PropTypes.number,
-  };
-
-  componentDidMount() {
-    this._clickListener = DeviceEventEmitter.addListener('RNGoogleSigninButtonClicked', () => {
-      this.props.onPress && this.props.onPress();
-    });
-  }
-
-  componentWillUnmount() {
-    this._clickListener && this._clickListener.remove();
-  }
-
-  render() {
-    const { style, ...props } = this.props;
-
-    return <RNGoogleSigninButton style={[{ backgroundColor: 'transparent' }, style]} {...props} />;
-  }
-}
-
-GoogleSigninButton.Size = {
-  Icon: RNGoogleSignin.BUTTON_SIZE_ICON,
-  Standard: RNGoogleSignin.BUTTON_SIZE_STANDARD,
-  Wide: RNGoogleSignin.BUTTON_SIZE_WIDE,
-};
-
-GoogleSigninButton.Color = {
-  Auto: RNGoogleSignin.BUTTON_COLOR_AUTO,
-  Light: RNGoogleSignin.BUTTON_COLOR_LIGHT,
-  Dark: RNGoogleSignin.BUTTON_COLOR_DARK,
-};
-
-
-class GoogleSigninError extends Error {
-  constructor(error, code) {
-    super(error);
-    this.name = 'GoogleSigninError';
-    this.code = code;
-  }
-}
 
 class GoogleSignin {
   _user = null;
@@ -67,16 +19,22 @@ class GoogleSignin {
   }
 
   configure(params = {}) {
-    params = [
+    if (!params.iosClientId) {
+      return Promise.reject(new Error('RNGoogleSignin: Missing iOS app ClientID'));
+    }
+
+    if (params.offlineAccess && !params.webClientId) {
+      return Promise.reject(new Error('RNGoogleSignin: offline use requires server web ClientID'));
+    }
+
+    const config = [
       params.scopes || [],
-      params.webClientId || null,
-      params.offlineAccess || false,
-      params.forceConsentPrompt || false,
-      params.accountName || null,
-      params.hostedDomain || null,
+      params.iosClientId,
+      params.offlineAccess ? params.webClientId : '',
+      params.hostedDomain ? params.hostedDomain : null,
     ];
 
-    return RNGoogleSignin.configure(...params);
+    return RNGoogleSignin.configure(...config);
   }
 
   currentUserAsync() {
