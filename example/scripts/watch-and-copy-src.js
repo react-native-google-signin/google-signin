@@ -31,5 +31,6 @@ function matchesFile(filename, fileGlob) {
   return minimatch(path.basename(filename), fileGlob);
 }
 
-// JavaScript
+// only JavaScript files need to be copied over
+// the iOS and Android example projects can edit the native module directly
 copyAndWatch('../../src', '../node_modules/react-native-google-signin/src');

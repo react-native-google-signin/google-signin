@@ -12,7 +12,7 @@ import {
 const { RNGoogleSignin } = NativeModules;
 const RNGoogleSigninButton = requireNativeComponent('RNGoogleSigninButton', null);
 
-class GoogleSigninButton extends Component {
+export class GoogleSigninButton extends Component {
   static propTypes = {
     ...ViewPropTypes,
     size: PropTypes.number,
@@ -23,7 +23,6 @@ class GoogleSigninButton extends Component {
   handleOnPress = () => {
     if (this.props.onPress) {
       this.props.onPress();
-      return;
     }
   };
 
@@ -32,7 +31,7 @@ class GoogleSigninButton extends Component {
 
     return (
       <RNGoogleSigninButton
-        style={[{ backgroundColor: 'rgba(0,0,0,0)' }, style]}
+        style={[{ backgroundColor: 'transparent' }, style]}
         onPress={this.handleOnPress}
         {...props}
       />

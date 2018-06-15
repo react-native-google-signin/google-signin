@@ -13,7 +13,7 @@ const { RNGoogleSignin } = NativeModules;
 
 const RNGoogleSigninButton = requireNativeComponent('RNGoogleSigninButton', null);
 
-class GoogleSigninButton extends Component {
+export class GoogleSigninButton extends Component {
   static propTypes = {
     ...ViewPropTypes,
     size: PropTypes.number,

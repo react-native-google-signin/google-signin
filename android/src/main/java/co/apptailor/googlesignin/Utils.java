@@ -49,8 +49,8 @@ public class Utils {
     static GoogleSignInOptions getSignInOptions(
             final ReadableArray scopes,
             final String webClientId,
-            final Boolean offlineAcess,
-            final Boolean forceConsentPrompt,
+            final boolean offlineAcess,
+            final boolean forceConsentPrompt,
             final String accountName,
             final String hostedDomain
     ) {

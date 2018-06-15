@@ -108,15 +108,17 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void configure(
-            final ReadableArray scopes,
-            final String webClientId,
-            final Boolean offlineAccess,
-            final Boolean forceConsentPrompt,
-            final String accountName,
-            final String hostedDomain,
+            final ReadableMap config,
             final Promise promise
     ) {
+        final ReadableArray scopes = config.hasKey("scopes") ? config.getArray("scopes") : Arguments.createArray();
+        final String webClientId = config.hasKey("webClientId") ? config.getString("webClientId") : null;
+        final boolean offlineAccess = config.hasKey("offlineAccess") && config.getBoolean("offlineAccess");
+        final boolean forceConsentPrompt = config.hasKey("forceConsentPrompt") && config.getBoolean("forceConsentPrompt");
+        final String accountName = config.hasKey("accountName") ? config.getString("accountName") : null;
+        final String hostedDomain = config.hasKey("hostedDomain") ? config.getString("hostedDomain") : null;
         _signinPromise = promise;
+
         UiThreadUtil.runOnUiThread(new Runnable() {
             @Override
             public void run() {
