@@ -1,0 +1,7 @@
+{
+  "tabWidth": 2,
+  "semi": true,
+  "parser": "babylon",
+  "singleQuote": true,
+  "printWidth": 100
+}
