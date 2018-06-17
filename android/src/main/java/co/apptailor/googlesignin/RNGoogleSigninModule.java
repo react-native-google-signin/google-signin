@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static co.apptailor.googlesignin.Utils.createScopesArray;
 import static co.apptailor.googlesignin.Utils.getSignInOptions;
 import static co.apptailor.googlesignin.Utils.getUserProperties;
 import static co.apptailor.googlesignin.Utils.scopesToString;
@@ -123,7 +124,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
             @Override
             public void run() {
                 _apiClient = new GoogleApiClient.Builder(getReactApplicationContext())
-                        .addApi(Auth.GOOGLE_SIGN_IN_API, getSignInOptions(scopes, webClientId, offlineAccess, forceConsentPrompt, accountName, hostedDomain))
+                        .addApi(Auth.GOOGLE_SIGN_IN_API, getSignInOptions(createScopesArray(scopes), webClientId, offlineAccess, forceConsentPrompt, accountName, hostedDomain))
                         .addConnectionCallbacks(new ConnectionCallbacks() {
                             @Override
                             public void onConnected(@Nullable Bundle bundle) {
