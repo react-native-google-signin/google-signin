@@ -118,14 +118,21 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         }
         
         final ConnectionCallbacks connectionCallbacks = new ConnectionCallbacks() {
+            boolean promiseCalled = false;
             @Override
             public void onConnected(@Nullable Bundle bundle) {
-                promise.resolve(true);
+                if(!promiseCalled) {
+                    promise.resolve(true);
+                    promiseCalled = true;
+                }
             }
 
             @Override
             public void onConnectionSuspended(int i) {
-                promise.reject("CONNECT_ERROR", "CONNECT_ERROR");
+                if(!promiseCalled) {
+                    promise.reject("CONNECT_ERROR", "CONNECT_ERROR");
+                    promiseCalled = true;
+                }
             }
         };
 
