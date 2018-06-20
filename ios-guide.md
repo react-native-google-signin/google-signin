@@ -42,37 +42,4 @@ Add the end of this step, your Xcode config should look like this:
 
 [![xcode config](https://github.com/apptailor/react-native-google-signin/raw/master/img/url-config.png)](#config)
 
-### Project setup
 
-Inside `AppDelegate.m`
-```objc
-// add this line before @implementation AppDelegate
-#import <RNGoogleSignin/RNGoogleSignin.h>
-
-// add this method before @end
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-
-  return [RNGoogleSignin application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
-}
-
-```
-
-Only one `openURL` method can be defined, so if you have multiple listeners which should be defined (for instance if you have both Google and Facebook OAuth), you must combine them into a single function like so:
-
-```objc
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-
-  return [[FBSDKApplicationDelegate sharedInstance] application:application
-                                                        openURL:url
-                                              sourceApplication:sourceApplication
-                                                     annotation:annotation
-         ]
-         || [RNGoogleSignin application:application
-                                openURL:url
-                      sourceApplication:sourceApplication
-                             annotation:annotation
-            ];
-}
-```
