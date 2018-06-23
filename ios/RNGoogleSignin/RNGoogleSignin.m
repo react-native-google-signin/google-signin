@@ -54,7 +54,7 @@ RCT_REMAP_METHOD(signOut,
                  signOutReject:(RCTPromiseRejectBlock)reject)
 {
   [[GIDSignIn sharedInstance] signOut];
-  resolve(nil);
+  resolve(@YES);
 }
 
 RCT_REMAP_METHOD(revokeAccess,
@@ -149,14 +149,14 @@ RCT_REMAP_METHOD(revokeAccess,
       return [self reject:@"Error when revoking access." withError:error];
   }
 
-  return self.promiseResolve(nil);
+  return self.promiseResolve(@YES);
 }
 
-- (void) signIn:(GIDSignIn *)signIn presentViewController:(UIViewController *)viewController {
+- (void)signIn:(GIDSignIn *)signIn presentViewController:(UIViewController *)viewController {
     [RCTPresentedViewController() presentViewController:viewController animated:true completion:nil];
 }
 
-- (void) signIn:(GIDSignIn *)signIn dismissViewController:(UIViewController *)viewController {
+- (void)signIn:(GIDSignIn *)signIn dismissViewController:(UIViewController *)viewController {
     [viewController dismissViewControllerAnimated:true completion:nil];
 }
 

@@ -11,13 +11,15 @@ import {
 
 const { RNGoogleSignin } = NativeModules;
 
+const IS_IOS = Platform.OS === 'ios';
+
 class GoogleSignin {
   // TODO vonovak kill state in this module
   _user = null;
   signinIsInProcess = false;
 
   hasPlayServices(params = { autoResolve: true }) {
-    if (Platform.OS === 'ios') {
+    if (IS_IOS) {
       return Promise.resolve(true);
     } else {
       return RNGoogleSignin.playServicesAvailable(params.autoResolve);
@@ -25,7 +27,7 @@ class GoogleSignin {
   }
 
   async configure(params = {}) {
-    if (Platform.OS === 'ios' && !params.iosClientId) {
+    if (IS_IOS && !params.iosClientId) {
       return Promise.reject(new Error('RNGoogleSignin: Missing iOS app ClientID'));
     }
 
