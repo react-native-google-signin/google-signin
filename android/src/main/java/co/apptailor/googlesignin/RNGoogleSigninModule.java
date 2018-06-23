@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static co.apptailor.googlesignin.Utils.createScopesArray;
 import static co.apptailor.googlesignin.Utils.getSignInOptions;
 import static co.apptailor.googlesignin.Utils.getUserProperties;
 import static co.apptailor.googlesignin.Utils.scopesToString;
@@ -108,23 +109,26 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void configure(
-            final ReadableArray scopes,
-            final String webClientId,
-            final Boolean offlineAccess,
-            final Boolean forceConsentPrompt,
-            final String accountName,
-            final String hostedDomain,
+            final ReadableMap config,
             final Promise promise
     ) {
+        final ReadableArray scopes = config.hasKey("scopes") ? config.getArray("scopes") : Arguments.createArray();
+        final String webClientId = config.hasKey("webClientId") ? config.getString("webClientId") : null;
+        final boolean offlineAccess = config.hasKey("offlineAccess") && config.getBoolean("offlineAccess");
+        final boolean forceConsentPrompt = config.hasKey("forceConsentPrompt") && config.getBoolean("forceConsentPrompt");
+        final String accountName = config.hasKey("accountName") ? config.getString("accountName") : null;
+        final String hostedDomain = config.hasKey("hostedDomain") ? config.getString("hostedDomain") : null;
         _signinPromise = promise;
+
         UiThreadUtil.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 _apiClient = new GoogleApiClient.Builder(getReactApplicationContext())
-                        .addApi(Auth.GOOGLE_SIGN_IN_API, getSignInOptions(scopes, webClientId, offlineAccess, forceConsentPrompt, accountName, hostedDomain))
+                        .addApi(Auth.GOOGLE_SIGN_IN_API, getSignInOptions(createScopesArray(scopes), webClientId, offlineAccess, forceConsentPrompt, accountName, hostedDomain))
                         .addConnectionCallbacks(new ConnectionCallbacks() {
                             @Override
                             public void onConnected(@Nullable Bundle bundle) {
+                                // TODO vonovak we should dispatch an event to JS in this case
                                 resolve(true);
                             }
 
@@ -138,7 +142,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
                         .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
                             @Override
                             public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                                reject("configure","CONNECT_ERROR");
+                                reject(String.valueOf(connectionResult.getErrorCode()), connectionResult.getErrorMessage());
                             }
                         })
                         .build();
@@ -166,7 +170,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
                 } else {
                     pendingResult.setResultCallback(new ResultCallback<GoogleSignInResult>() {
                         @Override
-                        public void onResult(GoogleSignInResult googleSignInResult) {
+                        public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
                             handleSignInResult(googleSignInResult);
                         }
                     });
@@ -181,12 +185,9 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
             GoogleSignInAccount acct = Assertions.assertNotNull(result.getSignInAccount());
             WritableMap params = getUserProperties(acct);
             resolve(params);
-        } else if (result.getStatus().isCanceled()) {
-            WritableMap params = Arguments.createMap();
-            params.putString("status", "cancelled");
-            resolve(params);
         } else {
-            reject("handleSignInResult", "status: "+ result.getStatus().toString());
+            int code = result.getStatus().getStatusCode();
+            reject(String.valueOf(code), GoogleSignInStatusCodes.getStatusCodeString(code));
         }
     }
 
@@ -230,8 +231,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
                     resolve(true);
                 } else {
                     int code = status.getStatusCode();
-                    String error = GoogleSignInStatusCodes.getStatusCodeString(code);
-                    reject("signOut", error);
+                    reject(String.valueOf(code), GoogleSignInStatusCodes.getStatusCodeString(code));
                 }
             }
         });
@@ -252,8 +252,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
                     resolve( true);
                 } else {
                     int code = status.getStatusCode();
-                    String error = GoogleSignInStatusCodes.getStatusCodeString(code);
-                    reject("revokeAccess", error);
+                    reject(String.valueOf(code), GoogleSignInStatusCodes.getStatusCodeString(code));
                 }
             }
         });
@@ -288,7 +287,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
 
     private void reject(String code, String message) {
         if (_signinPromise == null) {
-            Log.w(MODULE_NAME, "could not resolve promise because it's null");
+            Log.w(MODULE_NAME, "could not reject promise because it's null");
             return;
         }
 

@@ -47,23 +47,15 @@ public class Utils {
     }
 
     static GoogleSignInOptions getSignInOptions(
-            final ReadableArray scopes,
+            final Scope[] scopes,
             final String webClientId,
-            final Boolean offlineAcess,
-            final Boolean forceConsentPrompt,
+            final boolean offlineAcess,
+            final boolean forceConsentPrompt,
             final String accountName,
             final String hostedDomain
     ) {
-        int size = scopes.size();
-        Scope[] _scopes = new Scope[size];
-
-        for (int i = 0; i < size; i++) {
-            String scopeName = scopes.getString(i);
-            _scopes[i] = new Scope(scopeName);
-        }
-
         GoogleSignInOptions.Builder googleSignInOptionsBuilder = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestScopes(GoogleSignInOptions.SCOPE_EMAIL, _scopes);
+                .requestScopes(GoogleSignInOptions.SCOPE_EMAIL, scopes);
         if (webClientId != null && !webClientId.isEmpty()) {
             googleSignInOptionsBuilder.requestIdToken(webClientId);
             if (offlineAcess) {
@@ -77,5 +69,17 @@ public class Utils {
             googleSignInOptionsBuilder.setHostedDomain(hostedDomain);
         }
         return googleSignInOptionsBuilder.build();
+    }
+
+    @NonNull
+    static Scope[] createScopesArray(ReadableArray scopes) {
+        int size = scopes.size();
+        Scope[] _scopes = new Scope[size];
+
+        for (int i = 0; i < size; i++) {
+            String scopeName = scopes.getString(i);
+            _scopes[i] = new Scope(scopeName);
+        }
+        return _scopes;
     }
 }
