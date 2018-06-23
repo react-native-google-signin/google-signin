@@ -9,6 +9,7 @@ class GoogleSigninSampleApp extends Component {
     super(props);
     this.state = {
       user: null,
+      error: null,
     };
   }
 
@@ -37,13 +38,16 @@ class GoogleSigninSampleApp extends Component {
       const user = await GoogleSignin.currentUserAsync();
       console.log(user);
       this.setState({ user });
-    } catch (err) {
-      console.warn('Google signin error', err.code, err.message);
+    } catch (error) {
+      this.setState({
+        error,
+      });
     }
   }
 
   render() {
-    if (!this.state.user) {
+    const { user, error } = this.state;
+    if (!user) {
       return (
         <View style={styles.container}>
           <GoogleSigninButton
@@ -52,15 +56,16 @@ class GoogleSigninSampleApp extends Component {
             color={GoogleSigninButton.Color.Auto}
             onPress={this._signIn}
           />
+          {error && <Text>{error.toString()}</Text>}
         </View>
       );
     } else {
       return (
         <View style={styles.container}>
           <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 20 }}>
-            Welcome {this.state.user.name}
+            Welcome {user.name}
           </Text>
-          <Text>Your email is: {this.state.user.email}</Text>
+          <Text>Your email is: {user.email}</Text>
 
           <TouchableOpacity onPress={this._signOut}>
             <View style={{ marginTop: 50 }}>
@@ -78,7 +83,9 @@ class GoogleSigninSampleApp extends Component {
       console.log(user);
       this.setState({ user });
     } catch (error) {
-      console.warn(error);
+      this.setState({
+        error,
+      });
     }
   };
 

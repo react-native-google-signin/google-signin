@@ -128,6 +128,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
                         .addConnectionCallbacks(new ConnectionCallbacks() {
                             @Override
                             public void onConnected(@Nullable Bundle bundle) {
+                                // TODO vonovak we should dispatch an event to JS in this case
                                 resolve(true);
                             }
 
@@ -141,7 +142,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
                         .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
                             @Override
                             public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                                reject("configure","CONNECT_ERROR");
+                                reject(String.valueOf(connectionResult.getErrorCode()), connectionResult.getErrorMessage());
                             }
                         })
                         .build();
@@ -169,7 +170,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
                 } else {
                     pendingResult.setResultCallback(new ResultCallback<GoogleSignInResult>() {
                         @Override
-                        public void onResult(GoogleSignInResult googleSignInResult) {
+                        public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
                             handleSignInResult(googleSignInResult);
                         }
                     });
@@ -184,12 +185,9 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
             GoogleSignInAccount acct = Assertions.assertNotNull(result.getSignInAccount());
             WritableMap params = getUserProperties(acct);
             resolve(params);
-        } else if (result.getStatus().isCanceled()) {
-            WritableMap params = Arguments.createMap();
-            params.putString("status", "cancelled");
-            resolve(params);
         } else {
-            reject("handleSignInResult", "status: "+ result.getStatus().toString());
+            int code = result.getStatus().getStatusCode();
+            reject(String.valueOf(code), GoogleSignInStatusCodes.getStatusCodeString(code));
         }
     }
 
@@ -233,8 +231,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
                     resolve(true);
                 } else {
                     int code = status.getStatusCode();
-                    String error = GoogleSignInStatusCodes.getStatusCodeString(code);
-                    reject("signOut", error);
+                    reject(String.valueOf(code), GoogleSignInStatusCodes.getStatusCodeString(code));
                 }
             }
         });
@@ -255,8 +252,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
                     resolve( true);
                 } else {
                     int code = status.getStatusCode();
-                    String error = GoogleSignInStatusCodes.getStatusCodeString(code);
-                    reject("revokeAccess", error);
+                    reject(String.valueOf(code), GoogleSignInStatusCodes.getStatusCodeString(code));
                 }
             }
         });
