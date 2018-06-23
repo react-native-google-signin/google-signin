@@ -47,7 +47,7 @@ class GoogleSigninSampleApp extends Component {
 
   render() {
     const { user, error } = this.state;
-    if (!user || !user.user) {
+    if (!user) {
       return (
         <View style={styles.container}>
           <GoogleSigninButton
