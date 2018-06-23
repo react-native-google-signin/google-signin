@@ -12,6 +12,7 @@ import {
 const { RNGoogleSignin } = NativeModules;
 
 const IS_IOS = Platform.OS === 'ios';
+const IS_ANDROID = Platform.OS === 'android';
 
 class GoogleSignin {
   // TODO vonovak kill state in this module
@@ -46,12 +47,6 @@ class GoogleSignin {
     } catch (error) {
       this.signinIsInProcess = false;
 
-      // The user has never signed in before with the given scopes, or they have since signed out.
-      // if (error.code === '-4') {
-      //   this._user = null;
-      //   return null;
-      // }
-
       return Promise.reject(error);
     }
   }
@@ -74,6 +69,11 @@ class GoogleSignin {
       this._user = { ...user };
       return user;
     } catch (error) {
+      // TODO figure out a nice api that communicates this to the user
+      // I'd go for expo's way: https://docs.expo.io/versions/latest/sdk/google
+      if ((IS_IOS && error.code === '-5') || (IS_ANDROID && error.code === '12501')) {
+        error.code = 'CANCELED';
+      }
       return Promise.reject(error);
     } finally {
       this.signinIsInProcess = false;

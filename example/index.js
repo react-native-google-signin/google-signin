@@ -47,7 +47,7 @@ class GoogleSigninSampleApp extends Component {
 
   render() {
     const { user, error } = this.state;
-    if (!user) {
+    if (!user || !user.user) {
       return (
         <View style={styles.container}>
           <GoogleSigninButton
@@ -56,7 +56,11 @@ class GoogleSigninSampleApp extends Component {
             color={GoogleSigninButton.Color.Auto}
             onPress={this._signIn}
           />
-          {error && <Text>{error.toString()}</Text>}
+          {error && (
+            <Text>
+              {error.toString()} code: {error.code}
+            </Text>
+          )}
         </View>
       );
     } else {

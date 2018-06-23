@@ -287,7 +287,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
 
     private void reject(String code, String message) {
         if (_signinPromise == null) {
-            Log.w(MODULE_NAME, "could not resolve promise because it's null");
+            Log.w(MODULE_NAME, "could not reject promise because it's null");
             return;
         }
 
