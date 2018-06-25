@@ -1,5 +1,4 @@
 #import "RNGoogleSignin.h"
-// #import <React/RCTLog.h>
 
 @interface RNGoogleSignin ()
 
@@ -12,24 +11,21 @@
 
 RCT_EXPORT_MODULE();
 
-RCT_EXPORT_METHOD(configure:(NSArray*)scopes
-                  iosClientId:(NSString*)iosClientId
-                  webClientId:(NSString*)webClientId
-                  hostedDomain:(NSString*)hostedDomain
+RCT_EXPORT_METHOD(configure:(NSDictionary *)options
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
   [GIDSignIn sharedInstance].delegate = self;
   [GIDSignIn sharedInstance].uiDelegate = self;
-  [GIDSignIn sharedInstance].scopes = scopes;
+  [GIDSignIn sharedInstance].scopes = options[@"scopes"];
   [GIDSignIn sharedInstance].shouldFetchBasicProfile = YES; // email, profile
-  [GIDSignIn sharedInstance].clientID = iosClientId;
+  [GIDSignIn sharedInstance].clientID = options[@"iosClientId"];
   
-  if (hostedDomain != nil) {
-    [GIDSignIn sharedInstance].hostedDomain = hostedDomain;
+  if (options[@"hostedDomain"]) {
+    [GIDSignIn sharedInstance].hostedDomain = options[@"hostedDomain"];
   }
-  if ([webClientId length] != 0) {
-    [GIDSignIn sharedInstance].serverClientID = webClientId;
+  if (options[@"webClientId"]) {
+    [GIDSignIn sharedInstance].serverClientID = options[@"webClientId"];
   }
 
   resolve(@YES);
@@ -58,7 +54,7 @@ RCT_REMAP_METHOD(signOut,
                  signOutReject:(RCTPromiseRejectBlock)reject)
 {
   [[GIDSignIn sharedInstance] signOut];
-  resolve(nil);
+  resolve(@YES);
 }
 
 RCT_REMAP_METHOD(revokeAccess,
@@ -115,7 +111,7 @@ RCT_REMAP_METHOD(revokeAccess,
           [self reject:@"The user has never signed in before with the given scopes, or they have since signed out." withError:error];
           break;
         case kGIDSignInErrorCodeCanceled:
-          [self reject:@"Unknown error and error code when signing in." withError:error];
+          [self reject:@"The user canceled the sign in request." withError:error];
           break;
         default:
           // RCTLogError(@"%s: %@ (%d)", __func__, error, error.code);
@@ -127,7 +123,7 @@ RCT_REMAP_METHOD(revokeAccess,
 
     NSURL *imageURL;
 
-    if ([GIDSignIn sharedInstance].currentUser.profile.hasImage)
+    if (user.profile.hasImage)
     {
       imageURL = [user.profile imageURLWithDimension:120];
     }
@@ -146,7 +142,6 @@ RCT_REMAP_METHOD(revokeAccess,
                            };
 
     self.promiseResolve(body);
-    return;
 }
 
 - (void)signIn:(GIDSignIn *)signIn didDisconnectWithUser:(GIDGoogleUser *)user withError:(NSError *)error {
@@ -154,15 +149,14 @@ RCT_REMAP_METHOD(revokeAccess,
       return [self reject:@"Error when revoking access." withError:error];
   }
 
-  return self.promiseResolve(nil);
+  return self.promiseResolve(@YES);
 }
 
-- (void) signIn:(GIDSignIn *)signIn presentViewController:(UIViewController *)viewController {
-    UIViewController *parent = [self topMostViewController];
-    [parent presentViewController:viewController animated:true completion:nil];
+- (void)signIn:(GIDSignIn *)signIn presentViewController:(UIViewController *)viewController {
+    [RCTPresentedViewController() presentViewController:viewController animated:true completion:nil];
 }
 
-- (void) signIn:(GIDSignIn *)signIn dismissViewController:(UIViewController *)viewController {
+- (void)signIn:(GIDSignIn *)signIn dismissViewController:(UIViewController *)viewController {
     [viewController dismissViewControllerAnimated:true completion:nil];
 }
 
@@ -172,16 +166,6 @@ RCT_REMAP_METHOD(revokeAccess,
     return [[GIDSignIn sharedInstance] handleURL:url
                                sourceApplication:sourceApplication
                                       annotation:annotation];
-}
-
-#pragma mark - Internal Methods
-
-- (UIViewController *)topMostViewController {
-    UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
-    while (topController.presentedViewController) {
-        topController = topController.presentedViewController;
-    }
-    return topController;
 }
 
 @end

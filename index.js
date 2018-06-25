@@ -1,2 +1,2 @@
-var GoogleSignin = require('./src/GoogleSignin');
-module.exports = GoogleSignin;
+export { GoogleSigninSingleton as GoogleSignin } from './src/GoogleSignin';
+export { GoogleSigninButton } from './src/GoogleSigninButton';
