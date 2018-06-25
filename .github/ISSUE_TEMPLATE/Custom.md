@@ -34,4 +34,5 @@ Please provide the version of your
 - react-native
 - react-native-google-signin
 - react
-- cocoapods, gradle and android plugin for gradle, if applicable
+- cocoapods and GoogleSignIn pod version (if applicable)
+- gradle, android plugin for gradle and play-services-auth version (if applicable)
