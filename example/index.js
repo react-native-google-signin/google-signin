@@ -98,9 +98,15 @@ class GoogleSigninSampleApp extends Component {
   };
 
   _signOut = async () => {
-    await GoogleSignin.revokeAccess();
-    await GoogleSignin.signOut();
-    this.setState({ user: null });
+    try {
+      await GoogleSignin.revokeAccess();
+      await GoogleSignin.signOut();
+      this.setState({ user: null });
+    } catch (error) {
+      this.setState({
+        error,
+      });
+    }
   };
 }
 
