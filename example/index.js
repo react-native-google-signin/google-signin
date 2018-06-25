@@ -13,31 +13,33 @@ class GoogleSigninSampleApp extends Component {
     };
   }
 
-  componentDidMount() {
-    this._setupGoogleSignin();
+  async componentDidMount() {
+    await this._configureGoogleSignIn();
+    await this._getCurrentUser();
   }
 
-  async _setupGoogleSignin() {
+  async _configureGoogleSignIn() {
+    await GoogleSignin.hasPlayServices({ autoResolve: true });
+    const configPlatform = {
+      ...Platform.select({
+        ios: {
+          iosClientId: config.iosClientId,
+        },
+        android: {},
+      }),
+    };
+
+    await GoogleSignin.configure({
+      ...configPlatform,
+      webClientId: config.webClientId,
+      offlineAccess: false,
+    });
+  }
+
+  async _getCurrentUser() {
     try {
-      await GoogleSignin.hasPlayServices({ autoResolve: true });
-      const configPlatform = {
-        ...Platform.select({
-          ios: {
-            iosClientId: config.iosClientId,
-          },
-          android: {},
-        }),
-      };
-
-      await GoogleSignin.configure({
-        ...configPlatform,
-        webClientId: config.webClientId,
-        offlineAccess: false,
-      });
-
       const user = await GoogleSignin.currentUserAsync();
-      console.log(user);
-      this.setState({ user });
+      this.setState({ user, error: null });
     } catch (error) {
       this.setState({
         error,
@@ -84,9 +86,11 @@ class GoogleSigninSampleApp extends Component {
   _signIn = async () => {
     try {
       const user = await GoogleSignin.signIn();
-      console.log(user);
-      this.setState({ user });
+      this.setState({ user, error: null });
     } catch (error) {
+      if (error.code === 'CANCELED') {
+        error.message = 'user canceled the login flow';
+      }
       this.setState({
         error,
       });
