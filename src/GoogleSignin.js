@@ -47,7 +47,7 @@ class GoogleSignin {
     } catch (error) {
       this.signinIsInProcess = false;
 
-      return Promise.reject(error);
+      return Promise.resolve(null);
     }
   }
 
