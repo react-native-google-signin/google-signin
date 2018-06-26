@@ -11,21 +11,28 @@ Please make sure you have searched previous issues before opening a new issue.
 
 <!-- Describe your issue in detail. -->
 
-## Environment
-Please provide the version of your
-* react-native
-* react-native-google-signin
-* react
-
-
 ## Steps to Reproduce
-<!-- 
-  Required. Let us know how to reproduce the issue. Include a code sample, share a project, 
-  or share an app that reproduces the issue using [Snack](https://snack.expo.io/).
--->
+
+- You must provide a way to reproduce the problem. We're a small team of maintainers and do not have time to try reproduce bugs ourselves.
+
+- Link to a GitHub repository with code that reproduces the bug.
+
+- Explain how to run the example app and any steps that we need to take to reproduce the issue from the example app.
 
 ## Expected Behavior
+
 <!-- Write what you thought would happen. -->
 
 ## Actual Behavior
+
 <!-- Write what happened. Include screenshots if needed. If this is a regression, let us know. -->
+
+## Environment
+
+Please provide the version of your
+
+- react-native
+- react-native-google-signin
+- react
+- cocoapods and GoogleSignIn pod version (if applicable)
+- gradle, android plugin for gradle and play-services-auth version (if applicable)
