@@ -17,6 +17,8 @@ You need the following packages
 
 ### 3. Installation
 
+Please note that this package requires android gradle plugin of version 3, which in turn requires at least gradle 4.1. Android studio should be able to do the upgrade for you.
+
 * run `react-native link react-native-google-signin`
 
 * In `android/settings.gradle` you should have
@@ -89,18 +91,6 @@ public class MainApplication extends Application implements ReactApplication {
 }
 ```
 
-* Update gradle wrapper in `android/gradle/wrapper/gradle-wrapper.properties`
-
-replace 
-```
-distributionUrl=https\://services.gradle.org/distributions/gradle-2.4-all.zip
-```
-
-with
-```
-distributionUrl=https\://services.gradle.org/distributions/gradle-2.14-all.zip
-```
-
 
 ### 4. Running on simulator
 
@@ -115,7 +105,7 @@ Nothing special here, as long as you run your app on a Google Android device (ag
 
 ## FAQ
 
-#### A. My project includes other react-native plugins which have different google play services versions. What to do ??
+#### A. My project includes other react-native plugins which have different google play services versions. What to do?
 
 in `android/app/build.gradle` exclude google play services from the plugins you use. Like this:
 
@@ -127,12 +117,12 @@ compile(project(":PLUGIN_NAME")){
 
 Then include play services version you need (at least 9.0.0 for this plugin (!))
 
-#### B. My project includes an older version of react-native-google-signin. How to upgrade ?
+#### B. My project includes an older version of react-native-google-signin. How to upgrade?
 
 first install the latest version
 `npm install --save react-native-google-signin` 
 
-You need to follow this guide again to make sure everything fit together (gradle version, google-services gradle version, etc...)
+You need to follow this guide again to make sure everything fit together (gradle version, google-services gradle version, etc...). Check out the example project for reference.
 
 clean everything to be sure
 
@@ -143,11 +133,11 @@ cd android
 
 now `react-native run-android`
 
-#### C. After upgrading and thoroughly following the guide the build fail with `Missing api_key/current_key object`. what to do ?
+#### C. After upgrading and thoroughly following the guide the build fail with `Missing api_key/current_key object`. What to do?
 
 open `android/app/google-services.json` and replace `"api_key":[]` with `"api_key":[{ "current_key": "" }]`
 
-#### D. After the sign-in completes I get the following error `error code 12501`. what to do ?
+#### D. After the sign-in completes I get the following error `error code 12501`. What to do?
 
 This is a permission error. Make sure the `certificate_hash` in `android/app/google-services.json` matches your certificate. 
 
@@ -158,7 +148,7 @@ keytool -exportcert -keystore ~/.android/debug.keystore -list -v
 
 Also make sure the application id matches the one you enter on the cloud console.
 
-#### E. Getting `DEVELOPER_ERROR` error message on Android when trying to login
+#### E. Getting `DEVELOPER_ERROR` error message on Android when trying to login.
 
 This is configuration mismatch. Make sure that your `android/app/google-services.json` is correct.
 
