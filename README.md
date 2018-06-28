@@ -7,6 +7,8 @@
 
 ## Important!
 
+> A new RC is available: [see release notes](https://github.com/react-native-community/react-native-google-signin/releases/tag/1.0.0-rc1)
+
 > On May 15, the repo was moved to react-native-community, and we're looking for contributors to help get the project back up to speed [see related issue](https://github.com/react-native-community/react-native-google-signin/issues/386).
 
 ## Features
