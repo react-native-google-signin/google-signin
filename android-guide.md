@@ -33,8 +33,8 @@ project(':react-native-google-signin').projectDir = new File(rootProject.project
 ```gradle
 ...
 dependencies {
-    classpath 'com.android.tools.build:gradle:2.1.2' // <--- update this
-    classpath 'com.google.gms:google-services:3.0.0' // <--- add this
+    classpath 'com.android.tools.build:gradle:3.1.2' // <--- update this
+    classpath 'com.google.gms:google-services:3.2.1' // <--- add this
 }
 ...
 allprojects {
