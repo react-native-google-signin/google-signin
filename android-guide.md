@@ -33,8 +33,21 @@ project(':react-native-google-signin').projectDir = new File(rootProject.project
 ```gradle
 ...
 dependencies {
-    classpath 'com.android.tools.build:gradle:2.1.2' // <--- update this
-    classpath 'com.google.gms:google-services:3.0.0' // <--- add this
+    classpath 'com.android.tools.build:gradle:3.1.2' // <--- update this
+    classpath 'com.google.gms:google-services:3.2.1' // <--- add this
+}
+...
+allprojects {
+    repositories {
+        mavenLocal()
+        maven {url "https://maven.google.com"} // <--- this should be added and should be above jcenter
+        jcenter()
+        google()
+        maven {
+            // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
+            url "$rootDir/../node_modules/react-native/android"
+        }
+    }
 }
 ```
 
@@ -43,13 +56,13 @@ dependencies {
 ```gradle
 ...
 dependencies {
-    compile fileTree(dir: "libs", include: ["*.jar"])
-    compile "com.android.support:appcompat-v7:23.0.1"
-    compile "com.facebook.react:react-native:+"
-    compile(project(":react-native-google-signin")){         
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "com.android.support:appcompat-v7:23.0.1"
+    implementation "com.facebook.react:react-native:+"
+    implementation(project(":react-native-google-signin")){         
         exclude group: "com.google.android.gms" // very important
     }
-    compile 'com.google.android.gms:play-services-auth:9.2.1' // should be at least 9.0.0
+    implementation 'com.google.android.gms:play-services-auth:15.0.0' // should be at least 15.0.0 to work with most recent APIS
 }
 
 apply plugin: 'com.google.gms.google-services' // <--- this should be the last line
