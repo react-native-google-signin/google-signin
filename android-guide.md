@@ -17,7 +17,7 @@ You need the following packages
 
 ### 3. Installation
 
-Please note that this package requires android gradle plugin of version 3, which in turn requires at least gradle 4.1. Android studio should be able to do the upgrade for you.
+Please note that this package requires android gradle plugin of version >= 3, which in turn requires at least gradle 4.1. Android studio should be able to do the upgrade for you.
 
 * run `react-native link react-native-google-signin`
 
