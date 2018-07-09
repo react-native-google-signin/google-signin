@@ -10,6 +10,7 @@ import com.facebook.react.bridge.WritableMap;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.common.Scopes;
 
 public class Utils {
 
@@ -55,7 +56,7 @@ public class Utils {
             final String hostedDomain
     ) {
         GoogleSignInOptions.Builder googleSignInOptionsBuilder = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestScopes(GoogleSignInOptions.SCOPE_EMAIL, scopes);
+                .requestScopes(new Scope(Scopes.EMAIL), scopes);
         if (webClientId != null && !webClientId.isEmpty()) {
             googleSignInOptionsBuilder.requestIdToken(webClientId);
             if (offlineAcess) {
