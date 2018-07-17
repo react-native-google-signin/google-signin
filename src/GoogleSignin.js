@@ -14,6 +14,20 @@ const { RNGoogleSignin } = NativeModules;
 const IS_IOS = Platform.OS === 'ios';
 const IS_ANDROID = Platform.OS === 'android';
 
+async function userWithAccessToken(user) {
+  let accessToken;
+
+  if (IS_ANDROID) {
+    try {
+      accessToken = await RNGoogleSignin.getAccessToken(user);
+    } catch(err) {
+      // we return user without accessToken
+    }
+  }
+
+  return accessToken ? { ...user, accessToken } : { ...user };
+}
+
 class GoogleSignin {
   // TODO vonovak kill state in this module
   _user = null;
@@ -42,8 +56,9 @@ class GoogleSignin {
   async currentUserAsync() {
     try {
       const user = await RNGoogleSignin.currentUserAsync();
-      this._user = { ...user };
-      return user;
+      this._user = await userWithAccessToken(user);
+
+      return this._user;
     } catch (error) {
       this.signinIsInProcess = false;
 
@@ -66,8 +81,9 @@ class GoogleSignin {
     this.signinIsInProcess = true;
     try {
       const user = await RNGoogleSignin.signIn();
-      this._user = { ...user };
-      return user;
+      this._user = await userWithAccessToken(user);
+
+      return this._user;
     } catch (error) {
       // TODO figure out a nice api that communicates this to the user
       // I'd go for expo's way: https://docs.expo.io/versions/latest/sdk/google
