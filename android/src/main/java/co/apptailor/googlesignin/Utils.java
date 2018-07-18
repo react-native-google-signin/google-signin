@@ -26,6 +26,14 @@ public class Utils {
     static WritableMap getUserProperties(@NonNull GoogleSignInAccount acct) {
         Uri photoUrl = acct.getPhotoUrl();
 
+        WritableMap user = Arguments.createMap();
+        user.putString("id", acct.getId());
+        user.putString("name", acct.getDisplayName());
+        user.putString("givenName", acct.getGivenName());
+        user.putString("familyName", acct.getFamilyName());
+        user.putString("email", acct.getEmail());
+        user.putString("photo", photoUrl != null ? photoUrl.toString() : null);
+
         WritableArray scopes = Arguments.createArray();
         for(Scope scope : acct.getGrantedScopes()) {
             String scopeString = scope.toString();
@@ -35,15 +43,13 @@ public class Utils {
         }
 
         WritableMap params = Arguments.createMap();
-        params.putString("id", acct.getId());
-        params.putString("name", acct.getDisplayName());
-        params.putString("givenName", acct.getGivenName());
-        params.putString("familyName", acct.getFamilyName());
-        params.putString("email", acct.getEmail());
-        params.putString("photo", photoUrl != null ? photoUrl.toString() : null);
+        params.putString("type", "success");
         params.putString("idToken", acct.getIdToken());
         params.putString("serverAuthCode", acct.getServerAuthCode());
+        params.putString("accessToken", null);
+        params.putString("accessTokenExpirationDate", null);
         params.putArray("scopes", scopes);
+        params.putMap("user", user);
         return params;
     }
 

@@ -120,28 +120,33 @@ RCT_REMAP_METHOD(revokeAccess,
         }
       return;
     }
-
+    
     NSURL *imageURL;
-
+    
     if (user.profile.hasImage)
     {
-      imageURL = [user.profile imageURLWithDimension:120];
+        imageURL = [user.profile imageURLWithDimension:120];
     }
 
-    NSDictionary *body = @{
+    NSDictionary *userInfo = @{
+                           @"id": user.userID,
                            @"name": user.profile.name,
                            @"givenName": user.profile.givenName,
                            @"familyName": user.profile.familyName,
-                           @"id": user.userID,
                            @"photo": imageURL ? imageURL.absoluteString : [NSNull null],
-                           @"email": user.profile.email,
+                           @"email": user.profile.email
+                           };
+    
+    NSDictionary *params = @{
+                           @"type": @"success",
                            @"idToken": user.authentication.idToken,
-                           @"accessToken": user.authentication.accessToken,
                            @"serverAuthCode": user.serverAuthCode ? user.serverAuthCode : [NSNull null],
-                           @"accessTokenExpirationDate": [NSNumber numberWithDouble:user.authentication.accessTokenExpirationDate.timeIntervalSinceNow]
+                           @"accessToken": user.authentication.accessToken,
+                           @"accessTokenExpirationDate": [NSNumber numberWithDouble:user.authentication.accessTokenExpirationDate.timeIntervalSinceNow],
+                           @"user": userInfo
                            };
 
-    self.promiseResolve(body);
+    self.promiseResolve(params);
 }
 
 - (void)signIn:(GIDSignIn *)signIn didDisconnectWithUser:(GIDGoogleUser *)user withError:(NSError *)error {
