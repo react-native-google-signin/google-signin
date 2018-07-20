@@ -94,13 +94,13 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '23.0.1'
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         applicationId "com.googlesigninsampleapp"
-        minSdkVersion 16
-        targetSdkVersion 22
+        compileSdkVersion rootProject.ext.compileSdkVersion
+        buildToolsVersion rootProject.ext.buildToolsVersion
         versionCode 1
         versionName "1.0"
         ndk {
@@ -141,7 +141,7 @@ dependencies {
         exclude group: "com.google.android.gms"
     }
     compile fileTree(dir: "libs", include: ["*.jar"])
-    compile "com.android.support:appcompat-v7:23.0.1"
+    compile "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     compile 'com.google.android.gms:play-services-auth:15.0.1'
     compile "com.facebook.react:react-native:+"  // From node_modules
 }
