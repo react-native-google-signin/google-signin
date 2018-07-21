@@ -60,9 +60,10 @@ class GoogleSignin {
     return RNGoogleSignin.configure(params);
   }
 
-  async getCurrentUser() {
+  async getCurrentUser(params) {
     try {
-      const user = await RNGoogleSignin.currentUserAsync();
+      await this._configure(params);
+      const user = await RNGoogleSignin.getCurrentUser();
       return user;
     } catch (error) {
       return Promise.resolve(null);

@@ -152,7 +152,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void currentUserAsync(Promise promise) {
+    public void getCurrentUser(Promise promise) {
         if (_apiClient == null) {
             rejectWithNullClientError();
             return;

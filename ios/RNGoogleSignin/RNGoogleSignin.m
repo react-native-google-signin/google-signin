@@ -15,6 +15,16 @@ RCT_EXPORT_METHOD(configure:(NSDictionary *)options
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
+  // TODO we need to be smarter than this
+  BOOL isConfigurationNeeded = [GIDSignIn sharedInstance].delegate != self;
+  if (isConfigurationNeeded) {
+    [self configureGoogleSingInInstance: options];
+  }
+  
+  resolve(@YES);
+}
+
+- (void) configureGoogleSingInInstance: (NSDictionary *)options {
   [GIDSignIn sharedInstance].delegate = self;
   [GIDSignIn sharedInstance].uiDelegate = self;
   [GIDSignIn sharedInstance].scopes = options[@"scopes"];
@@ -27,11 +37,9 @@ RCT_EXPORT_METHOD(configure:(NSDictionary *)options
   if (options[@"webClientId"]) {
     [GIDSignIn sharedInstance].serverClientID = options[@"webClientId"];
   }
-
-  resolve(@YES);
 }
 
-RCT_REMAP_METHOD(currentUserAsync,
+RCT_REMAP_METHOD(getCurrentUser,
                  currentUserAsyncResolve:(RCTPromiseResolveBlock)resolve
                 currentUserAsyncReject:(RCTPromiseRejectBlock)reject)
 {

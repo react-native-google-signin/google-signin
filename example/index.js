@@ -12,7 +12,7 @@ import {
 import { GoogleSignin, GoogleSigninButton, isSigninCancellation } from 'react-native-google-signin';
 import config from './config';
 
-const configPlatform = {
+const configPerPlatform = {
   ...Platform.select({
     ios: {
       iosClientId: config.iosClientId,
@@ -24,8 +24,8 @@ const configPlatform = {
 };
 
 const configObject = {
-  ..configPerPlatform,
-  webClientId: configPerPlatformtId,
+  ...configPerPlatform,
+  webClientId: config.webClientId,
   offlineAccess: false,
 };
 
@@ -44,7 +44,7 @@ class GoogleSigninSampleApp extends Component {
 
   async _getCurrentUser() {
     try {
-      const user = await GoogleSignin.getCurrentUser();
+      const user = await GoogleSignin.getCurrentUser(configObject);
       this.setState({ user, error: null });
     } catch (error) {
       this.setState({
@@ -75,9 +75,9 @@ class GoogleSigninSampleApp extends Component {
       return (
         <View style={styles.container}>
           <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 20 }}>
-            Welcome {user.name}
+            Welcome {user.user.name}
           </Text>
-          <Text>Your email is: {user.email}</Text>
+          <Text>Your email is: {user.user.email}</Text>
 
           <TouchableOpacity onPress={this._signOut}>
             <View style={{ marginTop: 50 }}>
@@ -98,10 +98,6 @@ class GoogleSigninSampleApp extends Component {
         Alert.alert('Something went wrong', error.toString());
         this.setState({
           error,
-        });
-      } else {
-        this.setState({
-          error: 'user cancelled the login flow',
         });
       }
     }
