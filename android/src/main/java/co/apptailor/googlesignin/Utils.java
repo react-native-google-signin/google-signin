@@ -43,7 +43,6 @@ public class Utils {
         }
 
         WritableMap params = Arguments.createMap();
-        params.putString("type", "success");
         params.putString("idToken", acct.getIdToken());
         params.putString("serverAuthCode", acct.getServerAuthCode());
         params.putString("accessToken", null);

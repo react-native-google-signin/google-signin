@@ -14,6 +14,10 @@ const { RNGoogleSignin } = NativeModules;
 const IS_IOS = Platform.OS === 'ios';
 const IS_ANDROID = Platform.OS === 'android';
 
+export const isSigninCancellation = error => {
+  return (IS_IOS && error.code === '-5') || (IS_ANDROID && error.code === '12501');
+};
+
 class GoogleSignin {
   signinIsInProcess = false;
 
@@ -30,9 +34,6 @@ class GoogleSignin {
       const user = await RNGoogleSignin.signIn();
       return user;
     } catch (error) {
-      if ((IS_IOS && error.code === '-5') || (IS_ANDROID && error.code === '12501')) {
-        return Promise.resolve({ type: 'cancel' });
-      }
       return Promise.reject(error);
     } finally {
       this.signinIsInProcess = false;

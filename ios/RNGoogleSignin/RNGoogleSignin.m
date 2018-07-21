@@ -96,61 +96,60 @@ RCT_REMAP_METHOD(revokeAccess,
 }
 
 - (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
-    if (error != Nil) {
-      switch (error.code) {
-        case kGIDSignInErrorCodeUnknown:
-          [self reject:@"Unknown error when signing in." withError:error];
-          break;
-        case kGIDSignInErrorCodeKeychain:
-          [self reject:@"A problem reading or writing to the application keychain." withError:error];
-          break;
-        case kGIDSignInErrorCodeNoSignInHandlersInstalled:
-          [self reject:@"No appropriate applications are installed on the device which can handle sign-in. Both webview and switching to browser have both been disabled." withError:error];
-          break;
-        case kGIDSignInErrorCodeHasNoAuthInKeychain:
-          [self reject:@"The user has never signed in before with the given scopes, or they have since signed out." withError:error];
-          break;
-        case kGIDSignInErrorCodeCanceled:
-          [self reject:@"The user canceled the sign in request." withError:error];
-          break;
-        default:
-          // RCTLogError(@"%s: %@ (%d)", __func__, error, error.code);
-          [self reject:@"Unknown error and error code when signing in." withError:error];
-          break;
-        }
-      return;
+    if (error) {
+        [self rejectWithSigninError:error];
+    } else {
+        [self resolveWithUserDetails: user];
     }
-    
-    NSURL *imageURL;
-    
-    if (user.profile.hasImage)
-    {
-        imageURL = [user.profile imageURLWithDimension:120];
-    }
+}
 
+- (void)resolveWithUserDetails: (GIDGoogleUser *) user {
+    NSURL *imageURL = user.profile.hasImage ? [user.profile imageURLWithDimension:120] : nil;
+    
     NSDictionary *userInfo = @{
-                           @"id": user.userID,
-                           @"name": user.profile.name,
-                           @"givenName": user.profile.givenName,
-                           @"familyName": user.profile.familyName,
-                           @"photo": imageURL ? imageURL.absoluteString : [NSNull null],
-                           @"email": user.profile.email
-                           };
+                               @"id": user.userID,
+                               @"name": user.profile.name,
+                               @"givenName": user.profile.givenName,
+                               @"familyName": user.profile.familyName,
+                               @"photo": imageURL ? imageURL.absoluteString : [NSNull null],
+                               @"email": user.profile.email
+                               };
     
     NSDictionary *params = @{
-                           @"type": @"success",
-                           @"idToken": user.authentication.idToken,
-                           @"serverAuthCode": user.serverAuthCode ? user.serverAuthCode : [NSNull null],
-                           @"accessToken": user.authentication.accessToken,
-                           @"accessTokenExpirationDate": [NSNumber numberWithDouble:user.authentication.accessTokenExpirationDate.timeIntervalSinceNow],
-                           @"user": userInfo
-                           };
-
+                             @"idToken": user.authentication.idToken,
+                             @"serverAuthCode": user.serverAuthCode ? user.serverAuthCode : [NSNull null],
+                             @"accessToken": user.authentication.accessToken,
+                             @"accessTokenExpirationDate": [NSNumber numberWithDouble:user.authentication.accessTokenExpirationDate.timeIntervalSinceNow],
+                             @"user": userInfo
+                             };
+    
     self.promiseResolve(params);
 }
 
+- (void)rejectWithSigninError: (NSError *) error {
+    NSString * errorMessage = @"Unknown error and error code when signing in.";
+    switch (error.code) {
+        case kGIDSignInErrorCodeUnknown:
+            errorMessage = @"Unknown error when signing in.";
+            break;
+        case kGIDSignInErrorCodeKeychain:
+            errorMessage = @"A problem reading or writing to the application keychain.";
+            break;
+        case kGIDSignInErrorCodeNoSignInHandlersInstalled:
+            errorMessage = @"No appropriate applications are installed on the device which can handle sign-in. Both webview and switching to browser have both been disabled.";
+            break;
+        case kGIDSignInErrorCodeHasNoAuthInKeychain:
+            errorMessage = @"The user has never signed in before with the given scopes, or they have since signed out.";
+            break;
+        case kGIDSignInErrorCodeCanceled:
+            errorMessage = @"The user canceled the sign in request.";
+            break;
+    }
+    [self reject:errorMessage withError:error];
+}
+
 - (void)signIn:(GIDSignIn *)signIn didDisconnectWithUser:(GIDGoogleUser *)user withError:(NSError *)error {
-  if (error != Nil) {
+  if (error) {
       return [self reject:@"Error when revoking access." withError:error];
   }
 

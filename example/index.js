@@ -1,8 +1,33 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View, TouchableOpacity, Platform } from 'react-native';
+import {
+  AppRegistry,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Platform,
+  Alert,
+} from 'react-native';
 
-import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
+import { GoogleSignin, GoogleSigninButton, isSigninCancellation } from 'react-native-google-signin';
 import config from './config';
+
+const configPlatform = {
+  ...Platform.select({
+    ios: {
+      iosClientId: config.iosClientId,
+    },
+    android: {
+      autoResolveGooglePlayError: true,
+    },
+  }),
+};
+
+const configObject = {
+  ..configPerPlatform,
+  webClientId: configPerPlatformtId,
+  offlineAccess: false,
+};
 
 class GoogleSigninSampleApp extends Component {
   constructor(props) {
@@ -14,31 +39,12 @@ class GoogleSigninSampleApp extends Component {
   }
 
   async componentDidMount() {
-    await this._configureGoogleSignIn();
     await this._getCurrentUser();
-  }
-
-  async _configureGoogleSignIn() {
-    await GoogleSignin.hasPlayServices({ autoResolve: true });
-    const configPlatform = {
-      ...Platform.select({
-        ios: {
-          iosClientId: config.iosClientId,
-        },
-        android: {},
-      }),
-    };
-
-    await GoogleSignin.configure({
-      ...configPlatform,
-      webClientId: config.webClientId,
-      offlineAccess: false,
-    });
   }
 
   async _getCurrentUser() {
     try {
-      const user = await GoogleSignin.currentUserAsync();
+      const user = await GoogleSignin.getCurrentUser();
       this.setState({ user, error: null });
     } catch (error) {
       this.setState({
@@ -85,15 +91,19 @@ class GoogleSigninSampleApp extends Component {
 
   _signIn = async () => {
     try {
-      const user = await GoogleSignin.signIn();
+      const user = await GoogleSignin.signIn(configObject);
       this.setState({ user, error: null });
     } catch (error) {
-      if (error.code === 'CANCELED') {
-        error.message = 'user canceled the login flow';
+      if (!isSigninCancellation(error)) {
+        Alert.alert('Something went wrong', error.toString());
+        this.setState({
+          error,
+        });
+      } else {
+        this.setState({
+          error: 'user cancelled the login flow',
+        });
       }
-      this.setState({
-        error,
-      });
     }
   };
 
