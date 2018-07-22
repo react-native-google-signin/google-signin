@@ -3,12 +3,9 @@ package co.apptailor.googlesignin;
 import android.accounts.Account;
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.facebook.infer.annotation.Assertions;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.BaseActivityEventListener;
 import com.facebook.react.bridge.Promise;
@@ -21,18 +18,17 @@ import com.facebook.react.bridge.UiThreadUtil;
 import com.facebook.react.bridge.WritableMap;
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
-import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
-import com.google.android.gms.common.api.OptionalPendingResult;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -45,7 +41,7 @@ import static co.apptailor.googlesignin.Utils.scopesToString;
 
 
 public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
-    private GoogleApiClient _apiClient;
+    private GoogleSignInClient _apiClient;
     private Promise _signinPromise;
 
     public static final int RC_SIGN_IN = 9001;
@@ -64,9 +60,10 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
     private class RNGoogleSigninActivityEventListener extends BaseActivityEventListener {
         @Override
         public void onActivityResult(Activity activity, final int requestCode, final int resultCode, final Intent intent) {
-            if (requestCode == RNGoogleSigninModule.RC_SIGN_IN) {
-                GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(intent);
-                handleSignInResult(result);
+            if (requestCode == RC_SIGN_IN) {
+                // The Task returned from this call is always completed, no need to attach a listener.
+                Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(intent);
+                handleSignInTaskResult(task);
             }
         }
     }
@@ -84,12 +81,12 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void playServicesAvailable(boolean autoresolve, Promise promise) {
+    public void playServicesAvailable(boolean showPlayServicesUpdateDialog, Promise promise) {
         Activity activity = getCurrentActivity();
 
         if (activity == null) {
             Log.w(MODULE_NAME, "could not determine playServicesAvailable, activity is null");
-            promise.reject(MODULE_NAME,  "activity is null");
+            promise.reject(MODULE_NAME, "activity is null");
             return;
         }
         _signinPromise = promise;
@@ -98,7 +95,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         int status = googleApiAvailability.isGooglePlayServicesAvailable(activity);
 
         if (status != ConnectionResult.SUCCESS) {
-            if (autoresolve && googleApiAvailability.isUserResolvableError(status)) {
+            if (showPlayServicesUpdateDialog && googleApiAvailability.isUserResolvableError(status)) {
                 googleApiAvailability.getErrorDialog(activity, status, 2404).show();
             }
             reject(String.valueOf(status), "Play services not available");
@@ -118,41 +115,14 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         final boolean forceConsentPrompt = config.hasKey("forceConsentPrompt") && config.getBoolean("forceConsentPrompt");
         final String accountName = config.hasKey("accountName") ? config.getString("accountName") : null;
         final String hostedDomain = config.hasKey("hostedDomain") ? config.getString("hostedDomain") : null;
-        _signinPromise = promise;
 
-        UiThreadUtil.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                _apiClient = new GoogleApiClient.Builder(getReactApplicationContext())
-                        .addApi(Auth.GOOGLE_SIGN_IN_API, getSignInOptions(createScopesArray(scopes), webClientId, offlineAccess, forceConsentPrompt, accountName, hostedDomain))
-                        .addConnectionCallbacks(new ConnectionCallbacks() {
-                            @Override
-                            public void onConnected(@Nullable Bundle bundle) {
-                                // TODO vonovak we should dispatch an event to JS in this case
-                                resolve(true);
-                            }
-
-                            @Override
-                            public void onConnectionSuspended(int cause) {
-                                // Called when the client is temporarily in a disconnected state. GoogleApiClient will automatically attempt to restore the connection.
-                                // Applications should disable UI components that require the service, and wait for a call to onConnected(Bundle) to re-enable them.
-                                // TODO vonovak we should dispatch an event to JS in this case
-                            }
-                        })
-                        .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
-                            @Override
-                            public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                                reject(String.valueOf(connectionResult.getErrorCode()), connectionResult.getErrorMessage());
-                            }
-                        })
-                        .build();
-                _apiClient.connect();
-            }
-        });
+        GoogleSignInOptions options = getSignInOptions(createScopesArray(scopes), webClientId, offlineAccess, forceConsentPrompt, accountName, hostedDomain);
+        _apiClient = GoogleSignIn.getClient(getReactApplicationContext(), options);
+        promise.resolve(true);
     }
 
     @ReactMethod
-    public void getCurrentUser(Promise promise) {
+    public void signInSilently(Promise promise) {
         if (_apiClient == null) {
             rejectWithNullClientError();
             return;
@@ -162,16 +132,15 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         UiThreadUtil.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                OptionalPendingResult<GoogleSignInResult> pendingResult = Auth.GoogleSignInApi.silentSignIn(_apiClient);
-
-                if (pendingResult.isDone()) {
-                    GoogleSignInResult result = pendingResult.get();
-                    handleSignInResult(result);
+                Task<GoogleSignInAccount> result = _apiClient.silentSignIn();
+                if (result.isSuccessful()) {
+                    // There's immediate result available.
+                    handleSignInTaskResult(result);
                 } else {
-                    pendingResult.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+                    result.addOnCompleteListener(new OnCompleteListener() {
                         @Override
-                        public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
-                            handleSignInResult(googleSignInResult);
+                        public void onComplete(Task task) {
+                            handleSignInTaskResult(task);
                         }
                     });
                 }
@@ -179,14 +148,13 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         });
     }
 
-    private void handleSignInResult(@NonNull GoogleSignInResult result) {
-        if (result.getStatus().isSuccess()) {
-            // since status is success, getSignInAccount() will return non-null value
-            GoogleSignInAccount acct = Assertions.assertNotNull(result.getSignInAccount());
-            WritableMap params = getUserProperties(acct);
+    private void handleSignInTaskResult(Task<GoogleSignInAccount> result) {
+        try {
+            GoogleSignInAccount account = result.getResult(ApiException.class);
+            WritableMap params = getUserProperties(account);
             resolve(params);
-        } else {
-            int code = result.getStatus().getStatusCode();
+        } catch (ApiException e) {
+            int code = e.getStatusCode();
             reject(String.valueOf(code), GoogleSignInStatusCodes.getStatusCodeString(code));
         }
     }
@@ -201,7 +169,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         final Activity activity = getCurrentActivity();
 
         if (activity == null) {
-            promise.reject(MODULE_NAME,  "activity is null");
+            promise.reject(MODULE_NAME, "activity is null");
             return;
         }
 
@@ -210,7 +178,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         UiThreadUtil.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(_apiClient);
+                Intent signInIntent = _apiClient.getSignInIntent();
                 activity.startActivityForResult(signInIntent, RC_SIGN_IN);
             }
         });
@@ -224,17 +192,13 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         }
         _signinPromise = promise;
 
-        Auth.GoogleSignInApi.signOut(_apiClient).setResultCallback(new ResultCallback<Status>() {
-            @Override
-            public void onResult(@NonNull Status status) {
-                if (status.isSuccess()) {
-                    resolve(true);
-                } else {
-                    int code = status.getStatusCode();
-                    reject(String.valueOf(code), GoogleSignInStatusCodes.getStatusCodeString(code));
-                }
-            }
-        });
+        _apiClient.signOut()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        handleSignOutOrRevokeAccessResult(task);
+                    }
+                });
     }
 
     @ReactMethod
@@ -244,18 +208,21 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
             return;
         }
         _signinPromise = promise;
+        _apiClient.revokeAccess()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        handleSignOutOrRevokeAccessResult(task);
+                    }
+                });
+    }
 
-        Auth.GoogleSignInApi.revokeAccess(_apiClient).setResultCallback(new ResultCallback<Status>() {
-            @Override
-            public void onResult(@NonNull Status status) {
-                if (status.isSuccess()) {
-                    resolve( true);
-                } else {
-                    int code = status.getStatusCode();
-                    reject(String.valueOf(code), GoogleSignInStatusCodes.getStatusCodeString(code));
-                }
-            }
-        });
+    private void handleSignOutOrRevokeAccessResult(@NonNull Task<Void> task) {
+        if (task.isSuccessful()) {
+            resolve(true);
+        } else {
+            reject("0", "unknown error");
+        }
     }
 
     @ReactMethod
@@ -282,7 +249,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
     }
 
     private void rejectWithNullClientError() {
-        reject(MODULE_NAME,"apiClient is null - call configure first");
+        reject(MODULE_NAME, "apiClient is null - call configure first");
     }
 
     private void reject(String code, String message) {

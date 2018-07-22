@@ -60,10 +60,10 @@ class GoogleSignin {
     return RNGoogleSignin.configure(params);
   }
 
-  async getCurrentUser(params) {
+  async signInSilently(params) {
     try {
       await this._configure(params);
-      const user = await RNGoogleSignin.getCurrentUser();
+      const user = await RNGoogleSignin.signInSilently();
       return user;
     } catch (error) {
       return Promise.resolve(null);

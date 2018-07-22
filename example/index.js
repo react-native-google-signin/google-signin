@@ -44,7 +44,7 @@ class GoogleSigninSampleApp extends Component {
 
   async _getCurrentUser() {
     try {
-      const user = await GoogleSignin.getCurrentUser(configObject);
+      const user = await GoogleSignin.signInSilently(configObject);
       this.setState({ user, error: null });
     } catch (error) {
       this.setState({
