@@ -185,7 +185,35 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
             // since status is success, getSignInAccount() will return non-null value
             GoogleSignInAccount acct = Assertions.assertNotNull(result.getSignInAccount());
 
-            getAccessToken(acct);
+            Thread thread = new Thread() {
+                @Override
+                public void run() {
+                final Account acct = new Account(account.getEmail(), GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE);
+                WritableMap user = getUserProperties(account);
+                String token = null;
+
+                try {
+                    token = GoogleAuthUtil.getToken(getReactApplicationContext(), acct, scopesToString(user.getArray("scopes")));
+                } catch (IOException | GoogleAuthException e) {
+                    Log.e(MODULE_NAME, e.getLocalizedMessage());
+                }
+
+                if (token != null) {
+                    user.putString("accessToken", token);
+                }
+
+                final WritableMap userWithToken = user;
+
+                UiThreadUtil.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        resolve(userWithToken);
+                    }
+                });
+                }
+            };
+
+            thread.start();
         } else {
             int code = result.getStatus().getStatusCode();
             reject(String.valueOf(code), GoogleSignInStatusCodes.getStatusCodeString(code));
@@ -257,38 +285,6 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
                 }
             }
         });
-    }
-
-    private void getAccessToken(final @NonNull GoogleSignInAccount account) {
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                final Account acct = new Account(account.getEmail(), GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE);
-                WritableMap user = getUserProperties(account);
-                String token = null;
-
-                try {
-                    token = GoogleAuthUtil.getToken(getReactApplicationContext(), acct, scopesToString(user.getArray("scopes")));
-                } catch (IOException | GoogleAuthException e) {
-                    Log.e(MODULE_NAME, e.getLocalizedMessage());
-                }
-
-                if (token != null) {
-                    user.putString("accessToken", token);
-                }
-
-                final WritableMap userWithToken = user;
-
-                UiThreadUtil.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        resolve(userWithToken);
-                    }
-                });
-            }
-        };
-
-        thread.start();
     }
 
     private void resolve(Object value) {
