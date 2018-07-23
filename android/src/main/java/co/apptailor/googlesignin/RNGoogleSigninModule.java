@@ -183,7 +183,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
     private void handleSignInResult(@NonNull GoogleSignInResult result) {
         if (result.getStatus().isSuccess()) {
             // since status is success, getSignInAccount() will return non-null value
-            GoogleSignInAccount acct = Assertions.assertNotNull(result.getSignInAccount());
+            final GoogleSignInAccount account = Assertions.assertNotNull(result.getSignInAccount());
 
             Thread thread = new Thread() {
                 @Override
