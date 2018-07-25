@@ -9,25 +9,12 @@ import {
   Alert,
 } from 'react-native';
 
-import { GoogleSignin, GoogleSigninButton, isSigninCancellation } from 'react-native-google-signin';
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+  doesErrorNeedToBeHandled,
+} from 'react-native-google-signin';
 import config from './config';
-
-const configPerPlatform = {
-  ...Platform.select({
-    ios: {
-      iosClientId: config.iosClientId,
-    },
-    android: {
-      autoResolveGooglePlayError: true,
-    },
-  }),
-};
-
-const configObject = {
-  ...configPerPlatform,
-  webClientId: config.webClientId,
-  offlineAccess: false,
-};
 
 class GoogleSigninSampleApp extends Component {
   constructor(props) {
@@ -39,12 +26,31 @@ class GoogleSigninSampleApp extends Component {
   }
 
   async componentDidMount() {
+    await this._configureGoogleSignIn();
     await this._getCurrentUser();
+  }
+
+  async _configureGoogleSignIn() {
+    await GoogleSignin.hasPlayServices();
+    const configPlatform = {
+      ...Platform.select({
+        ios: {
+          iosClientId: config.iosClientId,
+        },
+        android: {},
+      }),
+    };
+
+    await GoogleSignin.configure({
+      ...configPlatform,
+      webClientId: config.webClientId,
+      offlineAccess: false,
+    });
   }
 
   async _getCurrentUser() {
     try {
-      const user = await GoogleSignin.signInSilently(configObject);
+      const user = await GoogleSignin.signInSilently();
       this.setState({ user, error: null });
     } catch (error) {
       this.setState({
@@ -91,10 +97,10 @@ class GoogleSigninSampleApp extends Component {
 
   _signIn = async () => {
     try {
-      const user = await GoogleSignin.signIn(configObject);
+      const user = await GoogleSignin.signIn();
       this.setState({ user, error: null });
     } catch (error) {
-      if (!isSigninCancellation(error)) {
+      if (doesErrorNeedToBeHandled(error)) {
         Alert.alert('Something went wrong', error.toString());
         this.setState({
           error,
@@ -107,6 +113,7 @@ class GoogleSigninSampleApp extends Component {
     try {
       await GoogleSignin.revokeAccess();
       await GoogleSignin.signOut();
+
       this.setState({ user: null });
     } catch (error) {
       this.setState({

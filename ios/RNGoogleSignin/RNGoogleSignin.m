@@ -15,7 +15,6 @@ RCT_EXPORT_METHOD(configure:(NSDictionary *)options
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
-  GIDGoogleUser *currentUser = [GIDSignIn sharedInstance].currentUser;
   [GIDSignIn sharedInstance].delegate = self;
   [GIDSignIn sharedInstance].uiDelegate = self;
   [GIDSignIn sharedInstance].scopes = options[@"scopes"];

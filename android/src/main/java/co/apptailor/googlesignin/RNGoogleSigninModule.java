@@ -57,17 +57,6 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         reactContext.addActivityEventListener(new RNGoogleSigninActivityEventListener());
     }
 
-    private class RNGoogleSigninActivityEventListener extends BaseActivityEventListener {
-        @Override
-        public void onActivityResult(Activity activity, final int requestCode, final int resultCode, final Intent intent) {
-            if (requestCode == RC_SIGN_IN) {
-                // The Task returned from this call is always completed, no need to attach a listener.
-                Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(intent);
-                handleSignInTaskResult(task);
-            }
-        }
-    }
-
     @Override
     public Map<String, Object> getConstants() {
         final Map<String, Object> constants = new HashMap<>();
@@ -184,6 +173,17 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         });
     }
 
+    private class RNGoogleSigninActivityEventListener extends BaseActivityEventListener {
+        @Override
+        public void onActivityResult(Activity activity, final int requestCode, final int resultCode, final Intent intent) {
+            if (requestCode == RC_SIGN_IN) {
+                // The Task returned from this call is always completed, no need to attach a listener.
+                Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(intent);
+                handleSignInTaskResult(task);
+            }
+        }
+    }
+
     @ReactMethod
     public void signOut(final Promise promise) {
         if (_apiClient == null) {
@@ -208,6 +208,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
             return;
         }
         _signinPromise = promise;
+
         _apiClient.revokeAccess()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -221,7 +222,11 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         if (task.isSuccessful()) {
             resolve(true);
         } else {
-            reject("0", "unknown error");
+            Exception e = task.getException();
+            // the message may contain a number code that you can use with GoogleSignInStatusCodes.getStatusCodeString
+            // but generally won't be very readable
+            String message = e != null ? e.getLocalizedMessage() : "unknown error";
+            reject("0", message);
         }
     }
 
