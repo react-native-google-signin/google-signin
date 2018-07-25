@@ -1,13 +1,6 @@
 import React, { Component } from 'react';
 
-import {
-  View,
-  NativeAppEventEmitter,
-  NativeModules,
-  requireNativeComponent,
-  ViewPropTypes,
-  Platform,
-} from 'react-native';
+import { NativeModules, Platform } from 'react-native';
 
 const { RNGoogleSignin } = NativeModules;
 
