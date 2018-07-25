@@ -20,7 +20,7 @@ class GoogleSigninSampleApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: null,
+      userInfo: null,
       error: null,
     };
   }
@@ -50,8 +50,8 @@ class GoogleSigninSampleApp extends Component {
 
   async _getCurrentUser() {
     try {
-      const user = await GoogleSignin.signInSilently();
-      this.setState({ user, error: null });
+      const userInfo = await GoogleSignin.signInSilently();
+      this.setState({ userInfo, error: null });
     } catch (error) {
       this.setState({
         error,
@@ -60,8 +60,8 @@ class GoogleSigninSampleApp extends Component {
   }
 
   render() {
-    const { user, error } = this.state;
-    if (!user) {
+    const { userInfo, error } = this.state;
+    if (!userInfo) {
       return (
         <View style={styles.container}>
           <GoogleSigninButton
@@ -81,9 +81,9 @@ class GoogleSigninSampleApp extends Component {
       return (
         <View style={styles.container}>
           <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 20 }}>
-            Welcome {user.user.name}
+            Welcome {userInfo.user.name}
           </Text>
-          <Text>Your email is: {user.user.email}</Text>
+          <Text>Your email is: {userInfo.user.email}</Text>
 
           <TouchableOpacity onPress={this._signOut}>
             <View style={{ marginTop: 50 }}>
@@ -97,8 +97,8 @@ class GoogleSigninSampleApp extends Component {
 
   _signIn = async () => {
     try {
-      const user = await GoogleSignin.signIn();
-      this.setState({ user, error: null });
+      const userInfo = await GoogleSignin.signIn();
+      this.setState({ userInfo, error: null });
     } catch (error) {
       if (doesErrorNeedToBeHandled(error)) {
         Alert.alert('Something went wrong', error.toString());
@@ -114,7 +114,7 @@ class GoogleSigninSampleApp extends Component {
       await GoogleSignin.revokeAccess();
       await GoogleSignin.signOut();
 
-      this.setState({ user: null });
+      this.setState({ userInfo: null });
     } catch (error) {
       this.setState({
         error,
