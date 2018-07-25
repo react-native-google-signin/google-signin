@@ -8,7 +8,7 @@ const IS_IOS = Platform.OS === 'ios';
 const IS_ANDROID = Platform.OS === 'android';
 const PREVIOUS_SIGNIN_IN_PROGRESS = 'RNGoogleSignin: Previous sign in still in progress.';
 
-const isSigninCancellation = error => {
+const isSigninCancellationError = error => {
   return (IS_IOS && error.code === '-5') || (IS_ANDROID && error.code === '13');
 };
 
@@ -17,7 +17,7 @@ const isSigninInProgressError = error => {
 };
 
 export const doesErrorNeedToBeHandled = error => {
-  return !isSigninCancellation(error) && !isSigninInProgressError(error);
+  return !isSigninCancellationError(error) && !isSigninInProgressError(error);
 };
 
 class GoogleSignin {
