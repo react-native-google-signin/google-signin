@@ -27,6 +27,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -222,11 +223,9 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         if (task.isSuccessful()) {
             resolve(true);
         } else {
-            Exception e = task.getException();
-            // the message may contain a number code that you can use with GoogleSignInStatusCodes.getStatusCodeString
-            // but generally won't be very readable
-            String message = e != null ? e.getLocalizedMessage() : "unknown error";
-            reject("0", message);
+            ApiException e = (ApiException) task.getException();
+            int code = e != null ? e.getStatusCode() : CommonStatusCodes.INTERNAL_ERROR;
+            reject(String.valueOf(code), GoogleSignInStatusCodes.getStatusCodeString(code));
         }
     }
 

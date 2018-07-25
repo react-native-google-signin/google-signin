@@ -29,7 +29,6 @@ export const doesErrorNeedToBeHandled = error => {
 
 class GoogleSignin {
   isSigninInProgress = false;
-  isSilentSigninInProgress = false;
   configPromise;
 
   async signIn() {
@@ -72,10 +71,10 @@ class GoogleSignin {
   }
 
   async signInSilently() {
-    if (this.isSilentSigninInProgress) {
+    if (this.isSigninInProgress) {
       return Promise.reject(new Error(PREVIOUS_SIGNIN_IN_PROGRESS));
     }
-    this.isSilentSigninInProgress = true;
+    this.isSigninInProgress = true;
     try {
       await this.hasPlayServices();
 
@@ -85,7 +84,7 @@ class GoogleSignin {
     } catch (error) {
       return Promise.resolve(null);
     } finally {
-      this.isSilentSigninInProgress = false;
+      this.isSigninInProgress = false;
     }
   }
 
