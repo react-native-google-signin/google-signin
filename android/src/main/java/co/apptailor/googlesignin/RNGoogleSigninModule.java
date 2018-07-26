@@ -223,8 +223,14 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         if (task.isSuccessful()) {
             resolve(true);
         } else {
-            ApiException e = (ApiException) task.getException();
-            int code = e != null ? e.getStatusCode() : CommonStatusCodes.INTERNAL_ERROR;
+            Exception e = task.getException();
+
+            int code = CommonStatusCodes.INTERNAL_ERROR;
+            if (e instanceof ApiException) {
+                ApiException exception = (ApiException) e;
+                code = exception.getStatusCode();
+            }
+
             reject(String.valueOf(code), GoogleSignInStatusCodes.getStatusCodeString(code));
         }
     }
