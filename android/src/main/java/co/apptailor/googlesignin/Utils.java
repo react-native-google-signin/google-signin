@@ -9,8 +9,11 @@ import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.Scopes;
+import com.google.android.gms.tasks.Task;
 
 public class Utils {
 
@@ -87,5 +90,16 @@ public class Utils {
             _scopes[i] = new Scope(scopeName);
         }
         return _scopes;
+    }
+
+    public static int getExceptionCode(@NonNull Task<Void> task) {
+        Exception e = task.getException();
+
+        int code = CommonStatusCodes.INTERNAL_ERROR;
+        if (e instanceof ApiException) {
+            ApiException exception = (ApiException) e;
+            code = exception.getStatusCode();
+        }
+        return code;
     }
 }

@@ -1,15 +1,44 @@
 #import "RNGoogleSignin.h"
+#import "PromiseWrapper.h"
 
 @interface RNGoogleSignin ()
 
-@property (nonatomic, strong) RCTPromiseResolveBlock promiseResolve;
-@property (nonatomic, strong) RCTPromiseRejectBlock promiseReject;
+@property (nonatomic) PromiseWrapper *promiseWrapper;
 
 @end
 
 @implementation RNGoogleSignin
 
 RCT_EXPORT_MODULE();
+
+- (NSDictionary *)constantsToExport
+{
+  return @{
+           @"BUTTON_SIZE_ICON" : @(kGIDSignInButtonStyleIconOnly),
+           @"BUTTON_SIZE_STANDARD" : @(kGIDSignInButtonStyleStandard),
+           @"BUTTON_SIZE_WIDE" : @(kGIDSignInButtonStyleWide),
+           @"BUTTON_COLOR_LIGHT" : @(kGIDSignInButtonColorSchemeLight),
+           @"BUTTON_COLOR_DARK" : @(kGIDSignInButtonColorSchemeDark)
+           };
+}
+
++ (BOOL)requiresMainQueueSetup
+{
+  return NO;
+}
+
+- (dispatch_queue_t)methodQueue
+{
+  return dispatch_get_main_queue();
+}
+
+- (instancetype)init {
+  self = [super init];
+  if (self != nil) {
+    self.promiseWrapper = [[PromiseWrapper alloc] init];
+  }
+  return self;
+}
 
 RCT_EXPORT_METHOD(configure:(NSDictionary *)options
                   resolver:(RCTPromiseResolveBlock)resolve
@@ -35,8 +64,11 @@ RCT_REMAP_METHOD(signInSilently,
                  currentUserAsyncResolve:(RCTPromiseResolveBlock)resolve
                 currentUserAsyncReject:(RCTPromiseRejectBlock)reject)
 {
-  self.promiseResolve = resolve;
-  self.promiseReject = reject;
+  BOOL wasPromiseSet = [self.promiseWrapper setPromiseWithInProgressCheck:resolve rejecter:reject];
+  if (!wasPromiseSet) {
+    [self rejectWithAsyncOperationStillInProgress: reject];
+    return;
+  }
   [[GIDSignIn sharedInstance] signInSilently];
 }
 
@@ -44,8 +76,11 @@ RCT_REMAP_METHOD(signIn,
                  signInResolve:(RCTPromiseResolveBlock)resolve
                  signInReject:(RCTPromiseRejectBlock)reject)
 {
-  self.promiseResolve = resolve;
-  self.promiseReject = reject;
+  BOOL wasPromiseSet = [self.promiseWrapper setPromiseWithInProgressCheck:resolve rejecter:reject];
+  if (!wasPromiseSet) {
+    [self rejectWithAsyncOperationStillInProgress: reject];
+    return;
+  }
   [[GIDSignIn sharedInstance] signIn];
 }
 
@@ -61,43 +96,17 @@ RCT_REMAP_METHOD(revokeAccess,
                  revokeAccessResolve:(RCTPromiseResolveBlock)resolve
                  revokeAccessReject:(RCTPromiseRejectBlock)reject)
 {
-  self.promiseResolve = resolve;
-  self.promiseReject = reject;
+  BOOL wasPromiseSet = [self.promiseWrapper setPromiseWithInProgressCheck:resolve rejecter:reject];
+  if (!wasPromiseSet) {
+    [self rejectWithAsyncOperationStillInProgress: reject];
+    return;
+  }
   [[GIDSignIn sharedInstance] disconnect];
-}
-
-- (NSDictionary *)constantsToExport
-{
-  return @{
-    @"BUTTON_SIZE_ICON" : @(kGIDSignInButtonStyleIconOnly),
-    @"BUTTON_SIZE_STANDARD" : @(kGIDSignInButtonStyleStandard),
-    @"BUTTON_SIZE_WIDE" : @(kGIDSignInButtonStyleWide),
-    @"BUTTON_COLOR_LIGHT" : @(kGIDSignInButtonColorSchemeLight),
-    @"BUTTON_COLOR_DARK" : @(kGIDSignInButtonColorSchemeDark)
-  };
-}
-
-+ (BOOL)requiresMainQueueSetup
-{
-    return NO;
-}
-
-- (dispatch_queue_t)methodQueue
-{
-    return dispatch_get_main_queue();
-}
-
-- (void)reject:(NSString *)message withError:(NSError *)error
-{
-    NSString* errorCode = [NSString stringWithFormat:@"%ld", error.code];
-    NSString* errorMessage = [NSString stringWithFormat:@"RNGoogleSignInError: %@, %@", message, error.description];
-    
-    self.promiseReject(errorCode, errorMessage, error);
 }
 
 - (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
     if (error) {
-        [self rejectWithSigninError:error];
+        [self rejectWithSigninError: error];
     } else {
         [self resolveWithUserDetails: user];
     }
@@ -123,7 +132,7 @@ RCT_REMAP_METHOD(revokeAccess,
                              @"user": userInfo
                              };
     
-    self.promiseResolve(params);
+    [self.promiseWrapper resolve:params];
 }
 
 - (void)rejectWithSigninError: (NSError *) error {
@@ -145,15 +154,16 @@ RCT_REMAP_METHOD(revokeAccess,
             errorMessage = @"The user canceled the sign in request.";
             break;
     }
-    [self reject:errorMessage withError:error];
+    [self.promiseWrapper reject:errorMessage withError:error];
 }
 
 - (void)signIn:(GIDSignIn *)signIn didDisconnectWithUser:(GIDGoogleUser *)user withError:(NSError *)error {
-  if (error) {
-      return [self reject:@"Error when revoking access." withError:error];
-  }
+    if (error) {
+        [self.promiseWrapper reject:@"Error when revoking access." withError:error];
+        return;
+    }
 
-  return self.promiseResolve(@YES);
+  [self.promiseWrapper resolve:(@YES)];
 }
 
 - (void)signIn:(GIDSignIn *)signIn presentViewController:(UIViewController *)viewController {
@@ -162,6 +172,10 @@ RCT_REMAP_METHOD(revokeAccess,
 
 - (void)signIn:(GIDSignIn *)signIn dismissViewController:(UIViewController *)viewController {
     [viewController dismissViewControllerAnimated:true completion:nil];
+}
+
+- (void)rejectWithAsyncOperationStillInProgress: (RCTPromiseRejectBlock)reject {
+    reject(@"ASYNC_OP_IN_PROGRESS", @"cannot set promise - some async operation is still in progress", nil);
 }
 
 + (BOOL)application:(UIApplication *)application openURL:(NSURL *)url

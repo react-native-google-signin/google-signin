@@ -60,7 +60,7 @@ class GoogleSigninSampleApp extends Component {
   }
 
   render() {
-    const { userInfo, error } = this.state;
+    const { userInfo } = this.state;
     if (!userInfo) {
       return (
         <View style={styles.container}>
@@ -70,11 +70,7 @@ class GoogleSigninSampleApp extends Component {
             color={GoogleSigninButton.Color.Auto}
             onPress={this._signIn}
           />
-          {error && (
-            <Text>
-              {error.toString()} code: {error.code}
-            </Text>
-          )}
+          {this.renderError()}
         </View>
       );
     } else {
@@ -86,13 +82,25 @@ class GoogleSigninSampleApp extends Component {
           <Text>Your email is: {userInfo.user.email}</Text>
 
           <TouchableOpacity onPress={this._signOut}>
-            <View style={{ marginTop: 50 }}>
+            <View style={{ marginTop: 50, padding: 20 }}>
               <Text>Log out</Text>
             </View>
           </TouchableOpacity>
+          {this.renderError()}
         </View>
       );
     }
+  }
+
+  renderError() {
+    const { error } = this.state;
+    return (
+      !!error && (
+        <Text>
+          {error.toString()} code: {error.code}
+        </Text>
+      )
+    );
   }
 
   _signIn = async () => {
@@ -114,7 +122,7 @@ class GoogleSigninSampleApp extends Component {
       await GoogleSignin.revokeAccess();
       await GoogleSignin.signOut();
 
-      this.setState({ userInfo: null });
+      this.setState({ userInfo: null, error: null });
     } catch (error) {
       this.setState({
         error,

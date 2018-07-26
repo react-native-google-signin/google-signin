@@ -27,7 +27,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -36,6 +35,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static co.apptailor.googlesignin.Utils.createScopesArray;
+import static co.apptailor.googlesignin.Utils.getExceptionCode;
 import static co.apptailor.googlesignin.Utils.getSignInOptions;
 import static co.apptailor.googlesignin.Utils.getUserProperties;
 import static co.apptailor.googlesignin.Utils.scopesToString;
@@ -43,10 +43,10 @@ import static co.apptailor.googlesignin.Utils.scopesToString;
 
 public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
     private GoogleSignInClient _apiClient;
-    private Promise _signinPromise;
 
     public static final int RC_SIGN_IN = 9001;
     public static final String MODULE_NAME = "RNGoogleSignin";
+    private PromiseWrapper promiseWrapper;
 
     @Override
     public String getName() {
@@ -55,6 +55,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
 
     public RNGoogleSigninModule(final ReactApplicationContext reactContext) {
         super(reactContext);
+        promiseWrapper = new PromiseWrapper();
         reactContext.addActivityEventListener(new RNGoogleSigninActivityEventListener());
     }
 
@@ -79,7 +80,6 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
             promise.reject(MODULE_NAME, "activity is null");
             return;
         }
-        _signinPromise = promise;
 
         GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
         int status = googleApiAvailability.isGooglePlayServicesAvailable(activity);
@@ -88,9 +88,9 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
             if (showPlayServicesUpdateDialog && googleApiAvailability.isUserResolvableError(status)) {
                 googleApiAvailability.getErrorDialog(activity, status, 2404).show();
             }
-            reject(String.valueOf(status), "Play services not available");
+            promise.reject(String.valueOf(status), "Play services not available");
         } else {
-            resolve(true);
+            promise.resolve(true);
         }
     }
 
@@ -114,10 +114,14 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void signInSilently(Promise promise) {
         if (_apiClient == null) {
-            rejectWithNullClientError();
+            rejectWithNullClientError(promise);
             return;
         }
-        _signinPromise = promise;
+        boolean wasPromiseSet = promiseWrapper.setPromiseWithInProgressCheck(promise);
+        if (!wasPromiseSet) {
+            rejectWithAsyncOperationStillInProgress(promise);
+            return;
+        }
 
         UiThreadUtil.runOnUiThread(new Runnable() {
             @Override
@@ -142,17 +146,17 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         try {
             GoogleSignInAccount account = result.getResult(ApiException.class);
             WritableMap params = getUserProperties(account);
-            resolve(params);
+            promiseWrapper.resolve(params);
         } catch (ApiException e) {
             int code = e.getStatusCode();
-            reject(String.valueOf(code), GoogleSignInStatusCodes.getStatusCodeString(code));
+            promiseWrapper.reject(String.valueOf(code), GoogleSignInStatusCodes.getStatusCodeString(code));
         }
     }
 
     @ReactMethod
     public void signIn(Promise promise) {
         if (_apiClient == null) {
-            rejectWithNullClientError();
+            rejectWithNullClientError(promise);
             return;
         }
 
@@ -163,7 +167,11 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
             return;
         }
 
-        _signinPromise = promise;
+        boolean wasPromiseSet = promiseWrapper.setPromiseWithInProgressCheck(promise);
+        if (!wasPromiseSet) {
+            rejectWithAsyncOperationStillInProgress(promise);
+            return;
+        }
 
         UiThreadUtil.runOnUiThread(new Runnable() {
             @Override
@@ -188,16 +196,20 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void signOut(final Promise promise) {
         if (_apiClient == null) {
-            rejectWithNullClientError();
+            rejectWithNullClientError(promise);
             return;
         }
-        _signinPromise = promise;
 
         _apiClient.signOut()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        handleSignOutOrRevokeAccessResult(task);
+                        if (task.isSuccessful()) {
+                            promise.resolve(true);
+                        } else {
+                            int code = getExceptionCode(task);
+                            promise.reject(String.valueOf(code), GoogleSignInStatusCodes.getStatusCodeString(code));
+                        }
                     }
                 });
     }
@@ -205,34 +217,28 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void revokeAccess(final Promise promise) {
         if (_apiClient == null) {
-            rejectWithNullClientError();
+            rejectWithNullClientError(promise);
             return;
         }
-        _signinPromise = promise;
+        // we could use the `promise` variable directly as in `signOut` but we want the api to be consistent with iOS!
+        boolean wasPromiseSet = promiseWrapper.setPromiseWithInProgressCheck(promise);
+        if (!wasPromiseSet) {
+            rejectWithAsyncOperationStillInProgress(promise);
+            return;
+        }
 
         _apiClient.revokeAccess()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        handleSignOutOrRevokeAccessResult(task);
+                        if (task.isSuccessful()) {
+                            promiseWrapper.resolve(true);
+                        } else {
+                            int code = getExceptionCode(task);
+                            promiseWrapper.reject(String.valueOf(code), GoogleSignInStatusCodes.getStatusCodeString(code));
+                        }
                     }
                 });
-    }
-
-    private void handleSignOutOrRevokeAccessResult(@NonNull Task<Void> task) {
-        if (task.isSuccessful()) {
-            resolve(true);
-        } else {
-            Exception e = task.getException();
-
-            int code = CommonStatusCodes.INTERNAL_ERROR;
-            if (e instanceof ApiException) {
-                ApiException exception = (ApiException) e;
-                code = exception.getStatusCode();
-            }
-
-            reject(String.valueOf(code), GoogleSignInStatusCodes.getStatusCodeString(code));
-        }
     }
 
     @ReactMethod
@@ -248,28 +254,12 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         }
     }
 
-    private void resolve(Object value) {
-        if (_signinPromise == null) {
-            Log.w(MODULE_NAME, "could not resolve promise because it's null");
-            return;
-        }
-
-        _signinPromise.resolve(value);
-        _signinPromise = null;
+    private void rejectWithNullClientError(Promise promise) {
+        promise.reject(MODULE_NAME, "apiClient is null - call configure first");
     }
 
-    private void rejectWithNullClientError() {
-        reject(MODULE_NAME, "apiClient is null - call configure first");
-    }
-
-    private void reject(String code, String message) {
-        if (_signinPromise == null) {
-            Log.w(MODULE_NAME, "could not reject promise because it's null");
-            return;
-        }
-
-        _signinPromise.reject(code, message);
-        _signinPromise = null;
+    private void rejectWithAsyncOperationStillInProgress(Promise promise) {
+        promise.reject("ASYNC_OP_IN_PROGRESS", "cannot set promise - some async operation is still in progress");
     }
 
 }

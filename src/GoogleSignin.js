@@ -6,14 +6,13 @@ const { RNGoogleSignin } = NativeModules;
 
 const IS_IOS = Platform.OS === 'ios';
 const IS_ANDROID = Platform.OS === 'android';
-const PREVIOUS_SIGNIN_IN_PROGRESS = 'RNGoogleSignin: Previous sign in still in progress.';
 
 const isSigninCancellationError = error => {
   return (IS_IOS && error.code === '-5') || (IS_ANDROID && error.code === '13');
 };
 
 const isSigninInProgressError = error => {
-  return error.message === PREVIOUS_SIGNIN_IN_PROGRESS;
+  return error.code === 'ASYNC_OP_IN_PROGRESS';
 };
 
 export const doesErrorNeedToBeHandled = error => {
@@ -21,15 +20,9 @@ export const doesErrorNeedToBeHandled = error => {
 };
 
 class GoogleSignin {
-  isSigninInProgress = false;
   configPromise;
 
   async signIn() {
-    if (this.isSigninInProgress) {
-      return Promise.reject(new Error(PREVIOUS_SIGNIN_IN_PROGRESS));
-    }
-    this.isSigninInProgress = true;
-
     await this.hasPlayServices();
 
     try {
@@ -38,8 +31,6 @@ class GoogleSignin {
       return user;
     } catch (error) {
       return Promise.reject(error);
-    } finally {
-      this.isSigninInProgress = false;
     }
   }
 
@@ -64,10 +55,6 @@ class GoogleSignin {
   }
 
   async signInSilently() {
-    if (this.isSigninInProgress) {
-      return Promise.reject(new Error(PREVIOUS_SIGNIN_IN_PROGRESS));
-    }
-    this.isSigninInProgress = true;
     try {
       await this.hasPlayServices();
 
@@ -76,8 +63,6 @@ class GoogleSignin {
       return user;
     } catch (error) {
       return Promise.resolve(null);
-    } finally {
-      this.isSigninInProgress = false;
     }
   }
 
