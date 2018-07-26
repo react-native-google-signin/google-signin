@@ -125,11 +125,11 @@ RCT_REMAP_METHOD(revokeAccess,
                                };
     
     NSDictionary *params = @{
+                             @"user": userInfo,
                              @"idToken": user.authentication.idToken,
                              @"serverAuthCode": user.serverAuthCode ? user.serverAuthCode : [NSNull null],
                              @"accessToken": user.authentication.accessToken,
-                             @"accessTokenExpirationDate": [NSNumber numberWithDouble:user.authentication.accessTokenExpirationDate.timeIntervalSinceNow],
-                             @"user": userInfo
+                             @"accessTokenExpirationDate": [NSNumber numberWithDouble:user.authentication.accessTokenExpirationDate.timeIntervalSinceNow]
                              };
     
     [self.promiseWrapper resolve:params];

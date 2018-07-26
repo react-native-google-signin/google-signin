@@ -37,6 +37,13 @@ public class Utils {
         user.putString("email", acct.getEmail());
         user.putString("photo", photoUrl != null ? photoUrl.toString() : null);
 
+        WritableMap params = Arguments.createMap();
+        params.putMap("user", user);
+        params.putString("idToken", acct.getIdToken());
+        params.putString("serverAuthCode", acct.getServerAuthCode());
+        params.putString("accessToken", null);
+        params.putString("accessTokenExpirationDate", null);
+
         WritableArray scopes = Arguments.createArray();
         for(Scope scope : acct.getGrantedScopes()) {
             String scopeString = scope.toString();
@@ -44,14 +51,7 @@ public class Utils {
                 scopes.pushString(scopeString);
             }
         }
-
-        WritableMap params = Arguments.createMap();
-        params.putString("idToken", acct.getIdToken());
-        params.putString("serverAuthCode", acct.getServerAuthCode());
-        params.putString("accessToken", null);
-        params.putString("accessTokenExpirationDate", null);
         params.putArray("scopes", scopes);
-        params.putMap("user", user);
         return params;
     }
 
@@ -95,11 +95,10 @@ public class Utils {
     public static int getExceptionCode(@NonNull Task<Void> task) {
         Exception e = task.getException();
 
-        int code = CommonStatusCodes.INTERNAL_ERROR;
         if (e instanceof ApiException) {
             ApiException exception = (ApiException) e;
-            code = exception.getStatusCode();
+            return exception.getStatusCode();
         }
-        return code;
+        return CommonStatusCodes.INTERNAL_ERROR;
     }
 }
