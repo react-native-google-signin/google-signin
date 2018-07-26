@@ -204,14 +204,18 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            promise.resolve(true);
-                        } else {
-                            int code = getExceptionCode(task);
-                            promise.reject(String.valueOf(code), GoogleSignInStatusCodes.getStatusCodeString(code));
-                        }
+                        handleSignOutOrRevokeAccessTask(task, promise);
                     }
                 });
+    }
+
+    private void handleSignOutOrRevokeAccessTask(@NonNull Task<Void> task, final Promise promise) {
+        if (task.isSuccessful()) {
+            promise.resolve(true);
+        } else {
+            int code = getExceptionCode(task);
+            promise.reject(String.valueOf(code), GoogleSignInStatusCodes.getStatusCodeString(code));
+        }
     }
 
     @ReactMethod
@@ -220,23 +224,12 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
             rejectWithNullClientError(promise);
             return;
         }
-        // we could use the `promise` variable directly as in `signOut` but we want the api to be consistent with iOS!
-        boolean wasPromiseSet = promiseWrapper.setPromiseWithInProgressCheck(promise);
-        if (!wasPromiseSet) {
-            rejectWithAsyncOperationStillInProgress(promise);
-            return;
-        }
 
         _apiClient.revokeAccess()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            promiseWrapper.resolve(true);
-                        } else {
-                            int code = getExceptionCode(task);
-                            promiseWrapper.reject(String.valueOf(code), GoogleSignInStatusCodes.getStatusCodeString(code));
-                        }
+                        handleSignOutOrRevokeAccessTask(task, promise);
                     }
                 });
     }
