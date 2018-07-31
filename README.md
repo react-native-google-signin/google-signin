@@ -1,8 +1,7 @@
 ![React Native Google Sign In](img/header.png)
 
 <p align="center">
-  [![NPM Version](https://badge.fury.io/js/react-native-google-signin.svg)](https://badge.fury.io/js/react-native-google-signin)
-  [![NPM Downloads](https://img.shields.io/npm/dm/react-native-google-signin.svg)](https://npmcharts.com/compare/react-native-google-signin)
+  <a href="https://www.npmjs.com/package/react-native-google-signin"><img src="https://badge.fury.io/js/react-native-google-signin.svg" alt="NPM Version"></a>
 </p>
 
 ## Important!
