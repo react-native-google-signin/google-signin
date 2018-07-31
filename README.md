@@ -165,20 +165,6 @@ signIn = async () => {
 };
 ```
 
-#### - getAccessToken (Android Only)
-
-Obtain the user access token.
-
-```js
-GoogleSignin.getAccessToken()
-  .then(token => {
-    console.log(token);
-  })
-  .catch(err => {
-    console.log(err);
-  });
-```
-
 #### - signOut
 
 remove user session from the device
@@ -229,8 +215,6 @@ This is the typical information you obtain once the user sign in:
     accessToken: <needed to access google API from the application>
   }
 ```
-
-**Android Note**: To obtain the user accessToken call `getAccessToken`
 
 **idToken Note**: idToken is not null only if you specify a valid `webClientId`. `webClientId` corresponds to your server clientID on the developers console. It **HAS TO BE** of type **WEB**
 
