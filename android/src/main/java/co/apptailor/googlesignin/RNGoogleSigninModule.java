@@ -27,6 +27,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -46,6 +47,8 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
 
     public static final int RC_SIGN_IN = 9001;
     public static final String MODULE_NAME = "RNGoogleSignin";
+    public static final String ASYNC_OP_IN_PROGRESS = "ASYNC_OP_IN_PROGRESS";
+
     private PromiseWrapper promiseWrapper;
 
     @Override
@@ -68,6 +71,9 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         constants.put("BUTTON_COLOR_AUTO", SignInButton.COLOR_AUTO);
         constants.put("BUTTON_COLOR_LIGHT", SignInButton.COLOR_LIGHT);
         constants.put("BUTTON_COLOR_DARK", SignInButton.COLOR_DARK);
+        // note - google does not give a specific code for cancelled action :/
+        constants.put("SIGNIN_CANCELLED", String.valueOf(CommonStatusCodes.ERROR));
+        constants.put("ASYNC_OP_IN_PROGRESS", ASYNC_OP_IN_PROGRESS);
         return constants;
     }
 
@@ -252,7 +258,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
     }
 
     private void rejectWithAsyncOperationStillInProgress(Promise promise) {
-        promise.reject("ASYNC_OP_IN_PROGRESS", "cannot set promise - some async operation is still in progress");
+        promise.reject(ASYNC_OP_IN_PROGRESS, "cannot set promise - some async operation is still in progress");
     }
 
 }

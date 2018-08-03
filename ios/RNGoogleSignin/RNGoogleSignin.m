@@ -5,20 +5,25 @@
 
 @property (nonatomic) PromiseWrapper *promiseWrapper;
 
+
 @end
 
 @implementation RNGoogleSignin
 
 RCT_EXPORT_MODULE();
 
+static NSString *const ASYNC_OP_IN_PROGRESS = @"ASYNC_OP_IN_PROGRESS";
+
 - (NSDictionary *)constantsToExport
 {
   return @{
-           @"BUTTON_SIZE_ICON" : @(kGIDSignInButtonStyleIconOnly),
-           @"BUTTON_SIZE_STANDARD" : @(kGIDSignInButtonStyleStandard),
-           @"BUTTON_SIZE_WIDE" : @(kGIDSignInButtonStyleWide),
-           @"BUTTON_COLOR_LIGHT" : @(kGIDSignInButtonColorSchemeLight),
-           @"BUTTON_COLOR_DARK" : @(kGIDSignInButtonColorSchemeDark)
+           @"BUTTON_SIZE_ICON": @(kGIDSignInButtonStyleIconOnly),
+           @"BUTTON_SIZE_STANDARD": @(kGIDSignInButtonStyleStandard),
+           @"BUTTON_SIZE_WIDE": @(kGIDSignInButtonStyleWide),
+           @"BUTTON_COLOR_LIGHT": @(kGIDSignInButtonColorSchemeLight),
+           @"BUTTON_COLOR_DARK": @(kGIDSignInButtonColorSchemeDark),
+           @"SIGNIN_CANCELLED": [@(kGIDSignInErrorCodeCanceled) stringValue],
+           @"ASYNC_OP_IN_PROGRESS": ASYNC_OP_IN_PROGRESS
            };
 }
 
@@ -175,7 +180,7 @@ RCT_REMAP_METHOD(revokeAccess,
 }
 
 - (void)rejectWithAsyncOperationStillInProgress: (RCTPromiseRejectBlock)reject {
-    reject(@"ASYNC_OP_IN_PROGRESS", @"cannot set promise - some async operation is still in progress", nil);
+    reject(ASYNC_OP_IN_PROGRESS, @"cannot set promise - some async operation is still in progress", nil);
 }
 
 + (BOOL)application:(UIApplication *)application openURL:(NSURL *)url

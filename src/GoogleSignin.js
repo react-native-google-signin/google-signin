@@ -5,18 +5,10 @@ import { NativeModules, Platform } from 'react-native';
 const { RNGoogleSignin } = NativeModules;
 
 const IS_IOS = Platform.OS === 'ios';
-const IS_ANDROID = Platform.OS === 'android';
 
-const isSigninCancellationError = error => {
-  return (IS_IOS && error.code === '-5') || (IS_ANDROID && error.code === '13');
-};
-
-const isSigninInProgressError = error => {
-  return error.code === 'ASYNC_OP_IN_PROGRESS';
-};
-
-export const doesErrorNeedToBeHandled = error => {
-  return !isSigninCancellationError(error) && !isSigninInProgressError(error);
+export const statusCodes = {
+  SIGNIN_CANCELLED: RNGoogleSignin.SIGNIN_CANCELLED,
+  ASYNC_OP_IN_PROGRESS: RNGoogleSignin.ASYNC_OP_IN_PROGRESS,
 };
 
 class GoogleSignin {
@@ -24,14 +16,8 @@ class GoogleSignin {
 
   async signIn() {
     await this.hasPlayServices();
-
-    try {
-      await this.configPromise;
-      const user = await RNGoogleSignin.signIn();
-      return user;
-    } catch (error) {
-      return Promise.reject(error);
-    }
+    await this.configPromise;
+    return await RNGoogleSignin.signIn();
   }
 
   async hasPlayServices(params = { showPlayServicesUpdateDialog: true }) {
@@ -59,8 +45,8 @@ class GoogleSignin {
       await this.hasPlayServices();
 
       await this.configPromise;
-      const user = await RNGoogleSignin.signInSilently();
-      return user;
+      const userInfo = await RNGoogleSignin.signInSilently();
+      return userInfo;
     } catch (error) {
       return Promise.resolve(null);
     }

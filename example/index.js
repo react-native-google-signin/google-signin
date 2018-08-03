@@ -9,11 +9,7 @@ import {
   Alert,
 } from 'react-native';
 
-import {
-  GoogleSignin,
-  GoogleSigninButton,
-  doesErrorNeedToBeHandled,
-} from 'react-native-google-signin';
+import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
 import config from './config';
 
 class GoogleSigninSampleApp extends Component {
@@ -108,7 +104,13 @@ class GoogleSigninSampleApp extends Component {
       const userInfo = await GoogleSignin.signIn();
       this.setState({ userInfo, error: null });
     } catch (error) {
-      if (doesErrorNeedToBeHandled(error)) {
+      if (error.code === statusCodes.SIGNIN_CANCELLED) {
+        // sign in was cancelled
+        alert('cancelled');
+      } else if (error.code === statusCodes.ASYNC_OP_IN_PROGRESS) {
+        // operation in progress already
+        alert('in progress');
+      } else {
         Alert.alert('Something went wrong', error.toString());
         this.setState({
           error,
