@@ -22,7 +22,7 @@ static NSString *const ASYNC_OP_IN_PROGRESS = @"ASYNC_OP_IN_PROGRESS";
            @"BUTTON_SIZE_WIDE": @(kGIDSignInButtonStyleWide),
            @"BUTTON_COLOR_LIGHT": @(kGIDSignInButtonColorSchemeLight),
            @"BUTTON_COLOR_DARK": @(kGIDSignInButtonColorSchemeDark),
-           @"CANCEL": [@(kGIDSignInErrorCodeCanceled) stringValue],
+           @"SIGN_IN_CANCELLED": [@(kGIDSignInErrorCodeCanceled) stringValue],
            @"IN_PROGRESS": ASYNC_OP_IN_PROGRESS
            };
 }

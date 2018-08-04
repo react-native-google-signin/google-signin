@@ -104,7 +104,7 @@ class GoogleSigninSampleApp extends Component {
       const userInfo = await GoogleSignin.signIn();
       this.setState({ userInfo, error: null });
     } catch (error) {
-      if (error.code === statusCodes.CANCEL) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // sign in was cancelled
         alert('cancelled');
       } else if (error.code === statusCodes.IN_PROGRESS) {
