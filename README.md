@@ -120,7 +120,7 @@ GoogleSignin.configure({
 
 #### - `signIn()`
 
-Prompts a modal to let the user sign in into your application. Resolved promise returns an [`userInfo` object](#3-userInfo).
+Prompts a modal to let the user sign in into your application. Resolved promise returns an [`userInfo` object](#3-userinfo).
 
 ```js
 // import statusCodes along with GoogleSignin 
@@ -145,7 +145,7 @@ signIn = async () => {
 
 #### - `signInSilently()`
 
-May be called eg. in the `componentDidMount` of your main component. This method returns the [current user](#3-userInfo) if they already signed in and `null` otherwise.
+May be called eg. in the `componentDidMount` of your main component. This method returns the [current user](#3-userinfo) if they already signed in and `null` otherwise.
 
 To see how to handle errors read [`signIn()` method](#--signin)
 
