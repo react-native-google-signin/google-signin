@@ -71,8 +71,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         constants.put("BUTTON_COLOR_AUTO", SignInButton.COLOR_AUTO);
         constants.put("BUTTON_COLOR_LIGHT", SignInButton.COLOR_LIGHT);
         constants.put("BUTTON_COLOR_DARK", SignInButton.COLOR_DARK);
-        // note - google does not give a specific code for cancelled action :/
-        constants.put("CANCEL", String.valueOf(CommonStatusCodes.ERROR));
+        constants.put("CANCEL", String.valueOf(GoogleSignInStatusCodes.SIGN_IN_CANCELLED));
         constants.put("IN_PROGRESS", ASYNC_OP_IN_PROGRESS);
         return constants;
     }
