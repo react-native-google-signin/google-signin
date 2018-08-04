@@ -7,6 +7,7 @@
 
 #import <GoogleSignIn/GoogleSignIn.h>
 
+
 @interface RNGoogleSignin : NSObject<RCTBridgeModule, GIDSignInDelegate, GIDSignInUIDelegate>
 
 + (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
@@ -33,7 +34,6 @@ RCT_ENUM_CONVERTER(GIDSignInButtonColorScheme, (@{
                                                   }), kGIDSignInButtonColorSchemeDark, integerValue)
 
 @end
-
 
 
 #endif

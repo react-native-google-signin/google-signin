@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		04A616CC20B85BA800B435C6 /* RNGoogleSignInButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A616CB20B85BA800B435C6 /* RNGoogleSignInButton.m */; };
+		79384FBB2114DF7400F3D9BD /* PromiseWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 79384FBA2114DF7400F3D9BD /* PromiseWrapper.m */; };
 		9FD355211D3E4ACC00D06170 /* RNGoogleSignin.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD3551F1D3E4ACC00D06170 /* RNGoogleSignin.m */; };
 		9FD355221D3E4ACC00D06170 /* RNGoogleSigninButtonManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD355201D3E4ACC00D06170 /* RNGoogleSigninButtonManager.m */; };
 		9FD355331D3E4D3600D06170 /* RNGoogleSignin.h in Copy Header */ = {isa = PBXBuildFile; fileRef = 9FD3551E1D3E4ACC00D06170 /* RNGoogleSignin.h */; };
@@ -30,6 +31,8 @@
 /* Begin PBXFileReference section */
 		04A616CA20B85BA800B435C6 /* RNGoogleSignInButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNGoogleSignInButton.h; sourceTree = "<group>"; };
 		04A616CB20B85BA800B435C6 /* RNGoogleSignInButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNGoogleSignInButton.m; sourceTree = "<group>"; };
+		79384FB92114DF7400F3D9BD /* PromiseWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PromiseWrapper.h; sourceTree = "<group>"; };
+		79384FBA2114DF7400F3D9BD /* PromiseWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PromiseWrapper.m; sourceTree = "<group>"; };
 		9FD355121D3E4A2900D06170 /* libRNGoogleSignin.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNGoogleSignin.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FD3551E1D3E4ACC00D06170 /* RNGoogleSignin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNGoogleSignin.h; sourceTree = "<group>"; };
 		9FD3551F1D3E4ACC00D06170 /* RNGoogleSignin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNGoogleSignin.m; sourceTree = "<group>"; };
@@ -66,6 +69,8 @@
 		9FD355141D3E4A2900D06170 /* RNGoogleSignin */ = {
 			isa = PBXGroup;
 			children = (
+				79384FB92114DF7400F3D9BD /* PromiseWrapper.h */,
+				79384FBA2114DF7400F3D9BD /* PromiseWrapper.m */,
 				04A616CA20B85BA800B435C6 /* RNGoogleSignInButton.h */,
 				04A616CB20B85BA800B435C6 /* RNGoogleSignInButton.m */,
 				9FD3551E1D3E4ACC00D06170 /* RNGoogleSignin.h */,
@@ -134,6 +139,7 @@
 				04A616CC20B85BA800B435C6 /* RNGoogleSignInButton.m in Sources */,
 				9FD355221D3E4ACC00D06170 /* RNGoogleSigninButtonManager.m in Sources */,
 				9FD355211D3E4ACC00D06170 /* RNGoogleSignin.m in Sources */,
+				79384FBB2114DF7400F3D9BD /* PromiseWrapper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

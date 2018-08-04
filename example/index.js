@@ -1,14 +1,22 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View, TouchableOpacity, Platform } from 'react-native';
+import {
+  AppRegistry,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Platform,
+  Alert,
+} from 'react-native';
 
-import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
+import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
 import config from './config';
 
 class GoogleSigninSampleApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: null,
+      userInfo: null,
       error: null,
     };
   }
@@ -19,7 +27,7 @@ class GoogleSigninSampleApp extends Component {
   }
 
   async _configureGoogleSignIn() {
-    await GoogleSignin.hasPlayServices({ autoResolve: true });
+    await GoogleSignin.hasPlayServices();
     const configPlatform = {
       ...Platform.select({
         ios: {
@@ -38,8 +46,8 @@ class GoogleSigninSampleApp extends Component {
 
   async _getCurrentUser() {
     try {
-      const user = await GoogleSignin.currentUserAsync();
-      this.setState({ user, error: null });
+      const userInfo = await GoogleSignin.signInSilently();
+      this.setState({ userInfo, error: null });
     } catch (error) {
       this.setState({
         error,
@@ -48,8 +56,8 @@ class GoogleSigninSampleApp extends Component {
   }
 
   render() {
-    const { user, error } = this.state;
-    if (!user) {
+    const { userInfo } = this.state;
+    if (!userInfo) {
       return (
         <View style={styles.container}>
           <GoogleSigninButton
@@ -58,42 +66,56 @@ class GoogleSigninSampleApp extends Component {
             color={GoogleSigninButton.Color.Auto}
             onPress={this._signIn}
           />
-          {error && (
-            <Text>
-              {error.toString()} code: {error.code}
-            </Text>
-          )}
+          {this.renderError()}
         </View>
       );
     } else {
       return (
         <View style={styles.container}>
           <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 20 }}>
-            Welcome {user.name}
+            Welcome {userInfo.user.name}
           </Text>
-          <Text>Your email is: {user.email}</Text>
+          <Text>Your email is: {userInfo.user.email}</Text>
 
           <TouchableOpacity onPress={this._signOut}>
-            <View style={{ marginTop: 50 }}>
+            <View style={{ marginTop: 50, padding: 20 }}>
               <Text>Log out</Text>
             </View>
           </TouchableOpacity>
+          {this.renderError()}
         </View>
       );
     }
   }
 
+  renderError() {
+    const { error } = this.state;
+    return (
+      !!error && (
+        <Text>
+          {error.toString()} code: {error.code}
+        </Text>
+      )
+    );
+  }
+
   _signIn = async () => {
     try {
-      const user = await GoogleSignin.signIn();
-      this.setState({ user, error: null });
+      const userInfo = await GoogleSignin.signIn();
+      this.setState({ userInfo, error: null });
     } catch (error) {
-      if (error.code === 'CANCELED') {
-        error.message = 'user canceled the login flow';
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // sign in was cancelled
+        alert('cancelled');
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // operation in progress already
+        alert('in progress');
+      } else {
+        Alert.alert('Something went wrong', error.toString());
+        this.setState({
+          error,
+        });
       }
-      this.setState({
-        error,
-      });
     }
   };
 
@@ -101,7 +123,8 @@ class GoogleSigninSampleApp extends Component {
     try {
       await GoogleSignin.revokeAccess();
       await GoogleSignin.signOut();
-      this.setState({ user: null });
+
+      this.setState({ userInfo: null, error: null });
     } catch (error) {
       this.setState({
         error,
