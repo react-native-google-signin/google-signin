@@ -224,8 +224,6 @@ Example `userInfo` which is returned after successful sign in.
 }
 ```
 
-**Android Note**: To obtain the user accessToken call `getAccessToken`
-
 **idToken Note**: idToken is not null only if you specify a valid `webClientId`. `webClientId` corresponds to your server clientID on the developers console. It **HAS TO BE** of type **WEB**
 
 Read [iOS documentation](https://developers.google.com/identity/sign-in/ios/backend-auth) and [Android documentation](https://developers.google.com/identity/sign-in/android/backend-auth) for more information
