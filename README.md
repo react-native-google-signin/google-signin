@@ -90,7 +90,7 @@ For example if the play services are not installed it will prompt:
 
 #### - `configure(configuration)`
 
-It is mandatory to call this method before `singIn()` and `signInSilently()`. This method is sync meaning you can call `singIn` right after it.
+It is mandatory to call this method before `signIn()` and `signInSilently()`. This method is sync meaning you can call `singIn` right after it.
 
 Example for default configuration: you get user email and basic profile info.
 
