@@ -160,20 +160,6 @@ getCurrentUser = async () => {
 };
 ```
 
-#### - `getAccessToken()` (Android Only)
-
-Obtain the user access token.
-
-```js
-GoogleSignin.getAccessToken()
-  .then(token => {
-    console.log(token);
-  })
-  .catch(error => {
-    console.error(error);
-  });
-```
-
 #### - `signOut()`
 
 Remove user session from the device.
@@ -183,7 +169,7 @@ signOut = async () => {
   try {
     await GoogleSignin.revokeAccess();
     await GoogleSignin.signOut();
-    this.setState({ user: null }); // Remember to remove user from your app's state as well
+    this.setState({ user: null }); // Remember to remove the user from your app's state as well
   } catch (error) {
     console.error(error)
   }
@@ -218,15 +204,15 @@ Name | Description
 
 ### 3. `userInfo`
 
-Example `userInfo` with default scopes which is returned after successful sign in.
+Example `userInfo` which is returned after successful sign in.
 
 ```
 {
   idToken: string,
-  accessTokenExpirationDate: number, // timestamp
+  accessToken: string | null,
+  accessTokenExpirationDate: number | null, // timestamp, on Android this is null 
   serverAuthCode: string,
-  accessToken: string,
-  scopes: Array<string>,
+  scopes: Array<string>, // on iOS this is empty array if no additional scopes are defined
   user: {
     email: string,
     id: string,
