@@ -134,6 +134,7 @@ RCT_REMAP_METHOD(revokeAccess,
                              @"idToken": user.authentication.idToken,
                              @"serverAuthCode": user.serverAuthCode ? user.serverAuthCode : [NSNull null],
                              @"accessToken": user.authentication.accessToken,
+                             @"scopes": user.accessibleScopes,
                              @"accessTokenExpirationDate": [NSNumber numberWithDouble:user.authentication.accessTokenExpirationDate.timeIntervalSinceNow]
                              };
     

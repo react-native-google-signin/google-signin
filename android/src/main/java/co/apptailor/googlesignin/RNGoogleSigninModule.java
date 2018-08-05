@@ -3,6 +3,7 @@ package co.apptailor.googlesignin;
 import android.accounts.Account;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -16,7 +17,6 @@ import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.UiThreadUtil;
 import com.facebook.react.bridge.WritableMap;
-import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -30,7 +30,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
-import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -150,7 +150,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         try {
             GoogleSignInAccount account = result.getResult(ApiException.class);
             WritableMap params = getUserProperties(account);
-            promiseWrapper.resolve(params);
+            new AccessTokenRetrievalTask(this).execute(params);
         } catch (ApiException e) {
             int code = e.getStatusCode();
             promiseWrapper.reject(String.valueOf(code), GoogleSignInStatusCodes.getStatusCodeString(code));
@@ -238,16 +238,41 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
                 });
     }
 
-    @ReactMethod
-    public void getAccessToken(ReadableMap user, Promise promise) {
-        Account acct = new Account(user.getString("email"), "com.google");
+    private static class AccessTokenRetrievalTask extends AsyncTask<WritableMap, Void, WritableMap> {
 
-        try {
-            String token = GoogleAuthUtil.getToken(getReactApplicationContext(), acct, scopesToString(user.getArray("scopes")));
-            promise.resolve(token);
-        } catch (IOException | GoogleAuthException e) {
-            Log.e(MODULE_NAME, e.getLocalizedMessage());
-            promise.reject(e);
+        private WeakReference<RNGoogleSigninModule> weakModuleRef;
+
+        AccessTokenRetrievalTask(RNGoogleSigninModule module) {
+            this.weakModuleRef = new WeakReference<>(module);
+        }
+
+        @Override
+        protected WritableMap doInBackground(WritableMap... params) {
+            WritableMap result = params[0];
+            String mail = result.getMap("user").getString("email");
+            RNGoogleSigninModule moduleInstance = weakModuleRef.get();
+            if (moduleInstance == null) {
+                return result;
+            }
+            try {
+                String token = GoogleAuthUtil.getToken(moduleInstance.getReactApplicationContext(),
+                        new Account(mail, "com.google"),
+                        scopesToString(result.getArray("scopes")));
+                result.putString("accessToken", token);
+                return result;
+            } catch (Exception e) {
+                moduleInstance.promiseWrapper.reject(MODULE_NAME, e.getLocalizedMessage());
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(WritableMap result) {
+            super.onPostExecute(result);
+            RNGoogleSigninModule moduleInstance = weakModuleRef.get();
+            if (moduleInstance != null && result != null) {
+                moduleInstance.promiseWrapper.resolve(result);
+            }
         }
     }
 
