@@ -90,7 +90,7 @@ For example if the play services are not installed it will prompt:
 
 #### - `configure(configuration)`
 
-It is mandatory to call this method before `signIn()` and `signInSilently()`. This method is sync meaning you can call `singIn` right after it.
+It is mandatory to call this method before `signIn()` and `signInSilently()`. This method is sync meaning you can call `singIn` right after it. In typical situations this needs to be called only once.
 
 Example for default configuration: you get user email and basic profile info.
 
@@ -192,7 +192,7 @@ GoogleSignin.revokeAccess()
 
 #### - `statusCodes`
 
-These are useful when determining which kind of error has occured during sign in process. Import `statusCodes` along with `GoogleSignIn`. Under the hood these constants are derived from native GoogleSignIn error codes and are platform specific and can be changed. Always prefer to compare `error.code` to `statusCodes.SIGN_IN_CANCELLED` or `statusCodes.IN_PROGRESS` and not relying on raw value of the `error.code`.
+These are useful when determining which kind of error has occured during sign in process. Import `statusCodes` along with `GoogleSignIn`. Under the hood these constants are derived from native GoogleSignIn error codes and are platform specific. Always prefer to compare `error.code` to `statusCodes.SIGN_IN_CANCELLED` or `statusCodes.IN_PROGRESS` and not relying on raw value of the `error.code`.
 
 Name | Description 
 --- | ---
