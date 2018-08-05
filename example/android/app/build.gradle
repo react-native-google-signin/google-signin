@@ -101,6 +101,7 @@ android {
         applicationId "com.googlesigninsampleapp"
         compileSdkVersion rootProject.ext.compileSdkVersion
         buildToolsVersion rootProject.ext.buildToolsVersion
+        minSdkVersion rootProject.ext.minSdkVersion
         versionCode 1
         versionName "1.0"
         ndk {
