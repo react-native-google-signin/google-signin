@@ -128,14 +128,14 @@ RCT_REMAP_METHOD(revokeAccess,
                                @"photo": imageURL ? imageURL.absoluteString : [NSNull null],
                                @"email": user.profile.email
                                };
-    
+
     NSDictionary *params = @{
                              @"user": userInfo,
                              @"idToken": user.authentication.idToken,
                              @"serverAuthCode": user.serverAuthCode ? user.serverAuthCode : [NSNull null],
                              @"accessToken": user.authentication.accessToken,
                              @"scopes": user.accessibleScopes,
-                             @"accessTokenExpirationDate": [NSNumber numberWithDouble:user.authentication.accessTokenExpirationDate.timeIntervalSinceNow]
+                             @"accessTokenExpirationDate": [NSNumber numberWithDouble:user.authentication.accessTokenExpirationDate.timeIntervalSinceNow] // Deprecated as of 2018-08-06
                              };
     
     [self.promiseWrapper resolve:params];
@@ -185,7 +185,7 @@ RCT_REMAP_METHOD(revokeAccess,
 }
 
 + (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+  sourceApplication:(NSString *)sourceApplication annotation: (id)annotation {
 
     return [[GIDSignIn sharedInstance] handleURL:url
                                sourceApplication:sourceApplication

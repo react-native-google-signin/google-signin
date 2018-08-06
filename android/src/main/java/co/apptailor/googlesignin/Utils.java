@@ -42,7 +42,7 @@ public class Utils {
         params.putString("idToken", acct.getIdToken());
         params.putString("serverAuthCode", acct.getServerAuthCode());
         params.putString("accessToken", null);
-        params.putString("accessTokenExpirationDate", null);
+        params.putString("accessTokenExpirationDate", null); // Deprecated as of 2018-08-06
 
         WritableArray scopes = Arguments.createArray();
         for(Scope scope : acct.getGrantedScopes()) {
