@@ -74,7 +74,7 @@ import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
 Check if device has google play services installed. Always returns true on iOS.
 
 ```js
-GoogleSignin.hasPlayServices({ autoResolve: true })
+GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true })
   .then(() => {
     // play services are available. can now configure library
   })
@@ -83,14 +83,14 @@ GoogleSignin.hasPlayServices({ autoResolve: true })
   });
 ```
 
-when `autoResolve` the library will prompt the user to take action to solve the issue.
+When `showPlayServicesUpdateDialog` is set to true the library will prompt the user to take action to solve the issue. If no configuration is provided for `hasPlayServices` `showPlayServicesUpdateDialog` defaults to true.
 
 For example if the play services are not installed it will prompt:
 [![prompt install](img/prompt-install.png)](#prompt-install)
 
-#### - configure
+#### - `configure(configuration)`
 
-It is mandatory to call this method before login.
+It is mandatory to call this method before `signIn()` and `signInSilently()`. This method is sync meaning you can call `singIn` right after it. In typical situations this needs to be called only once.
 
 Example for default configuration: you get user email and basic profile info.
 
@@ -99,9 +99,7 @@ import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
 
 GoogleSignin.configure({
   iosClientId: '<FROM DEVELOPER CONSOLE>', // only for iOS
-}).then(() => {
-  // you can now call currentUserAsync()
-});
+})
 ```
 
 Example to access Google Drive both from the mobile application and from the backend server
@@ -115,49 +113,29 @@ GoogleSignin.configure({
   hostedDomain: '', // specifies a hosted domain restriction
   forceConsentPrompt: true, // [Android] if you want to show the authorization prompt at each login
   accountName: '', // [Android] specifies an account name on the device that should be used
-}).then(() => {
-  // you can now call currentUserAsync()
-});
+})
 ```
 
 **iOS Note**: your app ClientID (`iosClientId`) is always required
 
-#### - currentUserAsync
+#### - `signIn()`
 
-May be called eg. in the `componentDidMount` of your main component. This method gives you the current user if they already signed in and null otherwise.
-
-```js
-getCurrentUser = async () => {
-  try {
-    const user = await GoogleSignin.currentUserAsync();
-    this.setState({ user });
-  } catch (error) {
-    console.error(error);
-  }
-};
-```
-
-#### - currentUser
-
-simple getter to access user once signed in. _Note_ this api may be removed in a future release.
+Prompts a modal to let the user sign in into your application. Resolved promise returns an [`userInfo` object](#3-userinfo).
 
 ```js
-const user = GoogleSignin.currentUser();
-// user is null if not signed in
-```
+// import statusCodes along with GoogleSignin 
+import { GoogleSignin, statusCodes } from 'react-native-google-signin';
 
-#### - signIn
-
-Prompt the modal to let the user signin into your application
-
-```js
+// Somewhere in your code
 signIn = async () => {
   try {
-    const user = await GoogleSignin.signIn();
-    this.setState({ user });
+    const userInfo = await GoogleSignin.signIn();
+    this.setState({ userInfo });
   } catch (error) {
-    if (error.code === 'CANCELED') {
+    if (error.code === statusCodes.SIGN_IN_CANCELLED) {
       // user cancelled the login flow
+    } else if (error.code === statusCodes.IN_PROGRESS) {
+      // operation (f.e. sign in) is in progress already
     } else {
       // some other error happened
     }
@@ -165,72 +143,86 @@ signIn = async () => {
 };
 ```
 
-#### - getAccessToken (Android Only)
+#### - `signInSilently()`
 
-Obtain the user access token.
+May be called eg. in the `componentDidMount` of your main component. This method returns the [current user](#3-userinfo) if they already signed in and `null` otherwise.
 
-```js
-GoogleSignin.getAccessToken()
-  .then(token => {
-    console.log(token);
-  })
-  .catch(err => {
-    console.log(err);
-  });
-```
-
-#### - signOut
-
-remove user session from the device
+To see how to handle errors read [`signIn()` method](#--signin)
 
 ```js
-_signOut = async () => {
+getCurrentUser = async () => {
   try {
-    await GoogleSignin.revokeAccess();
-    await GoogleSignin.signOut();
-    this.setState({ user: null });
+    const userInfo = await GoogleSignin.signInSilently();
+    this.setState({ userInfo });
   } catch (error) {
-    this.setState({
-      error,
-    });
+    console.error(error);
   }
 };
 ```
 
-#### - revokeAccess
+#### - `signOut()`
 
-remove your application from the user authorized applications
+Remove user session from the device.
+
+```js
+signOut = async () => {
+  try {
+    await GoogleSignin.revokeAccess();
+    await GoogleSignin.signOut();
+    this.setState({ user: null }); // Remember to remove the user from your app's state as well
+  } catch (error) {
+    console.error(error)
+  }
+};
+```
+
+#### - `revokeAccess()`
+
+Remove your application from the user authorized applications.
 
 ```js
 GoogleSignin.revokeAccess()
   .then(() => {
     console.log('deleted');
   })
-  .catch(err => {
-    console.log(err);
+  .catch(error => {
+    console.error(error);
   });
 ```
 
-### 3. User
+#### - `statusCodes`
 
-This is the typical information you obtain once the user sign in:
+These are useful when determining which kind of error has occured during sign in process. Import `statusCodes` along with `GoogleSignIn`. Under the hood these constants are derived from native GoogleSignIn error codes and are platform specific. Always prefer to compare `error.code` to `statusCodes.SIGN_IN_CANCELLED` or `statusCodes.IN_PROGRESS` and not relying on raw value of the `error.code`.
+
+Name | Description 
+--- | ---
+`SIGN_IN_CANCELLED` | When user cancels the sign in flow
+`IN_PROGRESS` | Trying to invoke another sign in flow when previous one has not yet finished
+
+[Example how to use `statusCodes`](#--signin).
+
+
+### 3. `userInfo`
+
+Example `userInfo` which is returned after successful sign in.
 
 ```
-  {
-    id: <user id. do not use on the backend>
-    name: <user name>
-    givenName: <user given name> (Android only)
-    familyName: <user family name> (Android only)
-    email: <user email>
-    photo: <user picture profile>
-    idToken: <token to authenticate the user on the backend>
-    serverAuthCode: <one-time token to access Google API from the backend on behalf of the user>
-    scopes: <list of authorized scopes>
-    accessToken: <needed to access google API from the application>
+{
+  idToken: string,
+  accessToken: string | null,
+  accessTokenExpirationDate: number | null, // DEPRECATED, on iOS it's a time interval since now in seconds, on Android it's always null
+  serverAuthCode: string,
+  scopes: Array<string>, // on iOS this is empty array if no additional scopes are defined
+  user: {
+    email: string,
+    id: string,
+    givenName: string,
+    familyName: string,
+    photo: string, // url
+    name: string // full name
   }
+}
 ```
-
-**Android Note**: To obtain the user accessToken call `getAccessToken`
 
 **idToken Note**: idToken is not null only if you specify a valid `webClientId`. `webClientId` corresponds to your server clientID on the developers console. It **HAS TO BE** of type **WEB**
 
