@@ -42,6 +42,10 @@ Add the end of this step, your Xcode config should look like this:
 
 [![xcode config](https://github.com/apptailor/react-native-google-signin/raw/master/img/url-config.png)](#config)
 
+### 4. AppDelegate.m
+
+- Import RNGoogleSignin in your projects AppDelegate.m (```<project-root>/ios/<project-name>/AppDelegate.m```):
+```#import "RNGoogleSignin.h"```
 
 ### Modify your app to respond to the URL scheme
 
