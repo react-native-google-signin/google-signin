@@ -91,7 +91,7 @@ For example if the play services are not installed it will prompt:
 
 #### - `configure(configuration)`
 
-It is mandatory to call this method before attempting to call `signIn()` and `signInSilently()`. This method is sync meaning you can call `singIn` right after it. In typical scenarios this needs to be called only once, after your app starts.
+It is mandatory to call this method before attempting to call `signIn()` and `signInSilently()`. This method is sync meaning you can call `signIn` right after it. In typical scenarios this needs to be called only once, after your app starts.
 
 Example for default configuration: you get user email and basic profile info.
 
