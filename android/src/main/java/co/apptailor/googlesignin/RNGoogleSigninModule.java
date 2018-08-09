@@ -47,6 +47,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
     public static final int RC_SIGN_IN = 9001;
     public static final String MODULE_NAME = "RNGoogleSignin";
     public static final String ASYNC_OP_IN_PROGRESS = "ASYNC_OP_IN_PROGRESS";
+    public static final String PLAY_SERVICES_NOT_AVAILABLE = "PLAY_SERVICES_NOT_AVAILABLE";
 
     private PromiseWrapper promiseWrapper;
 
@@ -72,6 +73,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         constants.put("BUTTON_COLOR_DARK", SignInButton.COLOR_DARK);
         constants.put("SIGN_IN_CANCELLED", String.valueOf(GoogleSignInStatusCodes.SIGN_IN_CANCELLED));
         constants.put("IN_PROGRESS", ASYNC_OP_IN_PROGRESS);
+        constants.put(PLAY_SERVICES_NOT_AVAILABLE, PLAY_SERVICES_NOT_AVAILABLE);
         return constants;
     }
 
@@ -92,7 +94,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
             if (showPlayServicesUpdateDialog && googleApiAvailability.isUserResolvableError(status)) {
                 googleApiAvailability.getErrorDialog(activity, status, 2404).show();
             }
-            promise.reject(String.valueOf(status), "Play services not available");
+            promise.reject(PLAY_SERVICES_NOT_AVAILABLE, "Play services not available");
         } else {
             promise.resolve(true);
         }

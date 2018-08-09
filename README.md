@@ -69,27 +69,7 @@ Possible values for `color` are:
 import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
 ```
 
-#### - hasPlayServices
-
-Check if device has Google Play Services installed. Always resolves to true on iOS.
-
-```js
-try {
-  await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
-  GoogleSignin.configure({
-    // whatever setup you need
-  });
-} catch (err) {
-  console.error(err);
-}
-```
-
-When `showPlayServicesUpdateDialog` is set to true the library will prompt the user to take action to solve the issue. If no configuration is provided for `hasPlayServices` `showPlayServicesUpdateDialog` defaults to true.
-
-For example if the play services are not installed it will prompt:
-[![prompt install](img/prompt-install.png)](#prompt-install)
-
-#### - `configure(configuration)`
+#### `configure(configuration)`
 
 It is mandatory to call this method before attempting to call `signIn()` and `signInSilently()`. This method is sync meaning you can call `signIn` right after it. In typical scenarios this needs to be called only once, after your app starts.
 
@@ -119,7 +99,7 @@ GoogleSignin.configure({
 
 **iOS Note**: your app ClientID (`iosClientId`) is always required
 
-#### - `signIn()`
+#### `signIn()`
 
 Prompts a modal to let the user sign in into your application. Resolved promise returns an [`userInfo` object](#3-userinfo).
 
@@ -144,7 +124,7 @@ signIn = async () => {
 };
 ```
 
-#### - `signInSilently()`
+#### `signInSilently()`
 
 May be called eg. in the `componentDidMount` of your main component. This method returns the [current user](#3-userinfo) if they already signed in and `null` otherwise.
 
@@ -161,7 +141,7 @@ getCurrentUser = async () => {
 };
 ```
 
-#### - `signOut()`
+#### `signOut()`
 
 Remove user session from the device.
 
@@ -177,28 +157,50 @@ signOut = async () => {
 };
 ```
 
-#### - `revokeAccess()`
+#### `revokeAccess()`
 
 Remove your application from the user authorized applications.
 
 ```js
-GoogleSignin.revokeAccess()
-  .then(() => {
+revokeAccess = async () => {
+  try {
+    await GoogleSignin.revokeAccess();
     console.log('deleted');
-  })
-  .catch(error => {
+  } catch (error) {
     console.error(error);
-  });
+  }
+};
 ```
 
-#### - `statusCodes`
+#### hasPlayServices
+
+Check if device has Google Play Services installed. Always resolves to true on iOS. You may use this call at any time to find out if Google Play Services are available.
+Note that this call is completely **optional** - internally we check Google Play Services availability right before the sign in modal is shown. If the play services are not installed we prompt user to update them, as seen in the figure below.
+
+Presence of up-to-date Google Play Services is required to show the sign in modal, but it is _not_ required to perform calls to `configure` and `signInSilently`.
+
+```js
+try {
+  await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+  // google services are available
+} catch (err) {
+  console.error('play services are not available');
+}
+```
+
+When `showPlayServicesUpdateDialog` is set to true the library will prompt the user to take action to solve the issue. If no configuration is provided for `hasPlayServices` `showPlayServicesUpdateDialog` defaults to true.
+
+[![prompt install](img/prompt-install.png)](#prompt-install)
+
+#### `statusCodes`
 
 These are useful when determining which kind of error has occured during sign in process. Import `statusCodes` along with `GoogleSignIn`. Under the hood these constants are derived from native GoogleSignIn error codes and are platform specific. Always prefer to compare `error.code` to `statusCodes.SIGN_IN_CANCELLED` or `statusCodes.IN_PROGRESS` and not relying on raw value of the `error.code`.
 
-| Name                | Description                                                                  |
-| ------------------- | ---------------------------------------------------------------------------- |
-| `SIGN_IN_CANCELLED` | When user cancels the sign in flow                                           |
-| `IN_PROGRESS`       | Trying to invoke another sign in flow when previous one has not yet finished |
+| Name                          | Description                                                                                                   |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `SIGN_IN_CANCELLED`           | When user cancels the sign in flow                                                                            |
+| `IN_PROGRESS`                 | Trying to invoke another sign in flow (or any of the other operations) when previous one has not yet finished |
+| `PLAY_SERVICES_NOT_AVAILABLE` | Play services are not available or outdated, this can only happen on Android                                  |
 
 [Example how to use `statusCodes`](#--signin).
 
