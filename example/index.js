@@ -27,21 +27,26 @@ class GoogleSigninSampleApp extends Component {
   }
 
   async _configureGoogleSignIn() {
-    await GoogleSignin.hasPlayServices();
-    const configPlatform = {
-      ...Platform.select({
-        ios: {
-          iosClientId: config.iosClientId,
-        },
-        android: {},
-      }),
-    };
+    try {
+      await GoogleSignin.hasPlayServices();
+      const configPlatform = {
+        ...Platform.select({
+          ios: {
+            iosClientId: config.iosClientId,
+          },
+          android: {},
+        }),
+      };
 
-    await GoogleSignin.configure({
-      ...configPlatform,
-      webClientId: config.webClientId,
-      offlineAccess: false,
-    });
+      GoogleSignin.configure({
+        ...configPlatform,
+        webClientId: config.webClientId,
+        offlineAccess: false,
+        scopes: ['https://www.googleapis.com/auth/youtube.readonly'],
+      });
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   async _getCurrentUser() {
@@ -75,7 +80,7 @@ class GoogleSigninSampleApp extends Component {
           <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 20 }}>
             Welcome {userInfo.user.name}
           </Text>
-          <Text>Your email is: {userInfo.user.email}</Text>
+          <Text>Your user info: {JSON.stringify(userInfo.user)}</Text>
 
           <TouchableOpacity onPress={this._signOut}>
             <View style={{ marginTop: 50, padding: 20 }}>

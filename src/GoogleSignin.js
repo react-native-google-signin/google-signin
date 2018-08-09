@@ -15,7 +15,6 @@ class GoogleSignin {
   configPromise;
 
   async signIn() {
-    await this.hasPlayServices();
     await this.configPromise;
     return await RNGoogleSignin.signIn();
   }
@@ -42,8 +41,6 @@ class GoogleSignin {
 
   async signInSilently() {
     try {
-      await this.hasPlayServices();
-
       await this.configPromise;
       const userInfo = await RNGoogleSignin.signInSilently();
       return userInfo;

@@ -1,6 +1,6 @@
 ## Android Guide
 
-Please see the **FAQ** at bottom before opening new issues 
+Please see the **FAQ** at bottom before opening new issues
 
 ### 1. Android SDK Requirements
 
@@ -8,20 +8,19 @@ You need the following packages
 
 [![link config](https://github.com/apptailor/react-native-google-signin/raw/master/img/android-req.png)](#config)
 
-
 ### 2. Google project configuration
 
 - Follow [this](./get-config-file.md) guide to get the configuration file.
 
-- Place the generated configuration file (```google-services.json```) into ```<YOUR_PROJECT_ROOT>/android/app```
+- Place the generated configuration file (`google-services.json`) into `<YOUR_PROJECT_ROOT>/android/app`
 
 ### 3. Installation
 
 Please note that this package requires android gradle plugin of version >= 3, which in turn requires at least gradle 4.1. Android studio should be able to do the upgrade for you.
 
-* run `react-native link react-native-google-signin`
+- run `react-native link react-native-google-signin`
 
-* In `android/settings.gradle` you should have
+- In `android/settings.gradle` you should have
 
 ```gradle
 ...
@@ -29,8 +28,7 @@ include ':react-native-google-signin', ':app'
 project(':react-native-google-signin').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-google-signin/android')
 ```
 
-        
-* Update `android/build.gradle` with
+- Update `android/build.gradle` with
 
 ```gradle
 ...
@@ -53,7 +51,7 @@ allprojects {
 }
 ```
 
-* Update `android/app/build.gradle` with
+- Update `android/app/build.gradle` with
 
 ```gradle
 ...
@@ -61,7 +59,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:23.0.1"
     implementation "com.facebook.react:react-native:+"
-    implementation(project(":react-native-google-signin")){         
+    implementation(project(":react-native-google-signin")){
         exclude group: "com.google.android.gms" // very important
     }
     implementation 'com.google.android.gms:play-services-auth:15.0.0' // should be at least 15.0.0 to work with most recent APIS
@@ -70,7 +68,11 @@ dependencies {
 apply plugin: 'com.google.gms.google-services' // <--- this should be the last line
 ```
 
-* Register Module (in MainApplication.java)
+- Choose Dependency versions (optional)
+
+The library has several dependencies, as seens in [build.gradle](https://github.com/react-native-community/react-native-google-signin/blob/master/android/build.gradle). If needed, you may control their versions by the `ext` closure, as seen in [build.gradle](https://github.com/react-native-community/react-native-google-signin/blob/master/example/android/build.gradle) of the example app.
+
+- Register Module (in MainApplication.java)
 
 ```java
 import co.apptailor.googlesignin.RNGoogleSigninPackage;  // <--- import
@@ -91,17 +93,15 @@ public class MainApplication extends Application implements ReactApplication {
 }
 ```
 
-
 ### 4. Running on simulator
 
 Make sure you have a simulator with Google Play installed.
 
-Also to help with performances, install ```HAXM``` from the Android SDK Manager.
+Also to help with performances, install `HAXM` from the Android SDK Manager.
 
 ### Running on device
 
 Nothing special here, as long as you run your app on a Google Android device (again with play store installed !)
-
 
 ## FAQ
 
@@ -110,7 +110,7 @@ Nothing special here, as long as you run your app on a Google Android device (ag
 in `android/app/build.gradle` exclude google play services from the plugins you use. Like this:
 
 ```
-compile(project(":PLUGIN_NAME")){         
+compile(project(":PLUGIN_NAME")){
         exclude group: "com.google.android.gms"
 }
 ```
@@ -120,7 +120,7 @@ Then include play services version you need (at least 9.0.0 for this plugin (!))
 #### B. My project includes an older version of react-native-google-signin. How to upgrade?
 
 first install the latest version
-`npm install --save react-native-google-signin` 
+`npm install --save react-native-google-signin`
 
 You need to follow this guide again to make sure everything fit together (gradle version, google-services gradle version, etc...). Check out the example project for reference.
 
@@ -139,9 +139,10 @@ open `android/app/google-services.json` and replace `"api_key":[]` with `"api_ke
 
 #### D. After the sign-in completes I get the following error `error code 12501`. What to do?
 
-This is a permission error. Make sure the `certificate_hash` in `android/app/google-services.json` matches your certificate. 
+This is a permission error. Make sure the `certificate_hash` in `android/app/google-services.json` matches your certificate.
 
 To get your sha1-hash
+
 ```
 keytool -exportcert -keystore ~/.android/debug.keystore -list -v
 ```

@@ -13,9 +13,9 @@ Please make sure you have searched previous issues before opening a new issue.
 
 ## Steps to Reproduce
 
-- You must provide a way to reproduce the problem. We're a small team of maintainers and do not have time to try reproduce bugs ourselves.
+- You must provide a **minimal** reproduction of your issue - [how to create a minimal reproduction?](https://stackoverflow.com/help/mcve). We're a small team of maintainers and do not have time to try reproduce bugs ourselves.
 
-- Link to a GitHub repository with code that reproduces the bug.
+- Link to a with code that reproduces the bug.
 
 - Explain how to run the example app and any steps that we need to take to reproduce the issue from the example app.
 

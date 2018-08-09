@@ -7,9 +7,8 @@ Includes Google Sign-In SDK v4.0.0
 #### Automatic
 
 - link the lib with `react-native link react-native-google-signin`
-- install the Google Signin SDK with [CocoaPods](https://cocoapods.org/) (add `pod 'GoogleSignIn'` in your Podfile and run `pod install`). 
-First time using cocoapods ? [check this out](./how-cocoapods.md)
-
+- install the Google Signin SDK with [CocoaPods](https://cocoapods.org/) (add `pod 'GoogleSignIn'` in your Podfile and run `pod install`).
+  First time using cocoapods ? [check this out](./how-cocoapods.md)
 
 #### Manual
 
@@ -20,12 +19,11 @@ if you did `react-native link react-native-google-signin` the first two steps ar
 - Drag and drop all files from `<root_project_dir>/node_modules/react-native-google-signin/ios/GoogleSdk` directory that end with `.framework` into the Frameworks group of application (Make sure `Copy items if needed` **IS** ticked)
 - Go to `Build Settings` and add to `Framework Search Paths` path to GoogleSdk: by default `$(PROJECT_DIR)/../node_modules/react-native-google-signin/ios/GoogleSdk`
 
-
 ### 2. Google project configuration
 
 - Follow [this](./get-config-file.md) guide to get the configuration file.
 
-- Download the ```GoogleService-Info.plist``` file at the end of the process
+- Download the `GoogleService-Info.plist` file at the end of the process
 
 ### 3. XCode configuration
 
@@ -33,15 +31,13 @@ if you did `react-native link react-native-google-signin` the first two steps ar
 
 [![link config](https://github.com/apptailor/react-native-google-signin/raw/master/img/link-config.png)](#config)
 
-
-- Configure URL types in the ```Info``` panel
-  - add a URL with scheme set to your ```REVERSED_CLIENT_ID``` (found inside the plist)
-  - add a URL with scheme set to your ```bundle id```
+- Configure URL types in the `Info` panel
+  - add a URL with scheme set to your `REVERSED_CLIENT_ID` (found inside the plist)
+  - add a URL with scheme set to your `bundle id`
 
 Add the end of this step, your Xcode config should look like this:
 
 [![xcode config](https://github.com/apptailor/react-native-google-signin/raw/master/img/url-config.png)](#config)
-
 
 ### Modify your app to respond to the URL scheme
 
@@ -53,7 +49,7 @@ Add the end of this step, your Xcode config should look like this:
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
 
-  return 
+  return
           [RNGoogleSignin application:application
                                 openURL:url
                       sourceApplication:sourceApplication
@@ -80,5 +76,3 @@ Because only one `openURL` method can be defined, if you have multiple listeners
             ];
 }
 ```
-
-
