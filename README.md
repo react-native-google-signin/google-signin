@@ -6,7 +6,7 @@
 
 ## Important!
 
-> A new RC is available: [see release notes](https://github.com/react-native-community/react-native-google-signin/releases/tag/1.0.0-rc1). Install it with `yarn add react-native-google-signin@next`.
+> A new RC 2 is available: [see release notes](https://github.com/react-native-community/react-native-google-signin/releases/tag/1.0.0-rc2). Install it with `yarn add react-native-google-signin@next`.
 
 > On May 15, the repo was moved to react-native-community, and we're looking for contributors to help get the project back up to speed [see related issue](https://github.com/react-native-community/react-native-google-signin/issues/386).
 
@@ -71,16 +71,17 @@ import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
 
 #### - hasPlayServices
 
-Check if device has google play services installed. Always returns true on iOS.
+Check if device has Google Play Services installed. Always resolves to true on iOS.
 
 ```js
-GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true })
-  .then(() => {
-    // play services are available. can now configure library
-  })
-  .catch(err => {
-    console.log('Play services error', err.code, err.message);
+try {
+  await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+  GoogleSignin.configure({
+    // whatever setup you need
   });
+} catch (err) {
+  console.error(err);
+}
 ```
 
 When `showPlayServicesUpdateDialog` is set to true the library will prompt the user to take action to solve the issue. If no configuration is provided for `hasPlayServices` `showPlayServicesUpdateDialog` defaults to true.
@@ -90,7 +91,7 @@ For example if the play services are not installed it will prompt:
 
 #### - `configure(configuration)`
 
-It is mandatory to call this method before `signIn()` and `signInSilently()`. This method is sync meaning you can call `singIn` right after it. In typical situations this needs to be called only once.
+It is mandatory to call this method before attempting to call `signIn()` and `signInSilently()`. This method is sync meaning you can call `signIn` right after it. In typical scenarios this needs to be called only once, after your app starts.
 
 Example for default configuration: you get user email and basic profile info.
 
@@ -99,7 +100,7 @@ import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
 
 GoogleSignin.configure({
   iosClientId: '<FROM DEVELOPER CONSOLE>', // only for iOS
-})
+});
 ```
 
 Example to access Google Drive both from the mobile application and from the backend server
@@ -113,7 +114,7 @@ GoogleSignin.configure({
   hostedDomain: '', // specifies a hosted domain restriction
   forceConsentPrompt: true, // [Android] if you want to show the authorization prompt at each login
   accountName: '', // [Android] specifies an account name on the device that should be used
-})
+});
 ```
 
 **iOS Note**: your app ClientID (`iosClientId`) is always required
@@ -123,7 +124,7 @@ GoogleSignin.configure({
 Prompts a modal to let the user sign in into your application. Resolved promise returns an [`userInfo` object](#3-userinfo).
 
 ```js
-// import statusCodes along with GoogleSignin 
+// import statusCodes along with GoogleSignin
 import { GoogleSignin, statusCodes } from 'react-native-google-signin';
 
 // Somewhere in your code
@@ -171,7 +172,7 @@ signOut = async () => {
     await GoogleSignin.signOut();
     this.setState({ user: null }); // Remember to remove the user from your app's state as well
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
 };
 ```
@@ -194,13 +195,12 @@ GoogleSignin.revokeAccess()
 
 These are useful when determining which kind of error has occured during sign in process. Import `statusCodes` along with `GoogleSignIn`. Under the hood these constants are derived from native GoogleSignIn error codes and are platform specific. Always prefer to compare `error.code` to `statusCodes.SIGN_IN_CANCELLED` or `statusCodes.IN_PROGRESS` and not relying on raw value of the `error.code`.
 
-Name | Description 
---- | ---
-`SIGN_IN_CANCELLED` | When user cancels the sign in flow
-`IN_PROGRESS` | Trying to invoke another sign in flow when previous one has not yet finished
+| Name                | Description                                                                  |
+| ------------------- | ---------------------------------------------------------------------------- |
+| `SIGN_IN_CANCELLED` | When user cancels the sign in flow                                           |
+| `IN_PROGRESS`       | Trying to invoke another sign in flow when previous one has not yet finished |
 
 [Example how to use `statusCodes`](#--signin).
-
 
 ### 3. `userInfo`
 
