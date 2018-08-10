@@ -22,31 +22,25 @@ class GoogleSigninSampleApp extends Component {
   }
 
   async componentDidMount() {
-    await this._configureGoogleSignIn();
+    this._configureGoogleSignIn();
     await this._getCurrentUser();
   }
 
-  async _configureGoogleSignIn() {
-    try {
-      await GoogleSignin.hasPlayServices();
-      const configPlatform = {
-        ...Platform.select({
-          ios: {
-            iosClientId: config.iosClientId,
-          },
-          android: {},
-        }),
-      };
+  _configureGoogleSignIn() {
+    const configPlatform = {
+      ...Platform.select({
+        ios: {
+          iosClientId: config.iosClientId,
+        },
+        android: {},
+      }),
+    };
 
-      GoogleSignin.configure({
-        ...configPlatform,
-        webClientId: config.webClientId,
-        offlineAccess: false,
-        scopes: ['https://www.googleapis.com/auth/youtube.readonly'],
-      });
-    } catch (err) {
-      console.error(err);
-    }
+    GoogleSignin.configure({
+      ...configPlatform,
+      webClientId: config.webClientId,
+      offlineAccess: false,
+    });
   }
 
   async _getCurrentUser() {
@@ -106,6 +100,7 @@ class GoogleSigninSampleApp extends Component {
 
   _signIn = async () => {
     try {
+      await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       this.setState({ userInfo, error: null });
     } catch (error) {
@@ -115,6 +110,8 @@ class GoogleSigninSampleApp extends Component {
       } else if (error.code === statusCodes.IN_PROGRESS) {
         // operation in progress already
         alert('in progress');
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        alert('play services not available or outdated');
       } else {
         Alert.alert('Something went wrong', error.toString());
         this.setState({

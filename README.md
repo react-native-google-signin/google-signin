@@ -69,29 +69,9 @@ Possible values for `color` are:
 import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
 ```
 
-#### - hasPlayServices
+#### `configure(configuration)`
 
-Check if device has Google Play Services installed. Always resolves to true on iOS.
-
-```js
-try {
-  await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
-  GoogleSignin.configure({
-    // whatever setup you need
-  });
-} catch (err) {
-  console.error(err);
-}
-```
-
-When `showPlayServicesUpdateDialog` is set to true the library will prompt the user to take action to solve the issue. If no configuration is provided for `hasPlayServices` `showPlayServicesUpdateDialog` defaults to true.
-
-For example if the play services are not installed it will prompt:
-[![prompt install](img/prompt-install.png)](#prompt-install)
-
-#### - `configure(configuration)`
-
-It is mandatory to call this method before attempting to call `signIn()` and `signInSilently()`. This method is sync meaning you can call `signIn` right after it. In typical scenarios this needs to be called only once, after your app starts.
+It is mandatory to call this method before attempting to call `signIn()` and `signInSilently()`. This method is sync meaning you can call `signIn` / `signInSilently` right after it. In typical scenarios, `configure` needs to be called only once, after your app starts.
 
 Example for default configuration: you get user email and basic profile info.
 
@@ -119,7 +99,7 @@ GoogleSignin.configure({
 
 **iOS Note**: your app ClientID (`iosClientId`) is always required
 
-#### - `signIn()`
+#### `signIn()`
 
 Prompts a modal to let the user sign in into your application. Resolved promise returns an [`userInfo` object](#3-userinfo).
 
@@ -130,6 +110,7 @@ import { GoogleSignin, statusCodes } from 'react-native-google-signin';
 // Somewhere in your code
 signIn = async () => {
   try {
+    await GoogleSignin.hasPlayServices();
     const userInfo = await GoogleSignin.signIn();
     this.setState({ userInfo });
   } catch (error) {
@@ -137,6 +118,8 @@ signIn = async () => {
       // user cancelled the login flow
     } else if (error.code === statusCodes.IN_PROGRESS) {
       // operation (f.e. sign in) is in progress already
+    } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+      // play services not available or outdated
     } else {
       // some other error happened
     }
@@ -144,11 +127,11 @@ signIn = async () => {
 };
 ```
 
-#### - `signInSilently()`
+#### `signInSilently()`
 
 May be called eg. in the `componentDidMount` of your main component. This method returns the [current user](#3-userinfo) if they already signed in and `null` otherwise.
 
-To see how to handle errors read [`signIn()` method](#--signin)
+To see how to handle errors read [`signIn()` method](#signin)
 
 ```js
 getCurrentUser = async () => {
@@ -161,7 +144,7 @@ getCurrentUser = async () => {
 };
 ```
 
-#### - `signOut()`
+#### `signOut()`
 
 Remove user session from the device.
 
@@ -177,30 +160,53 @@ signOut = async () => {
 };
 ```
 
-#### - `revokeAccess()`
+#### `revokeAccess()`
 
 Remove your application from the user authorized applications.
 
 ```js
-GoogleSignin.revokeAccess()
-  .then(() => {
+revokeAccess = async () => {
+  try {
+    await GoogleSignin.revokeAccess();
     console.log('deleted');
-  })
-  .catch(error => {
+  } catch (error) {
     console.error(error);
-  });
+  }
+};
 ```
 
-#### - `statusCodes`
+#### hasPlayServices(paramObject)
+
+Check if device has Google Play Services installed. Always resolves to true on iOS.
+
+Presence of up-to-date Google Play Services is required to show the sign in modal, but it is _not_ required to perform calls to `configure` and `signInSilently`. Therefore, we recommend to call `hasPlayServices` directly before `signIn`.
+
+```js
+try {
+  await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+  // google services are available
+} catch (err) {
+  console.error('play services are not available');
+}
+```
+
+`hasPlayServices` accepts one parameter, an object which contains a single key: `showPlayServicesUpdateDialog` (defaults to `true`). When `showPlayServicesUpdateDialog` is set to true the library will prompt the user to take action to solve the issue, as seen in the figure below.
+
+You may also use this call at any time to find out if Google Play Services are available and react to the result as necessary.
+
+[![prompt install](img/prompt-install.png)](#prompt-install)
+
+#### `statusCodes`
 
 These are useful when determining which kind of error has occured during sign in process. Import `statusCodes` along with `GoogleSignIn`. Under the hood these constants are derived from native GoogleSignIn error codes and are platform specific. Always prefer to compare `error.code` to `statusCodes.SIGN_IN_CANCELLED` or `statusCodes.IN_PROGRESS` and not relying on raw value of the `error.code`.
 
-| Name                | Description                                                                  |
-| ------------------- | ---------------------------------------------------------------------------- |
-| `SIGN_IN_CANCELLED` | When user cancels the sign in flow                                           |
-| `IN_PROGRESS`       | Trying to invoke another sign in flow when previous one has not yet finished |
+| Name                          | Description                                                                                                   |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `SIGN_IN_CANCELLED`           | When user cancels the sign in flow                                                                            |
+| `IN_PROGRESS`                 | Trying to invoke another sign in flow (or any of the other operations) when previous one has not yet finished |
+| `PLAY_SERVICES_NOT_AVAILABLE` | Play services are not available or outdated, this can only happen on Android                                  |
 
-[Example how to use `statusCodes`](#--signin).
+[Example how to use `statusCodes`](#signin).
 
 ### 3. `userInfo`
 

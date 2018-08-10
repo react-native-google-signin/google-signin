@@ -13,6 +13,7 @@
 RCT_EXPORT_MODULE();
 
 static NSString *const ASYNC_OP_IN_PROGRESS = @"ASYNC_OP_IN_PROGRESS";
+static NSString *const PLAY_SERVICES_NOT_AVAILABLE = @"PLAY_SERVICES_NOT_AVAILABLE";
 
 - (NSDictionary *)constantsToExport
 {
@@ -23,7 +24,8 @@ static NSString *const ASYNC_OP_IN_PROGRESS = @"ASYNC_OP_IN_PROGRESS";
            @"BUTTON_COLOR_LIGHT": @(kGIDSignInButtonColorSchemeLight),
            @"BUTTON_COLOR_DARK": @(kGIDSignInButtonColorSchemeDark),
            @"SIGN_IN_CANCELLED": [@(kGIDSignInErrorCodeCanceled) stringValue],
-           @"IN_PROGRESS": ASYNC_OP_IN_PROGRESS
+           @"IN_PROGRESS": ASYNC_OP_IN_PROGRESS,
+           PLAY_SERVICES_NOT_AVAILABLE: PLAY_SERVICES_NOT_AVAILABLE // this never happens on iOS
            };
 }
 
