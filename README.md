@@ -112,21 +112,16 @@ signIn = async () => {
   try {
     await GoogleSignin.hasPlayServices();
     const userInfo = await GoogleSignin.signIn();
-    this.setState({ userInfo, error: null });
+    this.setState({ userInfo });
   } catch (error) {
     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-      // sign in was cancelled
-      alert('cancelled');
+      // user cancelled the login flow
     } else if (error.code === statusCodes.IN_PROGRESS) {
-      // operation in progress already
-      alert('in progress');
+      // operation (f.e. sign in) is in progress already
     } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-      alert('play services not available or outdated');
+      // play services not available or outdated
     } else {
-      Alert.alert('Something went wrong', error.toString());
-      this.setState({
-        error,
-      });
+      // some other error happened
     }
   }
 };
