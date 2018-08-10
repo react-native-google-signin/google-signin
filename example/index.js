@@ -100,6 +100,7 @@ class GoogleSigninSampleApp extends Component {
 
   _signIn = async () => {
     try {
+      await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       this.setState({ userInfo, error: null });
     } catch (error) {

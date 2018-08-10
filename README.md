@@ -71,7 +71,7 @@ import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
 
 #### `configure(configuration)`
 
-It is mandatory to call this method before attempting to call `signIn()` and `signInSilently()`. This method is sync meaning you can call `signIn` right after it. In typical scenarios this needs to be called only once, after your app starts.
+It is mandatory to call this method before attempting to call `signIn()` and `signInSilently()`. This method is sync meaning you can call `signIn` / `signInSilently` right after it. In typical scenarios, `configure` needs to be called only once, after your app starts.
 
 Example for default configuration: you get user email and basic profile info.
 
@@ -110,15 +110,23 @@ import { GoogleSignin, statusCodes } from 'react-native-google-signin';
 // Somewhere in your code
 signIn = async () => {
   try {
+    await GoogleSignin.hasPlayServices();
     const userInfo = await GoogleSignin.signIn();
-    this.setState({ userInfo });
+    this.setState({ userInfo, error: null });
   } catch (error) {
     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-      // user cancelled the login flow
+      // sign in was cancelled
+      alert('cancelled');
     } else if (error.code === statusCodes.IN_PROGRESS) {
-      // operation (f.e. sign in) is in progress already
+      // operation in progress already
+      alert('in progress');
+    } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+      alert('play services not available or outdated');
     } else {
-      // some other error happened
+      Alert.alert('Something went wrong', error.toString());
+      this.setState({
+        error,
+      });
     }
   }
 };
@@ -172,12 +180,11 @@ revokeAccess = async () => {
 };
 ```
 
-#### hasPlayServices
+#### hasPlayServices(paramObject)
 
-Check if device has Google Play Services installed. Always resolves to true on iOS. You may use this call at any time to find out if Google Play Services are available.
-Note that this call is completely **optional** - internally we check Google Play Services availability right before the sign in modal is shown. If the play services are not installed we prompt user to update them, as seen in the figure below.
+Check if device has Google Play Services installed. Always resolves to true on iOS.
 
-Presence of up-to-date Google Play Services is required to show the sign in modal, but it is _not_ required to perform calls to `configure` and `signInSilently`.
+Presence of up-to-date Google Play Services is required to show the sign in modal, but it is _not_ required to perform calls to `configure` and `signInSilently`. Therefore, we recommend to call `hasPlayServices` directly before `signIn`.
 
 ```js
 try {
@@ -188,7 +195,9 @@ try {
 }
 ```
 
-When `showPlayServicesUpdateDialog` is set to true the library will prompt the user to take action to solve the issue. If no configuration is provided for `hasPlayServices` `showPlayServicesUpdateDialog` defaults to true.
+`hasPlayServices` accepts one parameter, an object which contains a single key: `showPlayServicesUpdateDialog` (defaults to `true`). When `showPlayServicesUpdateDialog` is set to true the library will prompt the user to take action to solve the issue, as seen in the figure below.
+
+You may also use this call at any time to find out if Google Play Services are available and react to the result as necessary.
 
 [![prompt install](img/prompt-install.png)](#prompt-install)
 

@@ -16,7 +16,6 @@ class GoogleSignin {
   configPromise;
 
   async signIn() {
-    await this.hasPlayServices();
     await this.configPromise;
     return await RNGoogleSignin.signIn();
   }
