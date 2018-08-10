@@ -136,7 +136,7 @@ signIn = async () => {
 
 May be called eg. in the `componentDidMount` of your main component. This method returns the [current user](#3-userinfo) if they already signed in and `null` otherwise.
 
-To see how to handle errors read [`signIn()` method](#--signin)
+To see how to handle errors read [`signIn()` method](#signin)
 
 ```js
 getCurrentUser = async () => {
@@ -211,7 +211,7 @@ These are useful when determining which kind of error has occured during sign in
 | `IN_PROGRESS`                 | Trying to invoke another sign in flow (or any of the other operations) when previous one has not yet finished |
 | `PLAY_SERVICES_NOT_AVAILABLE` | Play services are not available or outdated, this can only happen on Android                                  |
 
-[Example how to use `statusCodes`](#--signin).
+[Example how to use `statusCodes`](#signin).
 
 ### 3. `userInfo`
 
