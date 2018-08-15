@@ -38,4 +38,9 @@ public class RNGoogleSigninButtonViewManager extends SimpleViewManager<SignInBut
     public void setColor(SignInButton button, int color) {
         button.setColorScheme(color);
     }
+
+    @ReactProp(name = "disabled")
+    public void setDisabled(SignInButton button, boolean disabled) {
+        button.setEnabled(!disabled);
+    }
 }
