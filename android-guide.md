@@ -107,7 +107,7 @@ Nothing special here, as long as you run your app on a Google Android device (ag
 
 #### A. My project includes other react-native plugins which have different google play services versions. What to do?
 
-See "Choose Dependency versions" above.
+See ["Choose Dependency versions"](#choose-dependency-versions-optional) above.
 
 #### B. My project includes an older version of react-native-google-signin. How to upgrade?
 
