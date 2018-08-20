@@ -32,6 +32,11 @@ RCT_CUSTOM_VIEW_PROPERTY(size, NSString, RNGoogleSignInButton)
   view.style = json ? [RCTConvert GIDSignInButtonStyle:json] : kGIDSignInButtonStyleStandard;
 }
 
+RCT_CUSTOM_VIEW_PROPERTY(disabled, BOOL, RNGoogleSignInButton)
+{
+  view.enabled = ![RCTConvert BOOL:json];
+}
+
 RCT_EXPORT_VIEW_PROPERTY(onPress, RCTBubblingEventBlock)
 
 -(void)onPress:(RNGoogleSignInButton *)sender
