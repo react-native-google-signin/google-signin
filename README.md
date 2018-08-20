@@ -48,9 +48,9 @@ render() {
 
 Possible values for `size` are:
 
-- Size.Icon: display only Google icon. recommended size of 48 x 48
-- Size.Standard: icon with 'Sign in'. recommended size of 230 x 48
-- Size.Wide: icon with 'Sign in with Google'. recommended size of 312 x 48
+- Size.Icon: display only Google icon. Recommended size of 48 x 48.
+- Size.Standard: icon with 'Sign in'. Recommended size of 230 x 48.
+- Size.Wide: icon with 'Sign in with Google'. Recommended size of 312 x 48.
 
 Possible values for `color` are:
 
