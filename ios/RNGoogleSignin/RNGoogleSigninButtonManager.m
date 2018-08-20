@@ -15,10 +15,10 @@ RCT_EXPORT_MODULE()
   RNGoogleSignInButton *button = [[RNGoogleSignInButton alloc] init];
   button.colorScheme = kGIDSignInButtonColorSchemeLight;
   button.style = kGIDSignInButtonStyleStandard;
-
+  
   [button removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
   [button addTarget:self action:@selector(onPress:) forControlEvents:UIControlEventTouchUpInside];
-
+  
   return button;
 }
 
@@ -44,7 +44,7 @@ RCT_EXPORT_VIEW_PROPERTY(onPress, RCTBubblingEventBlock)
   if (!sender.onPress) {
     return;
   }
-
+  
   sender.onPress(nil);
 }
 

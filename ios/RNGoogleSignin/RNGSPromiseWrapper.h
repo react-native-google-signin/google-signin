@@ -10,7 +10,7 @@
 #define PromiseWrapper_h
 #import <React/RCTBridgeModule.h>
 
-@interface PromiseWrapper : NSObject
+@interface RNGSPromiseWrapper : NSObject
 
 -(BOOL) setPromiseWithInProgressCheck:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject;
 -(void) resolve: (id) result;

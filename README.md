@@ -17,13 +17,6 @@
 - Consistent API between Android and iOS
 - Promise-based JS API
 
-## Installation
-
-```bash
-npm install react-native-google-signin --save
-react-native link react-native-google-signin
-```
-
 ### Note
 
 If you use React Native < `v0.40` stick with `v0.8.1` (`npm install react-native-google-signin@0.8 --save`).
@@ -130,7 +123,7 @@ signIn = async () => {
 
 #### `signInSilently()`
 
-May be called eg. in the `componentDidMount` of your main component. This method returns the [current user](#3-userinfo) if they already signed in and `null` otherwise.
+May be called eg. in the `componentDidMount` of your main component. This method returns the [current user](#3-userinfo) and rejects with an error otherwise.
 
 To see how to handle errors read [`signIn()` method](#signin)
 
@@ -230,6 +223,10 @@ Example `userInfo` which is returned after successful sign in.
   }
 }
 ```
+
+## Notes
+
+Calling the methods exposed by this package may involve remote network calls and you should thus take into account that such calls may take a long time to complete (eg. in case of poor network connection).
 
 **idToken Note**: idToken is not null only if you specify a valid `webClientId`. `webClientId` corresponds to your server clientID on the developers console. It **HAS TO BE** of type **WEB**
 

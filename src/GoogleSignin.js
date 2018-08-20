@@ -41,13 +41,8 @@ class GoogleSignin {
   }
 
   async signInSilently() {
-    try {
-      await this.configPromise;
-      const userInfo = await RNGoogleSignin.signInSilently();
-      return userInfo;
-    } catch (error) {
-      return Promise.resolve(null);
-    }
+    await this.configPromise;
+    return RNGoogleSignin.signInSilently();
   }
 
   async signOut() {
