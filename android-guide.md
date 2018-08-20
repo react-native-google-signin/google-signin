@@ -33,8 +33,8 @@ project(':react-native-google-signin').projectDir = new File(rootProject.project
 ```gradle
 ...
 dependencies {
-    classpath 'com.android.tools.build:gradle:3.1.2' // <--- update this
-    classpath 'com.google.gms:google-services:3.2.1' // <--- add this
+    classpath 'com.android.tools.build:gradle:3.1.2' // <--- use this version or newer
+    classpath 'com.google.gms:google-services:3.2.1' // <--- use this version or newer
 }
 ...
 allprojects {
@@ -62,15 +62,11 @@ dependencies {
     implementation(project(":react-native-google-signin")){
         exclude group: "com.google.android.gms" // very important
     }
-    implementation 'com.google.android.gms:play-services-auth:15.0.0' // should be at least 15.0.0 to work with most recent APIS
+    implementation 'com.google.android.gms:play-services-auth:15.0.0' // should be at least 15.0.0 to work with the most recent APIs
 }
 
 apply plugin: 'com.google.gms.google-services' // <--- this should be the last line
 ```
-
-- Choose Dependency versions (optional)
-
-The library has several dependencies, as seens in [build.gradle](https://github.com/react-native-community/react-native-google-signin/blob/master/android/build.gradle). If needed, you may control their versions by the `ext` closure, as seen in [build.gradle](https://github.com/react-native-community/react-native-google-signin/blob/master/example/android/build.gradle) of the example app.
 
 - Register Module (in MainApplication.java)
 
@@ -93,29 +89,25 @@ public class MainApplication extends Application implements ReactApplication {
 }
 ```
 
+#### Choose Dependency versions (optional)
+
+The library has several dependencies, as seen in [build.gradle](https://github.com/react-native-community/react-native-google-signin/blob/master/android/build.gradle). If needed, you may control their versions by the `ext` closure, as seen in [build.gradle](https://github.com/react-native-community/react-native-google-signin/blob/master/example/android/build.gradle) of the example app.
+
 ### 4. Running on simulator
 
-Make sure you have a simulator with Google Play installed.
+Make sure you have a simulator with Google Play Services installed.
 
 Also to help with performances, install `HAXM` from the Android SDK Manager.
 
 ### Running on device
 
-Nothing special here, as long as you run your app on a Google Android device (again with play store installed !)
+Nothing special here, as long as you run your app on a Google Android device (again with Google Play Services installed !)
 
 ## FAQ
 
 #### A. My project includes other react-native plugins which have different google play services versions. What to do?
 
-in `android/app/build.gradle` exclude google play services from the plugins you use. Like this:
-
-```
-compile(project(":PLUGIN_NAME")){
-        exclude group: "com.google.android.gms"
-}
-```
-
-Then include play services version you need (at least 9.0.0 for this plugin (!))
+See ["Choose Dependency versions"](#choose-dependency-versions-optional) above.
 
 #### B. My project includes an older version of react-native-google-signin. How to upgrade?
 
