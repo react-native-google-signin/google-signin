@@ -24,6 +24,9 @@ class GoogleSignin {
     if (IS_IOS) {
       return true;
     } else {
+      if (params && params.showPlayServicesUpdateDialog === undefined) {
+        throw new Error('RNGoogleSignin: Missing property `showPlayServicesUpdateDialog` in params object for `hasPlayServices`');
+      }
       return RNGoogleSignin.playServicesAvailable(params.showPlayServicesUpdateDialog);
     }
   }
