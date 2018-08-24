@@ -7,17 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PromiseWrapper.h"
+#import "RNGSPromiseWrapper.h"
 
 
-@interface PromiseWrapper ()
+@interface RNGSPromiseWrapper ()
 
 @property (nonatomic, strong) RCTPromiseResolveBlock promiseResolve;
 @property (nonatomic, strong) RCTPromiseRejectBlock promiseReject;
 
 @end
 
-@implementation PromiseWrapper
+@implementation RNGSPromiseWrapper
 
 -(BOOL) setPromiseWithInProgressCheck: (RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject {
   BOOL success = NO;

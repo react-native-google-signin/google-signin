@@ -45,7 +45,7 @@ public class Utils {
         params.putString("accessTokenExpirationDate", null); // Deprecated as of 2018-08-06
 
         WritableArray scopes = Arguments.createArray();
-        for(Scope scope : acct.getGrantedScopes()) {
+        for (Scope scope : acct.getGrantedScopes()) {
             String scopeString = scope.toString();
             if (scopeString.startsWith("http")) {
                 scopes.pushString(scopeString);

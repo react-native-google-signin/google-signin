@@ -2,7 +2,6 @@
 name: New issue template
 about: Template for new issues, any issues not following these templates will be automatically
   closed
-
 ---
 
 <!--
@@ -13,7 +12,7 @@ Please make sure you have searched previous issues before opening a new issue.
 
 ## Steps to Reproduce
 
-- You must provide a **minimal** reproduction of your issue - [how to create a minimal reproduction?](https://stackoverflow.com/help/mcve). We're a small team of maintainers and do not have time to try reproduce bugs ourselves.
+- You must provide a **minimal** reproduction of your issue - [how to create a minimal reproduction?](https://stackoverflow.com/help/mcve). We're a small team of maintainers and do not have time to try reproduce bugs ourselves. Please try to reproduce the bugs on the provided example app.
 
 - Link to a with code that reproduces the bug.
 
