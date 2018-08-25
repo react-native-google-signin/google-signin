@@ -6,12 +6,15 @@ import {
   DeviceEventEmitter,
   NativeModules,
   requireNativeComponent,
-  ViewPropTypes,
+  ViewPropTypes
 } from 'react-native';
 
 const { RNGoogleSignin } = NativeModules;
 
-const RNGoogleSigninButton = requireNativeComponent('RNGoogleSigninButton', null);
+const RNGoogleSigninButton = requireNativeComponent(
+  'RNGoogleSigninButton',
+  null
+);
 
 export class GoogleSigninButton extends Component {
   static propTypes = {
@@ -23,9 +26,12 @@ export class GoogleSigninButton extends Component {
   };
 
   componentDidMount() {
-    this._clickListener = DeviceEventEmitter.addListener('RNGoogleSigninButtonClicked', () => {
-      this.props.onPress && this.props.onPress();
-    });
+    this._clickListener = DeviceEventEmitter.addListener(
+      'RNGoogleSigninButtonClicked',
+      () => {
+        this.props.onPress && this.props.onPress();
+      }
+    );
   }
 
   componentWillUnmount() {
@@ -35,18 +41,23 @@ export class GoogleSigninButton extends Component {
   render() {
     const { style, ...props } = this.props;
 
-    return <RNGoogleSigninButton style={[{ backgroundColor: 'transparent' }, style]} {...props} />;
+    return (
+      <RNGoogleSigninButton
+        style={[{ backgroundColor: 'transparent' }, style]}
+        {...props}
+      />
+    );
   }
 }
 
 GoogleSigninButton.Size = {
   Icon: RNGoogleSignin.BUTTON_SIZE_ICON,
   Standard: RNGoogleSignin.BUTTON_SIZE_STANDARD,
-  Wide: RNGoogleSignin.BUTTON_SIZE_WIDE,
+  Wide: RNGoogleSignin.BUTTON_SIZE_WIDE
 };
 
 GoogleSigninButton.Color = {
   Auto: RNGoogleSignin.BUTTON_COLOR_AUTO,
   Light: RNGoogleSignin.BUTTON_COLOR_LIGHT,
-  Dark: RNGoogleSignin.BUTTON_COLOR_DARK,
+  Dark: RNGoogleSignin.BUTTON_COLOR_DARK
 };
