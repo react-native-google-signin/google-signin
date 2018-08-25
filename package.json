@@ -2,7 +2,7 @@
   "name": "react-native-google-signin",
   "version": "1.0.0-rc3",
   "description": "Google Signin for your react native applications",
-  "main": "index.js",
+  "main": "dist/index.js",
   "author": {
     "name": "devfd",
     "email": "apptailor.co@gmail.com",
@@ -14,7 +14,12 @@
     "Andrei Calazans (@Andrei_Calazans)"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "yarn run clean && yarn run build-src && yarn run build-flow",
+    "build-src": "BABEL_ENV=publish babel src -d dist --ignore __tests__ --copy-files",
+    "build-flow": "flow-copy-source -i */__tests__* src dist",
+    "build-src-watch": "BABEL_ENV=publish babel src -d dist --ignore __tests__ --copy-files --watch",
+    "clean": "rimraf dist/",
+    "validate-flow-declarations": "flow"
   },
   "keywords": [
     "react-component",
@@ -36,9 +41,9 @@
     "url": "https://github.com/react-native-community/react-native-google-signin/issues"
   },
   "peerDependencies": {
+    "prop-types": "^15.5.10",
     "react": ">=15.4.0 || ^16.0.0-alpha",
-    "react-native": ">=0.40",
-    "prop-types": "^15.5.10"
+    "react-native": ">=0.40"
   },
   "rnpm": {
     "ios": {
@@ -51,5 +56,16 @@
       ]
     }
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "^7.0.0-rc.3",
+    "@babel/core": "^7.0.0-rc.3",
+    "@invertase/babel-preset-react-native-syntax": "^0.1.0",
+    "babel-preset-react-native": "^4.0.0",
+    "flow-bin": "0.78.0",
+    "flow-copy-source": "^2.0.2",
+    "react": "16.4.1",
+    "react-native": "^0.56.0",
+    "rimraf": "^2.6.2"
+  }
 }
