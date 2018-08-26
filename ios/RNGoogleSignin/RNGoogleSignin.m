@@ -1,15 +1,51 @@
 #import "RNGoogleSignin.h"
+#import "RNGSPromiseWrapper.h"
 
 @interface RNGoogleSignin ()
 
-@property (nonatomic, strong) RCTPromiseResolveBlock promiseResolve;
-@property (nonatomic, strong) RCTPromiseRejectBlock promiseReject;
+@property (nonatomic) RNGSPromiseWrapper *promiseWrapper;
+
 
 @end
 
 @implementation RNGoogleSignin
 
 RCT_EXPORT_MODULE();
+
+static NSString *const ASYNC_OP_IN_PROGRESS = @"ASYNC_OP_IN_PROGRESS";
+static NSString *const PLAY_SERVICES_NOT_AVAILABLE = @"PLAY_SERVICES_NOT_AVAILABLE";
+
+- (NSDictionary *)constantsToExport
+{
+  return @{
+           @"BUTTON_SIZE_ICON": @(kGIDSignInButtonStyleIconOnly),
+           @"BUTTON_SIZE_STANDARD": @(kGIDSignInButtonStyleStandard),
+           @"BUTTON_SIZE_WIDE": @(kGIDSignInButtonStyleWide),
+           @"BUTTON_COLOR_LIGHT": @(kGIDSignInButtonColorSchemeLight),
+           @"BUTTON_COLOR_DARK": @(kGIDSignInButtonColorSchemeDark),
+           @"SIGN_IN_CANCELLED": [@(kGIDSignInErrorCodeCanceled) stringValue],
+           @"IN_PROGRESS": ASYNC_OP_IN_PROGRESS,
+           PLAY_SERVICES_NOT_AVAILABLE: PLAY_SERVICES_NOT_AVAILABLE // this never happens on iOS
+           };
+}
+
++ (BOOL)requiresMainQueueSetup
+{
+  return NO;
+}
+
+- (dispatch_queue_t)methodQueue
+{
+  return dispatch_get_main_queue();
+}
+
+- (instancetype)init {
+  self = [super init];
+  if (self != nil) {
+    self.promiseWrapper = [[RNGSPromiseWrapper alloc] init];
+  }
+  return self;
+}
 
 RCT_EXPORT_METHOD(configure:(NSDictionary *)options
                   resolver:(RCTPromiseResolveBlock)resolve
@@ -27,16 +63,19 @@ RCT_EXPORT_METHOD(configure:(NSDictionary *)options
   if (options[@"webClientId"]) {
     [GIDSignIn sharedInstance].serverClientID = options[@"webClientId"];
   }
-
+  
   resolve(@YES);
 }
 
-RCT_REMAP_METHOD(currentUserAsync,
+RCT_REMAP_METHOD(signInSilently,
                  currentUserAsyncResolve:(RCTPromiseResolveBlock)resolve
-                currentUserAsyncReject:(RCTPromiseRejectBlock)reject)
+                 currentUserAsyncReject:(RCTPromiseRejectBlock)reject)
 {
-  self.promiseResolve = resolve;
-  self.promiseReject = reject;
+  BOOL wasPromiseSet = [self.promiseWrapper setPromiseWithInProgressCheck:resolve rejecter:reject];
+  if (!wasPromiseSet) {
+    [self rejectWithAsyncOperationStillInProgress: reject];
+    return;
+  }
   [[GIDSignIn sharedInstance] signInSilently];
 }
 
@@ -44,8 +83,11 @@ RCT_REMAP_METHOD(signIn,
                  signInResolve:(RCTPromiseResolveBlock)resolve
                  signInReject:(RCTPromiseRejectBlock)reject)
 {
-  self.promiseResolve = resolve;
-  self.promiseReject = reject;
+  BOOL wasPromiseSet = [self.promiseWrapper setPromiseWithInProgressCheck:resolve rejecter:reject];
+  if (!wasPromiseSet) {
+    [self rejectWithAsyncOperationStillInProgress: reject];
+    return;
+  }
   [[GIDSignIn sharedInstance] signIn];
 }
 
@@ -61,111 +103,95 @@ RCT_REMAP_METHOD(revokeAccess,
                  revokeAccessResolve:(RCTPromiseResolveBlock)resolve
                  revokeAccessReject:(RCTPromiseRejectBlock)reject)
 {
-  self.promiseResolve = resolve;
-  self.promiseReject = reject;
+  BOOL wasPromiseSet = [self.promiseWrapper setPromiseWithInProgressCheck:resolve rejecter:reject];
+  if (!wasPromiseSet) {
+    [self rejectWithAsyncOperationStillInProgress: reject];
+    return;
+  }
   [[GIDSignIn sharedInstance] disconnect];
 }
 
-- (NSDictionary *)constantsToExport
-{
-  return @{
-    @"BUTTON_SIZE_ICON" : @(kGIDSignInButtonStyleIconOnly),
-    @"BUTTON_SIZE_STANDARD" : @(kGIDSignInButtonStyleStandard),
-    @"BUTTON_SIZE_WIDE" : @(kGIDSignInButtonStyleWide),
-    @"BUTTON_COLOR_LIGHT" : @(kGIDSignInButtonColorSchemeLight),
-    @"BUTTON_COLOR_DARK" : @(kGIDSignInButtonColorSchemeDark)
-  };
-}
-
-+ (BOOL)requiresMainQueueSetup
-{
-    return NO;
-}
-
-- (dispatch_queue_t)methodQueue
-{
-    return dispatch_get_main_queue();
-}
-
-- (void)reject:(NSString *)message withError:(NSError *)error
-{
-    NSString* errorCode = [NSString stringWithFormat:@"%ld", error.code];
-    NSString* errorMessage = [NSString stringWithFormat:@"RNGoogleSignInError: %@, %@", message, error.description];
-    
-    self.promiseReject(errorCode, errorMessage, error);
-}
-
 - (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
-    if (error != Nil) {
-      switch (error.code) {
-        case kGIDSignInErrorCodeUnknown:
-          [self reject:@"Unknown error when signing in." withError:error];
-          break;
-        case kGIDSignInErrorCodeKeychain:
-          [self reject:@"A problem reading or writing to the application keychain." withError:error];
-          break;
-        case kGIDSignInErrorCodeNoSignInHandlersInstalled:
-          [self reject:@"No appropriate applications are installed on the device which can handle sign-in. Both webview and switching to browser have both been disabled." withError:error];
-          break;
-        case kGIDSignInErrorCodeHasNoAuthInKeychain:
-          [self reject:@"The user has never signed in before with the given scopes, or they have since signed out." withError:error];
-          break;
-        case kGIDSignInErrorCodeCanceled:
-          [self reject:@"The user canceled the sign in request." withError:error];
-          break;
-        default:
-          // RCTLogError(@"%s: %@ (%d)", __func__, error, error.code);
-          [self reject:@"Unknown error and error code when signing in." withError:error];
-          break;
-        }
-      return;
-    }
+  if (error) {
+    [self rejectWithSigninError: error];
+  } else {
+    [self resolveWithUserDetails: user];
+  }
+}
 
-    NSURL *imageURL;
-
-    if (user.profile.hasImage)
-    {
-      imageURL = [user.profile imageURLWithDimension:120];
-    }
-
-    NSDictionary *body = @{
-                           @"name": user.profile.name,
-                           @"givenName": user.profile.givenName,
-                           @"familyName": user.profile.familyName,
-                           @"id": user.userID,
-                           @"photo": imageURL ? imageURL.absoluteString : [NSNull null],
-                           @"email": user.profile.email,
+- (void)resolveWithUserDetails: (GIDGoogleUser *) user {
+  NSURL *imageURL = user.profile.hasImage ? [user.profile imageURLWithDimension:120] : nil;
+  
+  NSDictionary *userInfo = @{
+                             @"id": user.userID,
+                             @"name": user.profile.name,
+                             @"givenName": user.profile.givenName,
+                             @"familyName": user.profile.familyName,
+                             @"photo": imageURL ? imageURL.absoluteString : [NSNull null],
+                             @"email": user.profile.email
+                             };
+  
+  NSDictionary *params = @{
+                           @"user": userInfo,
                            @"idToken": user.authentication.idToken,
-                           @"accessToken": user.authentication.accessToken,
                            @"serverAuthCode": user.serverAuthCode ? user.serverAuthCode : [NSNull null],
-                           @"accessTokenExpirationDate": [NSNumber numberWithDouble:user.authentication.accessTokenExpirationDate.timeIntervalSinceNow]
+                           @"accessToken": user.authentication.accessToken,
+                           @"scopes": user.accessibleScopes,
+                           @"accessTokenExpirationDate": [NSNumber numberWithDouble:user.authentication.accessTokenExpirationDate.timeIntervalSinceNow] // Deprecated as of 2018-08-06
                            };
+  
+  [self.promiseWrapper resolve:params];
+}
 
-    self.promiseResolve(body);
+- (void)rejectWithSigninError: (NSError *) error {
+  NSString * errorMessage = @"Unknown error and error code when signing in.";
+  switch (error.code) {
+    case kGIDSignInErrorCodeUnknown:
+      errorMessage = @"Unknown error when signing in.";
+      break;
+    case kGIDSignInErrorCodeKeychain:
+      errorMessage = @"A problem reading or writing to the application keychain.";
+      break;
+    case kGIDSignInErrorCodeNoSignInHandlersInstalled:
+      errorMessage = @"No appropriate applications are installed on the device which can handle sign-in. Both webview and switching to browser have both been disabled.";
+      break;
+    case kGIDSignInErrorCodeHasNoAuthInKeychain:
+      errorMessage = @"The user has never signed in before with the given scopes, or they have since signed out.";
+      break;
+    case kGIDSignInErrorCodeCanceled:
+      errorMessage = @"The user canceled the sign in request.";
+      break;
+  }
+  [self.promiseWrapper reject:errorMessage withError:error];
 }
 
 - (void)signIn:(GIDSignIn *)signIn didDisconnectWithUser:(GIDGoogleUser *)user withError:(NSError *)error {
-  if (error != Nil) {
-      return [self reject:@"Error when revoking access." withError:error];
+  if (error) {
+    [self.promiseWrapper reject:@"Error when revoking access." withError:error];
+    return;
   }
-
-  return self.promiseResolve(@YES);
+  
+  [self.promiseWrapper resolve:(@YES)];
 }
 
 - (void)signIn:(GIDSignIn *)signIn presentViewController:(UIViewController *)viewController {
-    [RCTPresentedViewController() presentViewController:viewController animated:true completion:nil];
+  [RCTPresentedViewController() presentViewController:viewController animated:true completion:nil];
 }
 
 - (void)signIn:(GIDSignIn *)signIn dismissViewController:(UIViewController *)viewController {
-    [viewController dismissViewControllerAnimated:true completion:nil];
+  [viewController dismissViewControllerAnimated:true completion:nil];
+}
+
+- (void)rejectWithAsyncOperationStillInProgress: (RCTPromiseRejectBlock)reject {
+  reject(ASYNC_OP_IN_PROGRESS, @"cannot set promise - some async operation is still in progress", nil);
 }
 
 + (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-
-    return [[GIDSignIn sharedInstance] handleURL:url
-                               sourceApplication:sourceApplication
-                                      annotation:annotation];
+  sourceApplication:(NSString *)sourceApplication annotation: (id)annotation {
+  
+  return [[GIDSignIn sharedInstance] handleURL:url
+                             sourceApplication:sourceApplication
+                                    annotation:annotation];
 }
 
 @end

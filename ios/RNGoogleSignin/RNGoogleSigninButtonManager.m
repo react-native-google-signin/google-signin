@@ -15,10 +15,10 @@ RCT_EXPORT_MODULE()
   RNGoogleSignInButton *button = [[RNGoogleSignInButton alloc] init];
   button.colorScheme = kGIDSignInButtonColorSchemeLight;
   button.style = kGIDSignInButtonStyleStandard;
-
+  
   [button removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
   [button addTarget:self action:@selector(onPress:) forControlEvents:UIControlEventTouchUpInside];
-
+  
   return button;
 }
 
@@ -32,6 +32,11 @@ RCT_CUSTOM_VIEW_PROPERTY(size, NSString, RNGoogleSignInButton)
   view.style = json ? [RCTConvert GIDSignInButtonStyle:json] : kGIDSignInButtonStyleStandard;
 }
 
+RCT_CUSTOM_VIEW_PROPERTY(disabled, BOOL, RNGoogleSignInButton)
+{
+  view.enabled = ![RCTConvert BOOL:json];
+}
+
 RCT_EXPORT_VIEW_PROPERTY(onPress, RCTBubblingEventBlock)
 
 -(void)onPress:(RNGoogleSignInButton *)sender
@@ -39,7 +44,7 @@ RCT_EXPORT_VIEW_PROPERTY(onPress, RCTBubblingEventBlock)
   if (!sender.onPress) {
     return;
   }
-
+  
   sender.onPress(nil);
 }
 
