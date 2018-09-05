@@ -126,7 +126,7 @@ RCT_REMAP_METHOD(revokeAccess,
                              @"id": user.userID,
                              @"name": user.profile.name,
                              @"givenName": user.profile.givenName,
-                             @"familyName": user.profile.familyName,
+                             @"familyName": user.profile.familyName ? user.profile.familyName : [NSNull null],
                              @"photo": imageURL ? imageURL.absoluteString : [NSNull null],
                              @"email": user.profile.email
                              };
