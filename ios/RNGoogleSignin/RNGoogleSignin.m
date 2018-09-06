@@ -64,7 +64,7 @@ RCT_EXPORT_METHOD(configure:(NSDictionary *)options
     return;
   }
 
-  NSMutableDictionary *plist = [[NSMutableDictionary alloc] initWithContentsOfFile:path];
+  NSDictionary *plist = [[NSDictionary alloc] initWithContentsOfFile:path];
 
   [GIDSignIn sharedInstance].delegate = self;
   [GIDSignIn sharedInstance].uiDelegate = self;
