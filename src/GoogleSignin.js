@@ -20,27 +20,23 @@ class GoogleSignin {
     return await RNGoogleSignin.signIn();
   }
 
-  async hasPlayServices(params = { showPlayServicesUpdateDialog: true }) {
+  async hasPlayServices(options = { showPlayServicesUpdateDialog: true }) {
     if (IS_IOS) {
       return true;
     } else {
-      if (params && params.showPlayServicesUpdateDialog === undefined) {
-        throw new Error('RNGoogleSignin: Missing property `showPlayServicesUpdateDialog` in params object for `hasPlayServices`');
+      if (options && options.showPlayServicesUpdateDialog === undefined) {
+        throw new Error('RNGoogleSignin: Missing property `showPlayServicesUpdateDialog` in options object for `hasPlayServices`');
       }
-      return RNGoogleSignin.playServicesAvailable(params.showPlayServicesUpdateDialog);
+      return RNGoogleSignin.playServicesAvailable(options.showPlayServicesUpdateDialog);
     }
   }
 
-  configure(params = {}) {
-    if (IS_IOS && !params.iosClientId) {
-      throw new Error('RNGoogleSignin: Missing iOS app ClientID');
-    }
-
-    if (params.offlineAccess && !params.webClientId) {
+  configure(options = {}) {
+    if (options.offlineAccess && !options.webClientId) {
       throw new Error('RNGoogleSignin: offline use requires server web ClientID');
     }
 
-    this.configPromise = RNGoogleSignin.configure(params);
+    this.configPromise = RNGoogleSignin.configure(options);
   }
 
   async signInSilently() {

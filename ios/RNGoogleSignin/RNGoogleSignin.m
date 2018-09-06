@@ -1,3 +1,4 @@
+#import <React/RCTLog.h>
 #import "RNGoogleSignin.h"
 #import "RNGSPromiseWrapper.h"
 
@@ -14,6 +15,10 @@ RCT_EXPORT_MODULE();
 
 static NSString *const ASYNC_OP_IN_PROGRESS = @"ASYNC_OP_IN_PROGRESS";
 static NSString *const PLAY_SERVICES_NOT_AVAILABLE = @"PLAY_SERVICES_NOT_AVAILABLE";
+
+// The key in `GoogleService-Info.plist` client id.
+// For more see https://developers.google.com/identity/sign-in/ios/start
+static NSString *const kClientIdKey = @"CLIENT_ID";
 
 - (NSDictionary *)constantsToExport
 {
@@ -51,11 +56,21 @@ RCT_EXPORT_METHOD(configure:(NSDictionary *)options
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
+  NSString *path = [[NSBundle mainBundle] pathForResource:@"GoogleService-Info" ofType:@"plist"];
+
+  if (!path) {
+    RCTLogError(@"RNGoogleSignin: Missing GoogleService-Info.plist");
+    reject(@"INTERNAL_MISSING_CONFIG", @"Missing GoogleService-Info.plist", nil);
+    return;
+  }
+
+  NSDictionary *plist = [[NSDictionary alloc] initWithContentsOfFile:path];
+
   [GIDSignIn sharedInstance].delegate = self;
   [GIDSignIn sharedInstance].uiDelegate = self;
   [GIDSignIn sharedInstance].scopes = options[@"scopes"];
   [GIDSignIn sharedInstance].shouldFetchBasicProfile = YES; // email, profile
-  [GIDSignIn sharedInstance].clientID = options[@"iosClientId"];
+  [GIDSignIn sharedInstance].clientID = plist[kClientIdKey];
   
   if (options[@"hostedDomain"]) {
     [GIDSignIn sharedInstance].hostedDomain = options[@"hostedDomain"];

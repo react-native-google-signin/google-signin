@@ -76,21 +76,19 @@ Handler to be called when the user taps the button
 ### 2. GoogleSignin
 
 ```js
-import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
+import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
 ```
 
-#### `configure(configuration)`
+#### `configure(options)`
 
 It is mandatory to call this method before attempting to call `signIn()` and `signInSilently()`. This method is sync meaning you can call `signIn` / `signInSilently` right after it. In typical scenarios, `configure` needs to be called only once, after your app starts.
 
-Example for default configuration: you get user email and basic profile info.
+Example usage with for default options: you get user email and basic profile info.
 
 ```js
-import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
+import { GoogleSignin } from 'react-native-google-signin';
 
-GoogleSignin.configure({
-  iosClientId: '<FROM DEVELOPER CONSOLE>', // only for iOS
-});
+GoogleSignin.configure();
 ```
 
 Example to access Google Drive both from the mobile application and from the backend server
@@ -98,7 +96,6 @@ Example to access Google Drive both from the mobile application and from the bac
 ```js
 GoogleSignin.configure({
   scopes: ['https://www.googleapis.com/auth/drive.readonly'], // what API you want to access on behalf of the user, default is email and profile
-  iosClientId: '<FROM DEVELOPER CONSOLE>', // only for iOS
   webClientId: '<FROM DEVELOPER CONSOLE>', // client ID of type WEB for your server (needed to verify user ID and offline access)
   offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
   hostedDomain: '', // specifies a hosted domain restriction
@@ -106,8 +103,6 @@ GoogleSignin.configure({
   accountName: '', // [Android] specifies an account name on the device that should be used
 });
 ```
-
-**iOS Note**: your app ClientID (`iosClientId`) is always required
 
 #### `signIn()`
 
@@ -185,7 +180,7 @@ revokeAccess = async () => {
 };
 ```
 
-#### hasPlayServices(paramObject)
+#### hasPlayServices(options)
 
 Check if device has Google Play Services installed. Always resolves to true on iOS.
 
