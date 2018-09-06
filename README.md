@@ -6,7 +6,7 @@
 
 ## Important!
 
-> A new RC 3 is available: [see release notes](https://github.com/react-native-community/react-native-google-signin/releases). Install it with `yarn add react-native-google-signin@next`.
+> A new RC 4 is available: [see release notes](https://github.com/react-native-community/react-native-google-signin/releases). Install it with `yarn add react-native-google-signin@next`.
 
 > On May 15, the repo was moved to react-native-community, and we're looking for contributors to help get the project back up to speed [see related issue](https://github.com/react-native-community/react-native-google-signin/issues/386).
 
