@@ -5,7 +5,6 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Platform,
   Alert,
 } from 'react-native';
 
@@ -27,17 +26,7 @@ class GoogleSigninSampleApp extends Component {
   }
 
   _configureGoogleSignIn() {
-    const configPlatform = {
-      ...Platform.select({
-        ios: {
-          iosClientId: config.iosClientId,
-        },
-        android: {},
-      }),
-    };
-
     GoogleSignin.configure({
-      ...configPlatform,
       webClientId: config.webClientId,
       offlineAccess: false,
     });
