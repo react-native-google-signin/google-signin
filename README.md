@@ -253,7 +253,7 @@ The default requested scopes are `email` and `profile`.
 
 If you want to manage other data from your application (for example access user agenda or upload a file to drive) you need to request additional permissions. This can be accomplished by adding the necessary scopes when configuring the GoogleSignin instance.
 
-Please visit https://developers.google.com/oauthplayground/ for a list of available scopes.
+Please visit https://developers.google.com/identity/protocols/googlescopes or https://developers.google.com/oauthplayground/ for a list of available scopes.
 
 ## Licence
 
