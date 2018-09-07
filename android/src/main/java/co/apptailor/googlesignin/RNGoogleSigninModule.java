@@ -27,6 +27,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -72,6 +73,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         constants.put("BUTTON_COLOR_LIGHT", SignInButton.COLOR_LIGHT);
         constants.put("BUTTON_COLOR_DARK", SignInButton.COLOR_DARK);
         constants.put("SIGN_IN_CANCELLED", String.valueOf(GoogleSignInStatusCodes.SIGN_IN_CANCELLED));
+        constants.put("SIGN_IN_REQUIRED", String.valueOf(CommonStatusCodes.SIGN_IN_REQUIRED));
         constants.put("IN_PROGRESS", ASYNC_OP_IN_PROGRESS);
         constants.put(PLAY_SERVICES_NOT_AVAILABLE, PLAY_SERVICES_NOT_AVAILABLE);
         return constants;

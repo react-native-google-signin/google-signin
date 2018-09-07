@@ -30,8 +30,10 @@ class GoogleSigninSampleApp extends Component {
       const userInfo = await GoogleSignin.signInSilently();
       this.setState({ userInfo, error: null });
     } catch (error) {
+      const errorMessage =
+        error.code === statusCodes.SIGN_IN_REQUIRED ? 'Please sign in :)' : error.message;
       this.setState({
-        error,
+        error: errorMessage,
       });
     }
   }
@@ -92,13 +94,11 @@ class GoogleSigninSampleApp extends Component {
 
   renderError() {
     const { error } = this.state;
-    return (
-      !!error && (
-        <Text>
-          {error.toString()} code: {error.code}
-        </Text>
-      )
-    );
+    if (!error) {
+      return null;
+    }
+    const text = `${error.toString()} ${error.code ? error.code : ''}`;
+    return <Text>{text}</Text>;
   }
 
   _signIn = async () => {

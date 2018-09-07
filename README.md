@@ -81,7 +81,7 @@ import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-goog
 
 #### `configure(options)`
 
-It is mandatory to call this method before attempting to call `signIn()` and `signInSilently()`. This method is sync meaning you can call `signIn` / `signInSilently` right after it. In typical scenarios, `configure` needs to be called only once, after your app starts.
+It is mandatory to call this method before attempting to call `signIn()` and `signInSilently()`. This method is sync meaning you can call `signIn` / `signInSilently` right after it. In typical scenarios, `configure` needs to be called only once, after your app starts. In the native layer, this is a synchronous call.
 
 Example usage with for default options: you get user email and basic profile info.
 
@@ -139,13 +139,28 @@ May be called eg. in the `componentDidMount` of your main component. This method
 To see how to handle errors read [`signIn()` method](#signin)
 
 ```js
-getCurrentUser = async () => {
+getCurrentUserInfo = async () => {
   try {
     const userInfo = await GoogleSignin.signInSilently();
     this.setState({ userInfo });
   } catch (error) {
-    console.error(error);
+    if (error.code === statusCodes.SIGN_IN_REQUIRED) {
+      // user has not signed in yet
+    } else {
+      // some other error
+    }
   }
+};
+```
+
+#### `isSignedIn()`
+
+This method may be used to find out whether some user is currently signed in. It returns a promise which resolves with a boolean value (it never rejects). In the native layer, this is a synchronous call.
+
+```js
+isSignedIn = async () => {
+  const isSignedIn = await GoogleSignin.isSignedIn();
+  this.setState({ isLoginScreenPresented: !isSignedIn });
 };
 ```
 
@@ -209,6 +224,7 @@ These are useful when determining which kind of error has occured during sign in
 | ----------------------------- | ------------------------------------------------------------------------------------------------------------- |
 | `SIGN_IN_CANCELLED`           | When user cancels the sign in flow                                                                            |
 | `IN_PROGRESS`                 | Trying to invoke another sign in flow (or any of the other operations) when previous one has not yet finished |
+| `SIGN_IN_REQUIRED`            | Useful for use with `signInSilently()` - no user has signed in yet                                            |
 | `PLAY_SERVICES_NOT_AVAILABLE` | Play services are not available or outdated, this can only happen on Android                                  |
 
 [Example how to use `statusCodes`](#signin).
