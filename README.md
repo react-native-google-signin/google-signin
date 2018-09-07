@@ -155,7 +155,7 @@ getCurrentUserInfo = async () => {
 
 #### `isSignedIn()`
 
-This method may be used to find out whether some user is currently signed in. It returns a promise which resolves with a boolean value (it never rejects). In the native layer, this is a synchronous call.
+This method may be used to find out whether some user is currently signed in. It returns a promise which resolves with a boolean value (it never rejects). In the native layer, this is a synchronous call. This means that it will resolve even when the device is offline. Note that it may happen that `isSignedIn()` resolves to true and calling `signInSilently()` rejects with an error (eg. due to a network issue).
 
 ```js
 isSignedIn = async () => {
