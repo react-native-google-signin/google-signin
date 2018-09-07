@@ -29,6 +29,7 @@ static NSString *const kClientIdKey = @"CLIENT_ID";
            @"BUTTON_COLOR_LIGHT": @(kGIDSignInButtonColorSchemeLight),
            @"BUTTON_COLOR_DARK": @(kGIDSignInButtonColorSchemeDark),
            @"SIGN_IN_CANCELLED": [@(kGIDSignInErrorCodeCanceled) stringValue],
+           @"SIGN_IN_REQUIRED": [@(kGIDSignInErrorCodeHasNoAuthInKeychain) stringValue],
            @"IN_PROGRESS": ASYNC_OP_IN_PROGRESS,
            PLAY_SERVICES_NOT_AVAILABLE: PLAY_SERVICES_NOT_AVAILABLE // this never happens on iOS
            };
@@ -124,6 +125,14 @@ RCT_REMAP_METHOD(revokeAccess,
     return;
   }
   [[GIDSignIn sharedInstance] disconnect];
+}
+
+RCT_REMAP_METHOD(isSignedIn,
+                 resolver:(RCTPromiseResolveBlock)resolve
+                 rejecter:(RCTPromiseRejectBlock)reject)
+{
+  BOOL isSignedIn = [[GIDSignIn sharedInstance] hasAuthInKeychain];
+  resolve([NSNumber numberWithBool:isSignedIn]);
 }
 
 - (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
