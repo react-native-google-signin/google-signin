@@ -126,6 +126,14 @@ RCT_REMAP_METHOD(revokeAccess,
   [[GIDSignIn sharedInstance] disconnect];
 }
 
+RCT_REMAP_METHOD(isSignedIn,
+                 resolver:(RCTPromiseResolveBlock)resolve
+                 rejecter:(RCTPromiseRejectBlock)reject)
+{
+  BOOL isSignedIn = [[GIDSignIn sharedInstance] hasAuthInKeychain];
+  resolve([NSNumber numberWithBool:isSignedIn]);
+}
+
 - (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
   if (error) {
     [self rejectWithSigninError: error];

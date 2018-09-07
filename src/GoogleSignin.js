@@ -25,7 +25,9 @@ class GoogleSignin {
       return true;
     } else {
       if (options && options.showPlayServicesUpdateDialog === undefined) {
-        throw new Error('RNGoogleSignin: Missing property `showPlayServicesUpdateDialog` in options object for `hasPlayServices`');
+        throw new Error(
+          'RNGoogleSignin: Missing property `showPlayServicesUpdateDialog` in options object for `hasPlayServices`'
+        );
       }
       return RNGoogleSignin.playServicesAvailable(options.showPlayServicesUpdateDialog);
     }
@@ -50,6 +52,10 @@ class GoogleSignin {
 
   async revokeAccess() {
     return RNGoogleSignin.revokeAccess();
+  }
+
+  async isSignedIn() {
+    return RNGoogleSignin.isSignedIn();
   }
 }
 
