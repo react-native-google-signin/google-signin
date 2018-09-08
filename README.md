@@ -6,7 +6,7 @@
 
 ## Important!
 
-> A new RC 4 is available: [see release notes](https://github.com/react-native-community/react-native-google-signin/releases). Install it with `yarn add react-native-google-signin@next`.
+> A new RC 5 is available: [see release notes](https://github.com/react-native-community/react-native-google-signin/releases). Install it with `yarn add react-native-google-signin`.
 
 > On May 15, the repo was moved to react-native-community, and we're looking for contributors to help get the project back up to speed [see related issue](https://github.com/react-native-community/react-native-google-signin/issues/386).
 
@@ -81,7 +81,7 @@ import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-goog
 
 #### `configure(options)`
 
-It is mandatory to call this method before attempting to call `signIn()` and `signInSilently()`. This method is sync meaning you can call `signIn` / `signInSilently` right after it. In typical scenarios, `configure` needs to be called only once, after your app starts.
+It is mandatory to call this method before attempting to call `signIn()` and `signInSilently()`. This method is sync meaning you can call `signIn` / `signInSilently` right after it. In typical scenarios, `configure` needs to be called only once, after your app starts. In the native layer, this is a synchronous call.
 
 Example usage with for default options: you get user email and basic profile info.
 
@@ -139,13 +139,28 @@ May be called eg. in the `componentDidMount` of your main component. This method
 To see how to handle errors read [`signIn()` method](#signin)
 
 ```js
-getCurrentUser = async () => {
+getCurrentUserInfo = async () => {
   try {
     const userInfo = await GoogleSignin.signInSilently();
     this.setState({ userInfo });
   } catch (error) {
-    console.error(error);
+    if (error.code === statusCodes.SIGN_IN_REQUIRED) {
+      // user has not signed in yet
+    } else {
+      // some other error
+    }
   }
+};
+```
+
+#### `isSignedIn()`
+
+This method may be used to find out whether some user is currently signed in. It returns a promise which resolves with a boolean value (it never rejects). In the native layer, this is a synchronous call. This means that it will resolve even when the device is offline. Note that it may happen that `isSignedIn()` resolves to true and calling `signInSilently()` rejects with an error (eg. due to a network issue).
+
+```js
+isSignedIn = async () => {
+  const isSignedIn = await GoogleSignin.isSignedIn();
+  this.setState({ isLoginScreenPresented: !isSignedIn });
 };
 ```
 
@@ -209,6 +224,7 @@ These are useful when determining which kind of error has occured during sign in
 | ----------------------------- | ------------------------------------------------------------------------------------------------------------- |
 | `SIGN_IN_CANCELLED`           | When user cancels the sign in flow                                                                            |
 | `IN_PROGRESS`                 | Trying to invoke another sign in flow (or any of the other operations) when previous one has not yet finished |
+| `SIGN_IN_REQUIRED`            | Useful for use with `signInSilently()` - no user has signed in yet                                            |
 | `PLAY_SERVICES_NOT_AVAILABLE` | Play services are not available or outdated, this can only happen on Android                                  |
 
 [Example how to use `statusCodes`](#signin).
@@ -253,7 +269,7 @@ The default requested scopes are `email` and `profile`.
 
 If you want to manage other data from your application (for example access user agenda or upload a file to drive) you need to request additional permissions. This can be accomplished by adding the necessary scopes when configuring the GoogleSignin instance.
 
-Please visit https://developers.google.com/oauthplayground/ for a list of available scopes.
+Please visit https://developers.google.com/identity/protocols/googlescopes or https://developers.google.com/oauthplayground/ for a list of available scopes.
 
 ## Licence
 
