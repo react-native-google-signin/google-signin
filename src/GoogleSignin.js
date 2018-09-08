@@ -30,13 +30,17 @@ class GoogleSignin {
           'RNGoogleSignin: Missing property `showPlayServicesUpdateDialog` in options object for `hasPlayServices`'
         );
       }
-      return RNGoogleSignin.playServicesAvailable(options.showPlayServicesUpdateDialog);
+      return RNGoogleSignin.playServicesAvailable(
+        options.showPlayServicesUpdateDialog
+      );
     }
   }
 
   configure(options = {}) {
     if (options.offlineAccess && !options.webClientId) {
-      throw new Error('RNGoogleSignin: offline use requires server web ClientID');
+      throw new Error(
+        'RNGoogleSignin: offline use requires server web ClientID'
+      );
     }
 
     this.configPromise = RNGoogleSignin.configure(options);

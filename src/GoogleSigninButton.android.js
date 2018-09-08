@@ -11,7 +11,10 @@ import {
 
 const { RNGoogleSignin } = NativeModules;
 
-const RNGoogleSigninButton = requireNativeComponent('RNGoogleSigninButton', null);
+const RNGoogleSigninButton = requireNativeComponent(
+  'RNGoogleSigninButton',
+  null
+);
 
 export class GoogleSigninButton extends Component {
   static propTypes = {
@@ -22,9 +25,12 @@ export class GoogleSigninButton extends Component {
   };
 
   componentDidMount() {
-    this._clickListener = DeviceEventEmitter.addListener('RNGoogleSigninButtonClicked', () => {
-      this.props.onPress && this.props.onPress();
-    });
+    this._clickListener = DeviceEventEmitter.addListener(
+      'RNGoogleSigninButtonClicked',
+      () => {
+        this.props.onPress && this.props.onPress();
+      }
+    );
   }
 
   componentWillUnmount() {
@@ -34,7 +40,12 @@ export class GoogleSigninButton extends Component {
   render() {
     const { style, ...props } = this.props;
 
-    return <RNGoogleSigninButton style={[{ backgroundColor: 'transparent' }, style]} {...props} />;
+    return (
+      <RNGoogleSigninButton
+        style={[{ backgroundColor: 'transparent' }, style]}
+        {...props}
+      />
+    );
   }
 }
 

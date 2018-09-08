@@ -1,12 +1,12 @@
-*If you don't have a Podfile, do `pod init`*
+_If you don't have a Podfile, do `pod init`_
 
 `pod init` creates a Podfile.
 
 add `GoogleSignIn` pod
 
-*Podfile example*
+_Podfile example_
 
-``` 
+```ruby
 # Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
 
@@ -28,5 +28,4 @@ target 'test_google_signin' do
   end
 
 end
-
 ```
