@@ -1,12 +1,16 @@
 # Example App
 
-### How to run
+### Setup
 
 - To get this running you should have:
   - `google-services.json` in your `android/app/`
   - `GoogleService-Info.plist` in `ios/` and linked in XCode by dragging it to the file tree.
 - Run `yarn` on project root to install required Javascript dependencies
 - Go to `ios/` and run `pod install` to install required native iOS dependencies
+
+### Running
+
+- Start Metro bundler and watcher `yarn run dev`, be patient: this might take a while since it needs to clean up bunch of stuff
 - Run `react-native run-ios` or `react-native run-android` to run the example app
 
 ### Troubleshooting

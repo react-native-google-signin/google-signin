@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "watch": "node ./scripts/watch-and-copy-src.js",
-    "dev": "concurrently 'yarn run watch' 'yarn run start' -n watcher,packager -c blueBright.bold,green.bold"
+    "dev": "concurrently 'yarn run watch' 'yarn run start' -n watcher,bundler -c blueBright.bold,green.bold"
   },
   "dependencies": {
     "react": "16.3.1",
