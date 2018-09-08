@@ -5,8 +5,7 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "watch": "node ./scripts/watch-and-copy-src.js",
-    "packager": "sh node_modules/react-native/packager/packager.sh --root node_modules/react-native-google-signin",
-    "dev": "concurrently 'yarn run watch' 'yarn run packager'"
+    "dev": "concurrently 'yarn run watch' 'yarn run start' -n watcher,packager -c blueBright.bold,green.bold"
   },
   "dependencies": {
     "react": "16.3.1",
@@ -15,10 +14,10 @@
   },
   "devDependencies": {
     "babel-preset-react-native": "1.9.1",
-    "concurrently": "^3.4.0",
-    "fs-extra": "^2.0.0",
-    "minimatch": "^3.0.3",
-    "node-watch": "^0.4.1",
-    "rimraf": "^2.6.1"
+    "concurrently": "^4.0.1",
+    "fs-extra": "^7.0.0",
+    "minimatch": "^3.0.4",
+    "node-watch": "^0.5.8",
+    "rimraf": "^2.6.2"
   }
 }
