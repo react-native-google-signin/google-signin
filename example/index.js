@@ -1,18 +1,7 @@
 import React, { Component } from 'react';
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-  Alert,
-  Button,
-} from 'react-native';
+import { AppRegistry, StyleSheet, Text, View, Alert, Button } from 'react-native';
 
-import {
-  GoogleSignin,
-  GoogleSigninButton,
-  statusCodes,
-} from 'react-native-google-signin';
+import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
 import config from './config';
 
 class GoogleSigninSampleApp extends Component {
@@ -42,9 +31,7 @@ class GoogleSigninSampleApp extends Component {
       this.setState({ userInfo, error: null });
     } catch (error) {
       const errorMessage =
-        error.code === statusCodes.SIGN_IN_REQUIRED
-          ? 'Please sign in :)'
-          : error.message;
+        error.code === statusCodes.SIGN_IN_REQUIRED ? 'Please sign in :)' : error.message;
       this.setState({
         error: errorMessage,
       });
@@ -169,7 +156,4 @@ const styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent(
-  'GoogleSigninSampleApp',
-  () => GoogleSigninSampleApp
-);
+AppRegistry.registerComponent('GoogleSigninSampleApp', () => GoogleSigninSampleApp);
