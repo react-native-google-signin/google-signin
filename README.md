@@ -195,7 +195,7 @@ revokeAccess = async () => {
 };
 ```
 
-#### hasPlayServices(options)
+#### `hasPlayServices(options)`
 
 Check if device has Google Play Services installed. Always resolves to true on iOS.
 
