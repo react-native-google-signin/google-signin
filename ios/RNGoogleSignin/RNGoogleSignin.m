@@ -168,7 +168,7 @@ RCT_REMAP_METHOD(isSignedIn,
 }
 
 - (void)rejectWithSigninError: (NSError *) error {
-  NSString * errorMessage = @"Unknown error and error code when signing in.";
+  NSString * errorMessage = @"Unknown error when signing in.";
   switch (error.code) {
     case kGIDSignInErrorCodeUnknown:
       errorMessage = @"Unknown error when signing in.";
