@@ -14,7 +14,9 @@
     "Andrei Calazans (@Andrei_Calazans)"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prettier:check": "prettier --list-different '**/*.js' '**/*.md'",
+    "prettier:write": "prettier --write '**/*.js' '**/*.md'"
   },
   "keywords": [
     "react-component",
@@ -36,9 +38,9 @@
     "url": "https://github.com/react-native-community/react-native-google-signin/issues"
   },
   "peerDependencies": {
+    "prop-types": "^15.5.10",
     "react": ">=15.4.0 || ^16.0.0-alpha",
-    "react-native": ">=0.40",
-    "prop-types": "^15.5.10"
+    "react-native": ">=0.40"
   },
   "rnpm": {
     "ios": {
@@ -51,5 +53,8 @@
       ]
     }
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "prettier": "1.14.2"
+  }
 }
