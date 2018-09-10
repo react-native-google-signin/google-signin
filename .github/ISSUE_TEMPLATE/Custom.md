@@ -14,9 +14,11 @@ Please make sure you have searched previous issues before opening a new issue.
 
 - You must provide a **minimal** reproduction of your issue - [how to create a minimal reproduction?](https://stackoverflow.com/help/mcve). We're a small team of maintainers and do not have time to try reproduce bugs ourselves. Please try to reproduce the bugs on the provided example app.
 
-- Link to a with code that reproduces the bug.
+- Provide a link to the repo that reproduces the bug and explain the steps we need to take to reproduce the issue.
 
-- Explain how to run the example app and any steps that we need to take to reproduce the issue from the example app.
+- Include a gif if you think it may help. 
+
+- If you're asking for help, please make it easy for us to help you!
 
 ## Expected Behavior
 
