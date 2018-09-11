@@ -58,7 +58,7 @@ public class Utils {
     static GoogleSignInOptions getSignInOptions(
             final Scope[] scopes,
             final String webClientId,
-            final boolean offlineAcess,
+            final boolean offlineAccess,
             final boolean forceConsentPrompt,
             final String accountName,
             final String hostedDomain
@@ -67,7 +67,7 @@ public class Utils {
                 .requestScopes(new Scope(Scopes.EMAIL), scopes);
         if (webClientId != null && !webClientId.isEmpty()) {
             googleSignInOptionsBuilder.requestIdToken(webClientId);
-            if (offlineAcess) {
+            if (offlineAccess) {
                 googleSignInOptionsBuilder.requestServerAuthCode(webClientId, forceConsentPrompt);
             }
         }
