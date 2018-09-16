@@ -16,7 +16,7 @@ Please make sure you have searched previous issues before opening a new issue.
 
 - Provide a link to the repo that reproduces the bug and explain the steps we need to take to reproduce the issue.
 
-- Include a gif if you think it may help. 
+- Include a gif if you think it may help.
 
 - If you're asking for help, please make it easy for us to help you!
 
@@ -34,6 +34,5 @@ Please provide the version of your
 
 - react-native
 - react-native-google-signin
-- react
 - cocoapods and GoogleSignIn pod version (if applicable)
-- gradle, android plugin for gradle and play-services-auth version (if applicable)
+- gradle, android plugin for gradle, `play-services-auth` version and version of the Google Play Services app on your phone (if applicable)
