@@ -26,7 +26,7 @@ Please make sure you have searched previous issues before opening a new issue.
 
 ## Actual Behavior
 
-<!-- Write what happened. Include screenshots if needed. If this is a regression, let us know. -->
+<!-- Write what happened. Include a gif if needed. If this is a regression, let us know. -->
 
 ## Environment
 
