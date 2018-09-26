@@ -61,7 +61,7 @@ You may also use the deprecated [application:openURL:sourceApplication:annotatio
 ```objc
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-  
+
   return [RNGoogleSignin application:application
                              openURL:url
                    sourceApplication:sourceApplication

@@ -148,9 +148,9 @@ RCT_REMAP_METHOD(isSignedIn,
   
   NSDictionary *userInfo = @{
                              @"id": user.userID,
-                             @"name": user.profile.name,
-                             @"givenName": user.profile.givenName,
-                             @"familyName": user.profile.familyName,
+                             @"name": user.profile.name ? user.profile.name : [NSNull null],
+                             @"givenName": user.profile.givenName ? user.profile.givenName : [NSNull null],
+                             @"familyName": user.profile.familyName ? user.profile.familyName : [NSNull null],
                              @"photo": imageURL ? imageURL.absoluteString : [NSNull null],
                              @"email": user.profile.email
                              };
@@ -168,7 +168,7 @@ RCT_REMAP_METHOD(isSignedIn,
 }
 
 - (void)rejectWithSigninError: (NSError *) error {
-  NSString * errorMessage = @"Unknown error and error code when signing in.";
+  NSString * errorMessage = @"Unknown error when signing in.";
   switch (error.code) {
     case kGIDSignInErrorCodeUnknown:
       errorMessage = @"Unknown error when signing in.";

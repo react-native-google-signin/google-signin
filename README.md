@@ -8,8 +8,6 @@
 
 > A new RC 5 is available: [see release notes](https://github.com/react-native-community/react-native-google-signin/releases). Install it with `yarn add react-native-google-signin`.
 
-> On May 15, the repo was moved to react-native-community, and we're looking for contributors to help get the project back up to speed [see related issue](https://github.com/react-native-community/react-native-google-signin/issues/386).
-
 ## Features
 
 - Support all 3 types of authentication methods (standard, with server-side validation or with offline access (aka server side access))
@@ -195,7 +193,7 @@ revokeAccess = async () => {
 };
 ```
 
-#### hasPlayServices(options)
+#### `hasPlayServices(options)`
 
 Check if device has Google Play Services installed. Always resolves to true on iOS.
 
