@@ -127,7 +127,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         }
         boolean wasPromiseSet = promiseWrapper.setPromiseWithInProgressCheck(promise);
         if (!wasPromiseSet) {
-            rejectWithAsyncOperationStillInProgress(promise);
+            rejectWithAsyncOperationStillInProgress(promise, "signInSilently");
             return;
         }
 
@@ -157,7 +157,8 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
             new AccessTokenRetrievalTask(this).execute(params);
         } catch (ApiException e) {
             int code = e.getStatusCode();
-            promiseWrapper.reject(String.valueOf(code), GoogleSignInStatusCodes.getStatusCodeString(code));
+            String errorDescription = GoogleSignInStatusCodes.getStatusCodeString(code);
+            promiseWrapper.reject(String.valueOf(code), errorDescription);
         }
     }
 
@@ -177,7 +178,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
 
         boolean wasPromiseSet = promiseWrapper.setPromiseWithInProgressCheck(promise);
         if (!wasPromiseSet) {
-            rejectWithAsyncOperationStillInProgress(promise);
+            rejectWithAsyncOperationStillInProgress(promise, "signIn");
             return;
         }
 
@@ -222,7 +223,8 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
             promise.resolve(true);
         } else {
             int code = getExceptionCode(task);
-            promise.reject(String.valueOf(code), GoogleSignInStatusCodes.getStatusCodeString(code));
+            String errorDescription = GoogleSignInStatusCodes.getStatusCodeString(code);
+            promise.reject(String.valueOf(code), errorDescription);
         }
     }
 
@@ -290,8 +292,9 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         promise.reject(MODULE_NAME, "apiClient is null - call configure first");
     }
 
-    private void rejectWithAsyncOperationStillInProgress(Promise promise) {
-        promise.reject(ASYNC_OP_IN_PROGRESS, "cannot set promise - some async operation is still in progress");
+    private void rejectWithAsyncOperationStillInProgress(Promise promise, String callSiteName) {
+        promise.reject(ASYNC_OP_IN_PROGRESS, "Cannot set promise. You've called " + callSiteName + " while some async operation is already in progress and has not completed yet. " +
+                "Make sure you're not repeatedly calling signInSilently and signIn from your JS code while the previous call has not completed yet.");
     }
 
 }
