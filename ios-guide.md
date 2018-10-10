@@ -42,7 +42,7 @@ Add the end of this step, your Xcode config should look like this:
 ### Modify your app to respond to the URL scheme
 
 - Open `AppDelegate.m`
-- Add an import: `#import <RNGoogleSignin/RNGoogleSignin.h>`
+- Add an import: `#import <RNGoogleSignin/RNGoogleSignin.h>` (if this one will not work try `#import "RNGoogleSignin.h"`)
 - Add a method to respond to the URL scheme:
 
 If you're targeting iOS 9 or newer, you'll want to use the [application:openURL:options: method](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623112-application?language=objc) as shown in the following snippet:
