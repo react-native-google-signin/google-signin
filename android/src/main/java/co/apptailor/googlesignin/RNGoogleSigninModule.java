@@ -125,9 +125,10 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
             rejectWithNullClientError(promise);
             return;
         }
-        boolean wasPromiseSet = promiseWrapper.setPromiseWithInProgressCheck(promise);
+        String methodName = "signInSilently";
+        boolean wasPromiseSet = promiseWrapper.setPromiseWithInProgressCheck(promise, methodName);
         if (!wasPromiseSet) {
-            rejectWithAsyncOperationStillInProgress(promise, "signInSilently");
+            rejectWithAsyncOperationStillInProgress(promise, methodName);
             return;
         }
 
@@ -175,10 +176,10 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
             promise.reject(MODULE_NAME, "activity is null");
             return;
         }
-
-        boolean wasPromiseSet = promiseWrapper.setPromiseWithInProgressCheck(promise);
+        String methodName = "signIn";
+        boolean wasPromiseSet = promiseWrapper.setPromiseWithInProgressCheck(promise, methodName);
         if (!wasPromiseSet) {
-            rejectWithAsyncOperationStillInProgress(promise, "signIn");
+            rejectWithAsyncOperationStillInProgress(promise, methodName);
             return;
         }
 
@@ -292,8 +293,8 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         promise.reject(MODULE_NAME, "apiClient is null - call configure first");
     }
 
-    private void rejectWithAsyncOperationStillInProgress(Promise promise, String callSiteName) {
-        promise.reject(ASYNC_OP_IN_PROGRESS, "Cannot set promise. You've called " + callSiteName + " while some async operation is already in progress and has not completed yet. " +
+    private void rejectWithAsyncOperationStillInProgress(Promise promise, String requestedOperation) {
+        promise.reject(ASYNC_OP_IN_PROGRESS, "Cannot set promise. You've called \"" + requestedOperation + "\" while \"" + promiseWrapper.getNameOfCallInProgress() + "\" is already in progress and has not completed yet. " +
                 "Make sure you're not repeatedly calling signInSilently and signIn from your JS code while the previous call has not completed yet.");
     }
 
