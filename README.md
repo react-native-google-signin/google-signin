@@ -99,6 +99,7 @@ GoogleSignin.configure({
   hostedDomain: '', // specifies a hosted domain restriction
   forceConsentPrompt: true, // [Android] if you want to show the authorization prompt at each login
   accountName: '', // [Android] specifies an account name on the device that should be used
+  iosClientId: '<FROM DEVELOPER CONSOLE>', // [iOS] optional, if you want to specify the client ID of type iOS (otherwise, it is taken from GoogleService-Info.plist)
 });
 ```
 
