@@ -91,9 +91,10 @@ RCT_REMAP_METHOD(signInSilently,
                  currentUserAsyncResolve:(RCTPromiseResolveBlock)resolve
                  currentUserAsyncReject:(RCTPromiseRejectBlock)reject)
 {
-  BOOL wasPromiseSet = [self.promiseWrapper setPromiseWithInProgressCheck:resolve rejecter:reject];
+  NSString* methodName = @"signInSilently";
+  BOOL wasPromiseSet = [self.promiseWrapper setPromiseWithInProgressCheck:resolve rejecter:reject fromCallSite:methodName];
   if (!wasPromiseSet) {
-    [self rejectWithAsyncOperationStillInProgress: reject];
+    [self rejectWithAsyncOperationStillInProgress: reject requestedOperation:methodName];
     return;
   }
   [[GIDSignIn sharedInstance] signInSilently];
@@ -103,9 +104,10 @@ RCT_REMAP_METHOD(signIn,
                  signInResolve:(RCTPromiseResolveBlock)resolve
                  signInReject:(RCTPromiseRejectBlock)reject)
 {
-  BOOL wasPromiseSet = [self.promiseWrapper setPromiseWithInProgressCheck:resolve rejecter:reject];
+  NSString* methodName = @"signIn";
+  BOOL wasPromiseSet = [self.promiseWrapper setPromiseWithInProgressCheck:resolve rejecter:reject fromCallSite:methodName];
   if (!wasPromiseSet) {
-    [self rejectWithAsyncOperationStillInProgress: reject];
+    [self rejectWithAsyncOperationStillInProgress: reject requestedOperation:methodName];
     return;
   }
   [[GIDSignIn sharedInstance] signIn];
@@ -123,9 +125,10 @@ RCT_REMAP_METHOD(revokeAccess,
                  revokeAccessResolve:(RCTPromiseResolveBlock)resolve
                  revokeAccessReject:(RCTPromiseRejectBlock)reject)
 {
-  BOOL wasPromiseSet = [self.promiseWrapper setPromiseWithInProgressCheck:resolve rejecter:reject];
+  NSString* methodName = @"revokeAccess";
+  BOOL wasPromiseSet = [self.promiseWrapper setPromiseWithInProgressCheck:resolve rejecter:reject fromCallSite:methodName];
   if (!wasPromiseSet) {
-    [self rejectWithAsyncOperationStillInProgress: reject];
+    [self rejectWithAsyncOperationStillInProgress: reject requestedOperation:methodName];
     return;
   }
   [[GIDSignIn sharedInstance] disconnect];
@@ -172,7 +175,7 @@ RCT_REMAP_METHOD(isSignedIn,
 }
 
 - (void)rejectWithSigninError: (NSError *) error {
-  NSString * errorMessage = @"Unknown error when signing in.";
+  NSString *errorMessage = @"Unknown error when signing in.";
   switch (error.code) {
     case kGIDSignInErrorCodeUnknown:
       errorMessage = @"Unknown error when signing in.";
@@ -210,8 +213,9 @@ RCT_REMAP_METHOD(isSignedIn,
   [viewController dismissViewControllerAnimated:true completion:nil];
 }
 
-- (void)rejectWithAsyncOperationStillInProgress: (RCTPromiseRejectBlock)reject {
-  reject(ASYNC_OP_IN_PROGRESS, @"cannot set promise - some async operation is still in progress", nil);
+- (void)rejectWithAsyncOperationStillInProgress: (RCTPromiseRejectBlock)reject requestedOperation:(NSString *) callSiteName {
+  NSString *msg = [NSString stringWithFormat:@"Cannot set promise. You've called \"%@\" while \"%@\" is already in progress and has not completed yet. Make sure you're not repeatedly calling signInSilently, signIn or revokeAccess from your JS code while the previous call has not completed yet.", callSiteName, self.promiseWrapper.nameOfCallInProgress];
+  reject(ASYNC_OP_IN_PROGRESS, msg, nil);
 }
 
 + (BOOL)application:(UIApplication *)application openURL:(NSURL *)url

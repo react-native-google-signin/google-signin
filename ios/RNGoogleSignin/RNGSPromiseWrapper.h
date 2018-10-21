@@ -12,9 +12,10 @@
 
 @interface RNGSPromiseWrapper : NSObject
 
--(BOOL) setPromiseWithInProgressCheck:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject;
--(void) resolve: (id) result;
--(void) reject:(NSString *)message withError:(NSError *)error;
+-(BOOL)setPromiseWithInProgressCheck:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject fromCallSite: (NSString*) callsite;
+-(void)resolve: (id) result;
+-(void)reject:(NSString *)message withError:(NSError *)error;
+@property (readonly, assign) NSString *nameOfCallInProgress;
 
 @end
 
