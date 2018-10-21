@@ -59,27 +59,31 @@ RCT_EXPORT_METHOD(configure:(NSDictionary *)options
 {
   NSString *path = [[NSBundle mainBundle] pathForResource:@"GoogleService-Info" ofType:@"plist"];
 
-  if (!path) {
-    RCTLogError(@"RNGoogleSignin: Missing GoogleService-Info.plist");
+  if (!options[@"iosClientId"] && !path) {
+    RCTLogError(@"RNGoogleSignin: failed to determine clientID - GoogleService-Info.plist was not found and you did not provide iosClientId.");
     reject(@"INTERNAL_MISSING_CONFIG", @"Missing GoogleService-Info.plist", nil);
     return;
   }
-
-  NSDictionary *plist = [[NSDictionary alloc] initWithContentsOfFile:path];
 
   [GIDSignIn sharedInstance].delegate = self;
   [GIDSignIn sharedInstance].uiDelegate = self;
   [GIDSignIn sharedInstance].scopes = options[@"scopes"];
   [GIDSignIn sharedInstance].shouldFetchBasicProfile = YES; // email, profile
-  [GIDSignIn sharedInstance].clientID = plist[kClientIdKey];
-  
+
+  if (options[@"iosClientId"]) {
+    [GIDSignIn sharedInstance].clientID = options[@"iosClientId"];
+  } else {
+    NSDictionary *plist = [[NSDictionary alloc] initWithContentsOfFile:path];
+    [GIDSignIn sharedInstance].clientID = plist[kClientIdKey];
+  }
+
   if (options[@"hostedDomain"]) {
     [GIDSignIn sharedInstance].hostedDomain = options[@"hostedDomain"];
   }
   if (options[@"webClientId"]) {
     [GIDSignIn sharedInstance].serverClientID = options[@"webClientId"];
   }
-  
+
   resolve(@YES);
 }
 
@@ -145,7 +149,7 @@ RCT_REMAP_METHOD(isSignedIn,
 
 - (void)resolveWithUserDetails: (GIDGoogleUser *) user {
   NSURL *imageURL = user.profile.hasImage ? [user.profile imageURLWithDimension:120] : nil;
-  
+
   NSDictionary *userInfo = @{
                              @"id": user.userID,
                              @"name": user.profile.name ? user.profile.name : [NSNull null],
@@ -154,7 +158,7 @@ RCT_REMAP_METHOD(isSignedIn,
                              @"photo": imageURL ? imageURL.absoluteString : [NSNull null],
                              @"email": user.profile.email
                              };
-  
+
   NSDictionary *params = @{
                            @"user": userInfo,
                            @"idToken": user.authentication.idToken,
@@ -163,7 +167,7 @@ RCT_REMAP_METHOD(isSignedIn,
                            @"scopes": user.accessibleScopes,
                            @"accessTokenExpirationDate": [NSNumber numberWithDouble:user.authentication.accessTokenExpirationDate.timeIntervalSinceNow] // Deprecated as of 2018-08-06
                            };
-  
+
   [self.promiseWrapper resolve:params];
 }
 
@@ -194,7 +198,7 @@ RCT_REMAP_METHOD(isSignedIn,
     [self.promiseWrapper reject:@"Error when revoking access." withError:error];
     return;
   }
-  
+
   [self.promiseWrapper resolve:(@YES)];
 }
 
@@ -212,7 +216,7 @@ RCT_REMAP_METHOD(isSignedIn,
 
 + (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication annotation: (id)annotation {
-  
+
   return [[GIDSignIn sharedInstance] handleURL:url
                              sourceApplication:sourceApplication
                                     annotation:annotation];
