@@ -60,7 +60,7 @@ RCT_EXPORT_METHOD(configure:(NSDictionary *)options
   NSString *path = [[NSBundle mainBundle] pathForResource:@"GoogleService-Info" ofType:@"plist"];
 
   if (!options[@"iosClientId"] && !path) {
-    RCTLogError(@"RNGoogleSignin: Missing GoogleService-Info.plist");
+    RCTLogError(@"RNGoogleSignin: failed to determine clientID - GoogleService-Info.plist was not found and you did not provide iosClientId.");
     reject(@"INTERNAL_MISSING_CONFIG", @"Missing GoogleService-Info.plist", nil);
     return;
   }
