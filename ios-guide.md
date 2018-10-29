@@ -7,12 +7,15 @@ Includes Google Sign-In SDK v4.0.0
 #### Automatic
 
 - link the lib with `react-native link react-native-google-signin`
+
+NOTE `react-native-link` may add the `RNGoogleSignin` podspec to your Podfile. If your Podfile looks roughly like the one described [here](http://facebook.github.io/react-native/docs/integration-with-existing-apps#configuring-cocoapods-dependencies) then this is what you want, but otherwise you may get stuck with build errors. If your Podfile does not refer to the `React` podspec, then you probably do not want to use the `RNGoogleSignin` podspec and we recommend that you rename or delete the `RNGoogleSignin.podspec` file from `node_modules/react-native-google-signin` and only then run `react-native link react-native-google-signin`. This is a one-time operation that you won't need to repeat later. We do hope to improve this behavior later on - PRs are welcome.
+
 - install the Google Signin SDK with [CocoaPods](https://cocoapods.org/) (add `pod 'GoogleSignIn'` in your Podfile and run `pod install`).
   First time using cocoapods ? [check this out](./how-cocoapods.md)
 
 #### Manual
 
-if you did `react-native link react-native-google-signin` the first two steps are not necessary
+If you did `react-native link react-native-google-signin`, the first two steps may have been done for you.
 
 - add `ios/RNGoogleSignin.xcodeproj` to your xcode project
 - In your project build phase -> `Link binary with libraries` step, add `libRNGoogleSignin.a`, `AddressBook.framework`, `SafariServices.framework`, `SystemConfiguration.framework` and `libz.tbd`
