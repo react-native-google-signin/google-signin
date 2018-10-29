@@ -77,7 +77,7 @@ RCT_EXPORT_METHOD(configure:(NSDictionary *)options
     NSDictionary *plist = [[NSDictionary alloc] initWithContentsOfFile:path];
     [GIDSignIn sharedInstance].clientID = plist[kClientIdKey];
   }
-  
+
   if (options[@"hostedDomain"]) {
     [GIDSignIn sharedInstance].hostedDomain = options[@"hostedDomain"];
   }
