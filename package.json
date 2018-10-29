@@ -1,6 +1,6 @@
 {
   "name": "react-native-google-signin",
-  "version": "1.0.0-rc1",
+  "version": "1.0.0-rc7",
   "description": "Google Signin for your react native applications",
   "main": "index.js",
   "author": {
@@ -8,8 +8,15 @@
     "email": "apptailor.co@gmail.com",
     "url": "https://github.com/devfd"
   },
+  "contributors": [
+    "Johan Ruokangas (https://latehours.net)",
+    "Vojtech Novak (@vonovak)",
+    "Andrei Calazans (@Andrei_Calazans)"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prettier:check": "prettier --list-different '**/*.js' '**/*.md'",
+    "prettier:write": "prettier --write '**/*.js' '**/*.md'"
   },
   "keywords": [
     "react-component",
@@ -22,18 +29,18 @@
     "ios",
     "android"
   ],
-  "homepage": "https://github.com/devfd/react-native-google-signin",
+  "homepage": "https://github.com/react-native-community/react-native-google-signin",
   "repository": {
     "type": "git",
-    "url": "https://github.com/devfd/react-native-google-signin"
+    "url": "https://github.com/react-native-community/react-native-google-signin"
   },
   "bugs": {
-    "url": "https://github.com/devfd/react-native-google-signin/issues"
+    "url": "https://github.com/react-native-community/react-native-google-signin/issues"
   },
   "peerDependencies": {
+    "prop-types": "^15.5.10",
     "react": ">=15.4.0 || ^16.0.0-alpha",
-    "react-native": ">=0.40",
-    "prop-types": "^15.5.10"
+    "react-native": ">=0.40"
   },
   "rnpm": {
     "ios": {
@@ -46,5 +53,8 @@
       ]
     }
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "prettier": "1.14.2"
+  }
 }

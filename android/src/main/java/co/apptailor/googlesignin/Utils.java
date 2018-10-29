@@ -9,8 +9,11 @@ import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.Scopes;
+import com.google.android.gms.tasks.Task;
 
 public class Utils {
 
@@ -26,23 +29,28 @@ public class Utils {
     static WritableMap getUserProperties(@NonNull GoogleSignInAccount acct) {
         Uri photoUrl = acct.getPhotoUrl();
 
+        WritableMap user = Arguments.createMap();
+        user.putString("id", acct.getId());
+        user.putString("name", acct.getDisplayName());
+        user.putString("givenName", acct.getGivenName());
+        user.putString("familyName", acct.getFamilyName());
+        user.putString("email", acct.getEmail());
+        user.putString("photo", photoUrl != null ? photoUrl.toString() : null);
+
+        WritableMap params = Arguments.createMap();
+        params.putMap("user", user);
+        params.putString("idToken", acct.getIdToken());
+        params.putString("serverAuthCode", acct.getServerAuthCode());
+        params.putString("accessToken", null);
+        params.putString("accessTokenExpirationDate", null); // Deprecated as of 2018-08-06
+
         WritableArray scopes = Arguments.createArray();
-        for(Scope scope : acct.getGrantedScopes()) {
+        for (Scope scope : acct.getGrantedScopes()) {
             String scopeString = scope.toString();
             if (scopeString.startsWith("http")) {
                 scopes.pushString(scopeString);
             }
         }
-
-        WritableMap params = Arguments.createMap();
-        params.putString("id", acct.getId());
-        params.putString("name", acct.getDisplayName());
-        params.putString("givenName", acct.getGivenName());
-        params.putString("familyName", acct.getFamilyName());
-        params.putString("email", acct.getEmail());
-        params.putString("photo", photoUrl != null ? photoUrl.toString() : null);
-        params.putString("idToken", acct.getIdToken());
-        params.putString("serverAuthCode", acct.getServerAuthCode());
         params.putArray("scopes", scopes);
         return params;
     }
@@ -50,7 +58,7 @@ public class Utils {
     static GoogleSignInOptions getSignInOptions(
             final Scope[] scopes,
             final String webClientId,
-            final boolean offlineAcess,
+            final boolean offlineAccess,
             final boolean forceConsentPrompt,
             final String accountName,
             final String hostedDomain
@@ -59,7 +67,7 @@ public class Utils {
                 .requestScopes(new Scope(Scopes.EMAIL), scopes);
         if (webClientId != null && !webClientId.isEmpty()) {
             googleSignInOptionsBuilder.requestIdToken(webClientId);
-            if (offlineAcess) {
+            if (offlineAccess) {
                 googleSignInOptionsBuilder.requestServerAuthCode(webClientId, forceConsentPrompt);
             }
         }
@@ -82,5 +90,15 @@ public class Utils {
             _scopes[i] = new Scope(scopeName);
         }
         return _scopes;
+    }
+
+    public static int getExceptionCode(@NonNull Task<Void> task) {
+        Exception e = task.getException();
+
+        if (e instanceof ApiException) {
+            ApiException exception = (ApiException) e;
+            return exception.getStatusCode();
+        }
+        return CommonStatusCodes.INTERNAL_ERROR;
     }
 }

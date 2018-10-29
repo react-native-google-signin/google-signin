@@ -1,96 +1,71 @@
 import React, { Component } from 'react';
 
-import {
-  View,
-  NativeAppEventEmitter,
-  NativeModules,
-  requireNativeComponent,
-  ViewPropTypes,
-  Platform,
-} from 'react-native';
+import { NativeModules, Platform } from 'react-native';
 
 const { RNGoogleSignin } = NativeModules;
 
 const IS_IOS = Platform.OS === 'ios';
-const IS_ANDROID = Platform.OS === 'android';
 
 class GoogleSignin {
-  // TODO vonovak kill state in this module
-  _user = null;
-  signinIsInProcess = false;
+  configPromise;
 
-  hasPlayServices(params = { autoResolve: true }) {
-    if (IS_IOS) {
-      return Promise.resolve(true);
-    } else {
-      return RNGoogleSignin.playServicesAvailable(params.autoResolve);
+  constructor() {
+    if (__DEV__ && !RNGoogleSignin) {
+      console.error(
+        'RN GoogleSignin native module is not correctly linked. Please read the readme, setup and troubleshooting instructions carefully or try manual linking.'
+      );
     }
-  }
-
-  async configure(params = {}) {
-    if (IS_IOS && !params.iosClientId) {
-      return Promise.reject(new Error('RNGoogleSignin: Missing iOS app ClientID'));
-    }
-
-    if (params.offlineAccess && !params.webClientId) {
-      return Promise.reject(new Error('RNGoogleSignin: offline use requires server web ClientID'));
-    }
-
-    return RNGoogleSignin.configure(params);
-  }
-
-  async currentUserAsync() {
-    try {
-      const user = await RNGoogleSignin.currentUserAsync();
-      this._user = { ...user };
-      return user;
-    } catch (error) {
-      this.signinIsInProcess = false;
-
-      return Promise.resolve(null);
-    }
-  }
-
-  currentUser() {
-    if (this._user) {
-      return { ...this._user };
-    }
-    return null;
   }
 
   async signIn() {
-    if (this.signinIsInProcess) {
-      return Promise.reject(new Error('RNGoogleSignin: Previous sign in still in progress.'));
+    await this.configPromise;
+    return await RNGoogleSignin.signIn();
+  }
+
+  async hasPlayServices(options = { showPlayServicesUpdateDialog: true }) {
+    if (IS_IOS) {
+      return true;
+    } else {
+      if (options && options.showPlayServicesUpdateDialog === undefined) {
+        throw new Error(
+          'RNGoogleSignin: Missing property `showPlayServicesUpdateDialog` in options object for `hasPlayServices`'
+        );
+      }
+      return RNGoogleSignin.playServicesAvailable(options.showPlayServicesUpdateDialog);
+    }
+  }
+
+  configure(options = {}) {
+    if (options.offlineAccess && !options.webClientId) {
+      throw new Error('RNGoogleSignin: offline use requires server web ClientID');
     }
 
-    this.signinIsInProcess = true;
-    try {
-      const user = await RNGoogleSignin.signIn();
-      this._user = { ...user };
-      return user;
-    } catch (error) {
-      // TODO figure out a nice api that communicates this to the user
-      // I'd go for expo's way: https://docs.expo.io/versions/latest/sdk/google
-      if ((IS_IOS && error.code === '-5') || (IS_ANDROID && error.code === '12501')) {
-        error.code = 'CANCELED';
-      }
-      return Promise.reject(error);
-    } finally {
-      this.signinIsInProcess = false;
-    }
+    this.configPromise = RNGoogleSignin.configure(options);
+  }
+
+  async signInSilently() {
+    await this.configPromise;
+    return RNGoogleSignin.signInSilently();
   }
 
   async signOut() {
-    const result = await RNGoogleSignin.signOut();
-    this._user = null;
-    return result;
+    return RNGoogleSignin.signOut();
   }
 
   async revokeAccess() {
-    const result = await RNGoogleSignin.revokeAccess();
-    this._user = null;
-    return result;
+    return RNGoogleSignin.revokeAccess();
+  }
+
+  async isSignedIn() {
+    return RNGoogleSignin.isSignedIn();
   }
 }
 
 export const GoogleSigninSingleton = new GoogleSignin();
+
+export const statusCodes = {
+  SIGN_IN_CANCELLED: RNGoogleSignin.SIGN_IN_CANCELLED,
+  IN_PROGRESS: RNGoogleSignin.IN_PROGRESS,
+  PLAY_SERVICES_NOT_AVAILABLE: RNGoogleSignin.PLAY_SERVICES_NOT_AVAILABLE,
+  SIGN_IN_REQUIRED: RNGoogleSignin.SIGN_IN_REQUIRED,
+};
