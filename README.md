@@ -114,6 +114,7 @@ GoogleSignin.configure({
   webClientId: '<FROM DEVELOPER CONSOLE>', // client ID of type WEB for your server (needed to verify user ID and offline access)
   offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
   hostedDomain: '', // specifies a hosted domain restriction
+  loginHint: '', // [iOS] specifies an email address or user ID to show when presenting the login screen
   forceConsentPrompt: true, // [Android] if you want to show the authorization prompt at each login
   accountName: '', // [Android] specifies an account name on the device that should be used
 }).then(() => {

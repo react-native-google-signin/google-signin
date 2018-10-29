@@ -20,6 +20,7 @@ RCT_EXPORT_METHOD(configure:(NSDictionary *)options
   [GIDSignIn sharedInstance].scopes = options[@"scopes"];
   [GIDSignIn sharedInstance].shouldFetchBasicProfile = YES; // email, profile
   [GIDSignIn sharedInstance].clientID = options[@"iosClientId"];
+  [GIDSignIn sharedInstance].loginHint = options[@"loginHint"];
   
   if (options[@"hostedDomain"]) {
     [GIDSignIn sharedInstance].hostedDomain = options[@"hostedDomain"];
