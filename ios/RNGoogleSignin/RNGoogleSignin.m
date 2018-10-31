@@ -167,7 +167,7 @@ RCT_REMAP_METHOD(isSignedIn,
                            @"idToken": user.authentication.idToken,
                            @"serverAuthCode": user.serverAuthCode ? user.serverAuthCode : [NSNull null],
                            @"accessToken": user.authentication.accessToken,
-                           @"scopes": user.accessibleScopes,
+                           @"scopes": user.grantedScopes,
                            @"accessTokenExpirationDate": [NSNumber numberWithDouble:user.authentication.accessTokenExpirationDate.timeIntervalSinceNow] // Deprecated as of 2018-08-06
                            };
 
