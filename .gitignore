@@ -71,6 +71,3 @@ proguard/
 
 # Android Studio captures folder
 captures/
-
-# Cocoapods
-ios/Pods/
