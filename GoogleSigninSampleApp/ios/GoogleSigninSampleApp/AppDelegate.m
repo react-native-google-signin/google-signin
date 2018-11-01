@@ -10,7 +10,6 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 
-//#import "RNGoogleSignin.h"
 #import <RNGoogleSignin/RNGoogleSignin.h>
 
 @implementation AppDelegate
