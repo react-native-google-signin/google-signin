@@ -44,13 +44,7 @@
   },
   "rnpm": {
     "ios": {
-      "project": "ios/RNGoogleSignin.xcodeproj",
-      "sharedLibraries": [
-        "libz",
-        "SafariServices",
-        "SystemConfiguration",
-        "AddressBook"
-      ]
+      "project": "ios/RNGoogleSignin.xcodeproj"
     }
   },
   "license": "MIT",
