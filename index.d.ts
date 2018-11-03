@@ -64,5 +64,6 @@ declare module 'react-native-google-signin' {
     signIn(): Promise<User>
     signOut(): Promise<void>
     revokeAccess(): Promise<void>
+    isSignedIn(): Promise<boolean>
   }
 }
