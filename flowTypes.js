@@ -24,7 +24,7 @@ export type User = {
     email: string,
     id: string,
     givenName: ?string,
-    familyName: string,
+    familyName: ?string,
     photo: string, // url
     name: string, // full name
   },
