@@ -27,7 +27,7 @@ export type User = {
     familyName: string,
     photo: string, // url
     name: string, // full name
-  }
+  },
 };
 
 export type StatusCode = string | number;
@@ -36,7 +36,7 @@ export type StatusCode = string | number;
 export type StatusCodes = {
   SIGN_IN_CANCELLED: StatusCode,
   IN_PROGRESS: StatusCode,
-  PLAY_SERVICES_NOT_AVAILABLE: StatusCode
+  PLAY_SERVICES_NOT_AVAILABLE: StatusCode,
 };
 
 export type GoogleSignin = {
