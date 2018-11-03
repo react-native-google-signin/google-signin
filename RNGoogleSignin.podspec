@@ -15,6 +15,7 @@ Pod::Spec.new do |s|
 
   s.social_media_url   = "https://github.com/react-native-community/react-native-google-signin/pull/284/files"
   s.requires_arc   = true
+  s.static_framework = true
   s.platform       = :ios, '9.0'
   s.preserve_paths = 'LICENSE', 'README.md', 'package.json', 'index.js'
 
