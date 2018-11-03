@@ -3,7 +3,18 @@
 // Definitions by: React Native Google Signin Contributors
 
 declare module 'react-native-google-signin' {
+  import * as React from 'react';
+  import { ViewPropTypes } from 'react-native';
   import { GoogleSignin } from 'react-native-google-signin';
+
+  export type GoogleSigninButtonProps = {
+    size: number;
+    color: string;
+    disabled: boolean;
+    onPress: () => any;
+  } & ViewPropTypes;
+
+  class GoogleSigninButton extends React.Component<GoogleSigninButtonProps>{}
 
   export type ConfigureParams = {
     iosClientId?: string,
