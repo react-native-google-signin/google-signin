@@ -30,7 +30,7 @@ export type User = {
   },
 };
 
-export type StatusCode = string | number;
+export type StatusCode = string;
 // Android Status codes: https://developers.google.com/android/reference/com/google/android/gms/auth/api/signin/GoogleSignInStatusCodes
 
 export type StatusCodes = {
