@@ -20,15 +20,4 @@ target 'GoogleSigninSampleApp' do
 
 end
 
-target 'GoogleSigninSampleApp-tvOS' do
-  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
-  # use_frameworks!
 
-  # Pods for GoogleSigninSampleApp-tvOS
-
-  # target 'GoogleSigninSampleApp-tvOSTests' do
-  #   inherit! :search_paths
-  #   # Pods for testing
-  # end
-
-end
