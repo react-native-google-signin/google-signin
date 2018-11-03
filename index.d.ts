@@ -46,16 +46,12 @@ declare module 'react-native-google-signin' {
     }
   }
 
-  export type StatusCode = string;
-// Android Status codes: https://developers.google.com/android/reference/com/google/android/gms/auth/api/signin/GoogleSignInStatusCodes
-
+  // Android Status codes: https://developers.google.com/android/reference/com/google/android/gms/auth/api/signin/GoogleSignInStatusCodes
   export interface StatusCodes {
-    SIGN_IN_CANCELLED: StatusCode,
-    IN_PROGRESS: StatusCode,
-    PLAY_SERVICES_NOT_AVAILABLE: StatusCode
+    SIGN_IN_CANCELLED: string,
+    IN_PROGRESS: string,
+    PLAY_SERVICES_NOT_AVAILABLE: string
   }
-
-  export const statusCodes: StatusCodes;
 
   export interface GoogleSignin {
     hasPlayServices(params?: HasPlayServicesParams): Promise<boolean>

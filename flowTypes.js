@@ -31,13 +31,11 @@ declare module 'react-native-google-signin' {
     },
   };
 
-  declare type StatusCode = string;
   // Android Status codes: https://developers.google.com/android/reference/com/google/android/gms/auth/api/signin/GoogleSignInStatusCodes
-
   declare type StatusCodes = {
-    SIGN_IN_CANCELLED: StatusCode,
-    IN_PROGRESS: StatusCode,
-    PLAY_SERVICES_NOT_AVAILABLE: StatusCode,
+    SIGN_IN_CANCELLED: string,
+    IN_PROGRESS: string,
+    PLAY_SERVICES_NOT_AVAILABLE: string,
   };
 
   declare type GoogleSignin = {
@@ -47,5 +45,6 @@ declare module 'react-native-google-signin' {
     +signIn: () => Promise<User>,
     +signOut: () => Promise<void>,
     +revokeAccess: () => Promise<void>,
+    +isSignedIn: () => Promise<boolean>,
   };
 }
