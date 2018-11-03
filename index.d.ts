@@ -39,7 +39,7 @@ declare module 'react-native-google-signin' {
     user: {
       email: string,
       id: string,
-      givenName: string,
+      givenName: string | null,
       familyName: string,
       photo: string, // url
       name: string // full name
