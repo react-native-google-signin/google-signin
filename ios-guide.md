@@ -22,7 +22,7 @@ NOTE according to [google sign in docs](https://developers.google.com/identity/s
 
 #### Install Google Sign In SDK
 
-Again, we offer two ways to do this: with and without Cocoapods.
+Again, we offer two ways to do this: with and without Cocoapods. Note that we require Google Sign In SDK version >= 4.3.0!
 
 ##### With Cocoapods
 
