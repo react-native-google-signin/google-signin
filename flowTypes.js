@@ -48,4 +48,4 @@ declare module 'react-native-google-signin' {
     +signOut: () => Promise<void>,
     +revokeAccess: () => Promise<void>,
   };
-};
+}
