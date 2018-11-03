@@ -4,10 +4,6 @@
   <a href="https://www.npmjs.com/package/react-native-google-signin"><img src="https://badge.fury.io/js/react-native-google-signin.svg" alt="NPM Version"></a>
 </p>
 
-## Important!
-
-> A new RC 5 is available: [see release notes](https://github.com/react-native-community/react-native-google-signin/releases). Install it with `yarn add react-native-google-signin`.
-
 ## Features
 
 - Support all 3 types of authentication methods (standard, with server-side validation or with offline access (aka server side access))
@@ -23,7 +19,9 @@ If you use React Native < `v0.47` stick with `v0.10.0` (`npm install react-nativ
 
 ## Project setup and initialization
 
-See [Android guide](android-guide.md) and [iOS guide](ios-guide.md)
+`yarn add react-native-google-signin`
+
+Then follow to the [Android guide](android-guide.md) and [iOS guide](ios-guide.md)
 
 ## Public API
 
@@ -99,6 +97,7 @@ GoogleSignin.configure({
   hostedDomain: '', // specifies a hosted domain restriction
   forceConsentPrompt: true, // [Android] if you want to show the authorization prompt at each login
   accountName: '', // [Android] specifies an account name on the device that should be used
+  iosClientId: '<FROM DEVELOPER CONSOLE>', // [iOS] optional, if you want to specify the client ID of type iOS (otherwise, it is taken from GoogleService-Info.plist)
 });
 ```
 
