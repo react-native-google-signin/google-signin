@@ -15,7 +15,7 @@ There are two ways to link the module:
 - manual
 
 1. In XCode, in the project navigator, right click Libraries ➜ Add Files to [your project's name]
-2. Go to node_modules ➜ `react-native-google-signin` and add `RNGoogleSignin.xcodeproj`
+2. Go to `node_modules` ➜ `react-native-google-signin` and add `RNGoogleSignin.xcodeproj`
 3. In XCode, in the project navigator, select your project. Add `libRNGoogleSignin.a` to your project's Build Phases ➜ Link Binary With Libraries
 
 **NOTE** according to [google sign in docs](https://developers.google.com/identity/sign-in/ios/sdk/) you may also need to do this: In <your target> -> Build Phases -> `Link binary with libraries` step, add `libRNGoogleSignin.a`, `AddressBook.framework`, `SafariServices.framework`, `SystemConfiguration.framework` and `libz.tbd`. We have found it not to be necessary for a successful build, but we recommend to follow Google's installation instructions!
