@@ -103,7 +103,7 @@ public class MainApplication extends Application implements ReactApplication {
 
 #### Choose Dependency versions (optional)
 
-The library has several dependencies, as seen in [build.gradle](https://github.com/react-native-community/react-native-google-signin/blob/master/android/build.gradle). If needed, you may control their versions by the `ext` closure, as seen in [build.gradle](https://github.com/react-native-community/react-native-google-signin/blob/master/example/android/build.gradle) of the example app.
+The library depends on `com.android.support:appcompat-v7` and `com.google.android.gms:play-services-auth`, as seen in [build.gradle](https://github.com/react-native-community/react-native-google-signin/blob/master/android/build.gradle). If needed, you may control their versions by the `ext` closure, as seen in [build.gradle](https://github.com/react-native-community/react-native-google-signin/blob/master/example/android/build.gradle) of the example app.
 
 ### 4. Running on simulator
 
