@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { AppRegistry, StyleSheet, Text, View, Alert, Button } from 'react-native';
 
 import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
-import config from './config';
+import config from './config'; // you need to create this file yourself!
 
 class GoogleSigninSampleApp extends Component {
   constructor(props) {
