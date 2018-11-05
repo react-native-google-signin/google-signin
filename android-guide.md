@@ -31,17 +31,26 @@ project(':react-native-google-signin').projectDir = new File(rootProject.project
 - Update `android/build.gradle` with
 
 ```gradle
+buildscript {
+    ext {
+        buildToolsVersion = "27.0.3"
+        minSdkVersion = 16
+        compileSdkVersion = 27
+        targetSdkVersion = 26
+        supportLibVersion = "27.1.1"
+        googlePlayServicesVersion = "15.0.1" // <--- use this version or newer
+    }
 ...
-dependencies {
-    classpath 'com.android.tools.build:gradle:3.1.2' // <--- use this version or newer
-    classpath 'com.google.gms:google-services:3.2.1' // <--- use this version or newer
-}
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.1.2' // <--- use this version or newer
+        classpath 'com.google.gms:google-services:3.2.1' // <--- use this version or newer
+    }
 ...
 allprojects {
     repositories {
         mavenLocal()
+        google() // <--- make sure this is included
         jcenter()
-        google()
         maven {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
             url "$rootDir/../node_modules/react-native/android"
@@ -63,21 +72,6 @@ dependencies {
 }
 
 apply plugin: 'com.google.gms.google-services' // <--- this should be the last line
-```
-
-- Update `android/build.gradle` with
-
-```gradle
-buildscript {
-    ext {
-        buildToolsVersion = "27.0.3"
-        minSdkVersion = 16
-        compileSdkVersion = 27
-        targetSdkVersion = 26
-        supportLibVersion = "27.1.1"
-        googlePlayServicesVersion = "15.0.1" // <--- use this version or newer
-    }
-...
 ```
 
 - Register Module (in MainApplication.java)
