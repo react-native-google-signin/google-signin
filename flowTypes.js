@@ -1,8 +1,10 @@
 // @flow
+// no-unused-vars
+import * as React from 'react';
+// no-unused-vars
+import { ViewPropTypes } from 'react-native';
 
 declare module 'react-native-google-signin' {
-  import * as React from 'react';
-  import { ViewPropTypes } from 'react-native';
 
   declare type ConfigureParams = {|
     iosClientId?: string,
@@ -15,7 +17,7 @@ declare module 'react-native-google-signin' {
   |};
 
 
-  export type GoogleSigninButtonProps = {|
+  declare type GoogleSigninButtonProps = {|
     size: number;
     color: string;
     disabled: boolean;
@@ -23,7 +25,7 @@ declare module 'react-native-google-signin' {
   |} & ViewPropTypes;
 
 
-  export class GoogleSigninButton extends React.Component<GoogleSigninButtonProps>{}
+  declare class GoogleSigninButton extends React.Component<GoogleSigninButtonProps>{}
 
   declare type HasPlayServicesParams = {|
     showPlayServicesUpdateDialog: boolean,
