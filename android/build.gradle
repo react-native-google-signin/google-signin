@@ -42,6 +42,6 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "com.android.support:appcompat-v7:${safeExtGet('supportLibVersion', '26.1.0')}"
-    implementation "com.google.android.gms:play-services-auth:${safeExtGet('googlePlayServicesVersion', '+')}"
+    implementation "com.google.android.gms:play-services-auth:${safeExtGet('googlePlayServicesAuthVersion', '16.0.1')}"
     implementation "com.facebook.react:react-native:+"
 }

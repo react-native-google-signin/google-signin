@@ -7,7 +7,7 @@ buildscript {
         compileSdkVersion = 27
         targetSdkVersion = 26
         supportLibVersion = "27.1.1"
-        googlePlayServicesVersion = "16.0.1"
+        googlePlayServicesAuthVersion = "16.0.1"
     }
     repositories {
         google()

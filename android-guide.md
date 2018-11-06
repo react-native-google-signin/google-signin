@@ -38,7 +38,7 @@ buildscript {
         compileSdkVersion = 27
         targetSdkVersion = 26
         supportLibVersion = "27.1.1"
-        googlePlayServicesVersion = "15.0.1" // <--- use this version or newer
+        googlePlayServicesAuthVersion = "15.0.1" // <--- use this version or newer
     }
 ...
     dependencies {
@@ -68,7 +68,6 @@ dependencies {
     implementation "com.android.support:appcompat-v7:23.0.1"
     implementation "com.facebook.react:react-native:+"
     implementation(project(":react-native-google-signin"))
-    implementation 'com.google.android.gms:play-services-auth:15.0.0' // should be at least 15.0.0 to work with the most recent APIs
 }
 
 apply plugin: 'com.google.gms.google-services' // <--- this should be the last line
