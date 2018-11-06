@@ -75,7 +75,7 @@ include ':react-native-google-signin', ':app'
 project(':react-native-google-signin').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-google-signin/android')
 ```
 
-- in MainApplication.java you should have
+- in `MainApplication.java` you should have
 
 ```java
 import co.apptailor.googlesignin.RNGoogleSigninPackage;  // <--- import
