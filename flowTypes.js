@@ -12,26 +12,25 @@ declare module 'react-native-google-signin' {
     accountName?: string,
   |};
 
-
   declare type GoogleSigninButtonProps = {|
-    size?: number;
-    color?: string;
-    disabled?: boolean;
-    style: any;
-    onPress?: () => any;
+    size?: number,
+    color?: string,
+    disabled?: boolean,
+    style: any,
+    onPress?: () => any,
   |};
 
   declare export class GoogleSigninButton extends React$Component<GoogleSigninButtonProps> {
-    static Size:{
-      Icon: number;
-      Standard: number;
-      Wide: number;
+    static Size: {
+      Icon: number,
+      Standard: number,
+      Wide: number,
     };
 
     static Color: {
-      Auto: string;
-      Light: string;
-      Dark: string;
+      Auto: string,
+      Light: string,
+      Dark: string,
     };
   }
 
@@ -60,18 +59,18 @@ declare module 'react-native-google-signin' {
     SIGN_IN_CANCELLED: string,
     IN_PROGRESS: string,
     PLAY_SERVICES_NOT_AVAILABLE: string,
-    SIGN_IN_REQUIRED: string;
+    SIGN_IN_REQUIRED: string,
   };
-  
-  declare export var statusCodes: StatusCodes
+
+  declare export var statusCodes: StatusCodes;
 
   declare export class GoogleSignin {
-    static hasPlayServices: (params?: HasPlayServicesParams) => Promise<boolean>,
-    static configure: (params?: ConfigureParams) => void,
-    static signInSilently: () => Promise<User>,
-    static signIn: () => Promise<User>,
-    static signOut: () => Promise<void>,
-    static revokeAccess: () => Promise<void>,
-    static isSignedIn: () => Promise<boolean>,
+    static hasPlayServices: (params?: HasPlayServicesParams) => Promise<boolean>;
+    static configure: (params?: ConfigureParams) => void;
+    static signInSilently: () => Promise<User>;
+    static signIn: () => Promise<User>;
+    static signOut: () => Promise<void>;
+    static revokeAccess: () => Promise<void>;
+    static isSignedIn: () => Promise<boolean>;
   }
 }
