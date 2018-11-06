@@ -1,11 +1,7 @@
 // @flow
-// no-unused-vars
 import * as React from 'react';
-// no-unused-vars
-import { ViewPropTypes } from 'react-native';
 
 declare module 'react-native-google-signin' {
-
   declare type ConfigureParams = {|
     iosClientId?: string,
     offlineAccess?: boolean,
@@ -18,14 +14,26 @@ declare module 'react-native-google-signin' {
 
 
   declare type GoogleSigninButtonProps = {|
-    size: number;
-    color: string;
-    disabled: boolean;
-    onPress: () => any;
-  |} & ViewPropTypes;
+    size?: number;
+    color?: string;
+    disabled?: boolean;
+    style: any;
+    onPress?: () => any;
+  |};
 
+  declare export class GoogleSigninButton extends React$Component<GoogleSigninButtonProps> {
+    static Size:{
+      Icon: number;
+      Standard: number;
+      Wide: number;
+    };
 
-  declare class GoogleSigninButton extends React.Component<GoogleSigninButtonProps>{}
+    static Color: {
+      Auto: string;
+      Light: string;
+      Dark: string;
+    };
+  }
 
   declare type HasPlayServicesParams = {|
     showPlayServicesUpdateDialog: boolean,
@@ -52,15 +60,18 @@ declare module 'react-native-google-signin' {
     SIGN_IN_CANCELLED: string,
     IN_PROGRESS: string,
     PLAY_SERVICES_NOT_AVAILABLE: string,
+    SIGN_IN_REQUIRED: string;
   };
+  
+  declare export var statusCodes: StatusCodes
 
-  declare type GoogleSignin = {
-    +hasPlayServices: (params?: HasPlayServicesParams) => Promise<boolean>,
-    +configure: (params?: ConfigureParams) => void,
-    +signInSilently: () => Promise<User>,
-    +signIn: () => Promise<User>,
-    +signOut: () => Promise<void>,
-    +revokeAccess: () => Promise<void>,
-    +isSignedIn: () => Promise<boolean>,
-  };
+  declare export class GoogleSignin {
+    static hasPlayServices: (params?: HasPlayServicesParams) => Promise<boolean>,
+    static configure: (params?: ConfigureParams) => void,
+    static signInSilently: () => Promise<User>,
+    static signIn: () => Promise<User>,
+    static signOut: () => Promise<void>,
+    static revokeAccess: () => Promise<void>,
+    static isSignedIn: () => Promise<boolean>,
+  }
 }

@@ -7,13 +7,26 @@ declare module 'react-native-google-signin' {
   import { ViewPropTypes } from 'react-native';
 
   export type GoogleSigninButtonProps = {
-    size: number;
-    color: string;
-    disabled: boolean;
-    onPress: () => any;
+    size?: number;
+    color?: string;
+    disabled?: boolean;
+    onPress?: () => any;
+    style?: any,
   } & ViewPropTypes;
 
-  export class GoogleSigninButton extends React.Component<GoogleSigninButtonProps>{}
+  export class GoogleSigninButton extends React.Component<GoogleSigninButtonProps>{
+    Size: {
+      Icon: number;
+      Standard: number;
+      Wide: number;
+    };
+
+    Color: {
+      Auto: string;
+      Light: string;
+      Dark: string;
+    };
+  }
 
   export type ConfigureParams = {
     iosClientId?: string,
@@ -49,7 +62,8 @@ declare module 'react-native-google-signin' {
   export interface StatusCodes {
     SIGN_IN_CANCELLED: string,
     IN_PROGRESS: string,
-    PLAY_SERVICES_NOT_AVAILABLE: string
+    PLAY_SERVICES_NOT_AVAILABLE: string,
+    SIGN_IN_REQUIRED: string
   }
 
   export interface GoogleSignin {
