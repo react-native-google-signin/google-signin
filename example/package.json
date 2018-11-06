@@ -16,6 +16,7 @@
   "devDependencies": {
     "babel-jest": "23.6.0",
     "concurrently": "^4.0.1",
+    "flow-bin": "0.78.0",
     "fs-extra": "^7.0.0",
     "jest": "23.6.0",
     "metro-react-native-babel-preset": "0.49.0",

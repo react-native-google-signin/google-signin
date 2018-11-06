@@ -2196,6 +2196,10 @@ find-up@^3.0.0:
   dependencies:
     locate-path "^3.0.0"
 
+flow-bin@0.78.0:
+  version "0.78.0"
+  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.78.0.tgz#df9fe7f9c9a2dfaff39083949fe2d831b41627b7"
+
 for-in@^1.0.1, for-in@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/for-in/-/for-in-1.0.2.tgz#81068d295a8142ec0ac726c6e2200c30fb6d5e80"
@@ -4397,7 +4401,7 @@ react-is@^16.6.0-alpha.8af6728:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.6.0.tgz#456645144581a6e99f6816ae2bd24ee94bdd0c01"
 
 "react-native-google-signin@file:..":
-  version "1.0.0-rc6"
+  version "1.0.0-rc8"
 
 react-native@0.57.4:
   version "0.57.4"
