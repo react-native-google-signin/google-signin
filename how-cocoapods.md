@@ -1,8 +1,12 @@
-_If you don't have a Podfile, do `pod init`_
+_If you don't have a Podfile, follow the instructions:_
 
-`pod init` creates a Podfile.
+1 . `pod init` creates a Podfile.
 
-add `GoogleSignIn` pod
+2 . add `GoogleSignIn` pod (see example below)
+
+3 . run `pod install`
+
+4 . from now on, use Xcode to open the `<your project>.xcodeworkspace` file (do not open the `.xcodeproj` any more)
 
 _Podfile example_
 
