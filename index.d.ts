@@ -5,7 +5,6 @@
 declare module 'react-native-google-signin' {
   import * as React from 'react';
   import { ViewPropTypes } from 'react-native';
-  import { GoogleSignin } from 'react-native-google-signin';
 
   export type GoogleSigninButtonProps = {
     size: number;
@@ -14,7 +13,7 @@ declare module 'react-native-google-signin' {
     onPress: () => any;
   } & ViewPropTypes;
 
-  class GoogleSigninButton extends React.Component<GoogleSigninButtonProps>{}
+  export class GoogleSigninButton extends React.Component<GoogleSigninButtonProps>{}
 
   export type ConfigureParams = {
     iosClientId?: string,

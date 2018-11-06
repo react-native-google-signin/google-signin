@@ -1,7 +1,10 @@
 // @flow
 
 declare module 'react-native-google-signin' {
-  declare type ConfigureParams = {
+  import * as React from 'react';
+  import { ViewPropTypes } from 'react-native';
+
+  declare type ConfigureParams = {|
     iosClientId?: string,
     offlineAccess?: boolean,
     webClientId?: string,
@@ -9,27 +12,38 @@ declare module 'react-native-google-signin' {
     hostedDomain?: string,
     forceConsentPrompt?: boolean,
     accountName?: string,
-  };
+  |};
+
+
+  export type GoogleSigninButtonProps = {|
+    size: number;
+    color: string;
+    disabled: boolean;
+    onPress: () => any;
+  |} & ViewPropTypes;
+
+
+  export class GoogleSigninButton extends React.Component<GoogleSigninButtonProps>{}
 
   declare type HasPlayServicesParams = {|
     showPlayServicesUpdateDialog: boolean,
   |};
 
-  declare type User = {
+  declare type User = {|
     idToken: string,
     accessToken: string | null,
     accessTokenExpirationDate: number | null, // DEPRECATED, on iOS it's a time interval since now in seconds, on Android it's always null
     serverAuthCode: string,
     scopes: string[], // on iOS this is empty array if no additional scopes are defined
-    user: {
+    user: {|
       email: string,
       id: string,
       givenName: ?string,
       familyName: ?string,
       photo: ?string, // url
       name: string, // full name
-    },
-  };
+    |},
+  |};
 
   // Android Status codes: https://developers.google.com/android/reference/com/google/android/gms/auth/api/signin/GoogleSignInStatusCodes
   declare type StatusCodes = {
