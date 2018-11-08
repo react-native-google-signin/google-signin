@@ -31,18 +31,26 @@ project(':react-native-google-signin').projectDir = new File(rootProject.project
 - Update `android/build.gradle` with
 
 ```gradle
+buildscript {
+    ext {
+        buildToolsVersion = "27.0.3"
+        minSdkVersion = 16
+        compileSdkVersion = 27
+        targetSdkVersion = 26
+        supportLibVersion = "27.1.1"
+        googlePlayServicesVersion = "15.0.1" // <--- use this version or newer
+    }
 ...
-dependencies {
-    classpath 'com.android.tools.build:gradle:3.1.2' // <--- use this version or newer
-    classpath 'com.google.gms:google-services:3.2.1' // <--- use this version or newer
-}
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.1.2' // <--- use this version or newer
+        classpath 'com.google.gms:google-services:3.2.1' // <--- use this version or newer
+    }
 ...
 allprojects {
     repositories {
         mavenLocal()
-        maven {url "https://maven.google.com"} // <--- this should be added and should be above jcenter
+        google() // <--- make sure this is included
         jcenter()
-        google()
         maven {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
             url "$rootDir/../node_modules/react-native/android"
@@ -59,9 +67,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:23.0.1"
     implementation "com.facebook.react:react-native:+"
-    implementation(project(":react-native-google-signin")){
-        exclude group: "com.google.android.gms" // very important
-    }
+    implementation(project(":react-native-google-signin"))
     implementation 'com.google.android.gms:play-services-auth:15.0.0' // should be at least 15.0.0 to work with the most recent APIs
 }
 
@@ -91,7 +97,7 @@ public class MainApplication extends Application implements ReactApplication {
 
 #### Choose Dependency versions (optional)
 
-The library has several dependencies, as seen in [build.gradle](https://github.com/react-native-community/react-native-google-signin/blob/master/android/build.gradle). If needed, you may control their versions by the `ext` closure, as seen in [build.gradle](https://github.com/react-native-community/react-native-google-signin/blob/master/example/android/build.gradle) of the example app.
+The library depends on `com.android.support:appcompat-v7` and `com.google.android.gms:play-services-auth`, as seen in [build.gradle](https://github.com/react-native-community/react-native-google-signin/blob/master/android/build.gradle). If needed, you may control their versions by the `ext` closure, as seen in [build.gradle](https://github.com/react-native-community/react-native-google-signin/blob/master/example/android/build.gradle) of the example app.
 
 ### 4. Running on simulator
 
