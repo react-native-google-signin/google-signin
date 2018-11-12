@@ -2,6 +2,7 @@
 
 <p align="center">
   <a href="https://www.npmjs.com/package/react-native-google-signin"><img src="https://badge.fury.io/js/react-native-google-signin.svg" alt="NPM Version"></a>
+  <a href="https://rn-community.slack.com/messages/CAPBAUMSL"><img src="https://img.shields.io/badge/chat-on_slack-green.svg?logo=slack&longCache=true&style=flat-square" alt="chat in slack"></a>
 </p>
 
 ## Features
