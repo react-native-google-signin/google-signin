@@ -1,10 +1,18 @@
+// @flow
 import React, { Component } from 'react';
 import { AppRegistry, StyleSheet, Text, View, Alert, Button } from 'react-native';
-
 import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
-import config from './config'; // you need to create this file yourself!
+import type { User } from 'react-native-google-signin';
+import config from './config';
 
-class GoogleSigninSampleApp extends Component {
+type ErrorWithCode = Error & { code?: string };
+
+type State = {
+  error: ?ErrorWithCode,
+  userInfo: ?User,
+};
+
+class GoogleSigninSampleApp extends Component<{}, State> {
   constructor(props) {
     super(props);
     this.state = {
@@ -33,7 +41,7 @@ class GoogleSigninSampleApp extends Component {
       const errorMessage =
         error.code === statusCodes.SIGN_IN_REQUIRED ? 'Please sign in :)' : error.message;
       this.setState({
-        error: errorMessage,
+        error: new Error(errorMessage),
       });
     }
   }
@@ -41,7 +49,7 @@ class GoogleSigninSampleApp extends Component {
   render() {
     const { userInfo } = this.state;
 
-    const body = userInfo ? this.renderUserInfo() : this.renderSignInButton();
+    const body = userInfo ? this.renderUserInfo(userInfo) : this.renderSignInButton();
     return (
       <View style={[styles.container, { flex: 1 }]}>
         {this.renderIsSignedIn()}
@@ -62,9 +70,7 @@ class GoogleSigninSampleApp extends Component {
     );
   }
 
-  renderUserInfo() {
-    const { userInfo } = this.state;
-
+  renderUserInfo(userInfo) {
     return (
       <View style={styles.container}>
         <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 20 }}>
