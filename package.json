@@ -1,6 +1,6 @@
 {
   "name": "react-native-google-signin",
-  "version": "1.0.0-rc8",
+  "version": "1.0.0",
   "description": "Google Signin for your react native applications",
   "main": "index.js",
   "author": {
