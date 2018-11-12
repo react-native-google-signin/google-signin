@@ -18,17 +18,9 @@ You need the following packages
 
 Please note that this package requires android gradle plugin of version >= 3, which in turn requires at least gradle 4.1. Android studio should be able to do the upgrade for you.
 
-- run `react-native link react-native-google-signin`
+1 . run `react-native link react-native-google-signin`
 
-- In `android/settings.gradle` you should have
-
-```gradle
-...
-include ':react-native-google-signin', ':app'
-project(':react-native-google-signin').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-google-signin/android')
-```
-
-- Update `android/build.gradle` with
+2 . Update `android/build.gradle` with
 
 ```gradle
 buildscript {
@@ -38,7 +30,7 @@ buildscript {
         compileSdkVersion = 27
         targetSdkVersion = 26
         supportLibVersion = "27.1.1"
-        googlePlayServicesVersion = "15.0.1" // <--- use this version or newer
+        googlePlayServicesAuthVersion = "15.0.1" // <--- use this version or newer
     }
 ...
     dependencies {
@@ -59,7 +51,7 @@ allprojects {
 }
 ```
 
-- Update `android/app/build.gradle` with
+3 . Update `android/app/build.gradle` with
 
 ```gradle
 ...
@@ -68,13 +60,22 @@ dependencies {
     implementation "com.android.support:appcompat-v7:23.0.1"
     implementation "com.facebook.react:react-native:+"
     implementation(project(":react-native-google-signin"))
-    implementation 'com.google.android.gms:play-services-auth:15.0.0' // should be at least 15.0.0 to work with the most recent APIs
 }
 
 apply plugin: 'com.google.gms.google-services' // <--- this should be the last line
 ```
 
-- Register Module (in MainApplication.java)
+4. Check that `react-native link` linked the native module
+
+- in `android/settings.gradle` you should have
+
+```gradle
+...
+include ':react-native-google-signin', ':app'
+project(':react-native-google-signin').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-google-signin/android')
+```
+
+- in `MainApplication.java` you should have
 
 ```java
 import co.apptailor.googlesignin.RNGoogleSigninPackage;  // <--- import
@@ -87,7 +88,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-          new RNGoogleSigninPackage() // <-- add this
+          new RNGoogleSigninPackage() // <-- this needs to be in the list
       );
     }
   ......
