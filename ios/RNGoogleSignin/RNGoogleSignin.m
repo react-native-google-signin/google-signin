@@ -69,7 +69,8 @@ RCT_EXPORT_METHOD(configure:(NSDictionary *)options
   [GIDSignIn sharedInstance].uiDelegate = self;
   [GIDSignIn sharedInstance].scopes = options[@"scopes"];
   [GIDSignIn sharedInstance].shouldFetchBasicProfile = YES; // email, profile
-
+  [GIDSignIn sharedInstance].loginHint = options[@"loginHint"];
+    
   if (options[@"iosClientId"]) {
     [GIDSignIn sharedInstance].clientID = options[@"iosClientId"];
   } else {
