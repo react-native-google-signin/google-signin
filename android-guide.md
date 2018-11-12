@@ -171,6 +171,11 @@ signingConfigs {
  }
 ```
 
-#### F. I did everything and I still have problems to compile my project.
+#### F. Google Login does NOT work when downloading my app from the play store.
+
+Check if "Google Play App Signing" is enabled for your app.
+If it is enabled, you will need to add the "Upload Certificate" `SHA` to your firebase console.
+
+#### G. I did everything and I still have problems to compile my project.
 
 Read this [medium article](https://medium.com/@suchydan/how-to-solve-google-play-services-version-collision-in-gradle-dependencies-ef086ae5c75f). Basically, if you have other play services libraries installed, you have to exclude some dependencies.
