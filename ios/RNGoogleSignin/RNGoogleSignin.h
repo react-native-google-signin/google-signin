@@ -10,6 +10,8 @@
 
 @interface RNGoogleSignin : NSObject<RCTBridgeModule, GIDSignInDelegate, GIDSignInUIDelegate>
 
+  @property (class, nonatomic, strong) NSString *googleServiceInfo;
+
 + (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication annotation:(id)annotation;
 

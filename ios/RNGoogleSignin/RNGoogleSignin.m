@@ -15,6 +15,17 @@ RCT_EXPORT_MODULE();
 
 static NSString *const ASYNC_OP_IN_PROGRESS = @"ASYNC_OP_IN_PROGRESS";
 static NSString *const PLAY_SERVICES_NOT_AVAILABLE = @"PLAY_SERVICES_NOT_AVAILABLE";
+static NSString *_googleServiceInfo = nil;
+
++ (NSString*) googleServiceInfo {
+    return _googleServiceInfo;
+}
+
++ (void) setGoogleServiceInfo:(NSString*) newGoogleServiceInfo {
+    if(newGoogleServiceInfo != _googleServiceInfo) {
+        _googleServiceInfo = [newGoogleServiceInfo copy];
+    }
+}
 
 // The key in `GoogleService-Info.plist` client id.
 // For more see https://developers.google.com/identity/sign-in/ios/start
@@ -57,7 +68,12 @@ RCT_EXPORT_METHOD(configure:(NSDictionary *)options
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
-  NSString *path = [[NSBundle mainBundle] pathForResource:@"GoogleService-Info" ofType:@"plist"];
+  NSString *path;
+  if(_googleServiceInfo == NULL) {
+    path = [[NSBundle mainBundle] pathForResource:@"GoogleService-Info" ofType:@"plist"];
+  } else {
+    path = _googleServiceInfo;
+  }
 
   if (!path) {
     RCTLogError(@"RNGoogleSignin: Missing GoogleService-Info.plist");
