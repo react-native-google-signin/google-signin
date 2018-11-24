@@ -21,7 +21,7 @@ Now the example project should build successfully on both platforms and you shou
 
 ### Making Change to Native Code
 
-Now, if you want to make changes to native code, just go ahead and import the example project into Android Studio, or open the `GoogleSigninSampleApp.xcworkspace` file in Xcode.
+If you want to make changes to native code, just go ahead and import the example project into Android Studio, or open the `GoogleSigninSampleApp.xcworkspace` file in Xcode.
 
 In Android Studio you'll see the reference to the `react-native-google-signin` project.
 in Xcode, under Libraries, there'll be `RNGoogleSignIn` project.
@@ -35,7 +35,7 @@ There is a little more work to make changes to JS code. The process is not ideal
 - in the example folder, run `yarn watch`: this will watch any changes made to the files in the `<repo_root>/src` folder and copy them to `<example_folder>/node_modules/react-native-google-signin/src` so the react-native bundler can read them.
 - note that this only watches the `src` folder so if you're working with other files you need to modify the watch script
 
-Now you can makde changes to JS code and test them out.
+Now you can make changes to JS code and test them out.
 
 ### Finalize
 
