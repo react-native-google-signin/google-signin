@@ -30,7 +30,7 @@ First time using cocoapods ? [check this out](./how-cocoapods.md)
 
 At the end, the dependencis should be linked like in this picture (this is _with_ pods).
 
-[![link config](img/buildPhasesWithPods.png)](img/buildPhasesWithPods.png?raw=true)
+[![link config](../img/buildPhasesWithPods.png)](../img/buildPhasesWithPods.png?raw=true)
 
 #### Without Cocoapods
 
@@ -41,7 +41,7 @@ At the end, the dependencis should be linked like in this picture (this is _with
 
 At the end, the dependencis should be linked like in this picture (this is _without_ pods).
 
-[![link config](img/buildPhasesWithoutPods.png)](img/buildPhasesWithoutPods.png?raw=true)
+[![link config](../img/buildPhasesWithoutPods.png)](../img/buildPhasesWithoutPods.png?raw=true)
 
 ### 2. Google project configuration
 
@@ -54,7 +54,7 @@ At the end, the dependencis should be linked like in this picture (this is _with
 - Configure URL types in the `Info` panel (see screenshot)
   - add a URL with scheme set to your `REVERSED_CLIENT_ID` (found inside `GoogleService-Info.plist`)
 
-[![link config](img/urlTypes.png)](img/urlTypes.png?raw=true)
+[![link config](../img/urlTypes.png)](../img/urlTypes.png?raw=true)
 
 ### Modify your app to respond to the URL scheme (optional)
 

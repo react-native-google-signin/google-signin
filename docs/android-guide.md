@@ -6,7 +6,7 @@ Please see the **FAQ** at bottom before opening new issues
 
 You need the following packages
 
-[![link config](https://github.com/apptailor/react-native-google-signin/raw/master/img/android-req.png)](#config)
+[![link config](../img/android-req.png)](#config)
 
 ### 2. Google project configuration
 
