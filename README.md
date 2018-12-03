@@ -7,9 +7,10 @@
 ## Features
 
 - Support all 3 types of authentication methods (standard, with server-side validation or with offline access (aka server side access))
-- Native signin button
+- Native signin buttons
 - Consistent API between Android and iOS
 - Promise-based JS API
+- Typings for TypeScript and Flow
 
 ### Note
 
@@ -21,7 +22,7 @@ If you use React Native < `v0.47` stick with `v0.10.0` (`npm install react-nativ
 
 `yarn add react-native-google-signin`
 
-Then follow to the [Android guide](android-guide.md) and [iOS guide](ios-guide.md)
+Then follow the [Android guide](docs/android-guide.md) and [iOS guide](docs/ios-guide.md)
 
 ## Public API
 
@@ -249,6 +250,10 @@ Example `userInfo` which is returned after successful sign in.
 }
 ```
 
+## Want to contribute?
+
+Check out the [contributor guide](docs/CONTRIBUTING.md)!
+
 ## Notes
 
 Calling the methods exposed by this package may involve remote network calls and you should thus take into account that such calls may take a long time to complete (eg. in case of poor network connection).
@@ -259,7 +264,7 @@ Read [iOS documentation](https://developers.google.com/identity/sign-in/ios/back
 
 **serverAuthCode Note**: serverAuthCode is not null only if you specify a valid `webClientId` and set `offlineAccess` to true. once you get the auth code, you can send it to your backend server and exchange the code for an access token. Only with this freshly acquired token can you access user data.
 
-Read [iOS documentation](https://developers.google.com/identity/sign-in/ios/offline-access) and [Android documentation](https://developers.google.com/identity/sign-in/android/offline-access) for more information
+Read [iOS documentation](https://developers.google.com/identity/sign-in/ios/offline-access) and [Android documentation](https://developers.google.com/identity/sign-in/android/offline-access) for more information.
 
 ## Additional scopes
 

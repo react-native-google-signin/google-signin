@@ -6,7 +6,7 @@ If you don't already have a project in Firebase you need to create one in order 
 
 1. Add your iOS and Android App inside Project settings.
 
-![Project settings](img/project-settings.png)
+![Project settings](../img/project-settings.png)
 
 _Access project settings on top left pane next to Project Overview_
 
