@@ -4,8 +4,8 @@ def safeExtGet(prop, fallback) {
 
 buildscript {
     repositories {
-        jcenter()
         google()
+        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.4'
@@ -14,8 +14,8 @@ buildscript {
 
 allprojects {
     repositories {
-        jcenter()
         google()
+        jcenter()
         maven { url "$projectDir/../node_modules/react-native/android" }
     }
 }
@@ -30,7 +30,7 @@ android {
         minSdkVersion safeExtGet('minSdkVersion', 18)
         targetSdkVersion safeExtGet('targetSdkVersion', 28)
         versionCode 1
-        versionName "1.0.0"
+        versionName "1.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
