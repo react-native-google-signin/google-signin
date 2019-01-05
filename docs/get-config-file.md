@@ -1,8 +1,8 @@
 ## Get configuration file
 
-If you don't already have a project in Firebase you need to create one in order to generate credentials for an iOS and Android application.
+Please NOTE that you **do not** need firebase to get the necessary files and SHA1 hashes, but this tutorial is written assuming that you do have firebase. We currently do not have tutorial for the non-firebase approach, but you're welcome to create it!
 
-Please NOTE that you **do not** need firebase, to get the necessary files and SHA1 hashes, but this tutorial is written assuming that you do have firebase. We currently do not have tutorial for the non-firebase approach, but you're welcome to create it!
+If you don't already have a project in Firebase you need to create one in order to generate credentials for an iOS and Android application.
 
 [Firebase console](https://console.firebase.google.com/u/0/)
 
