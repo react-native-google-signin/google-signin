@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  View,
   DeviceEventEmitter,
   NativeModules,
   requireNativeComponent,
@@ -19,6 +18,8 @@ export class GoogleSigninButton extends Component {
     size: PropTypes.number,
     color: PropTypes.number,
     disabled: PropTypes.bool,
+    width: PropTypes.number,
+    height: PropTypes.number
   };
 
   componentDidMount() {
@@ -32,9 +33,9 @@ export class GoogleSigninButton extends Component {
   }
 
   render() {
-    const { style, ...props } = this.props;
+    const { style, width, height, ...props } = this.props;
 
-    return <RNGoogleSigninButton style={[{ backgroundColor: 'transparent' }, style]} {...props} />;
+    return <RNGoogleSigninButton style={[{ backgroundColor: 'transparent' }, style, {width, height}]} {...props} />;
   }
 }
 

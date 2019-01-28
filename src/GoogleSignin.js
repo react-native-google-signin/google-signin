@@ -1,5 +1,3 @@
-import React, { Component } from 'react';
-
 import { NativeModules, Platform } from 'react-native';
 
 const { RNGoogleSignin } = NativeModules;

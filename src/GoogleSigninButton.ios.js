@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  View,
-  NativeAppEventEmitter,
   NativeModules,
   requireNativeComponent,
   ViewPropTypes,
@@ -19,6 +17,8 @@ export class GoogleSigninButton extends Component {
     color: PropTypes.number,
     disabled: PropTypes.bool,
     onPress: PropTypes.func.isRequired,
+    width: PropTypes.number,
+    height: PropTypes.number
   };
 
   handleOnPress = () => {
@@ -28,11 +28,11 @@ export class GoogleSigninButton extends Component {
   };
 
   render() {
-    const { style, onPress, ...props } = this.props;
+    const { style, width, height, ...props } = this.props;
 
     return (
       <RNGoogleSigninButton
-        style={[{ backgroundColor: 'transparent' }, style]}
+        style={[{ backgroundColor: 'transparent' }, style, {width, height}]}
         onPress={this.handleOnPress}
         {...props}
       />

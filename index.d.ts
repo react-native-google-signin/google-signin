@@ -6,13 +6,14 @@
 //                 Eric Chen <https://github.com/echentw>
 
 import * as React from 'react';
-import { ViewProps } from 'react-native';
 
-export interface GoogleSigninButtonProps extends ViewProps {
+export interface GoogleSigninButtonProps {
   size?: GoogleSigninButton.Size;
   color?: GoogleSigninButton.Color;
   disabled?: boolean;
   onPress?(): void;
+  width?: number;
+  height?: number;
 }
 
 export class GoogleSigninButton extends React.Component<GoogleSigninButtonProps> {
