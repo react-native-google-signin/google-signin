@@ -17,9 +17,7 @@ export class GoogleSigninButton extends Component {
     ...ViewPropTypes,
     size: PropTypes.number,
     color: PropTypes.number,
-    disabled: PropTypes.bool,
-    width: PropTypes.number,
-    height: PropTypes.number
+    disabled: PropTypes.bool
   };
 
   componentDidMount() {
@@ -33,9 +31,9 @@ export class GoogleSigninButton extends Component {
   }
 
   render() {
-    const { style, width, height, ...props } = this.props;
+    const { style, ...props } = this.props;
 
-    return <RNGoogleSigninButton style={[{ backgroundColor: 'transparent' }, style, {width, height}]} {...props} />;
+    return <RNGoogleSigninButton style={[{ backgroundColor: 'transparent' }, style]} {...props} />;
   }
 }
 
