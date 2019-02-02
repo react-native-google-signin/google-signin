@@ -16,13 +16,7 @@ export class GoogleSigninButton extends Component {
     size: PropTypes.number,
     color: PropTypes.number,
     disabled: PropTypes.bool,
-    onPress: PropTypes.func.isRequired
-  };
-
-  handleOnPress = () => {
-    if (this.props.onPress) {
-      this.props.onPress();
-    }
+    onPress: PropTypes.func.isRequired,
   };
 
   render() {
@@ -31,7 +25,6 @@ export class GoogleSigninButton extends Component {
     return (
       <RNGoogleSigninButton
         style={[{ backgroundColor: 'transparent' }, style]}
-        onPress={this.handleOnPress}
         {...props}
       />
     );
