@@ -35,7 +35,7 @@ import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
 
 render() {
   <GoogleSigninButton
-    style={{width: 192, height: 48}}
+    style={{ width: 192, height: 48 }}
     size={GoogleSigninButton.Size.Wide}
     color={GoogleSigninButton.Color.Dark}
     onPress={this._signIn}
