@@ -1,29 +1,26 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  DeviceEventEmitter,
-  NativeModules,
-  requireNativeComponent,
-  ViewPropTypes,
-} from 'react-native';
+import { NativeModules, requireNativeComponent, ViewPropTypes, Platform } from 'react-native';
 
 const { RNGoogleSignin } = NativeModules;
-
 const RNGoogleSigninButton = requireNativeComponent('RNGoogleSigninButton', null);
 
-export class GoogleSigninButton extends Component {
+export class GoogleSigninButton extends PureComponent {
   static propTypes = {
     ...ViewPropTypes,
     size: PropTypes.number,
-    color: PropTypes.number,
+    color: PropTypes.string,
     disabled: PropTypes.bool,
+    onPress: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
-    this._clickListener = DeviceEventEmitter.addListener('RNGoogleSigninButtonClicked', () => {
-      this.props.onPress && this.props.onPress();
-    });
+    if (Platform.OS === 'android') {
+      this._clickListener = DeviceEventEmitter.addListener('RNGoogleSigninButtonClicked', () => {
+        this.props.onPress && this.props.onPress();
+      });
+    }
   }
 
   componentWillUnmount() {
