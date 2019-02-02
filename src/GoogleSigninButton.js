@@ -16,7 +16,7 @@ export class GoogleSigninButton extends PureComponent {
   static propTypes = {
     ...ViewPropTypes,
     size: PropTypes.number,
-    color: PropTypes.string,
+    color: PropTypes.number,
     disabled: PropTypes.bool,
     onPress: PropTypes.func.isRequired,
   };
