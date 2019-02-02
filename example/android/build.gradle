@@ -34,8 +34,8 @@ allprojects {
     }
 }
 
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.4'
-    distributionUrl = distributionUrl.replace("bin", "all")
-}
+// commented because of `Cannot add task 'wrapper' as a task with that name already exists.`
+//task wrapper(type: Wrapper) {
+//    gradleVersion = '5.0'
+//    distributionUrl = distributionUrl.replace("bin", "all")
+//}
