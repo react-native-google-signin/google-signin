@@ -17,7 +17,7 @@ export class GoogleSigninButton extends Component {
     ...ViewPropTypes,
     size: PropTypes.number,
     color: PropTypes.number,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
   };
 
   componentDidMount() {
