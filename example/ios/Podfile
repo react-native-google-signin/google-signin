@@ -6,7 +6,7 @@ target 'GoogleSigninSampleApp' do
   # use_frameworks!
 
   # Pods for GoogleSigninSampleApp
-  pod 'GoogleSignIn'
+  pod 'GoogleSignIn', '~> 4.4.0'
 
   target 'GoogleSigninSampleApp-tvOSTests' do
     inherit! :search_paths

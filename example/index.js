@@ -53,6 +53,7 @@ class GoogleSigninSampleApp extends Component<{}, State> {
     return (
       <View style={[styles.container, { flex: 1 }]}>
         {this.renderIsSignedIn()}
+        {this.renderGetCurrentUser()}
         {body}
       </View>
     );
@@ -66,6 +67,18 @@ class GoogleSigninSampleApp extends Component<{}, State> {
           Alert.alert(String(isSignedIn));
         }}
         title="is user signed in?"
+      />
+    );
+  }
+
+  renderGetCurrentUser() {
+    return (
+      <Button
+        onPress={async () => {
+          const userInfo = await GoogleSignin.getCurrentUser();
+          Alert.alert('current user', userInfo ? JSON.stringify(userInfo.user) : 'null');
+        }}
+        title="get current user"
       />
     );
   }

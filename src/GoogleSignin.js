@@ -57,6 +57,10 @@ class GoogleSignin {
   async isSignedIn() {
     return RNGoogleSignin.isSignedIn();
   }
+
+  async getCurrentUser() {
+    return RNGoogleSignin.getCurrentUser();
+  }
 }
 
 export const GoogleSigninSingleton = new GoogleSignin();

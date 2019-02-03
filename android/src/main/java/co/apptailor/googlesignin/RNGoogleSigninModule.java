@@ -251,6 +251,12 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         promise.resolve(isSignedIn);
     }
 
+    @ReactMethod
+    public void getCurrentUser(Promise promise) {
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getReactApplicationContext());
+        promise.resolve(account == null ? null : getUserProperties(account));
+    }
+
     private static class AccessTokenRetrievalTask extends AsyncTask<WritableMap, Void, WritableMap> {
 
         private WeakReference<RNGoogleSigninModule> weakModuleRef;
