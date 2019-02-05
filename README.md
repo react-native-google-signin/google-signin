@@ -163,6 +163,17 @@ isSignedIn = async () => {
 };
 ```
 
+#### `getCurrentUser()`
+
+This method resolves with `null` or `userInfo` object. The call never rejects and in the native layer, this is a synchronous call. Note that on Android, `accessToken` is always `null` in the response.
+
+```js
+getCurrentUser = async () => {
+  const currentUser = await GoogleSignin.getCurrentUser();
+  this.setState({ currentUser });
+};
+```
+
 #### `signOut()`
 
 Remove user session from the device.
