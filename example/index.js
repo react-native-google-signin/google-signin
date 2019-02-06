@@ -89,7 +89,7 @@ class GoogleSigninSampleApp extends Component<{}, State> {
       <Button
         onPress={async () => {
           const isSignedIn = await GoogleSignin.getTokens();
-          console.warn(JSON.stringify(isSignedIn));
+          Alert.alert('tokens', JSON.stringify(isSignedIn));
         }}
         title="get tokens"
       />

@@ -216,7 +216,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
                 if (resultCode == Activity.RESULT_OK) {
                     rerunFailedAuthTokenTask();
                 } else {
-                    promiseWrapper.reject(MODULE_NAME, "Failed authentication recovery attempt");
+                    promiseWrapper.reject(MODULE_NAME, "Failed authentication recovery attempt, probably user-rejected.");
                 }
             }
         }
@@ -300,7 +300,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void getTokens(final Promise promise) {
         String methodName = "getTokensAsync";
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getReactApplicationContext());
+        final GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getReactApplicationContext());
         if (account == null) {
             promise.reject(MODULE_NAME, "getTokens requires a user to be signed in");
             return;
