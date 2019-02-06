@@ -3,6 +3,7 @@ package co.apptailor.googlesignin;
 import android.accounts.Account;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -34,6 +35,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -214,7 +216,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
                 if (resultCode == Activity.RESULT_OK) {
                     rerunFailedAuthTokenTask();
                 } else {
-                    promiseWrapper.reject(MODULE_NAME, "Failed attempt to recovery authentication");
+                    promiseWrapper.reject(MODULE_NAME, "Failed authentication recovery attempt");
                 }
             }
         }
@@ -223,9 +225,9 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
     private void rerunFailedAuthTokenTask() {
         WritableMap userProperties = pendingAuthRecovery.getUserProperties();
         if (userProperties != null) {
-            // this is unlikely to happen, since we set the pendingRecovery in AccessTokenRetrievalTask
             new AccessTokenRetrievalTask(this).execute(userProperties, null);
         } else {
+            // this is unlikely to happen, since we set the pendingRecovery in AccessTokenRetrievalTask
             promiseWrapper.reject(MODULE_NAME, "rerunFailedAuthTokenTask: recovery failed");
         }
     }
@@ -292,9 +294,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
             rejectWithAsyncOperationStillInProgress(promise, methodName);
             return;
         }
-        WritableMap mapWithTokenToClear = Arguments.createMap();
-        mapWithTokenToClear.putString(TOKEN_TO_CLEAR, tokenToClear);
-        new TokenClearingTask(this).execute(mapWithTokenToClear);
+        new TokenClearingTask(this).execute(tokenToClear);
     }
 
     @ReactMethod
@@ -321,35 +321,38 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         new AccessTokenRetrievalTask(this).execute(userParams, recoveryParams);
     }
 
-    private static class AccessTokenRetrievalTask extends BaseAsyncTask {
+    private static class AccessTokenRetrievalTask extends AsyncTask<WritableMap, Void, Void> {
+
+        private WeakReference<RNGoogleSigninModule> weakModuleRef;
 
         AccessTokenRetrievalTask(RNGoogleSigninModule module) {
-            super(module);
+            this.weakModuleRef = new WeakReference<>(module);
         }
 
         @Override
-        protected WritableMap doInBackground(WritableMap... params) {
+        protected Void doInBackground(WritableMap... params) {
             WritableMap userProperties = params[0];
             final RNGoogleSigninModule moduleInstance = weakModuleRef.get();
             if (moduleInstance == null) {
-                return userProperties;
+                return null;
             }
             try {
-                String token = getAccessToken(moduleInstance, userProperties);
-                userProperties.putString("accessToken", token);
-                return userProperties;
+                insertAccessTokenIntoUserProperties(moduleInstance, userProperties);
+                moduleInstance.getPromiseWrapper().resolve(userProperties);
             } catch (Exception e) {
                 WritableMap recoverySettings = params.length >= 2 ? params[1] : null;
                 handleException(moduleInstance, e, userProperties, recoverySettings);
-                return null;
             }
+            return null;
         }
 
-        private String getAccessToken(RNGoogleSigninModule moduleInstance, WritableMap userProperties) throws IOException, GoogleAuthException {
+        private void insertAccessTokenIntoUserProperties(RNGoogleSigninModule moduleInstance, WritableMap userProperties) throws IOException, GoogleAuthException {
             String mail = userProperties.getMap("user").getString("email");
-            return GoogleAuthUtil.getToken(moduleInstance.getReactApplicationContext(),
+            String token = GoogleAuthUtil.getToken(moduleInstance.getReactApplicationContext(),
                     new Account(mail, "com.google"),
                     scopesToString(userProperties.getArray("scopes")));
+
+            userProperties.putString("accessToken", token);
         }
 
         private void handleException(RNGoogleSigninModule moduleInstance, Exception cause,
@@ -385,27 +388,27 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         }
     }
 
-    private static class TokenClearingTask extends BaseAsyncTask {
+    private static class TokenClearingTask extends AsyncTask<String, Void, Void> {
+
+        private WeakReference<RNGoogleSigninModule> weakModuleRef;
 
         TokenClearingTask(RNGoogleSigninModule module) {
-            super(module);
+            this.weakModuleRef = new WeakReference<>(module);
         }
 
         @Override
-        protected WritableMap doInBackground(WritableMap... params) {
-            WritableMap mapWithTokenToClear = params[0];
+        protected Void doInBackground(String... tokenToClear) {
             RNGoogleSigninModule moduleInstance = weakModuleRef.get();
             if (moduleInstance == null) {
                 return null;
             }
             try {
-                String token = mapWithTokenToClear.getString(TOKEN_TO_CLEAR);
-                GoogleAuthUtil.clearToken(moduleInstance.getReactApplicationContext(), token);
-                return Arguments.createMap();
+                GoogleAuthUtil.clearToken(moduleInstance.getReactApplicationContext(), tokenToClear[0]);
+                moduleInstance.getPromiseWrapper().resolve(true);
             } catch (Exception e) {
                 moduleInstance.promiseWrapper.reject(MODULE_NAME, e);
-                return null;
             }
+            return null;
         }
     }
 

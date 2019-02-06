@@ -67,15 +67,15 @@ class GoogleSignin {
   }
 
   async getTokens() {
-    const result = await RNGoogleSignin.getTokens();
     if (IS_IOS) {
-      return result;
+      const tokens = await RNGoogleSignin.getTokens();
+      return tokens;
     } else {
-      debugger;
+      const userObject = await RNGoogleSignin.getTokens();
       return (
-        result && {
-          idToken: result.idToken,
-          accessToken: result.accessToken,
+        userObject && {
+          idToken: userObject.idToken,
+          accessToken: userObject.accessToken,
         }
       );
     }
