@@ -72,12 +72,10 @@ class GoogleSignin {
       return tokens;
     } else {
       const userObject = await RNGoogleSignin.getTokens();
-      return (
-        userObject && {
-          idToken: userObject.idToken,
-          accessToken: userObject.accessToken,
-        }
-      );
+      return {
+        idToken: userObject.idToken,
+        accessToken: userObject.accessToken,
+      };
     }
   }
 }
