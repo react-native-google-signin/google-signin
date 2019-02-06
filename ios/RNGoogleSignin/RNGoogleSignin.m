@@ -159,7 +159,7 @@ RCT_EXPORT_METHOD(getTokens:(RCTPromiseResolveBlock)resolve
 {
   GIDGoogleUser *currentUser = [GIDSignIn sharedInstance].currentUser;
   if (currentUser == nil) {
-    resolve([NSNull null]);
+    reject(@"getTokens", @"getTokens requires a user to be signed in", nil);
     return;
   }
   
