@@ -1,16 +1,16 @@
 // @flow
-import * as React from "react";
-import type { ViewProps } from "ViewPropTypes";
+import * as React from 'react';
+import type { ViewProps } from 'ViewPropTypes';
 
 export type ConfigureParams = $ReadOnly<{|
   iosClientId?: string,
   offlineAccess?: boolean,
   webClientId?: string,
   scopes?: string[],
-  loginHint?: string;
+  loginHint?: string,
   hostedDomain?: string,
   forceConsentPrompt?: boolean,
-  accountName?: string
+  accountName?: string,
 |}>;
 
 export type GoogleSigninButtonProps = $ReadOnly<{|
@@ -18,27 +18,25 @@ export type GoogleSigninButtonProps = $ReadOnly<{|
   size?: number,
   color?: string,
   disabled?: boolean,
-  onPress?: () => any
+  onPress?: () => any,
 |}>;
 
-declare export class GoogleSigninButton extends React$Component<
-  GoogleSigninButtonProps
-> {
+declare export class GoogleSigninButton extends React$Component<GoogleSigninButtonProps> {
   static Size: {
     Icon: number,
     Standard: number,
-    Wide: number
+    Wide: number,
   };
 
   static Color: {
     Auto: string,
     Light: string,
-    Dark: string
+    Dark: string,
   };
 }
 
 export type HasPlayServicesParams = $ReadOnly<{|
-  showPlayServicesUpdateDialog: boolean
+  showPlayServicesUpdateDialog: boolean,
 |}>;
 
 export type User = {|
@@ -53,8 +51,8 @@ export type User = {|
     givenName: ?string,
     familyName: ?string,
     photo: ?string, // url
-    name: string // full name
-  |}
+    name: string, // full name
+  |},
 |};
 
 // Android Status codes: https://developers.google.com/android/reference/com/google/android/gms/auth/api/signin/GoogleSignInStatusCodes
@@ -62,7 +60,7 @@ type StatusCodes = $ReadOnly<{
   SIGN_IN_CANCELLED: string,
   IN_PROGRESS: string,
   PLAY_SERVICES_NOT_AVAILABLE: string,
-  SIGN_IN_REQUIRED: string
+  SIGN_IN_REQUIRED: string,
 }>;
 
 declare export var statusCodes: StatusCodes;
@@ -78,4 +76,7 @@ declare export class GoogleSignin {
   static signOut: () => Promise<void>;
   static revokeAccess: () => Promise<void>;
   static isSignedIn: () => Promise<boolean>;
+  static getCurrentUser(): Promise<User | null>;
+  static clearCachedToken(token: string): Promise<void>;
+  static getTokens(): Promise<{ idToken: string, accessToken: string }>;
 }
