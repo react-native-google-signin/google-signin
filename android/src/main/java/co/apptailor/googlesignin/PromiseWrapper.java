@@ -31,6 +31,16 @@ public class PromiseWrapper {
         resetMembers();
     }
 
+    public void reject(String code, Throwable throwable) {
+        if (promise == null) {
+            Log.w(MODULE_NAME, "cannot reject promise because it's null");
+            return;
+        }
+
+        promise.reject(code, throwable.getLocalizedMessage(), throwable);
+        resetMembers();
+    }
+
     public void reject(String code, String message) {
         if (promise == null) {
             Log.w(MODULE_NAME, "cannot reject promise because it's null");

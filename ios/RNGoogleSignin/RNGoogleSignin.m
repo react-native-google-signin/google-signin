@@ -154,6 +154,29 @@ RCT_EXPORT_METHOD(getCurrentUser:(RCTPromiseResolveBlock)resolve
   resolve(RCTNullIfNil([self createUserDictionary:currentUser]));
 }
 
+RCT_EXPORT_METHOD(getTokens:(RCTPromiseResolveBlock)resolve
+                    rejecter:(RCTPromiseRejectBlock)reject)
+{
+  GIDGoogleUser *currentUser = [GIDSignIn sharedInstance].currentUser;
+  if (currentUser == nil) {
+    reject(@"getTokens", @"getTokens requires a user to be signed in", nil);
+    return;
+  }
+  
+  GIDAuthenticationHandler handler = ^void(GIDAuthentication *authentication, NSError *error) {
+    if (error) {
+      reject(@"getTokens", error.localizedDescription, nil);
+    } else {
+      resolve(@{
+                @"idToken" : authentication.idToken,
+                @"accessToken" : authentication.accessToken,
+                });
+    }
+  };
+  
+  [currentUser.authentication getTokensWithHandler:handler];
+}
+
 - (void)resolveWithUserDetails: (GIDGoogleUser *) user {
   [self.promiseWrapper resolve:[self createUserDictionary:user]];
 }

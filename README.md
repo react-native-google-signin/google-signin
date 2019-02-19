@@ -174,6 +174,14 @@ getCurrentUser = async () => {
 };
 ```
 
+#### `clearCachedToken(tokenString)`
+
+This method only has an effect on Android (Calling this method always resolves on iOS.). You may run into a 401 Unauthorized error when a token is invalid. Call this method to remove the token from local cache and then call `getTokens()` to get fresh tokens.
+
+#### `getTokens()`
+
+Resolves with an object containing `{ idToken: string, accessToken: string, }` or rejects with an error.
+
 #### `signOut()`
 
 Remove user session from the device.

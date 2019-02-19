@@ -24,12 +24,12 @@ export namespace GoogleSigninButton {
   enum Size {
     Standard,
     Wide,
-    Icon
+    Icon,
   }
 
   enum Color {
     Light,
-    Dark
+    Dark,
   }
 }
 
@@ -147,6 +147,12 @@ export namespace GoogleSignin {
    * Returns whether the user is currently signed in
    */
   function isSignedIn(): Promise<boolean>;
+
+  function getCurrentUser(): Promise<User | null>;
+
+  function clearCachedToken(token: string): Promise<void>;
+
+  function getTokens(): Promise<{ idToken: string; accessToken: string }>;
 }
 
 export const statusCodes: {

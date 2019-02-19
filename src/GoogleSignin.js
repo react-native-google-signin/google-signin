@@ -61,6 +61,23 @@ class GoogleSignin {
   async getCurrentUser() {
     return RNGoogleSignin.getCurrentUser();
   }
+
+  async clearCachedToken(tokenString) {
+    return IS_IOS ? true : !!RNGoogleSignin.clearCachedToken(tokenString);
+  }
+
+  async getTokens() {
+    if (IS_IOS) {
+      const tokens = await RNGoogleSignin.getTokens();
+      return tokens;
+    } else {
+      const userObject = await RNGoogleSignin.getTokens();
+      return {
+        idToken: userObject.idToken,
+        accessToken: userObject.accessToken,
+      };
+    }
+  }
 }
 
 export const GoogleSigninSingleton = new GoogleSignin();

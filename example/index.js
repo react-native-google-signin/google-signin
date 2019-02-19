@@ -54,6 +54,7 @@ class GoogleSigninSampleApp extends Component<{}, State> {
       <View style={[styles.container, { flex: 1 }]}>
         {this.renderIsSignedIn()}
         {this.renderGetCurrentUser()}
+        {this.renderGetTokens()}
         {body}
       </View>
     );
@@ -79,6 +80,18 @@ class GoogleSigninSampleApp extends Component<{}, State> {
           Alert.alert('current user', userInfo ? JSON.stringify(userInfo.user) : 'null');
         }}
         title="get current user"
+      />
+    );
+  }
+
+  renderGetTokens() {
+    return (
+      <Button
+        onPress={async () => {
+          const isSignedIn = await GoogleSignin.getTokens();
+          Alert.alert('tokens', JSON.stringify(isSignedIn));
+        }}
+        title="get tokens"
       />
     );
   }
