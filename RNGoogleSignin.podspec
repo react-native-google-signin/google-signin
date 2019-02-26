@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.author         = package['author']
   s.homepage       = package['homepage']
   s.source         = { :git => 'https://github.com/react-native-community/react-native-google-signin.git', :tag => s.version }
-  
+
 
   s.social_media_url   = "https://github.com/react-native-community/react-native-google-signin/pull/284/files"
   s.requires_arc   = true
@@ -20,6 +20,7 @@ Pod::Spec.new do |s|
   s.preserve_paths = 'LICENSE', 'README.md', 'package.json', 'index.js'
 
   s.source_files  = "ios/RNGoogleSignin/*.{h,m}"
+  s.framework     = 'GoogleSignIn'
   s.dependency "React"
   s.dependency "GoogleSignIn"
 end
