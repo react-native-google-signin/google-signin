@@ -21,35 +21,41 @@
 @implementation RNGSPromiseWrapper
 
 -(BOOL)setPromiseWithInProgressCheck: (RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject fromCallSite:(NSString *) callsite {
-  BOOL success = NO;
-  if (!self.promiseResolve) {
-    self.promiseResolve = resolve;
-    self.promiseReject = reject;
-    self.nameOfCallInProgress = callsite;
-    success = YES;
+  @synchronized(self) {
+    BOOL success = NO;
+    if (!self.promiseResolve) {
+      self.promiseResolve = resolve;
+      self.promiseReject = reject;
+      self.nameOfCallInProgress = callsite;
+      success = YES;
+    }
+    return success;
   }
-  return success;
 }
 
 -(void)resolve: (id) result {
-  if (self.promiseResolve == nil) {
-    NSLog(@"cannot resolve promise because it's null");
-    return;
+  @synchronized(self) {
+    if (self.promiseResolve == nil) {
+      NSLog(@"cannot resolve promise because it's null");
+      return;
+    }
+    self.promiseResolve(result);
+    [self resetMembers];
   }
-  self.promiseResolve(result);
-  [self resetMembers];
 }
 
 -(void)reject:(NSString *)message withError:(NSError *)error {
-  if (self.promiseResolve == nil) {
-    NSLog(@"cannot resolve promise because it's null");
-    return;
+  @synchronized(self) {
+    if (self.promiseResolve == nil) {
+      NSLog(@"cannot resolve promise because it's null");
+      return;
+    }
+    NSString* errorCode = [NSString stringWithFormat:@"%ld", error.code];
+    NSString* errorMessage = [NSString stringWithFormat:@"RNGoogleSignInError: %@, %@", message, error.description];
+    
+    self.promiseReject(errorCode, errorMessage, error);
+    [self resetMembers];
   }
-  NSString* errorCode = [NSString stringWithFormat:@"%ld", error.code];
-  NSString* errorMessage = [NSString stringWithFormat:@"RNGoogleSignInError: %@, %@", message, error.description];
-  
-  self.promiseReject(errorCode, errorMessage, error);
-  [self resetMembers];
 }
 
 -(void)resetMembers {

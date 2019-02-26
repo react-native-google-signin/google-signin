@@ -12,43 +12,51 @@ public class PromiseWrapper {
 
 
     public boolean setPromiseWithInProgressCheck(Promise promise, String fromCallsite) {
-        boolean success = false;
-        if (this.promise == null) {
-            this.promise = promise;
-            nameOfCallInProgress = fromCallsite;
-            success = true;
+        synchronized (this) {
+            boolean success = false;
+            if (this.promise == null) {
+                this.promise = promise;
+                nameOfCallInProgress = fromCallsite;
+                success = true;
+            }
+            return success;
         }
-        return success;
     }
 
     public void resolve(Object value) {
-        if (promise == null) {
-            Log.w(MODULE_NAME, "cannot resolve promise because it's null");
-            return;
-        }
+        synchronized (this) {
+            if (promise == null) {
+                Log.w(MODULE_NAME, "cannot resolve promise because it's null");
+                return;
+            }
 
-        promise.resolve(value);
-        resetMembers();
+            promise.resolve(value);
+            resetMembers();
+        }
     }
 
     public void reject(String code, Throwable throwable) {
-        if (promise == null) {
-            Log.w(MODULE_NAME, "cannot reject promise because it's null");
-            return;
-        }
+        synchronized (this) {
+            if (promise == null) {
+                Log.w(MODULE_NAME, "cannot reject promise because it's null");
+                return;
+            }
 
-        promise.reject(code, throwable.getLocalizedMessage(), throwable);
-        resetMembers();
+            promise.reject(code, throwable.getLocalizedMessage(), throwable);
+            resetMembers();
+        }
     }
 
     public void reject(String code, String message) {
-        if (promise == null) {
-            Log.w(MODULE_NAME, "cannot reject promise because it's null");
-            return;
-        }
+        synchronized (this) {
+            if (promise == null) {
+                Log.w(MODULE_NAME, "cannot reject promise because it's null");
+                return;
+            }
 
-        promise.reject(code, message);
-        resetMembers();
+            promise.reject(code, message);
+            resetMembers();
+        }
     }
 
     public String getNameOfCallInProgress(){
