@@ -107,7 +107,8 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
 
         if (status != ConnectionResult.SUCCESS) {
             if (showPlayServicesUpdateDialog && googleApiAvailability.isUserResolvableError(status)) {
-                googleApiAvailability.getErrorDialog(activity, status, 2404).show();
+                int requestCode = 2404;
+                googleApiAvailability.getErrorDialog(activity, status, requestCode).show();
             }
             promise.reject(PLAY_SERVICES_NOT_AVAILABLE, "Play services not available");
         } else {
