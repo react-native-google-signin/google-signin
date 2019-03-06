@@ -19,7 +19,8 @@ target 'test_google_signin' do
   # use_frameworks!
 
   # Pods for test_google_signin
-  pod 'GoogleSignIn'
+  pod 'RNGoogleSignin', :path => '../node_modules/react-native-google-signin'
+  pod 'GoogleSignIn', '~> 4.4.0' // RNGoogleSignin requires GoogleSignIn >= 4.3.0
 
   target 'test_google_signin-tvOSTests' do
     inherit! :search_paths
