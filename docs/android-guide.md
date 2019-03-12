@@ -175,7 +175,7 @@ signingConfigs {
 #### F. Google Login does NOT work when downloading my app from the play store.
 
 Check if "Google Play App Signing" is enabled for your app.
-If it is enabled, you will need to add the "Upload Certificate" `SHA` to your firebase console.
+If it is enabled, you will need to add the "App signing certificate" `SHA-1` to your firebase console.
 
 #### G. I did everything and I still have problems to compile my project.
 
