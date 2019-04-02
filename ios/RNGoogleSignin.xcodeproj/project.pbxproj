@@ -237,6 +237,7 @@
 					"$(SRCROOT)/../../../ios/Pods/GoogleSignIn/Frameworks",
 					"$(SRCROOT)/../example/ios/Pods/GoogleSignIn/Frameworks",
 					"$(SRCROOT)/../../../ios",
+					"$(SRCROOT)/../../../ios/Frameworks",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -257,6 +258,7 @@
 					"$(SRCROOT)/../../../ios/Pods/GoogleSignIn/Frameworks",
 					"$(SRCROOT)/../example/ios/Pods/GoogleSignIn/Frameworks",
 					"$(SRCROOT)/../../../ios",
+					"$(SRCROOT)/../../../ios/Frameworks",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
