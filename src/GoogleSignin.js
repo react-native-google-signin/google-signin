@@ -63,6 +63,9 @@ class GoogleSignin {
   }
 
   async clearCachedToken(tokenString) {
+    if (!tokenString || typeof tokenString !== 'string') {
+      return Promise.reject(`GoogleSignIn: clearCachedToken() expects a string token.`);
+    }
     return IS_IOS ? true : !!RNGoogleSignin.clearCachedToken(tokenString);
   }
 

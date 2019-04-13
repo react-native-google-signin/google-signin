@@ -13,13 +13,10 @@ type State = {
 };
 
 class GoogleSigninSampleApp extends Component<{}, State> {
-  constructor(props) {
-    super(props);
-    this.state = {
-      userInfo: null,
-      error: null,
-    };
-  }
+  state = {
+    userInfo: null,
+    error: null,
+  };
 
   async componentDidMount() {
     this._configureGoogleSignIn();
