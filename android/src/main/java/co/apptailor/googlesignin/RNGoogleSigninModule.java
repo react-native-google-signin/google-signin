@@ -130,7 +130,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
 
         GoogleSignInOptions options = getSignInOptions(createScopesArray(scopes), webClientId, offlineAccess, forceConsentPrompt, accountName, hostedDomain);
         _apiClient = GoogleSignIn.getClient(getReactApplicationContext(), options);
-        promise.resolve(true);
+        promise.resolve(null);
     }
 
     @ReactMethod
@@ -245,7 +245,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
 
     private void handleSignOutOrRevokeAccessTask(@NonNull Task<Void> task, final Promise promise) {
         if (task.isSuccessful()) {
-            promise.resolve(true);
+            promise.resolve(null);
         } else {
             int code = getExceptionCode(task);
             String errorDescription = GoogleSignInStatusCodes.getStatusCodeString(code);
@@ -391,7 +391,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
             }
             try {
                 GoogleAuthUtil.clearToken(moduleInstance.getReactApplicationContext(), tokenToClear[0]);
-                moduleInstance.getPromiseWrapper().resolve(true);
+                moduleInstance.getPromiseWrapper().resolve(null);
             } catch (Exception e) {
                 moduleInstance.promiseWrapper.reject(MODULE_NAME, e);
             }
