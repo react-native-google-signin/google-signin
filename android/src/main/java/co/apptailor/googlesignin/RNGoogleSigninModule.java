@@ -39,6 +39,7 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
+import static co.apptailor.googlesignin.PromiseWrapper.ASYNC_OP_IN_PROGRESS;
 import static co.apptailor.googlesignin.Utils.createScopesArray;
 import static co.apptailor.googlesignin.Utils.getExceptionCode;
 import static co.apptailor.googlesignin.Utils.getSignInOptions;
@@ -52,7 +53,6 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
     public static final int RC_SIGN_IN = 9001;
     public static final int REQUEST_CODE_RECOVER_AUTH = 53294;
     public static final String MODULE_NAME = "RNGoogleSignin";
-    public static final String ASYNC_OP_IN_PROGRESS = "ASYNC_OP_IN_PROGRESS";
     public static final String PLAY_SERVICES_NOT_AVAILABLE = "PLAY_SERVICES_NOT_AVAILABLE";
     public static final String ERROR_USER_RECOVERABLE_AUTH = "ERROR_USER_RECOVERABLE_AUTH";
     private static final String SHOULD_RECOVER = "SHOULD_RECOVER";
@@ -139,30 +139,25 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
             rejectWithNullClientError(promise);
             return;
         }
-        String methodName = "signInSilently";
-        boolean wasPromiseSet = promiseWrapper.setPromiseWithInProgressCheck(promise, methodName);
-        if (!wasPromiseSet) {
-            rejectWithAsyncOperationStillInProgress(promise, methodName);
-            return;
-        }
-
-        UiThreadUtil.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Task<GoogleSignInAccount> result = _apiClient.silentSignIn();
-                if (result.isSuccessful()) {
-                    // There's immediate result available.
-                    handleSignInTaskResult(result);
-                } else {
-                    result.addOnCompleteListener(new OnCompleteListener() {
-                        @Override
-                        public void onComplete(Task task) {
-                            handleSignInTaskResult(task);
-                        }
-                    });
+        if (promiseWrapper.setPromiseWithInProgressCheck(promise, "signInSilently")) {
+            UiThreadUtil.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Task<GoogleSignInAccount> result = _apiClient.silentSignIn();
+                    if (result.isSuccessful()) {
+                        // There's immediate result available.
+                        handleSignInTaskResult(result);
+                    } else {
+                        result.addOnCompleteListener(new OnCompleteListener() {
+                            @Override
+                            public void onComplete(Task task) {
+                                handleSignInTaskResult(task);
+                            }
+                        });
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     private void handleSignInTaskResult(Task<GoogleSignInAccount> result) {
@@ -189,20 +184,15 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
             promise.reject(MODULE_NAME, "activity is null");
             return;
         }
-        String methodName = "signIn";
-        boolean wasPromiseSet = promiseWrapper.setPromiseWithInProgressCheck(promise, methodName);
-        if (!wasPromiseSet) {
-            rejectWithAsyncOperationStillInProgress(promise, methodName);
-            return;
+        if (promiseWrapper.setPromiseWithInProgressCheck(promise, "signIn")) {
+            UiThreadUtil.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Intent signInIntent = _apiClient.getSignInIntent();
+                    activity.startActivityForResult(signInIntent, RC_SIGN_IN);
+                }
+            });
         }
-
-        UiThreadUtil.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Intent signInIntent = _apiClient.getSignInIntent();
-                activity.startActivityForResult(signInIntent, RC_SIGN_IN);
-            }
-        });
     }
 
     private class RNGoogleSigninActivityEventListener extends BaseActivityEventListener {
@@ -288,30 +278,22 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void clearCachedToken(String tokenToClear, Promise promise) {
-        String methodName = "clearCachedToken";
-        boolean wasPromiseSet = promiseWrapper.setPromiseWithInProgressCheck(promise, methodName);
-        if (!wasPromiseSet) {
-            rejectWithAsyncOperationStillInProgress(promise, methodName);
-            return;
+        if (promiseWrapper.setPromiseWithInProgressCheck(promise, "clearCachedToken")) {
+            new TokenClearingTask(this).execute(tokenToClear);
         }
-        new TokenClearingTask(this).execute(tokenToClear);
     }
 
     @ReactMethod
     public void getTokens(final Promise promise) {
-        String methodName = "getTokensAsync";
         final GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getReactApplicationContext());
         if (account == null) {
             promise.reject(MODULE_NAME, "getTokens requires a user to be signed in");
             return;
         }
 
-        boolean wasPromiseSet = promiseWrapper.setPromiseWithInProgressCheck(promise, methodName);
-        if (!wasPromiseSet) {
-            rejectWithAsyncOperationStillInProgress(promise, methodName);
-            return;
+        if (promiseWrapper.setPromiseWithInProgressCheck(promise, "getTokensAsync")) {
+            startTokenRetrievalTaskWithRecovery(account);
         }
-        startTokenRetrievalTaskWithRecovery(account);
     }
 
     private void startTokenRetrievalTaskWithRecovery(GoogleSignInAccount account) {
@@ -414,11 +396,6 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
 
     private void rejectWithNullClientError(Promise promise) {
         promise.reject(MODULE_NAME, "apiClient is null - call configure first");
-    }
-
-    private void rejectWithAsyncOperationStillInProgress(Promise promise, String requestedOperation) {
-        promise.reject(ASYNC_OP_IN_PROGRESS, "Cannot set promise. You've called \"" + requestedOperation + "\" while \"" + promiseWrapper.getNameOfCallInProgress() + "\" is already in progress and has not completed yet. " +
-                "Make sure you're not repeatedly calling signInSilently and signIn from your JS code while the previous call has not completed yet.");
     }
 
 }

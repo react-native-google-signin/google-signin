@@ -9,10 +9,12 @@ import static co.apptailor.googlesignin.RNGoogleSigninModule.MODULE_NAME;
 public class PromiseWrapper {
     private Promise promise;
     private String nameOfCallInProgress;
+    public static final String ASYNC_OP_IN_PROGRESS = "ASYNC_OP_IN_PROGRESS";
 
 
     public boolean setPromiseWithInProgressCheck(Promise promise, String fromCallsite) {
         if (this.promise != null) {
+            rejectWithAsyncOperationStillInProgress(promise, fromCallsite);
             return false;
         }
         this.promise = promise;
@@ -60,5 +62,10 @@ public class PromiseWrapper {
     private void resetMembers() {
         promise = null;
         nameOfCallInProgress = null;
+    }
+
+    private void rejectWithAsyncOperationStillInProgress(Promise promise, String requestedOperation) {
+        promise.reject(ASYNC_OP_IN_PROGRESS, "Cannot set promise. You've called \"" + requestedOperation + "\" while \"" + getNameOfCallInProgress() + "\" is already in progress and has not completed yet. " +
+                "Make sure you're not repeatedly calling signInSilently and signIn from your JS code while the previous call has not completed yet.");
     }
 }

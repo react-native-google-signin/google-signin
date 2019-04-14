@@ -14,7 +14,6 @@
 
 RCT_EXPORT_MODULE();
 
-static NSString *const ASYNC_OP_IN_PROGRESS = @"ASYNC_OP_IN_PROGRESS";
 static NSString *const PLAY_SERVICES_NOT_AVAILABLE = @"PLAY_SERVICES_NOT_AVAILABLE";
 
 // The key in `GoogleService-Info.plist` client id.
@@ -92,25 +91,17 @@ RCT_EXPORT_METHOD(configure:(NSDictionary *)options
 RCT_EXPORT_METHOD(signInSilently:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
-  NSString* methodName = @"signInSilently";
-  BOOL wasPromiseSet = [self.promiseWrapper setPromiseWithInProgressCheck:resolve rejecter:reject fromCallSite:methodName];
-  if (!wasPromiseSet) {
-    [self rejectWithAsyncOperationStillInProgress: reject requestedOperation:methodName];
-    return;
+  if ([self.promiseWrapper setPromiseWithInProgressCheck:resolve rejecter:reject fromCallSite:@"signInSilently"]) {
+    [[GIDSignIn sharedInstance] signInSilently];
   }
-  [[GIDSignIn sharedInstance] signInSilently];
 }
 
 RCT_EXPORT_METHOD(signIn:(RCTPromiseResolveBlock)resolve
                   signInReject:(RCTPromiseRejectBlock)reject)
 {
-  NSString* methodName = @"signIn";
-  BOOL wasPromiseSet = [self.promiseWrapper setPromiseWithInProgressCheck:resolve rejecter:reject fromCallSite:methodName];
-  if (!wasPromiseSet) {
-    [self rejectWithAsyncOperationStillInProgress: reject requestedOperation:methodName];
-    return;
+  if ([self.promiseWrapper setPromiseWithInProgressCheck:resolve rejecter:reject fromCallSite:@"signIn"]) {
+    [[GIDSignIn sharedInstance] signIn];
   }
-  [[GIDSignIn sharedInstance] signIn];
 }
 
 RCT_EXPORT_METHOD(signOut:(RCTPromiseResolveBlock)resolve
@@ -123,13 +114,9 @@ RCT_EXPORT_METHOD(signOut:(RCTPromiseResolveBlock)resolve
 RCT_EXPORT_METHOD(revokeAccess:(RCTPromiseResolveBlock)resolve
                   revokeAccessReject:(RCTPromiseRejectBlock)reject)
 {
-  NSString* methodName = @"revokeAccess";
-  BOOL wasPromiseSet = [self.promiseWrapper setPromiseWithInProgressCheck:resolve rejecter:reject fromCallSite:methodName];
-  if (!wasPromiseSet) {
-    [self rejectWithAsyncOperationStillInProgress: reject requestedOperation:methodName];
-    return;
+  if ([self.promiseWrapper setPromiseWithInProgressCheck:resolve rejecter:reject fromCallSite:@"revokeAccess"]) {
+    [[GIDSignIn sharedInstance] disconnect];
   }
-  [[GIDSignIn sharedInstance] disconnect];
 }
 
 RCT_EXPORT_METHOD(isSignedIn:(RCTPromiseResolveBlock)resolve
@@ -244,11 +231,6 @@ RCT_EXPORT_METHOD(getTokens:(RCTPromiseResolveBlock)resolve
 
 - (void)signIn:(GIDSignIn *)signIn dismissViewController:(UIViewController *)viewController {
   [viewController dismissViewControllerAnimated:true completion:nil];
-}
-
-- (void)rejectWithAsyncOperationStillInProgress: (RCTPromiseRejectBlock)reject requestedOperation:(NSString *) callSiteName {
-  NSString *msg = [NSString stringWithFormat:@"Cannot set promise. You've called \"%@\" while \"%@\" is already in progress and has not completed yet. Make sure you're not repeatedly calling signInSilently, signIn or revokeAccess from your JS code while the previous call has not completed yet.", callSiteName, self.promiseWrapper.nameOfCallInProgress];
-  reject(ASYNC_OP_IN_PROGRESS, msg, nil);
 }
 
 + (BOOL)application:(UIApplication *)application openURL:(NSURL *)url

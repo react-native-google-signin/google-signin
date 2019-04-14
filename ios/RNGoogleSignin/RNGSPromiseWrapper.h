@@ -10,6 +10,8 @@
 #define PromiseWrapper_h
 #import <React/RCTBridgeModule.h>
 
+static NSString *const ASYNC_OP_IN_PROGRESS = @"ASYNC_OP_IN_PROGRESS";
+
 @interface RNGSPromiseWrapper : NSObject
 
 -(BOOL)setPromiseWithInProgressCheck:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject fromCallSite: (NSString*) callsite;
