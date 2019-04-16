@@ -254,7 +254,6 @@ Example `userInfo` which is returned after successful sign in.
 ```
 {
   idToken: string,
-  accessTokenExpirationDate: number | null, // DEPRECATED, on iOS it's a time interval since now in seconds, on Android it's always null
   serverAuthCode: string,
   scopes: Array<string>, // on iOS this is empty array if no additional scopes are defined
   user: {
