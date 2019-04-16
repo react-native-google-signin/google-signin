@@ -187,7 +187,6 @@ RCT_EXPORT_METHOD(getTokens:(RCTPromiseResolveBlock)resolve
                            @"user": userInfo,
                            @"idToken": user.authentication.idToken,
                            @"serverAuthCode": RCTNullIfNil(user.serverAuthCode),
-                           @"accessToken": user.authentication.accessToken,
                            @"scopes": user.grantedScopes,
                            @"accessTokenExpirationDate": [NSNumber numberWithDouble:user.authentication.accessTokenExpirationDate.timeIntervalSinceNow] // Deprecated as of 2018-08-06
                            };

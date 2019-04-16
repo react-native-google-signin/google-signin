@@ -163,7 +163,12 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
     private void handleSignInTaskResult(Task<GoogleSignInAccount> result) {
         try {
             GoogleSignInAccount account = result.getResult(ApiException.class);
-            startTokenRetrievalTaskWithRecovery(account);
+            if (account == null) {
+                promiseWrapper.reject(MODULE_NAME, "GoogleSignInAccount instance was null");
+            } else {
+                WritableMap userParams = getUserProperties(account);
+                promiseWrapper.resolve(userParams);
+            }
         } catch (ApiException e) {
             int code = e.getStatusCode();
             String errorDescription = GoogleSignInStatusCodes.getStatusCodeString(code);
