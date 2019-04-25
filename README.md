@@ -7,16 +7,9 @@
 ## Features
 
 - Support all 3 types of authentication methods (standard, with server-side validation or with offline access (aka server side access))
-- Native signin buttons
-- Consistent API between Android and iOS
-- Promise-based JS API
+- Consistent promise-based API between Android and iOS
 - Typings for TypeScript and Flow
-
-### Note
-
-If you use React Native < `v0.40` stick with `v0.8.1` (`npm install react-native-google-signin@0.8 --save`).
-
-If you use React Native < `v0.47` stick with `v0.10.0` (`npm install react-native-google-signin@0.10 --save`).
+- Native signin buttons
 
 ## Project setup and initialization
 
