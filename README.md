@@ -180,7 +180,7 @@ This method only has an effect on Android (Calling this method always resolves o
 
 #### `getTokens()`
 
-Resolves with an object containing `{ idToken: string, accessToken: string, }` or rejects with an error.
+Resolves with an object containing `{ idToken: string, accessToken: string, }` or rejects with an error. Note that using `accessToken` is [discouraged](https://developers.google.com/identity/sign-in/android/migration-guide).
 
 #### `signOut()`
 
@@ -254,8 +254,6 @@ Example `userInfo` which is returned after successful sign in.
 ```
 {
   idToken: string,
-  accessToken: string | null,
-  accessTokenExpirationDate: number | null, // DEPRECATED, on iOS it's a time interval since now in seconds, on Android it's always null
   serverAuthCode: string,
   scopes: Array<string>, // on iOS this is empty array if no additional scopes are defined
   user: {

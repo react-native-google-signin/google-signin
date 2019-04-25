@@ -180,16 +180,14 @@ RCT_EXPORT_METHOD(getTokens:(RCTPromiseResolveBlock)resolve
                              @"givenName": RCTNullIfNil(user.profile.givenName),
                              @"familyName": RCTNullIfNil(user.profile.familyName),
                              @"photo": imageURL ? imageURL.absoluteString : [NSNull null],
-                             @"email": user.profile.email
+                             @"email": user.profile.email,
                              };
   
   NSDictionary *params = @{
                            @"user": userInfo,
                            @"idToken": user.authentication.idToken,
                            @"serverAuthCode": RCTNullIfNil(user.serverAuthCode),
-                           @"accessToken": user.authentication.accessToken,
                            @"scopes": user.grantedScopes,
-                           @"accessTokenExpirationDate": [NSNumber numberWithDouble:user.authentication.accessTokenExpirationDate.timeIntervalSinceNow] // Deprecated as of 2018-08-06
                            };
   return params;
 }
