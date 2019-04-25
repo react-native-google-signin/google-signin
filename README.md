@@ -7,7 +7,7 @@
 ## Features
 
 - Support all 3 types of authentication methods (standard, with server-side validation or with offline access (aka server side access))
-- Consistent promise-based API between Android and iOS
+- Promise-based API consistent between Android and iOS
 - Typings for TypeScript and Flow
 - Native signin buttons
 
