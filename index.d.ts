@@ -88,20 +88,15 @@ export interface ConfigureParams {
 
 export interface User {
   user: {
-    id: string | null;
+    id: string;
     name: string | null;
-    email: string | null;
+    email: string;
     photo: string | null;
     familyName: string | null;
     givenName: string | null;
   };
   scopes?: string[];
   idToken: string | null;
-  accessToken: string | null;
-  /**
-   * Deprecated
-   */
-  accessTokenExpirationDate: number | null;
   /**
    * Not null only if a valid webClientId and offlineAccess: true was
    * specified in configure().
@@ -136,12 +131,12 @@ export namespace GoogleSignin {
   /**
    * Signs the user out.
    */
-  function signOut(): Promise<void>;
+  function signOut(): Promise<null>;
 
   /**
    * Removes your application from the user's authorized applications
    */
-  function revokeAccess(): Promise<void>;
+  function revokeAccess(): Promise<null>;
 
   /**
    * Returns whether the user is currently signed in
@@ -150,7 +145,7 @@ export namespace GoogleSignin {
 
   function getCurrentUser(): Promise<User | null>;
 
-  function clearCachedToken(token: string): Promise<void>;
+  function clearCachedToken(token: string): Promise<null>;
 
   function getTokens(): Promise<{ idToken: string; accessToken: string }>;
 }

@@ -85,7 +85,7 @@ RCT_EXPORT_METHOD(configure:(NSDictionary *)options
     [GIDSignIn sharedInstance].serverClientID = options[@"webClientId"];
   }
 
-  resolve(@YES);
+  resolve([NSNull null]);
 }
 
 RCT_EXPORT_METHOD(signInSilently:(RCTPromiseResolveBlock)resolve
@@ -108,7 +108,7 @@ RCT_EXPORT_METHOD(signOut:(RCTPromiseResolveBlock)resolve
                   signOutReject:(RCTPromiseRejectBlock)reject)
 {
   [[GIDSignIn sharedInstance] signOut];
-  resolve(@YES);
+  resolve([NSNull null]);
 }
 
 RCT_EXPORT_METHOD(revokeAccess:(RCTPromiseResolveBlock)resolve
@@ -217,10 +217,9 @@ RCT_EXPORT_METHOD(getTokens:(RCTPromiseResolveBlock)resolve
 - (void)signIn:(GIDSignIn *)signIn didDisconnectWithUser:(GIDGoogleUser *)user withError:(NSError *)error {
   if (error) {
     [self.promiseWrapper reject:@"Error when revoking access." withError:error];
-    return;
+  } else {
+    [self.promiseWrapper resolve:[NSNull null]];
   }
-
-  [self.promiseWrapper resolve:(@YES)];
 }
 
 - (void)signIn:(GIDSignIn *)signIn presentViewController:(UIViewController *)viewController {
