@@ -88,9 +88,9 @@ export interface ConfigureParams {
 
 export interface User {
   user: {
-    id: string | null;
+    id: string;
     name: string | null;
-    email: string | null;
+    email: string;
     photo: string | null;
     familyName: string | null;
     givenName: string | null;

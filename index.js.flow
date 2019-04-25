@@ -40,17 +40,21 @@ export type HasPlayServicesParams = $ReadOnly<{|
 |}>;
 
 export type User = {|
-  idToken: string,
-  serverAuthCode: string,
-  scopes: string[], // on iOS this is empty array if no additional scopes are defined
   user: {|
-    email: string,
     id: string,
-    givenName: ?string,
-    familyName: ?string,
+    name: ?string, // full name
+    email: string,
     photo: ?string, // url
-    name: string, // full name
+    familyName: ?string,
+    givenName: ?string,
   |},
+  scopes: string[], // on iOS this is empty array if no additional scopes are defined
+  idToken: string,
+  /**
+   * Not null only if a valid webClientId and offlineAccess: true was
+   * specified in configure().
+   */
+  serverAuthCode: ?string,
 |};
 
 // Android Status codes: https://developers.google.com/android/reference/com/google/android/gms/auth/api/signin/GoogleSignInStatusCodes
