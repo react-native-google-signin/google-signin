@@ -78,6 +78,7 @@ class GoogleSignin {
       return {
         idToken: userObject.idToken,
         accessToken: userObject.accessToken,
+        refreshToken: userObject.refreshToken,
       };
     }
   }
