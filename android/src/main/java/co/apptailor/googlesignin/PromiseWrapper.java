@@ -66,6 +66,6 @@ public class PromiseWrapper {
 
     private void rejectWithAsyncOperationStillInProgress(Promise promise, String requestedOperation) {
         promise.reject(ASYNC_OP_IN_PROGRESS, "Cannot set promise. You've called \"" + requestedOperation + "\" while \"" + getNameOfCallInProgress() + "\" is already in progress and has not completed yet. " +
-                "Make sure you're not repeatedly calling signInSilently and signIn from your JS code while the previous call has not completed yet.");
+                "Make sure you're not repeatedly calling signInSilently, signIn or getTokens from your JS code while the previous call has not completed yet.");
     }
 }
