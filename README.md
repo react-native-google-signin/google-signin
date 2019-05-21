@@ -124,6 +124,8 @@ signIn = async () => {
 };
 ```
 
+If you get a `SIGN_IN_REQUIRED` error code on Android, make sure you've correctly setup the Google project including the SHA-1 of your debug and release keystores, and copied the new `google-services.json` in your project.
+
 #### `signInSilently()`
 
 May be called eg. in the `componentDidMount` of your main component. This method returns the [current user](#3-userinfo) and rejects with an error otherwise.
