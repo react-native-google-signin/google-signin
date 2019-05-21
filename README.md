@@ -124,8 +124,6 @@ signIn = async () => {
 };
 ```
 
-If you get a `SIGN_IN_REQUIRED` error code on Android, make sure you've correctly setup the Google project including the SHA-1 of your debug and release keystores, and copied the new `google-services.json` in your project.
-
 #### `signInSilently()`
 
 May be called eg. in the `componentDidMount` of your main component. This method returns the [current user](#3-userinfo) and rejects with an error otherwise.
@@ -285,6 +283,10 @@ The default requested scopes are `email` and `profile`.
 If you want to manage other data from your application (for example access user agenda or upload a file to drive) you need to request additional permissions. This can be accomplished by adding the necessary scopes when configuring the GoogleSignin instance.
 
 Please visit https://developers.google.com/identity/protocols/googlescopes or https://developers.google.com/oauthplayground/ for a list of available scopes.
+
+## Troubleshooting
+
+If you get a `SIGN_IN_REQUIRED` error code on Android from `signIn()`, make sure you've correctly setup the Google project including the SHA-1 of your debug and release keystores, and copied the new `google-services.json` in your project.
 
 ## Licence
 
