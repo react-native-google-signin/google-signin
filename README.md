@@ -284,6 +284,10 @@ If you want to manage other data from your application (for example access user 
 
 Please visit https://developers.google.com/identity/protocols/googlescopes or https://developers.google.com/oauthplayground/ for a list of available scopes.
 
+## Troubleshooting
+
+If you get a `SIGN_IN_REQUIRED` error code on Android from `signIn()`, make sure you've correctly setup the Google project including the SHA-1 of your debug and release keystores, and copied the new `google-services.json` in your project.
+
 ## Licence
 
 (MIT)
