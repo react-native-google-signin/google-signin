@@ -177,6 +177,8 @@ signingConfigs {
 Check if "Google Play App Signing" is enabled for your app.
 If it is enabled, you will need to add the "App signing certificate" `SHA-1` to your firebase console.
 
+You can find it at: App -> Release Management (in left sidebar) -> App signing. In there, copy `SHA-1 certificate fingerprint` into firebase console for the Android app.
+
 #### G. I did everything and I still have problems to compile my project.
 
 Read this [medium article](https://medium.com/@suchydan/how-to-solve-google-play-services-version-collision-in-gradle-dependencies-ef086ae5c75f). Basically, if you have other play services libraries installed, you have to exclude some dependencies.
