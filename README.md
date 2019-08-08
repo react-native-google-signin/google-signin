@@ -38,6 +38,15 @@ render() {
 
 #### Props
 
+##### `style`
+
+Mandatory values:
+
+- width
+- height
+
+Without this, the button won't show
+
 ##### `size`
 
 Possible values:
