@@ -1,7 +1,9 @@
 module.exports = {
   dependency: {
-    ios: {
-      project: 'ios/RNGoogleSignin.xcodeproj',
-    },
-  },
+    platforms: {
+      ios: {
+        project: 'ios/RNGoogleSignin.xcodeproj'
+      }
+    }
+  }
 };
