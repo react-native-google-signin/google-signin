@@ -110,45 +110,13 @@ Also to help with performances, install `HAXM` from the Android SDK Manager.
 
 Nothing special here, as long as you run your app on a Google Android device (again with Google Play Services installed !)
 
-## FAQ
+## FAQ / Troubleshooting
 
-#### A. My project includes other react-native plugins which have different google play services versions. What to do?
+#### I'm getting "A non-recoverable sign in failure occurred"
 
-See ["Choose Dependency versions"](#choose-dependency-versions-optional) above.
+See https://github.com/react-native-community/react-native-google-signin/issues/659#issuecomment-513555464
 
-#### B. My project includes an older version of react-native-google-signin. How to upgrade?
-
-first install the latest version
-`npm install --save react-native-google-signin`
-
-You need to follow this guide again to make sure everything fit together (gradle version, google-services gradle version, etc...). Check out the example project for reference.
-
-clean everything to be sure
-
-```
-cd android
-./gradlew clean
-```
-
-now `react-native run-android`
-
-#### C. After upgrading and thoroughly following the guide the build fail with `Missing api_key/current_key object`. What to do?
-
-open `android/app/google-services.json` and replace `"api_key":[]` with `"api_key":[{ "current_key": "" }]`
-
-#### D. After the sign-in completes I get the following error `error code 12501`. What to do?
-
-This is a permission error. Make sure the `certificate_hash` in `android/app/google-services.json` matches your certificate.
-
-To get your sha1-hash
-
-```
-keytool -exportcert -keystore ~/.android/debug.keystore -list -v
-```
-
-Also make sure the application id matches the one you enter on the cloud console.
-
-#### E. Getting `DEVELOPER_ERROR` error message on Android when trying to login.
+#### Getting `DEVELOPER_ERROR` error message on Android when trying to login.
 
 This is configuration mismatch. Make sure that your `android/app/google-services.json` is correct.
 
@@ -172,13 +140,49 @@ signingConfigs {
  }
 ```
 
-#### F. Google Login does NOT work when downloading my app from the play store.
+#### Google Login does NOT work when downloading my app from the play store.
 
 Check if "Google Play App Signing" is enabled for your app.
 If it is enabled, you will need to add the "App signing certificate" `SHA-1` to your firebase console.
 
 You can find it at: App -> Release Management (in left sidebar) -> App signing. In there, copy `SHA-1 certificate fingerprint` into firebase console for the Android app.
 
-#### G. I did everything and I still have problems to compile my project.
+#### My project includes other react-native plugins which have different google play services versions. What to do?
+
+See ["Choose Dependency versions"](#choose-dependency-versions-optional) above.
+
+#### My project includes an older version of react-native-google-signin. How to upgrade?
+
+first install the latest version
+`npm install --save react-native-google-signin`
+
+You need to follow this guide again to make sure everything fit together (gradle version, google-services gradle version, etc...). Check out the example project for reference.
+
+clean everything to be sure
+
+```
+cd android
+./gradlew clean
+```
+
+now `react-native run-android`
+
+#### After upgrading and thoroughly following the guide the build fail with `Missing api_key/current_key object`. What to do?
+
+open `android/app/google-services.json` and replace `"api_key":[]` with `"api_key":[{ "current_key": "" }]`
+
+#### After the sign-in completes I get the following error `error code 12501`. What to do?
+
+This is a permission error. Make sure the `certificate_hash` in `android/app/google-services.json` matches your certificate.
+
+To get your sha1-hash
+
+```
+keytool -exportcert -keystore ~/.android/debug.keystore -list -v
+```
+
+Also make sure the application id matches the one you enter on the cloud console.
+
+#### I did everything and I still have problems to compile my project.
 
 Read this [medium article](https://medium.com/@suchydan/how-to-solve-google-play-services-version-collision-in-gradle-dependencies-ef086ae5c75f). Basically, if you have other play services libraries installed, you have to exclude some dependencies.
