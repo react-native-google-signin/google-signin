@@ -1,5 +1,5 @@
 module.exports = {
-  project: {
+  dependency: {
     ios: {
       project: 'ios/RNGoogleSignin.xcodeproj',
     },
