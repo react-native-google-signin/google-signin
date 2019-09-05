@@ -66,7 +66,7 @@ RCT_EXPORT_METHOD(configure:(NSDictionary *)options
   }
 
   [GIDSignIn sharedInstance].delegate = self;
-  [GIDSignIn sharedInstance].uiDelegate = self;
+  [GIDSignIn sharedInstance].presentingViewController = self;
   [GIDSignIn sharedInstance].scopes = options[@"scopes"];
   [GIDSignIn sharedInstance].shouldFetchBasicProfile = YES; // email, profile
   [GIDSignIn sharedInstance].loginHint = options[@"loginHint"];
@@ -88,11 +88,11 @@ RCT_EXPORT_METHOD(configure:(NSDictionary *)options
   resolve([NSNull null]);
 }
 
-RCT_EXPORT_METHOD(signInSilently:(RCTPromiseResolveBlock)resolve
+RCT_EXPORT_METHOD(restorePreviousSignIn:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
-  if ([self.promiseWrapper setPromiseWithInProgressCheck:resolve rejecter:reject fromCallSite:@"signInSilently"]) {
-    [[GIDSignIn sharedInstance] signInSilently];
+  if ([self.promiseWrapper setPromiseWithInProgressCheck:resolve rejecter:reject fromCallSite:@"restorePreviousSignIn"]) {
+    [[GIDSignIn sharedInstance] restorePreviousSignIn];
   }
 }
 
@@ -122,7 +122,7 @@ RCT_EXPORT_METHOD(revokeAccess:(RCTPromiseResolveBlock)resolve
 RCT_EXPORT_METHOD(isSignedIn:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
-  BOOL isSignedIn = [[GIDSignIn sharedInstance] hasAuthInKeychain];
+  BOOL isSignedIn = [[GIDSignIn sharedInstance] hasPreviousSignIn];
   resolve(@(isSignedIn));
 }
 
@@ -200,9 +200,6 @@ RCT_EXPORT_METHOD(getTokens:(RCTPromiseResolveBlock)resolve
       break;
     case kGIDSignInErrorCodeKeychain:
       errorMessage = @"A problem reading or writing to the application keychain.";
-      break;
-    case kGIDSignInErrorCodeNoSignInHandlersInstalled:
-      errorMessage = @"No appropriate applications are installed on the device which can handle sign-in. Both webview and switching to browser have both been disabled.";
       break;
     case kGIDSignInErrorCodeHasNoAuthInKeychain:
       errorMessage = @"The user has never signed in before with the given scopes, or they have since signed out.";
