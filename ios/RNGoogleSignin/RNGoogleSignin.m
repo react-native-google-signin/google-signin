@@ -227,12 +227,11 @@ RCT_EXPORT_METHOD(getTokens:(RCTPromiseResolveBlock)resolve
   [viewController dismissViewControllerAnimated:true completion:nil];
 }
 
-+ (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication annotation: (id)annotation {
-
-  return [[GIDSignIn sharedInstance] handleURL:url
-                             sourceApplication:sourceApplication
-                                    annotation:annotation];
++ (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation {
+    return [[GIDSignIn sharedInstance] handleURL:url];
 }
 
 @end
