@@ -61,7 +61,7 @@
 }
 
 - (void)rejectWithAsyncOperationStillInProgress: (RCTPromiseRejectBlock)reject requestedOperation:(NSString *) callSiteName {
-  NSString *msg = [NSString stringWithFormat:@"Cannot set promise. You've called \"%@\" while \"%@\" is already in progress and has not completed yet. Make sure you're not repeatedly calling signInSilently, signIn or revokeAccess from your JS code while the previous call has not completed yet.", callSiteName, self.nameOfCallInProgress];
+  NSString *msg = [NSString stringWithFormat:@"Cannot set promise. You've called \"%@\" while \"%@\" is already in progress and has not completed yet. Make sure you're not repeatedly calling restorePreviousSignIn, signIn or revokeAccess from your JS code while the previous call has not completed yet.", callSiteName, self.nameOfCallInProgress];
   reject(ASYNC_OP_IN_PROGRESS, msg, nil);
 }
 
