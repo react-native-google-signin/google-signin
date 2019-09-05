@@ -22,11 +22,11 @@ You can link the module automatically or manually
 
 #### Install Google Sign In SDK
 
-Again, we offer two ways to do this: with and without Cocoapods. Note that we require Google Sign In SDK version >= 4.3.0!
+Again, we offer two ways to do this: with and without Cocoapods. Note that we require Google Sign In SDK version >= 5.0.0!
 
 ##### With Cocoapods
 
-1. install the Google Signin SDK with [CocoaPods](https://cocoapods.org/): add `pod 'GoogleSignIn', '~> 4.4.0'` in your Podfile and run `pod install`
+1. install the Google Signin SDK with [CocoaPods](https://cocoapods.org/): add `pod 'GoogleSignIn', '~> 5.0.0'` in your Podfile and run `pod install`
 
 First time using cocoapods ? [check this out](./how-cocoapods.md)
 
