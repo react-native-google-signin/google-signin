@@ -41,9 +41,9 @@ class GoogleSignin {
     this.configPromise = RNGoogleSignin.configure(options);
   }
 
-  async signInSilently() {
+  async restorePreviousSignIn() {
     await this.configPromise;
-    return RNGoogleSignin.signInSilently();
+    return RNGoogleSignin.restorePreviousSignIn();
   }
 
   async signOut() {
