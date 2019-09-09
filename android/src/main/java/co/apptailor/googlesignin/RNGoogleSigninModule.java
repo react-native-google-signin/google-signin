@@ -135,7 +135,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void restorePreviousSignIn(Promise promise) {
+    public void signInSilently(Promise promise) {
         if (_apiClient == null) {
             rejectWithNullClientError(promise);
             return;

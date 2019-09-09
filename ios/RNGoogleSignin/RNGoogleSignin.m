@@ -70,7 +70,7 @@ RCT_EXPORT_METHOD(configure:(NSDictionary *)options
   [GIDSignIn sharedInstance].scopes = options[@"scopes"];
   [GIDSignIn sharedInstance].shouldFetchBasicProfile = YES; // email, profile
   [GIDSignIn sharedInstance].loginHint = options[@"loginHint"];
-    
+
   if (options[@"iosClientId"]) {
     [GIDSignIn sharedInstance].clientID = options[@"iosClientId"];
   } else {
@@ -88,7 +88,7 @@ RCT_EXPORT_METHOD(configure:(NSDictionary *)options
   resolve([NSNull null]);
 }
 
-RCT_EXPORT_METHOD(restorePreviousSignIn:(RCTPromiseResolveBlock)resolve
+RCT_EXPORT_METHOD(signInSilently:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
   if ([self.promiseWrapper setPromiseWithInProgressCheck:resolve rejecter:reject fromCallSite:@"restorePreviousSignIn"]) {
@@ -149,7 +149,7 @@ RCT_EXPORT_METHOD(getTokens:(RCTPromiseResolveBlock)resolve
     reject(@"getTokens", @"getTokens requires a user to be signed in", nil);
     return;
   }
-  
+
   GIDAuthenticationHandler handler = ^void(GIDAuthentication *authentication, NSError *error) {
     if (error) {
       reject(@"getTokens", error.localizedDescription, nil);
@@ -160,7 +160,7 @@ RCT_EXPORT_METHOD(getTokens:(RCTPromiseResolveBlock)resolve
                 });
     }
   };
-  
+
   [currentUser.authentication getTokensWithHandler:handler];
 }
 
@@ -173,7 +173,7 @@ RCT_EXPORT_METHOD(getTokens:(RCTPromiseResolveBlock)resolve
     return nil;
   }
   NSURL *imageURL = user.profile.hasImage ? [user.profile imageURLWithDimension:120] : nil;
-  
+
   NSDictionary *userInfo = @{
                              @"id": user.userID,
                              @"name": RCTNullIfNil(user.profile.name),
@@ -182,7 +182,7 @@ RCT_EXPORT_METHOD(getTokens:(RCTPromiseResolveBlock)resolve
                              @"photo": imageURL ? imageURL.absoluteString : [NSNull null],
                              @"email": user.profile.email,
                              };
-  
+
   NSDictionary *params = @{
                            @"user": userInfo,
                            @"idToken": user.authentication.idToken,
