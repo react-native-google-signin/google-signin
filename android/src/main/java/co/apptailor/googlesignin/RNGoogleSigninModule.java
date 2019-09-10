@@ -140,7 +140,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
             rejectWithNullClientError(promise);
             return;
         }
-        if (promiseWrapper.setPromiseWithInProgressCheck(promise, "restorePreviousSignIn")) {
+        if (promiseWrapper.setPromiseWithInProgressCheck(promise, "signInSilently")) {
             UiThreadUtil.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {

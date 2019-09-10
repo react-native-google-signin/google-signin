@@ -91,7 +91,7 @@ RCT_EXPORT_METHOD(configure:(NSDictionary *)options
 RCT_EXPORT_METHOD(signInSilently:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
-  if ([self.promiseWrapper setPromiseWithInProgressCheck:resolve rejecter:reject fromCallSite:@"restorePreviousSignIn"]) {
+  if ([self.promiseWrapper setPromiseWithInProgressCheck:resolve rejecter:reject fromCallSite:@"signInSilently"]) {
     [[GIDSignIn sharedInstance] restorePreviousSignIn];
   }
 }
