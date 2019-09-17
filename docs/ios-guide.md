@@ -10,7 +10,9 @@ There are two ways to link the module:
 
 - automatic
 
-1. `react-native link react-native-google-signin`
+in RN >= 0.60 you should not need to do anything thanks to [autolinking](https://github.com/react-native-community/cli/blob/master/docs/autolinking.md)
+
+in RN < 0.60 `react-native link react-native-google-signin`
 
 - manual
 
@@ -49,7 +51,7 @@ At the end, the dependencis should be linked like in this picture (this is _with
 
 - Download the `GoogleService-Info.plist` file at the end of the process
 
-### 3. XCode configuration
+### 3. Xcode configuration
 
 - Configure URL types in the `Info` panel (see screenshot)
   - add a URL with scheme set to your `REVERSED_CLIENT_ID` (found inside `GoogleService-Info.plist`)

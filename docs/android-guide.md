@@ -18,7 +18,11 @@ You need the following packages
 
 Please note that this package requires android gradle plugin of version >= 3, which in turn requires at least gradle 4.1. Android studio should be able to do the upgrade for you.
 
-1 . run `react-native link react-native-google-signin`
+1 . link the native module
+
+in RN >= 0.60 you should not need to do anything thanks to [autolinking](https://github.com/react-native-community/cli/blob/master/docs/autolinking.md)
+
+in RN < 0.60 run `react-native link react-native-google-signin`
 
 2 . Update `android/build.gradle` with
 
@@ -65,7 +69,7 @@ dependencies {
 apply plugin: 'com.google.gms.google-services' // <--- this should be the last line
 ```
 
-4. Check that `react-native link` linked the native module
+4. Check that `react-native link` linked the native module, **only if you used** `react-native link`!
 
 - in `android/settings.gradle` you should have
 
