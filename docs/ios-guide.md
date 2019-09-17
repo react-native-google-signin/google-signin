@@ -6,15 +6,15 @@ NOTE for RN < 0.60 `react-native-link` may add the `RNGoogleSignin` podspec to y
 
 #### Link the native module
 
-- automatic linking
+You can link the module automatically or manually
 
-* in RN >= 0.60
+##### automatic linking
 
-Run `pod install` in `ios/` directory to install the module
+- in RN >= 0.60 run `pod install` in `ios/` directory to install the module
 
-- in RN < 0.60 `react-native link react-native-google-signin`
+- in RN < 0.60 run `react-native link react-native-google-signin`
 
-* manual linking
+##### manual linking
 
 1. In Xcode, in the project navigator, right click Libraries ➜ Add Files to [your project's name]
 2. Go to `node_modules` ➜ `react-native-google-signin` ➜ `ios` and add `RNGoogleSignin.xcodeproj`
