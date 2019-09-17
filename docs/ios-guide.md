@@ -8,7 +8,11 @@ NOTE for RN < 0.60 `react-native-link` may add the `RNGoogleSignin` podspec to y
 
 You can link the module automatically or manually
 
+<<<<<<< HEAD
 ##### automatic linking
+=======
+##### automatic linking 
+>>>>>>> Update ios-guide.md
 
 - in RN >= 0.60 run `pod install` in `ios/` directory to install the module
 
