@@ -18,9 +18,7 @@ _Note: For Android, having the SHA1 hash is an obligation_
 
 To get the SHA1 hash you need to generate your keystore, to generate your keystore follow [this guide](https://facebook.github.io/react-native/docs/signed-apk-android.html)
 
-You can use your debug keystore's SHA1 hash, get it by running this command inside `$ROOT/android`
-
-`keytool -exportcert -keystore ~/.android/debug.keystore -list -v`
+You can use your debug keystore's SHA1 hash, read this [StackOverflow thread](https://stackoverflow.com/questions/15727912/sha-1-fingerprint-of-keystore-certificate) to obtain it
 
 This should print out a SHA1 key.
 
