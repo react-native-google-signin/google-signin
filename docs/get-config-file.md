@@ -6,21 +6,17 @@ If you don't already have a project in Firebase you need to create one in order 
 
 [Firebase console](https://console.firebase.google.com/u/0/)
 
-1. Add your iOS and Android App inside Project settings.
+1. Add your iOS and Android App inside Project settings (see image).
 
 ![Project settings](../img/project-settings.png)
 
-_Access project settings on top left pane next to Project Overview_
+2. Enter required information and download the config file.
 
-2. During the Add App process download the config file.
+_Note: For Android, adding the SHA1 hash is an obligation_
 
-_Note: For Android, having the SHA1 hash is an obligation_
+You can use your debug keystore's SHA1 hash, read this [StackOverflow thread](https://stackoverflow.com/questions/15727912/sha-1-fingerprint-of-keystore-certificate) to obtain it. When running the `keytool` command, **MAKE SURE** you provide path to the correct keystore, you may have multiple keystores on your system! (eg in home directory, and also directly in the `android/app` folder). To see what keystore is being used to sign your app, go to `android/app/build.gradle` and look for `storeFile` entries.
 
-To get the SHA1 hash you need to generate your keystore, to generate your keystore follow [this guide](https://facebook.github.io/react-native/docs/signed-apk-android.html)
-
-You can use your debug keystore's SHA1 hash, read this [StackOverflow thread](https://stackoverflow.com/questions/15727912/sha-1-fingerprint-of-keystore-certificate) to obtain it. **MAKE SURE** you provide path to the correct keystore, you may have multiple keystores on your system! (eg in home directory, and also directly in the `android/app` folder).
-
-This should print out a SHA1 key.
+If you don't have a keystore, you need to generate one. To generate your keystore follow [this guide](https://facebook.github.io/react-native/docs/signed-apk-android.html).
 
 **IMPORTANT** if you have multiple keystores (and you likely do - eg. debug and release) you'll need to get the SHA1 hashes for all of them and save the hashes to Firebase!
 
