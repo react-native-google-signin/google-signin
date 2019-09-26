@@ -2,7 +2,7 @@
 
 ### Setup
 
-- To get this running you should have (see [how to get config files](get-config-file.md)):
+- To get this running you should have (see [how to get config files](../docs/get-config-file.md)):
   - `google-services.json` in your `android/app/`
   - `GoogleService-Info.plist` in `ios/` and linked in XCode by dragging it to the file tree.
 - Run `yarn` on project root to install required Javascript dependencies
