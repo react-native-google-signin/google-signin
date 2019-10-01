@@ -30,6 +30,7 @@ public class MainApplication extends Application implements ReactApplication {
 
         @Override
         protected String getJSMainModuleName() {
+          // edited for example app
           return "example/index";
         }
       };
