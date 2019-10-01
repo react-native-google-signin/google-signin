@@ -297,7 +297,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
             return;
         }
 
-        if (promiseWrapper.setPromiseWithInProgressCheck(promise, "getTokensAsync")) {
+        if (promiseWrapper.setPromiseWithInProgressCheck(promise, "getTokens")) {
             startTokenRetrievalTaskWithRecovery(account);
         }
     }
