@@ -39,7 +39,7 @@
   "bugs": {
     "url": "https://github.com/react-native-community/react-native-google-signin/issues"
   },
-  "dependencies": {
+  "peerDependencies": {
     "prop-types": "*",
     "react": "*",
     "react-native": "*"
@@ -55,6 +55,8 @@
     "jest": "^24.9.0",
     "metro-react-native-babel-preset": "^0.56.0",
     "prettier": "1.14.2",
-    "react-test-renderer": "16.9.0"
+    "react-test-renderer": "16.9.0",
+    "react": "16.9.0",
+    "react-native": "0.61.1"
   }
 }
