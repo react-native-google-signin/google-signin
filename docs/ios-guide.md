@@ -22,11 +22,11 @@ You can link the module automatically or manually
 
 #### Install Google Sign In SDK
 
-Again, we offer two ways to do this: with and without Cocoapods. Note that we require Google Sign In SDK version >= 4.3.0!
+Again, we offer two ways to do this: with and without Cocoapods. Note that we require Google Sign In SDK version >= 5.0.0!
 
 ##### With Cocoapods
 
-1. install the Google Signin SDK with [CocoaPods](https://cocoapods.org/): add `pod 'GoogleSignIn', '~> 4.4.0'` in your Podfile and run `pod install`
+1. install the Google Signin SDK with [CocoaPods](https://cocoapods.org/): add `pod 'GoogleSignIn', '~> 5.0.0'` in your Podfile and run `pod install`
 
 First time using cocoapods ? [check this out](./how-cocoapods.md)
 
@@ -70,34 +70,7 @@ Because only one `openURL` method can be defined, if you have multiple listeners
 
 ```objc
 // AppDelegate.m
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
-{
-  return [[FBSDKApplicationDelegate sharedInstance] application:application openURL:url sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey] annotation:options[UIApplicationOpenURLOptionsAnnotationKey]]
-         || [RNGoogleSignin application:application openURL:url sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey] annotation:options[UIApplicationOpenURLOptionsAnnotationKey]];
-}
-```
-
-If you're targeting iOS 9 or newer, you'll want to use the [application:openURL:options: method](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623112-application?language=objc) as shown in the following snippet:
-
-```objC
 - (BOOL)application:(UIApplication *)application openURL:(nonnull NSURL *)url options:(nonnull NSDictionary<NSString *,id> *)options {
-  return [RNGoogleSignin application:application
-                             openURL:url
-                   sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
-                          annotation:options[UIApplicationOpenURLOptionsAnnotationKey]];
-}
-```
-
-You may also use the deprecated [application:openURL:sourceApplication:annotation: method](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623073-application?language=objc):
-
-```objc
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-
-  return [RNGoogleSignin application:application
-                             openURL:url
-                   sourceApplication:sourceApplication
-                          annotation:annotation
-          ];
+  return [[FBSDKApplicationDelegate sharedInstance] application:application openURL:url options:options] || [RNGoogleSignin application:application openURL:url options:options];
 }
 ```

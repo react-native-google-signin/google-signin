@@ -49,7 +49,7 @@
   }
   NSString* errorCode = [NSString stringWithFormat:@"%ld", error.code];
   NSString* errorMessage = [NSString stringWithFormat:@"RNGoogleSignInError: %@, %@", message, error.description];
-  
+
   [self resetMembers];
   rejecter(errorCode, errorMessage, error);
 }
