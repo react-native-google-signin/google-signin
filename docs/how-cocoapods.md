@@ -19,7 +19,7 @@ target 'test_google_signin' do
   # use_frameworks!
 
   # Pods for test_google_signin
-  pod 'GoogleSignIn', '~> 4.4.0' // RNGoogleSignin requires GoogleSignIn >= 4.3.0
+  pod 'GoogleSignIn', '~> 5.0.0' // RNGoogleSignin requires GoogleSignIn >= 5.0.0
 
   target 'test_google_signin-tvOSTests' do
     inherit! :search_paths
