@@ -17,8 +17,8 @@ export default {
 
 ### Running
 
-- Start Metro bundler and watcher `yarn run dev`, be patient: this might take a while since it needs to clean up bunch of stuff
-- Run `react-native run-ios` or `react-native run-android` to run the example app
+- Start Metro bundler with `yarn start`
+- Run `yarn ios` or `yarn android` to run the example app
 
 ### Troubleshooting
 
