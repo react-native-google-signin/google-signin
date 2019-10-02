@@ -1,3 +1,8 @@
+# Configuration and credential files
+android/app/google-services.json
+ios/GoogleService-Info.plist
+config.js
+
 # OSX
 #
 .DS_Store
@@ -55,10 +60,5 @@ buck-out/
 # Bundle artifact
 *.jsbundle
 
-# Configuration and credential files
-android/app/google-services.json
-ios/GoogleService-Info.plist
-config.js
-
-# Cocoapods
-ios/Pods/
+# CocoaPods
+/ios/Pods/

@@ -2,7 +2,7 @@
 
 ### Setup
 
-- To get this running you should have (see [how to get config files](get-config-file.md)):
+- To get this running you should have (see [how to get config files](../docs/get-config-file.md)):
   - `google-services.json` in your `android/app/`
   - `GoogleService-Info.plist` in `ios/` and linked in XCode by dragging it to the file tree.
 - Run `yarn` on project root to install required Javascript dependencies
@@ -17,8 +17,8 @@ export default {
 
 ### Running
 
-- Start Metro bundler and watcher `yarn run dev`, be patient: this might take a while since it needs to clean up bunch of stuff
-- Run `react-native run-ios` or `react-native run-android` to run the example app
+- Start Metro bundler with `yarn start`
+- Run `yarn ios` or `yarn android` to run the example app
 
 ### Troubleshooting
 

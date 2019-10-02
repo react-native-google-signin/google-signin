@@ -1,6 +1,6 @@
 rootProject.name = 'GoogleSigninSampleApp'
-include ':react-native-google-signin'
-project(':react-native-google-signin').projectDir = new File(rootProject.projectDir, '../../android')
-
-
+// edited for example app
+apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle");
+// edited for example app
+applyNativeModulesSettingsGradle(settings, "../..")
 include ':app'
