@@ -102,7 +102,7 @@ public class MainApplication extends Application implements ReactApplication {
 
 #### Choose Dependency versions (optional)
 
-The library depends on `com.android.support:appcompat-v7` and `com.google.android.gms:play-services-auth`, as seen in [build.gradle](https://github.com/react-native-community/react-native-google-signin/blob/master/android/build.gradle). If needed, you may control their versions by the `ext` closure, as seen in [build.gradle](https://github.com/react-native-community/react-native-google-signin/blob/master/example/android/build.gradle) of the example app.
+The library depends on `com.google.android.gms:play-services-auth`, as seen in [build.gradle](https://github.com/react-native-community/react-native-google-signin/blob/master/android/build.gradle). If needed, you may control their versions by the `ext` closure, as seen in [build.gradle](https://github.com/react-native-community/react-native-google-signin/blob/master/example/android/build.gradle) of the example app.
 
 ### 4. Running on simulator
 
@@ -158,7 +158,7 @@ See ["Choose Dependency versions"](#choose-dependency-versions-optional) above.
 #### My project includes an older version of react-native-google-signin. How to upgrade?
 
 first install the latest version
-`npm install --save react-native-google-signin`
+`yarn add @react-native-community/google-signin@latest`
 
 You need to follow this guide again to make sure everything fit together (gradle version, google-services gradle version, etc...). Check out the example project for reference.
 
