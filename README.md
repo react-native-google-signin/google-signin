@@ -66,7 +66,11 @@ Handler to be called when the user taps the button
 ### 2. GoogleSignin
 
 ```js
-import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin';
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from '@react-native-community/google-signin';
 ```
 
 #### `configure(options)`
