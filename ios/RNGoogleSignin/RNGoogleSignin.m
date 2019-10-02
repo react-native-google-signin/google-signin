@@ -207,6 +207,9 @@ RCT_EXPORT_METHOD(getTokens:(RCTPromiseResolveBlock)resolve
     case kGIDSignInErrorCodeCanceled:
       errorMessage = @"The user canceled the sign in request.";
       break;
+    case kGIDSignInErrorCodeEMM:
+      errorMessage = @"An Enterprise Mobility Management related error has occurred.";
+      break;
   }
   [self.promiseWrapper reject:errorMessage withError:error];
 }
@@ -218,15 +221,6 @@ RCT_EXPORT_METHOD(getTokens:(RCTPromiseResolveBlock)resolve
     [self.promiseWrapper resolve:[NSNull null]];
   }
 }
-
-- (void)signIn:(GIDSignIn *)signIn presentViewController:(UIViewController *)viewController {
-  [RCTPresentedViewController() presentViewController:viewController animated:true completion:nil];
-}
-
-- (void)signIn:(GIDSignIn *)signIn dismissViewController:(UIViewController *)viewController {
-  [viewController dismissViewControllerAnimated:true completion:nil];
-}
-
 
 + (BOOL)application:(UIApplication *)app
             openURL:(NSURL *)url
