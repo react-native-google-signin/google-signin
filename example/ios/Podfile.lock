@@ -1,4 +1,9 @@
 PODS:
+  - AppAuth (1.2.0):
+    - AppAuth/Core (= 1.2.0)
+    - AppAuth/ExternalUserAgent (= 1.2.0)
+  - AppAuth/Core (1.2.0)
+  - AppAuth/ExternalUserAgent (1.2.0)
   - boost-for-react-native (1.63.0)
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.61.1)
@@ -19,19 +24,18 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
-  - GoogleSignIn (4.4.0):
-    - "GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)"
-    - "GoogleToolboxForMac/NSString+URLArguments (~> 2.1)"
+  - GoogleSignIn (5.0.0):
+    - AppAuth (~> 1.1)
+    - GTMAppAuth (~> 1.0)
     - GTMSessionFetcher/Core (~> 1.1)
-  - GoogleToolboxForMac/DebugUtils (2.2.1):
-    - GoogleToolboxForMac/Defines (= 2.2.1)
-  - GoogleToolboxForMac/Defines (2.2.1)
-  - "GoogleToolboxForMac/NSDictionary+URLArguments (2.2.1)":
-    - GoogleToolboxForMac/DebugUtils (= 2.2.1)
-    - GoogleToolboxForMac/Defines (= 2.2.1)
-    - "GoogleToolboxForMac/NSString+URLArguments (= 2.2.1)"
-  - "GoogleToolboxForMac/NSString+URLArguments (2.2.1)"
+  - GTMAppAuth (1.0.0):
+    - AppAuth/Core (~> 1.0)
+    - GTMSessionFetcher (~> 1.1)
+  - GTMSessionFetcher (1.2.2):
+    - GTMSessionFetcher/Full (= 1.2.2)
   - GTMSessionFetcher/Core (1.2.2)
+  - GTMSessionFetcher/Full (1.2.2):
+    - GTMSessionFetcher/Core (= 1.2.2)
   - RCTRequired (0.61.1)
   - RCTTypeSafety (0.61.1):
     - FBLazyVector (= 0.61.1)
@@ -231,7 +235,7 @@ PODS:
     - React-jsi (= 0.61.1)
     - ReactCommon/jscallinvoker (= 0.61.1)
   - RNGoogleSignin (2.0.0):
-    - GoogleSignIn (~> 4.4.0)
+    - GoogleSignIn (~> 5.0.0)
     - React
   - Yoga (1.14.0)
 
@@ -268,9 +272,10 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - AppAuth
     - boost-for-react-native
     - GoogleSignIn
-    - GoogleToolboxForMac
+    - GTMAppAuth
     - GTMSessionFetcher
 
 EXTERNAL SOURCES:
@@ -328,14 +333,15 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
+  AppAuth: bce82c76043657c99d91e7882e8a9e1a93650cd4
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
   FBLazyVector: cb37b5590a27600f0a889222d7c1f019625f4168
   FBReactNativeSpec: 6fda0eee5b059ee8ea0f845f4060620ff96b5b55
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
-  GoogleSignIn: 7ff245e1a7b26d379099d3243a562f5747e23d39
-  GoogleToolboxForMac: b3553629623a3b1bff17f555e736cd5a6d95ad55
+  GoogleSignIn: a62edd0516721d2a3db1259a5681b91f9b41c06a
+  GTMAppAuth: 4deac854479704f348309e7b66189e604cf5e01e
   GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
   RCTRequired: 81db8debffc2eb932841fa02dcf5a2e911af74c1
   RCTTypeSafety: 39a7d8643abe2460aef0adeb9acbe9401b579fff
@@ -356,7 +362,7 @@ SPEC CHECKSUMS:
   React-RCTText: 3f24042210886ee8c02613758013010be04b291e
   React-RCTVibration: d55e1365be416980217914fe009e9d55dec02e03
   ReactCommon: eb96b70a2a5bed775e919151fd77699fed52944c
-  RNGoogleSignin: c21007e24988aeda3ab84810ab6de5c0f7d4425b
+  RNGoogleSignin: ba310637094912a035b28de70adbf03a6c78d7d4
   Yoga: 6af72bedeaea291a3a3717772d6d41836f23a1b9
 
 PODFILE CHECKSUM: 5e68a343db353fed21b76d75880f3bf8dbfb3d18

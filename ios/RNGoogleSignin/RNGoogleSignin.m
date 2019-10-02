@@ -66,7 +66,7 @@ RCT_EXPORT_METHOD(configure:(NSDictionary *)options
   }
 
   [GIDSignIn sharedInstance].delegate = self;
-  [GIDSignIn sharedInstance].presentingViewController = self;
+  [GIDSignIn sharedInstance].presentingViewController = RCTPresentedViewController();
   [GIDSignIn sharedInstance].scopes = options[@"scopes"];
   [GIDSignIn sharedInstance].shouldFetchBasicProfile = YES; // email, profile
   [GIDSignIn sharedInstance].loginHint = options[@"loginHint"];
@@ -227,11 +227,11 @@ RCT_EXPORT_METHOD(getTokens:(RCTPromiseResolveBlock)resolve
   [viewController dismissViewControllerAnimated:true completion:nil];
 }
 
-+ (BOOL)application:(UIApplication *)application
+
++ (BOOL)application:(UIApplication *)app
             openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication
-         annotation:(id)annotation {
-    return [[GIDSignIn sharedInstance] handleURL:url];
+            options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
+  return [[GIDSignIn sharedInstance] handleURL:url];
 }
 
 @end
