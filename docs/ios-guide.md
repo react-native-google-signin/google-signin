@@ -2,7 +2,7 @@
 
 ### 1. Installation
 
-NOTE for RN < 0.60 `react-native-link` may add the `RNGoogleSignin` podspec to your Podfile. If your Podfile looks roughly like the one described [here](http://facebook.github.io/react-native/docs/integration-with-existing-apps#configuring-cocoapods-dependencies) then this is likely what you want, but otherwise you may get stuck with build errors. If your Podfile does not refer to the `React` podspec, then you probably do not want to use the `RNGoogleSignin` podspec and we recommend that you rename or delete the `RNGoogleSignin.podspec` file from `node_modules/react-native-google-signin` and only then run `react-native link react-native-google-signin`. This is a one-time operation that you won't need to repeat later.
+NOTE for RN < 0.60 `react-native-link` may add the `RNGoogleSignin` podspec to your Podfile. If your Podfile looks roughly like the one described [here](http://facebook.github.io/react-native/docs/integration-with-existing-apps#configuring-cocoapods-dependencies) then this is likely what you want, but otherwise you may get stuck with build errors. If your Podfile does not refer to the `React` podspec, then you probably do not want to use the `RNGoogleSignin` podspec and we recommend that you rename or delete the `RNGoogleSignin.podspec` file from `node_modules/@react-native-community/google-signin` and only then run `react-native link @react-native-community/google-signin`. This is a one-time operation that you won't need to repeat later.
 
 #### Link the native module
 
@@ -12,12 +12,12 @@ You can link the module automatically or manually
 
 - in RN >= 0.60 run `pod install` in `ios/` directory to install the module
 
-- in RN < 0.60 run `react-native link react-native-google-signin`
+- in RN < 0.60 run `react-native link @react-native-community/google-signin`
 
 ##### manual linking
 
 1. In Xcode, in the project navigator, right click Libraries ➜ Add Files to [your project's name]
-2. Go to `node_modules` ➜ `react-native-google-signin` ➜ `ios` and add `RNGoogleSignin.xcodeproj`
+2. Go to `node_modules` ➜ `@react-native-community/google-signin` ➜ `ios` and add `RNGoogleSignin.xcodeproj`
 3. In Xcode, in the project navigator, select your project. Add `libRNGoogleSignin.a` to your project's Build Phases ➜ Link Binary With Libraries
 
 #### Install Google Sign In SDK
@@ -65,7 +65,7 @@ This is only required if you have multiple listeners for `openURL` - for instanc
 Because only one `openURL` method can be defined, if you have multiple listeners for `openURL`, you must combine them into a single function in your `AppDelegate.m` like so:
 
 - Open `AppDelegate.m`
-- Add an import: `#import <RNGoogleSignin/RNGoogleSignin.h>` (if this one will not work try `#import "RNGoogleSignin.h"`). If this file cannot be found, you need to modify your header search paths so Xcode can find headers of `react-native-google-signin`. For example, when using the non-cocoapods installation, make sure that `$(SRCROOT)/../node_modules/react-native-google-signin/ios` is included in your target's header search paths.
+- Add an import: `#import <RNGoogleSignin/RNGoogleSignin.h>` (if this one will not work try `#import "RNGoogleSignin.h"`). If this file cannot be found, you need to modify your header search paths so Xcode can find headers of `react-native-google-signin`. For example, when using the non-cocoapods installation, make sure that `$(SRCROOT)/../node_modules/@react-native-community/google-signin/ios` is included in your target's header search paths.
 - Add a method to respond to the URL scheme:
 
 ```objc

@@ -13,7 +13,7 @@
 
 ## Project setup and initialization
 
-`yarn add react-native-google-signin`
+`yarn add @react-native-community/google-signin`
 
 Then follow the [Android guide](docs/android-guide.md) and [iOS guide](docs/ios-guide.md)
 
@@ -24,7 +24,7 @@ Then follow the [Android guide](docs/android-guide.md) and [iOS guide](docs/ios-
 ![signin button](img/signin-button.png)
 
 ```js
-import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
+import { GoogleSignin, GoogleSigninButton } from '@react-native-community/google-signin';
 
 render() {
   <GoogleSigninButton
@@ -66,7 +66,11 @@ Handler to be called when the user taps the button
 ### 2. GoogleSignin
 
 ```js
-import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from '@react-native-community/google-signin';
 ```
 
 #### `configure(options)`
@@ -76,7 +80,7 @@ It is mandatory to call this method before attempting to call `signIn()` and `si
 Example usage with for default options: you get user email and basic profile info.
 
 ```js
-import { GoogleSignin } from 'react-native-google-signin';
+import { GoogleSignin } from '@react-native-community/google-signin';
 
 GoogleSignin.configure();
 ```
@@ -102,7 +106,7 @@ Prompts a modal to let the user sign in into your application. Resolved promise 
 
 ```js
 // import statusCodes along with GoogleSignin
-import { GoogleSignin, statusCodes } from 'react-native-google-signin';
+import { GoogleSignin, statusCodes } from '@react-native-community/google-signin';
 
 // Somewhere in your code
 signIn = async () => {

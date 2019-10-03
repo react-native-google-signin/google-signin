@@ -1,8 +1,12 @@
 // @flow
 import React, { Component } from 'react';
 import { AppRegistry, StyleSheet, Text, View, Alert, Button } from 'react-native';
-import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
-import type { User } from 'react-native-google-signin';
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from '@react-native-community/google-signin';
+import type { User } from '@react-native-community/google-signin';
 import config from './config'; // see docs/CONTRIBUTING.md for details
 
 type ErrorWithCode = Error & { code?: string };

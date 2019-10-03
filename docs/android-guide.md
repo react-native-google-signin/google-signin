@@ -22,7 +22,7 @@ Please note that this package requires android gradle plugin of version >= 3, wh
 
 in RN >= 0.60 you should not need to do anything thanks to [autolinking](https://github.com/react-native-community/cli/blob/master/docs/autolinking.md)
 
-in RN < 0.60 run `react-native link react-native-google-signin`
+in RN < 0.60 run `react-native link @react-native-community/google-signin`
 
 2 . Update `android/build.gradle` with
 
@@ -76,7 +76,7 @@ apply plugin: 'com.google.gms.google-services' // <--- this should be the last l
 ```gradle
 ...
 include ':react-native-google-signin', ':app'
-project(':react-native-google-signin').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-google-signin/android')
+project(':react-native-google-signin').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-community/google-signin/android')
 ```
 
 - in `MainApplication.java` you should have
@@ -102,7 +102,7 @@ public class MainApplication extends Application implements ReactApplication {
 
 #### Choose Dependency versions (optional)
 
-The library depends on `com.android.support:appcompat-v7` and `com.google.android.gms:play-services-auth`, as seen in [build.gradle](https://github.com/react-native-community/react-native-google-signin/blob/master/android/build.gradle). If needed, you may control their versions by the `ext` closure, as seen in [build.gradle](https://github.com/react-native-community/react-native-google-signin/blob/master/example/android/build.gradle) of the example app.
+The library depends on `com.google.android.gms:play-services-auth`, as seen in [build.gradle](https://github.com/react-native-community/react-native-google-signin/blob/master/android/build.gradle). If needed, you may control their versions by the `ext` closure, as seen in [build.gradle](https://github.com/react-native-community/react-native-google-signin/blob/master/example/android/build.gradle) of the example app.
 
 ### 4. Running on simulator
 
@@ -158,7 +158,7 @@ See ["Choose Dependency versions"](#choose-dependency-versions-optional) above.
 #### My project includes an older version of react-native-google-signin. How to upgrade?
 
 first install the latest version
-`npm install --save react-native-google-signin`
+`yarn add @react-native-community/google-signin@latest`
 
 You need to follow this guide again to make sure everything fit together (gradle version, google-services gradle version, etc...). Check out the example project for reference.
 
