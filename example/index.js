@@ -115,7 +115,6 @@ class GoogleSigninSampleApp extends Component<{}, State> {
     return (
       <View style={styles.container}>
         <GoogleSigninButton
-          style={{ width: 212, height: 48 }}
           size={GoogleSigninButton.Size.Standard}
           color={GoogleSigninButton.Color.Auto}
           onPress={this._signIn}

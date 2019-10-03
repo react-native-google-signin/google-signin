@@ -7,6 +7,7 @@ import {
   ViewPropTypes,
   Platform,
   DeviceEventEmitter,
+  StyleSheet,
 } from 'react-native';
 
 const { RNGoogleSignin } = NativeModules;
@@ -21,6 +22,10 @@ export class GoogleSigninButton extends PureComponent {
     onPress: PropTypes.func.isRequired,
   };
 
+  static defaultProps = {
+    size: RNGoogleSignin.BUTTON_SIZE_STANDARD,
+  };
+
   componentDidMount() {
     if (Platform.OS === 'android') {
       this._clickListener = DeviceEventEmitter.addListener('RNGoogleSigninButtonClicked', () => {
@@ -33,12 +38,32 @@ export class GoogleSigninButton extends PureComponent {
     this._clickListener && this._clickListener.remove();
   }
 
+  getRecommendedSize() {
+    switch (this.props.size) {
+      case RNGoogleSignin.BUTTON_SIZE_ICON:
+        return styles.iconSize;
+      case RNGoogleSignin.BUTTON_SIZE_WIDE:
+        return styles.wideSize;
+      default:
+        return styles.standardSize;
+    }
+  }
+
   render() {
     const { style, ...props } = this.props;
 
-    return <RNGoogleSigninButton style={[{ backgroundColor: 'transparent' }, style]} {...props} />;
+    return <RNGoogleSigninButton style={[this.getRecommendedSize(), style]} {...props} />;
   }
 }
+
+const styles = StyleSheet.create({
+  iconSize: {
+    width: 48,
+    height: 48,
+  },
+  standardSize: { width: 212, height: 48 },
+  wideSize: { width: 312, height: 48 },
+});
 
 GoogleSigninButton.Size = {
   Icon: RNGoogleSignin.BUTTON_SIZE_ICON,
