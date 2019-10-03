@@ -17,7 +17,7 @@ You may edit the source codes of those projects - that will edit the files in th
 
 ### Making Changes to JS Code
 
-Just edit them straigh away.
+Just edit them straight away.
 
 ### Finalize
 

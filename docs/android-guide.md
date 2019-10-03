@@ -22,7 +22,7 @@ Please note that this package requires android gradle plugin of version >= 3, wh
 
 in RN >= 0.60 you should not need to do anything thanks to [autolinking](https://github.com/react-native-community/cli/blob/master/docs/autolinking.md)
 
-in RN < 0.60 run `react-native link react-native-google-signin`
+in RN < 0.60 run `react-native link @react-native-community/google-signin`
 
 2 . Update `android/build.gradle` with
 
@@ -76,7 +76,7 @@ apply plugin: 'com.google.gms.google-services' // <--- this should be the last l
 ```gradle
 ...
 include ':react-native-google-signin', ':app'
-project(':react-native-google-signin').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-google-signin/android')
+project(':react-native-google-signin').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-community/google-signin/android')
 ```
 
 - in `MainApplication.java` you should have
