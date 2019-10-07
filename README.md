@@ -21,7 +21,6 @@ For RN <= 0.59 use version two installed from `react-native-google-signin`
 
 `yarn add react-native-google-signin`
 
-
 Then follow the [Android guide](docs/android-guide.md) and [iOS guide](docs/ios-guide.md)
 
 ## Public API
