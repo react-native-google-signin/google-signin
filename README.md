@@ -17,7 +17,7 @@ For RN >= 0.60 please use version 3 installed from `@react-native-community/goog
 
 `yarn add @react-native-community/google-signin`
 
-For RN <= 0.59 use version two installed from `react-native-google-signin`
+For RN <= 0.59 use version 2 installed from `react-native-google-signin`
 
 `yarn add react-native-google-signin`
 
