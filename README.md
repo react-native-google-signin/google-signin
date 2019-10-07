@@ -13,7 +13,13 @@
 
 ## Project setup and initialization
 
+For RN >= 0.60 please use version 3 installed from `@react-native-community/google-signin`
+
 `yarn add @react-native-community/google-signin`
+
+For RN <= 0.59 use version 2 installed from `react-native-google-signin`
+
+`yarn add react-native-google-signin`
 
 Then follow the [Android guide](docs/android-guide.md) and [iOS guide](docs/ios-guide.md)
 
@@ -102,7 +108,7 @@ GoogleSignin.configure({
 
 #### `signIn()`
 
-Prompts a modal to let the user sign in into your application. Resolved promise returns an [`userInfo` object](#3-userinfo).
+Prompts a modal to let the user sign in into your application. Resolved promise returns an [`userInfo` object](#3-userinfo). Rejects with error otherwise.
 
 ```js
 // import statusCodes along with GoogleSignin
@@ -118,7 +124,7 @@ signIn = async () => {
     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
       // user cancelled the login flow
     } else if (error.code === statusCodes.IN_PROGRESS) {
-      // operation (f.e. sign in) is in progress already
+      // operation (e.g. sign in) is in progress already
     } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
       // play services not available or outdated
     } else {
@@ -173,7 +179,7 @@ getCurrentUser = async () => {
 
 #### `clearCachedToken(tokenString)`
 
-This method only has an effect on Android (Calling this method always resolves on iOS.). You may run into a 401 Unauthorized error when a token is invalid. Call this method to remove the token from local cache and then call `getTokens()` to get fresh tokens.
+This method only has an effect on Android. You may run into a 401 Unauthorized error when a token is invalid. Call this method to remove the token from local cache and then call `getTokens()` to get fresh tokens. Calling this method on iOS does nothing and always resolves. This is because on iOS, `getTokens()` always returns valid tokens, refreshing them first if they have expired or are about to expire (see [docs](https://developers.google.com/identity/sign-in/ios/reference/Classes/GIDAuthentication#-gettokenswithhandler:)).
 
 #### `getTokens()`
 
@@ -181,7 +187,7 @@ Resolves with an object containing `{ idToken: string, accessToken: string, }` o
 
 #### `signOut()`
 
-Remove user session from the device.
+Removes user session from the device.
 
 ```js
 signOut = async () => {
@@ -197,7 +203,7 @@ signOut = async () => {
 
 #### `revokeAccess()`
 
-Remove your application from the user authorized applications.
+Removes your application from the user authorized applications.
 
 ```js
 revokeAccess = async () => {
@@ -212,7 +218,7 @@ revokeAccess = async () => {
 
 #### `hasPlayServices(options)`
 
-Check if device has Google Play Services installed. Always resolves to true on iOS.
+Checks if device has Google Play Services installed. Always resolves to true on iOS.
 
 Presence of up-to-date Google Play Services is required to show the sign in modal, but it is _not_ required to perform calls to `configure` and `signInSilently`. Therefore, we recommend to call `hasPlayServices` directly before `signIn`.
 
