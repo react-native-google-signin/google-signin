@@ -46,6 +46,8 @@ Possible values:
 - Size.Standard: icon with 'Sign in'. Recommended size of 230 x 48.
 - Size.Wide: icon with 'Sign in with Google'. Recommended size of 312 x 48.
 
+Default: `Size.Standard`. Given the `size` prop you pass, we'll automatically apply the recommended size, but you can override it by passing the style prop as in `style={{ width, height }}`.
+
 ##### `color`
 
 Possible values:
