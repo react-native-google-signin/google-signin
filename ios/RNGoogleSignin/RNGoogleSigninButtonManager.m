@@ -46,6 +46,7 @@ RCT_EXPORT_VIEW_PROPERTY(onPress, RCTBubblingEventBlock)
   }
   
   sender.onPress(nil);
+  [sender sendActionsForControlEvents:UIControlEventTouchCancel];
 }
 
 @end

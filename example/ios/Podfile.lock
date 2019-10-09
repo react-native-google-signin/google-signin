@@ -234,7 +234,7 @@ PODS:
     - React-cxxreact (= 0.61.1)
     - React-jsi (= 0.61.1)
     - ReactCommon/jscallinvoker (= 0.61.1)
-  - RNGoogleSignin (2.0.0):
+  - RNGoogleSignin (3.0.0):
     - GoogleSignIn (~> 5.0.0)
     - React
   - Yoga (1.14.0)
