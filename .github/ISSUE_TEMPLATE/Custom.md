@@ -36,5 +36,5 @@ Please provide
 
 - react-native version
 - @react-native-community/google-signin version
-- your Podfile and cocoapods version (if applicable)
+- your Podfile, output of running `pod install` and cocoapods version (if applicable)
 - version of Android, gradle, android plugin for gradle, `play-services-auth` and version of the Google Play Services app on your phone (if applicable)
