@@ -12,7 +12,7 @@ You can link the module automatically or manually
 
 - in RN >= 0.60 run `pod install` in `ios/` directory to install the module
 
-- in RN < 0.60 run `react-native link @react-native-community/google-signin`
+- in RN < 0.60 run `react-native link react-native-google-signin`
 
 ##### manual linking
 
