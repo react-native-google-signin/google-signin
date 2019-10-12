@@ -32,9 +32,9 @@ Please make sure you have searched previous issues before opening a new issue.
 
 ## Environment
 
-Please provide the version of your
+Please provide
 
-- react-native
-- react-native-google-signin
-- cocoapods and GoogleSignIn pod version (if applicable)
+- react-native version
+- @react-native-community/google-signin version
+- your Podfile, output of running `pod install` and cocoapods version (if applicable)
 - version of Android, gradle, android plugin for gradle, `play-services-auth` and version of the Google Play Services app on your phone (if applicable)
