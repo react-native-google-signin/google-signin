@@ -12,7 +12,7 @@ Please make sure you have searched previous issues before opening a new issue.
 
 ## Steps to Reproduce
 
-- You must provide a **minimal and easy-to-run** reproduction of your issue - [how to create a minimal reproduction?](https://stackoverflow.com/help/mcve). We're a small team of maintainers and do not have time to try reproduce bugs ourselves.
+- You **must** provide a **minimal and easy-to-run** reproduction of your issue - [how to create a minimal reproduction?](https://stackoverflow.com/help/mcve). We're a small team of maintainers and do not have time to try reproduce bugs ourselves.
 
 - Please try to reproduce the bugs on the provided example app. Either provide a link to the repo that reproduces the bug or provide your version of the [`index.js` file](https://github.com/react-native-community/react-native-google-signin/blob/master/example/index.js) that reproduces the issue and that we can easily use.
 
@@ -38,3 +38,4 @@ Please provide
 - @react-native-community/google-signin version
 - your Podfile, output of running `pod install` and cocoapods version (if applicable)
 - version of Android, gradle, android plugin for gradle, `play-services-auth` and version of the Google Play Services app on your phone (if applicable)
+- version of iOS (if applicable)
