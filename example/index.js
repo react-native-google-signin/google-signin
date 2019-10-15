@@ -8,6 +8,7 @@ import {
 } from '@react-native-community/google-signin';
 import type { User } from '@react-native-community/google-signin';
 import config from './config'; // see docs/CONTRIBUTING.md for details
+import { TokenClearingView } from './TokenClearingView';
 
 type ErrorWithCode = Error & { code?: string };
 
@@ -104,6 +105,7 @@ class GoogleSigninSampleApp extends Component<{}, State> {
           Welcome {userInfo.user.name}
         </Text>
         <Text>Your user info: {JSON.stringify(userInfo.user)}</Text>
+        <TokenClearingView userInfo={userInfo} />
 
         <Button onPress={this._signOut} title="Log out" />
         {this.renderError()}
