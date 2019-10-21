@@ -66,7 +66,6 @@ RCT_EXPORT_METHOD(configure:(NSDictionary *)options
   }
 
   [GIDSignIn sharedInstance].delegate = self;
-  [GIDSignIn sharedInstance].presentingViewController = RCTPresentedViewController();
   [GIDSignIn sharedInstance].scopes = options[@"scopes"];
   [GIDSignIn sharedInstance].shouldFetchBasicProfile = YES; // email, profile
   [GIDSignIn sharedInstance].loginHint = options[@"loginHint"];
@@ -99,6 +98,7 @@ RCT_EXPORT_METHOD(signInSilently:(RCTPromiseResolveBlock)resolve
 RCT_EXPORT_METHOD(signIn:(RCTPromiseResolveBlock)resolve
                   signInReject:(RCTPromiseRejectBlock)reject)
 {
+  [GIDSignIn sharedInstance].presentingViewController = RCTPresentedViewController();
   if ([self.promiseWrapper setPromiseWithInProgressCheck:resolve rejecter:reject fromCallSite:@"signIn"]) {
     [[GIDSignIn sharedInstance] signIn];
   }
