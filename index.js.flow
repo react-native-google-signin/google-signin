@@ -1,6 +1,6 @@
 // @flow
-import * as React from 'react';
-import type { ViewProps } from 'ViewPropTypes';
+import React, { type ElementConfig } from 'react';
+import { typeof View } from 'react-native';
 
 export type ConfigureParams = $ReadOnly<{|
   iosClientId?: string,
@@ -14,7 +14,7 @@ export type ConfigureParams = $ReadOnly<{|
 |}>;
 
 export type GoogleSigninButtonProps = $ReadOnly<{|
-  ...ViewProps,
+  ...ElementConfig<View>,
   size?: number,
   color?: string,
   disabled?: boolean,
