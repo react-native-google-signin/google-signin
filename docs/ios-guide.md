@@ -71,6 +71,6 @@ Because only one `openURL` method can be defined, if you have multiple listeners
 ```objc
 // AppDelegate.m
 - (BOOL)application:(UIApplication *)application openURL:(nonnull NSURL *)url options:(nonnull NSDictionary<NSString *,id> *)options {
-  return [[FBSDKApplicationDelegate sharedInstance] application:application openURL:url options:options] || [RNGoogleSignin application:application openURL:url options:options];
+  return [RNGoogleSignin application:application openURL:url options:options];
 }
 ```
