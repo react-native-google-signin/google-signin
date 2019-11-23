@@ -1,6 +1,8 @@
-## Get configuration file
+# Get configuration file
 
-Please NOTE that you **do not** need firebase to get the necessary files and SHA1 hashes, but this tutorial is written assuming that you do have firebase. We currently do not have tutorial for the non-firebase approach, but you're welcome to create it!
+## With Firebase
+
+Please NOTE that you **do not** need firebase to get the necessary files and SHA1 hashes - see the guide below if you don't want to use firebase.
 
 If you don't already have a project in Firebase you need to create one in order to generate credentials for an iOS and Android application.
 
@@ -20,7 +22,19 @@ If you don't have a keystore, you need to generate one. To generate your keystor
 
 **IMPORTANT** if you have multiple keystores (and you likely do - eg. debug and release) you'll need to get the SHA1 hashes for all of them and save the hashes to Firebase!
 
+## Without Firebase
+
+### iOS
+
+Follow these instructions from the official docs:
+1. [Get an OAuth client ID](https://developers.google.com/identity/sign-in/ios/start-integrating#get_an_oauth_client_id).
+1. [Add a URL scheme to your project](https://developers.google.com/identity/sign-in/ios/start-integrating#add_a_url_scheme_to_your_project)
+
+### Android
+
+Follow the instructions to [Configure a Google API Project](https://developers.google.com/identity/sign-in/android/start#configure-a-google-api-project) from the official docs.
+
 ## WebClientId
 
-`webClientId` will be automatically generated once you create the app in the firebase console.
-You can access the `webClientId` [here](https://console.developers.google.com/apis/credentials). Make sure you select the correct project. `webClientId` should be under OAuth section.
+`webClientId` will be automatically generated once you create the app in the firebase console or configure the API. You can access the it [here](https://console.developers.google.com/apis/credentials).
+Make sure you select the correct project. `webClientId` should be under OAuth section.
