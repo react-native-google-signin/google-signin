@@ -2,7 +2,7 @@
 
 ## With Firebase
 
-Please NOTE that you **do not** need firebase to get the necessary files and SHA1 hashes.
+Please NOTE that you **do not** need firebase to get the necessary files and SHA1 hashes - see the guide below if you don't want to use firebase.
 
 If you don't already have a project in Firebase you need to create one in order to generate credentials for an iOS and Android application.
 
