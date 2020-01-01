@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import type { ViewProps } from 'ViewPropTypes';
+import { typeof View } from 'react-native';
 
 export type ConfigureParams = $ReadOnly<{|
   iosClientId?: string,
@@ -14,14 +14,14 @@ export type ConfigureParams = $ReadOnly<{|
 |}>;
 
 export type GoogleSigninButtonProps = $ReadOnly<{|
-  ...ViewProps,
+  ...React.ElementConfig<View>,
   size?: number,
   color?: string,
   disabled?: boolean,
   onPress?: () => any,
 |}>;
 
-declare export class GoogleSigninButton extends React$Component<GoogleSigninButtonProps> {
+declare export class GoogleSigninButton extends React.Component<GoogleSigninButtonProps> {
   static Size: {
     Icon: number,
     Standard: number,
