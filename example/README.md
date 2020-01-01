@@ -22,4 +22,4 @@ export default {
 
 ### Troubleshooting
 
-Please see the troubleshooting section in the [Android guide](docs/android-guide.md) and [iOS guide](docs/ios-guide.md).
+Please see the troubleshooting section in the [Android guide](/docs/android-guide.md) and [iOS guide](/docs/ios-guide.md).
