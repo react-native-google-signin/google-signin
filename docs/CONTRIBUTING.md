@@ -21,5 +21,5 @@ Just edit them straight away.
 
 ### Finalize
 
-- from the root of the repo run `yarn prettier:write` to prettify the JS files
-- open a PR with your changes! :tada:
+- From the root of the repo run `yarn prettier:write` to prettify the JS files.
+- Open a PR with your changes! :tada:
