@@ -58,7 +58,7 @@ At the end, the dependencis should be linked like in this picture (this is _with
 
 [![link config](../img/urlTypes.png)](../img/urlTypes.png?raw=true)
 
-### Optional: modify your app to respond to the URL scheme 
+### Optional: modify your app to respond to the URL scheme
 
 This is only required if you have multiple listeners for `openURL` - for instance if you have both Google and Facebook OAuth (as seen in the code snippet below).
 

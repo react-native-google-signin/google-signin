@@ -27,6 +27,7 @@ If you don't have a keystore, you need to generate one. To generate your keystor
 ### iOS
 
 Follow these instructions from the official docs:
+
 1. [Get an OAuth client ID](https://developers.google.com/identity/sign-in/ios/start-integrating#get_an_oauth_client_id).
 1. [Add a URL scheme to your project](https://developers.google.com/identity/sign-in/ios/start-integrating#add_a_url_scheme_to_your_project)
 
