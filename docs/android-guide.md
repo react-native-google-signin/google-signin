@@ -6,7 +6,7 @@ Please see the **FAQ** at bottom before opening new issues
 
 You need the following packages
 
-[![link config](../img/android-req.png)](#config)
+[![link config](/img/android-req.png)](#config)
 
 ### 2. Google project configuration
 
@@ -108,23 +108,34 @@ The library depends on `com.google.android.gms:play-services-auth`, as seen in [
 
 Make sure you have a simulator with Google Play Services installed.
 
-Also to help with performances, install `HAXM` from the Android SDK Manager.
+Also to help with performance, install `HAXM` from the Android SDK Manager.
 
 ### Running on device
 
-Nothing special here, as long as you run your app on a Google Android device (again with Google Play Services installed !)
+Nothing special here, as long as you run your app on a Google Android device (again with Google Play Services installed!)
 
 ## FAQ / Troubleshooting
 
 #### I'm getting "A non-recoverable sign in failure occurred"
 
-See https://github.com/react-native-community/react-native-google-signin/issues/659#issuecomment-513555464
+See [this comment](https://github.com/react-native-community/react-native-google-signin/issues/659#issuecomment-513555464).
 
-#### Getting `DEVELOPER_ERROR` error message on Android when trying to login.
+#### Getting `DEVELOPER_ERROR` or `code: 10` error message on Android when trying to login.
 
-This is configuration mismatch. Make sure that your SHA certificate fingerprint and package name you entered in Firebase are correct. Then re-download the `google-services.json` file, put it into your project (usually, the path is `android/app/google-services.json`) and rebuild your project.
+This is configuration mismatch. Make sure that your SHA certificate fingerprint and package name you entered in Firebase are correct.
 
-You may need to add your SHA certificate fingerprint to your Firebase config. Find your SHA1 fingerprint by following the instructions on this post: https://stackoverflow.com/questions/15727912/sha-1-fingerprint-of-keystore-certificate/33479550#33479550. Then, go to https://console.firebase.google.com/, select your app, and add the SHA1 value under Project Settings (gear icon in the upper left) -> Your Apps -> SHA certificate fingerprints
+To add the SHA1:
+
+1. Sign in to Firebase and open your project.
+2. Click the Settings icon and select Project settings.
+3. In the Your apps card, select the package name of the app you need a to add SHA1 to.
+4. Click "Add fingerprint".
+
+![Firebase, add Android keystore's SHA1 to your project](/img/android-fingerprint-firebase.png)
+
+Then re-download the `google-services.json` file, put it into your project (usually, the path is `android/app/google-services.json`) and rebuild your project.
+
+You may need to add your SHA certificate fingerprint to your Firebase config. Find your SHA1 fingerprint by following the instructions at [stackoverflow](https://stackoverflow.com/questions/15727912/sha-1-fingerprint-of-keystore-certificate/33479550#33479550). Then, go to https://console.firebase.google.com/, select your app, and add the SHA1 value under Project Settings (gear icon in the upper left) -> Your Apps -> SHA certificate fingerprints
 
 If you're passing `webClientId` in configuration object to `GoogleSignin.configure()` make sure it's correct and that it is of type web (NOT Android!). You can get your `webClientId` from [Google Developer Console](https://console.developers.google.com/apis/credentials). They're listed under "OAuth 2.0 client IDs".
 

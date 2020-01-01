@@ -74,3 +74,9 @@ Because only one `openURL` method can be defined, if you have multiple listeners
   return [[FBSDKApplicationDelegate sharedInstance] application:application openURL:url options:options] || [RNGoogleSignin application:application openURL:url options:options];
 }
 ```
+
+## FAQ / Troubleshooting
+
+#### On iOS the app crashes when tapping Sign In button
+
+You're most likely missing `Url Schemes` configuration. How to do it: ![configure URL schemes](/img/add-url-scheme-ios.png)
