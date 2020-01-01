@@ -6,7 +6,7 @@ Please see the **FAQ** at bottom before opening new issues
 
 You need the following packages
 
-[![link config](../img/android-req.png)](#config)
+[![link config](/img/android-req.png)](#config)
 
 ### 2. Google project configuration
 
@@ -131,7 +131,7 @@ To add the SHA1:
 3. In the Your apps card, select the package name of the app you need a to add SHA1 to.
 4. Click "Add fingerprint".
 
-![Firebase, add Android keystore's SHA1 to your project](../img/android-fingerprint-firebase.png)
+![Firebase, add Android keystore's SHA1 to your project](/img/android-fingerprint-firebase.png)
 
 Then re-download the `google-services.json` file, put it into your project (usually, the path is `android/app/google-services.json`) and rebuild your project.
 

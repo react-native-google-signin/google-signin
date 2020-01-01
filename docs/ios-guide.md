@@ -79,4 +79,4 @@ Because only one `openURL` method can be defined, if you have multiple listeners
 
 #### On iOS the app crashes when tapping Sign In button
 
-You're most likely missing `Url Schemes` configuration. How to do it: ![configure URL schemes](../img/add-url-scheme-ios.png)
+You're most likely missing `Url Schemes` configuration. How to do it: ![configure URL schemes](/img/add-url-scheme-ios.png)
