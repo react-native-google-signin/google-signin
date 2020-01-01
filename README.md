@@ -25,53 +25,7 @@ Then follow the [Android guide](docs/android-guide.md) and [iOS guide](docs/ios-
 
 ## Public API
 
-### 1. GoogleSigninButton
-
-![signin button](img/signin-button.png)
-
-```js
-import { GoogleSignin, GoogleSigninButton } from '@react-native-community/google-signin';
-
-render() {
-  <GoogleSigninButton
-    style={{ width: 192, height: 48 }}
-    size={GoogleSigninButton.Size.Wide}
-    color={GoogleSigninButton.Color.Dark}
-    onPress={this._signIn}
-    disabled={this.state.isSigninInProgress} />
-}
-```
-
-#### Props
-
-##### `size`
-
-Possible values:
-
-- Size.Icon: display only Google icon. Recommended size of 48 x 48.
-- Size.Standard: icon with 'Sign in'. Recommended size of 230 x 48.
-- Size.Wide: icon with 'Sign in with Google'. Recommended size of 312 x 48.
-
-Default: `Size.Standard`. Given the `size` prop you pass, we'll automatically apply the recommended size, but you can override it by passing the style prop as in `style={{ width, height }}`.
-
-##### `color`
-
-Possible values:
-
-- Color.Dark: apply a blue background
-- Color.Light: apply a light gray background
-
-##### `disabled`
-
-Boolean. If true, all interactions for the button are disabled.
-
-##### `onPress`
-
-Handler to be called when the user taps the button
-
-##### [Inherited `View` props...](https://facebook.github.io/react-native/docs/view#props)
-
-### 2. GoogleSignin
+### 1. GoogleSignin
 
 ```js
 import {
@@ -252,6 +206,52 @@ These are useful when determining which kind of error has occured during sign in
 
 [Example how to use `statusCodes`](#signin).
 
+### 2. GoogleSigninButton
+
+![signin button](img/signin-button.png)
+
+```js
+import { GoogleSignin, GoogleSigninButton } from '@react-native-community/google-signin';
+
+render() {
+  <GoogleSigninButton
+    style={{ width: 192, height: 48 }}
+    size={GoogleSigninButton.Size.Wide}
+    color={GoogleSigninButton.Color.Dark}
+    onPress={this._signIn}
+    disabled={this.state.isSigninInProgress} />
+}
+```
+
+#### Props
+
+##### `size`
+
+Possible values:
+
+- Size.Icon: display only Google icon. Recommended size of 48 x 48.
+- Size.Standard: icon with 'Sign in'. Recommended size of 230 x 48.
+- Size.Wide: icon with 'Sign in with Google'. Recommended size of 312 x 48.
+
+Default: `Size.Standard`. Given the `size` prop you pass, we'll automatically apply the recommended size, but you can override it by passing the style prop as in `style={{ width, height }}`.
+
+##### `color`
+
+Possible values:
+
+- Color.Dark: apply a blue background
+- Color.Light: apply a light gray background
+
+##### `disabled`
+
+Boolean. If true, all interactions for the button are disabled.
+
+##### `onPress`
+
+Handler to be called when the user taps the button
+
+##### [Inherited `View` props...](https://facebook.github.io/react-native/docs/view#props)
+
 ### 3. `userInfo`
 
 Example `userInfo` which is returned after successful sign in.
@@ -298,7 +298,7 @@ Please visit https://developers.google.com/identity/protocols/googlescopes or ht
 
 ## Troubleshooting
 
-If you get a `SIGN_IN_REQUIRED` error code on Android from `signIn()`, make sure you've correctly setup the Google project including the SHA-1 of your debug and release keystores, and copied the new `google-services.json` in your project.
+Please see the troubleshooting section in the [Android guide](docs/android-guide.md) and [iOS guide](docs/ios-guide.md).
 
 ## Licence
 
