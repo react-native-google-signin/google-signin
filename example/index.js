@@ -53,7 +53,7 @@ class GoogleSigninSampleApp extends Component<{}, State> {
 
     const body = userInfo ? this.renderUserInfo(userInfo) : this.renderSignInButton();
     return (
-      <View style={[styles.container, { flex: 1 }]}>
+      <View style={[styles.container, styles.pageContainer]}>
         {this.renderIsSignedIn()}
         {this.renderGetCurrentUser()}
         {this.renderGetTokens()}
@@ -101,9 +101,7 @@ class GoogleSigninSampleApp extends Component<{}, State> {
   renderUserInfo(userInfo) {
     return (
       <View style={styles.container}>
-        <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 20 }}>
-          Welcome {userInfo.user.name}
-        </Text>
+        <Text style={styles.userInfo}>Welcome {userInfo.user.name}</Text>
         <Text>Your user info: {JSON.stringify(userInfo.user)}</Text>
         <TokenClearingView userInfo={userInfo} />
 
@@ -188,6 +186,8 @@ const styles = StyleSheet.create({
     color: '#333333',
     marginBottom: 5,
   },
+  userInfo: { fontSize: 18, fontWeight: 'bold', marginBottom: 20 },
+  pageContainer: { flex: 1 },
 });
 
 AppRegistry.registerComponent('GoogleSigninSampleApp', () => GoogleSigninSampleApp);

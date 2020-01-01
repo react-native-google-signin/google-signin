@@ -19,7 +19,8 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prettier:check": "prettier --list-different '**/*.js' '**/*.md'",
-    "prettier:write": "prettier --write '**/*.js' '**/*.md'"
+    "prettier:write": "prettier --write '**/*.js' '**/*.md'",
+    "lint": "eslint ."
   },
   "keywords": [
     "react-component",
@@ -51,6 +52,7 @@
     "@react-native-community/eslint-config": "^0.0.5",
     "babel-jest": "^24.9.0",
     "eslint": "^6.4.0",
+    "eslint-plugin-prettier": "^3.1.2",
     "jest": "^24.9.0",
     "metro-react-native-babel-preset": "^0.56.0",
     "prettier": "1.14.2",

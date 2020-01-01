@@ -35,6 +35,13 @@ jobs:
       - attach_workspace:
           at: ~/project
       - run: 'yarn run prettier:check'
+  lint:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/project
+      - run: 'yarn lint'
 
 workflows:
   version: 2
@@ -42,5 +49,8 @@ workflows:
     jobs:
       - build
       - prettier:
+          requires:
+            - build
+      - lint:
           requires:
             - build
