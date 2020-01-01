@@ -112,7 +112,7 @@ Also to help with performance, install `HAXM` from the Android SDK Manager.
 
 ### Running on device
 
-Nothing special here, as long as you run your app on a Google Android device (again with Google Play Services installed !)
+Nothing special here, as long as you run your app on a Google Android device (again with Google Play Services installed!)
 
 ## FAQ / Troubleshooting
 
@@ -131,7 +131,7 @@ To add the SHA1:
 3. In the Your apps card, select the package name of the app you need a to add SHA1 to.
 4. Click "Add fingerprint".
 
-![Firebase, add Android keystore's SHA1 to your project](imgs/android-fingerprint-firebase.png)
+![Firebase, add Android keystore's SHA1 to your project](img/android-fingerprint-firebase.png)
 
 Then re-download the `google-services.json` file, put it into your project (usually, the path is `android/app/google-services.json`) and rebuild your project.
 
