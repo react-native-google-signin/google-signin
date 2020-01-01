@@ -58,15 +58,15 @@ At the end, the dependencis should be linked like in this picture (this is _with
 
 [![link config](../img/urlTypes.png)](../img/urlTypes.png?raw=true)
 
-### Modify your app to respond to the URL scheme (optional)
+### Optional: modify your app to respond to the URL scheme
 
-This is only required if you have multiple listeners for `openURL` - for instance if you have both Google and Facebook OAuth.
+This is only required if you have multiple listeners for `openURL` - for instance if you have both Google and Facebook OAuth (as seen in the code snippet below).
 
 Because only one `openURL` method can be defined, if you have multiple listeners for `openURL`, you must combine them into a single function in your `AppDelegate.m` like so:
 
 - Open `AppDelegate.m`
 - Add an import: `#import <RNGoogleSignin/RNGoogleSignin.h>` (if this one will not work try `#import "RNGoogleSignin.h"`). If this file cannot be found, you need to modify your header search paths so Xcode can find headers of `react-native-google-signin`. For example, when using the non-cocoapods installation, make sure that `$(SRCROOT)/../node_modules/@react-native-community/google-signin/ios` is included in your target's header search paths.
-- Add a method to respond to the URL scheme:
+- Add a method to respond to the URL scheme (this is just an example of what the code can look like if you're using both `FBSDKApplicationDelegate` and `RNGoogleSignin`):
 
 ```objc
 // AppDelegate.m
