@@ -32,13 +32,13 @@
     "ios",
     "android"
   ],
-  "homepage": "https://github.com/react-native-community/react-native-google-signin",
+  "homepage": "https://github.com/react-native-community/google-signin",
   "repository": {
     "type": "git",
-    "url": "https://github.com/react-native-community/react-native-google-signin"
+    "url": "https://github.com/react-native-community/google-signin"
   },
   "bugs": {
-    "url": "https://github.com/react-native-community/react-native-google-signin/issues"
+    "url": "https://github.com/react-native-community/google-signin/issues"
   },
   "peerDependencies": {
     "prop-types": "*",

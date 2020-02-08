@@ -14,7 +14,7 @@ Please make sure you have searched previous issues before opening a new issue.
 
 - You **must** provide a **minimal and easy-to-run** reproduction of your issue - [how to create a minimal reproduction?](https://stackoverflow.com/help/mcve). We're a small team of maintainers and do not have time to try reproduce bugs ourselves.
 
-- Please try to reproduce the bugs on the provided example app. Either provide a link to the repo that reproduces the bug or provide your version of the [`index.js` file](https://github.com/react-native-community/react-native-google-signin/blob/master/example/index.js) that reproduces the issue and that we can easily use.
+- Please try to reproduce the bugs on the provided example app. Either provide a link to the repo that reproduces the bug or provide your version of the [`index.js` file](https://github.com/react-native-community/google-signin/blob/master/example/index.js) that reproduces the issue and that we can easily use.
 
 - Explain the steps we need to take to reproduce the issue.
 
