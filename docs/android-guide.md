@@ -155,6 +155,14 @@ signingConfigs {
  }
 ```
 
+#### Google Login does NOT work when using Internal App Sharing.
+
+If you get a DEVELOPER_ERROR when using Internal App Sharing, it is because Google resigns your application with it's own key. In the Google Play Console go to Development Tools-> Internal App Sharing->App Certificate and there is another SHA-1 fingerprint to add to firebase.
+
+This is separate from the release app signing certificate explained below.
+
+Also see [here](https://stackoverflow.com/questions/57780620/how-to-get-android-internal-app-sharing-key-sha1-to-enable-google-apis).
+
 #### Google Login does NOT work when downloading my app from the play store.
 
 Check if "Google Play App Signing" is enabled for your app.
