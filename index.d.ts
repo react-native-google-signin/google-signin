@@ -1,5 +1,5 @@
 // Type definitions for @react-native-community/google-signin 3.0
-// Project: https://github.com/react-native-community/react-native-google-signin
+// Project: https://github.com/react-native-community/google-signin
 // Definitions by: Jacob Froman <https://github.com/j-fro>
 //                 Michele Bombardi <https://github.com/bm-software>
 //                 Christian Chown <https://github.com/christianchown>

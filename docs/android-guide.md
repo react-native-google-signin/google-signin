@@ -102,7 +102,7 @@ public class MainApplication extends Application implements ReactApplication {
 
 #### Choose Dependency versions (optional)
 
-The library depends on `com.google.android.gms:play-services-auth`, as seen in [build.gradle](https://github.com/react-native-community/react-native-google-signin/blob/master/android/build.gradle). If needed, you may control their versions by the `ext` closure, as seen in [build.gradle](https://github.com/react-native-community/react-native-google-signin/blob/master/example/android/build.gradle) of the example app.
+The library depends on `com.google.android.gms:play-services-auth`, as seen in [build.gradle](https://github.com/react-native-community/google-signin/blob/master/android/build.gradle). If needed, you may control their versions by the `ext` closure, as seen in [build.gradle](https://github.com/react-native-community/google-signin/blob/master/example/android/build.gradle) of the example app.
 
 ### 4. Running on simulator
 
@@ -118,7 +118,7 @@ Nothing special here, as long as you run your app on a Google Android device (ag
 
 #### I'm getting "A non-recoverable sign in failure occurred"
 
-See [this comment](https://github.com/react-native-community/react-native-google-signin/issues/659#issuecomment-513555464). Or [this SO question](https://stackoverflow.com/questions/53816227/google-signin-sdk-is-failing-by-throwing-error-a-non-recoverable-sign-in-failur).
+See [this comment](https://github.com/react-native-community/google-signin/issues/659#issuecomment-513555464). Or [this SO question](https://stackoverflow.com/questions/53816227/google-signin-sdk-is-failing-by-throwing-error-a-non-recoverable-sign-in-failur).
 
 #### Getting `DEVELOPER_ERROR` or `code: 10` error message on Android when trying to login.
 
