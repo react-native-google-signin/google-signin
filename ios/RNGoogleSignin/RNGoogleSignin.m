@@ -90,18 +90,16 @@ RCT_EXPORT_METHOD(configure:(NSDictionary *)options
 RCT_EXPORT_METHOD(signInSilently:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
-  if ([self.promiseWrapper setPromiseWithInProgressCheck:resolve rejecter:reject fromCallSite:@"signInSilently"]) {
-    [[GIDSignIn sharedInstance] restorePreviousSignIn];
-  }
+  [self.promiseWrapper setPromiseWithInProgressCheck:resolve rejecter:reject fromCallSite:@"signInSilently"];
+  [[GIDSignIn sharedInstance] restorePreviousSignIn];
 }
 
 RCT_EXPORT_METHOD(signIn:(RCTPromiseResolveBlock)resolve
                   signInReject:(RCTPromiseRejectBlock)reject)
 {
   [GIDSignIn sharedInstance].presentingViewController = RCTPresentedViewController();
-  if ([self.promiseWrapper setPromiseWithInProgressCheck:resolve rejecter:reject fromCallSite:@"signIn"]) {
-    [[GIDSignIn sharedInstance] signIn];
-  }
+  [self.promiseWrapper setPromiseWithInProgressCheck:resolve rejecter:reject fromCallSite:@"signIn"];
+  [[GIDSignIn sharedInstance] signIn];
 }
 
 RCT_EXPORT_METHOD(signOut:(RCTPromiseResolveBlock)resolve
@@ -114,9 +112,8 @@ RCT_EXPORT_METHOD(signOut:(RCTPromiseResolveBlock)resolve
 RCT_EXPORT_METHOD(revokeAccess:(RCTPromiseResolveBlock)resolve
                   revokeAccessReject:(RCTPromiseRejectBlock)reject)
 {
-  if ([self.promiseWrapper setPromiseWithInProgressCheck:resolve rejecter:reject fromCallSite:@"revokeAccess"]) {
-    [[GIDSignIn sharedInstance] disconnect];
-  }
+  [self.promiseWrapper setPromiseWithInProgressCheck:resolve rejecter:reject fromCallSite:@"revokeAccess"];
+  [[GIDSignIn sharedInstance] disconnect];
 }
 
 RCT_EXPORT_METHOD(isSignedIn:(RCTPromiseResolveBlock)resolve

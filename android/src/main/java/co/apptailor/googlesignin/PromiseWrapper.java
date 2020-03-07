@@ -12,14 +12,12 @@ public class PromiseWrapper {
     public static final String ASYNC_OP_IN_PROGRESS = "ASYNC_OP_IN_PROGRESS";
 
 
-    public boolean setPromiseWithInProgressCheck(Promise promise, String fromCallsite) {
+    public void setPromiseWithInProgressCheck(Promise promise, String fromCallsite) {
         if (this.promise != null) {
-            rejectWithAsyncOperationStillInProgress(promise, fromCallsite);
-            return false;
+            rejectPreviousPromiseBecauseNewOneIsInProgress(this.promise, fromCallsite);
         }
         this.promise = promise;
         nameOfCallInProgress = fromCallsite;
-        return true;
     }
 
     public void resolve(Object value) {
@@ -64,8 +62,8 @@ public class PromiseWrapper {
         nameOfCallInProgress = null;
     }
 
-    private void rejectWithAsyncOperationStillInProgress(Promise promise, String requestedOperation) {
-        promise.reject(ASYNC_OP_IN_PROGRESS, "Cannot set promise. You've called \"" + requestedOperation + "\" while \"" + getNameOfCallInProgress() + "\" is already in progress and has not completed yet. " +
-                "Make sure you're not repeatedly calling signInSilently, signIn or getTokens from your JS code while the previous call has not completed yet.");
+    private void rejectPreviousPromiseBecauseNewOneIsInProgress(Promise promise, String requestedOperation) {
+        promise.reject(ASYNC_OP_IN_PROGRESS, "Warning: previous promise did not settle and was overwritten. " +
+          "You've called \"" + requestedOperation + "\" while \"" + getNameOfCallInProgress() + "\" was already in progress and has not completed yet.");
     }
 }
