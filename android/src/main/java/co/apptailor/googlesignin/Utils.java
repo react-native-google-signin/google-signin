@@ -57,7 +57,7 @@ public class Utils {
             final Scope[] scopes,
             final String webClientId,
             final boolean offlineAccess,
-            final boolean forceConsentPrompt,
+            final boolean forceCodeForRefreshToken,
             final String accountName,
             final String hostedDomain
     ) {
@@ -66,7 +66,7 @@ public class Utils {
         if (webClientId != null && !webClientId.isEmpty()) {
             googleSignInOptionsBuilder.requestIdToken(webClientId);
             if (offlineAccess) {
-                googleSignInOptionsBuilder.requestServerAuthCode(webClientId, forceConsentPrompt);
+                googleSignInOptionsBuilder.requestServerAuthCode(webClientId, forceCodeForRefreshToken);
             }
         }
         if (accountName != null && !accountName.isEmpty()) {

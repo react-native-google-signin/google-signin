@@ -125,11 +125,11 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         final ReadableArray scopes = config.hasKey("scopes") ? config.getArray("scopes") : Arguments.createArray();
         final String webClientId = config.hasKey("webClientId") ? config.getString("webClientId") : null;
         final boolean offlineAccess = config.hasKey("offlineAccess") && config.getBoolean("offlineAccess");
-        final boolean forceConsentPrompt = config.hasKey("forceConsentPrompt") && config.getBoolean("forceConsentPrompt");
+        final boolean forceCodeForRefreshToken = config.hasKey("forceCodeForRefreshToken") && config.getBoolean("forceCodeForRefreshToken");
         final String accountName = config.hasKey("accountName") ? config.getString("accountName") : null;
         final String hostedDomain = config.hasKey("hostedDomain") ? config.getString("hostedDomain") : null;
 
-        GoogleSignInOptions options = getSignInOptions(createScopesArray(scopes), webClientId, offlineAccess, forceConsentPrompt, accountName, hostedDomain);
+        GoogleSignInOptions options = getSignInOptions(createScopesArray(scopes), webClientId, offlineAccess, forceCodeForRefreshToken, accountName, hostedDomain);
         _apiClient = GoogleSignIn.getClient(getReactApplicationContext(), options);
         promise.resolve(null);
     }
@@ -283,8 +283,8 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void clearCachedToken(String tokenToClear, Promise promise) {
-        if (promiseWrapper.setPromiseWithInProgressCheck(promise, "clearCachedToken")) {
+    public void clearCachedAccessToken(String tokenToClear, Promise promise) {
+        if (promiseWrapper.setPromiseWithInProgressCheck(promise, "clearCachedAccessToken")) {
             new TokenClearingTask(this).execute(tokenToClear);
         }
     }
