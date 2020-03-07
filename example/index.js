@@ -145,7 +145,7 @@ class GoogleSigninSampleApp extends Component<{}, State> {
           Alert.alert('cancelled');
           break;
         case statusCodes.IN_PROGRESS:
-          // sign in already in progress, android-only
+          // operation (eg. sign in) already in progress
           Alert.alert('in progress');
           break;
         case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
