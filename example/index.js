@@ -148,10 +148,6 @@ class GoogleSigninSampleApp extends Component<{}, State> {
           // sign in already in progress, android-only
           Alert.alert('in progress');
           break;
-        case statusCodes.PREVIOUS_ASYNC_CALL_DID_NOT_COMPLETE:
-          // you called something twice: the first call will get rejected with this message, the secodn call will go through
-          Alert.alert('previous did not complete');
-          break;
         case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
           // android only
           Alert.alert('play services not available or outdated');

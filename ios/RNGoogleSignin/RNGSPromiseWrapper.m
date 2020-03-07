@@ -22,7 +22,7 @@
 
 -(void)setPromiseWithInProgressCheck: (RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject fromCallSite:(NSString *) callsite {
   if (self.promiseReject) {
-    [self rejectWithAsyncOperationStillInProgress:self.promiseReject requestedOperation:callsite];
+    [self rejectPreviousPromiseBecauseNewOneIsInProgress:self.promiseReject requestedOperation:callsite];
   }
   self.promiseResolve = resolve;
   self.promiseReject = reject;
@@ -58,7 +58,7 @@
   self.nameOfCallInProgress = nil;
 }
 
-- (void)rejectWithAsyncOperationStillInProgress: (RCTPromiseRejectBlock)reject requestedOperation:(NSString *) callSiteName {
+- (void)rejectPreviousPromiseBecauseNewOneIsInProgress: (RCTPromiseRejectBlock)reject requestedOperation:(NSString *) callSiteName {
   NSString *msg = [NSString stringWithFormat:@"Warning: previous promise did not settle and was overwritten. You've called \"%@\" while \"%@\" was already in progress and has not completed yet.", callSiteName, self.nameOfCallInProgress];
   reject(ASYNC_OP_IN_PROGRESS, msg, nil);
 }
