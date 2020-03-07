@@ -76,9 +76,9 @@ export interface ConfigureParams {
   loginHint?: string;
 
   /**
-   * ANDROID ONLY. Specifies if the consent prompt should be shown at each login.
+   * ANDROID ONLY. If true, the granted server auth code can be exchanged for an access token and a refresh token.
    */
-  forceConsentPrompt?: boolean;
+  forceCodeForRefreshToken?: boolean;
 
   /**
    * ANDROID ONLY. An account name that should be prioritized.
@@ -145,7 +145,7 @@ export namespace GoogleSignin {
 
   function getCurrentUser(): Promise<User | null>;
 
-  function clearCachedToken(token: string): Promise<null>;
+  function clearCachedAccessToken(token: string): Promise<null>;
 
   function getTokens(): Promise<{ idToken: string; accessToken: string }>;
 }

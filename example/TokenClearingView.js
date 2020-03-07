@@ -3,12 +3,13 @@ import React, { useState, useCallback } from 'react';
 import { Button, TextInput, StyleSheet } from 'react-native';
 import type { User } from '@react-native-community/google-signin';
 import { GoogleSignin } from '@react-native-community/google-signin';
+
 export function TokenClearingView({ userInfo }: { userInfo: User }) {
-  const [tokenToClear, setToken] = useState(userInfo.idToken);
+  const [tokenToClear, setToken] = useState('');
   const clearToken = useCallback(
     async () => {
       try {
-        await GoogleSignin.clearCachedToken(tokenToClear);
+        await GoogleSignin.clearCachedAccessToken(tokenToClear);
         console.warn('success!');
       } catch (err) {
         console.error(err);

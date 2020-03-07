@@ -62,11 +62,11 @@ class GoogleSignin {
     return RNGoogleSignin.getCurrentUser();
   }
 
-  async clearCachedToken(tokenString) {
+  async clearCachedAccessToken(tokenString) {
     if (!tokenString || typeof tokenString !== 'string') {
-      return Promise.reject('GoogleSignIn: clearCachedToken() expects a string token.');
+      return Promise.reject('GoogleSignIn: clearCachedAccessToken() expects a string token.');
     }
-    return IS_IOS ? true : !(await RNGoogleSignin.clearCachedToken(tokenString));
+    return IS_IOS ? null : await RNGoogleSignin.clearCachedAccessToken(tokenString);
   }
 
   async getTokens() {

@@ -56,7 +56,7 @@ GoogleSignin.configure({
   offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
   hostedDomain: '', // specifies a hosted domain restriction
   loginHint: '', // [iOS] The user's ID, or email address, to be prefilled in the authentication UI if possible. [See docs here](https://developers.google.com/identity/sign-in/ios/api/interface_g_i_d_sign_in.html#a0a68c7504c31ab0b728432565f6e33fd)
-  forceConsentPrompt: true, // [Android] if you want to show the authorization prompt at each login.
+  forceCodeForRefreshToken: true, // [Android] related to `serverAuthCode`, read the [docs](https://developers.google.com/android/reference/com/google/android/gms/auth/api/signin/GoogleSignInOptions.Builder#public-googlesigninoptions.builder-requestserverauthcode-string-serverclientid,-boolean-forcecodeforrefreshtoken).
   accountName: '', // [Android] specifies an account name on the device that should be used
   iosClientId: '<FROM DEVELOPER CONSOLE>', // [iOS] optional, if you want to specify the client ID of type iOS (otherwise, it is taken from GoogleService-Info.plist)
 });
@@ -133,7 +133,7 @@ getCurrentUser = async () => {
 };
 ```
 
-#### `clearCachedToken(tokenString)`
+#### `clearCachedAccessToken(accessTokenString)`
 
 This method only has an effect on Android. You may run into a 401 Unauthorized error when a token is invalid. Call this method to remove the token from local cache and then call `getTokens()` to get fresh tokens. Calling this method on iOS does nothing and always resolves. This is because on iOS, `getTokens()` always returns valid tokens, refreshing them first if they have expired or are about to expire (see [docs](https://developers.google.com/identity/sign-in/ios/reference/Classes/GIDAuthentication#-gettokenswithhandler:)).
 

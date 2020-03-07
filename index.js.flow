@@ -9,7 +9,7 @@ export type ConfigureParams = $ReadOnly<{|
   scopes?: string[],
   loginHint?: string,
   hostedDomain?: string,
-  forceConsentPrompt?: boolean,
+  forceCodeForRefreshToken?: boolean,
   accountName?: string,
 |}>;
 
@@ -79,6 +79,6 @@ declare export class GoogleSignin {
   static revokeAccess: () => Promise<null>;
   static isSignedIn: () => Promise<boolean>;
   static getCurrentUser(): Promise<User | null>;
-  static clearCachedToken(token: string): Promise<null>;
+  static clearCachedAccessToken(token: string): Promise<null>;
   static getTokens(): Promise<{ idToken: string, accessToken: string }>;
 }
