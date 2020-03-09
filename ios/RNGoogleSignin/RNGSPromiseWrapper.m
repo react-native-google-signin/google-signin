@@ -20,15 +20,13 @@
 
 @implementation RNGSPromiseWrapper
 
--(BOOL)setPromiseWithInProgressCheck: (RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject fromCallSite:(NSString *) callsite {
-  if (self.promiseResolve) {
-    [self rejectWithAsyncOperationStillInProgress:reject requestedOperation:callsite];
-    return NO;
+-(void)setPromiseWithInProgressCheck: (RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject fromCallSite:(NSString *) callsite {
+  if (self.promiseReject) {
+    [self rejectPreviousPromiseBecauseNewOneIsInProgress:self.promiseReject requestedOperation:callsite];
   }
   self.promiseResolve = resolve;
   self.promiseReject = reject;
   self.nameOfCallInProgress = callsite;
-  return YES;
 }
 
 -(void)resolve: (id) result {
@@ -44,7 +42,7 @@
 -(void)reject:(NSString *)message withError:(NSError *)error {
   RCTPromiseRejectBlock rejecter = self.promiseReject;
   if (rejecter == nil) {
-    NSLog(@"cannot resolve promise because it's null");
+    NSLog(@"cannot reject promise because it's null");
     return;
   }
   NSString* errorCode = [NSString stringWithFormat:@"%ld", error.code];
@@ -60,8 +58,8 @@
   self.nameOfCallInProgress = nil;
 }
 
-- (void)rejectWithAsyncOperationStillInProgress: (RCTPromiseRejectBlock)reject requestedOperation:(NSString *) callSiteName {
-  NSString *msg = [NSString stringWithFormat:@"Cannot set promise. You've called \"%@\" while \"%@\" is already in progress and has not completed yet. Make sure you're not repeatedly calling signInSilently, signIn or revokeAccess from your JS code while the previous call has not completed yet.", callSiteName, self.nameOfCallInProgress];
+- (void)rejectPreviousPromiseBecauseNewOneIsInProgress: (RCTPromiseRejectBlock)reject requestedOperation:(NSString *) callSiteName {
+  NSString *msg = [NSString stringWithFormat:@"Warning: previous promise did not settle and was overwritten. You've called \"%@\" while \"%@\" was already in progress and has not completed yet.", callSiteName, self.nameOfCallInProgress];
   reject(ASYNC_OP_IN_PROGRESS, msg, nil);
 }
 

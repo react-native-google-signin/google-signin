@@ -139,19 +139,24 @@ class GoogleSigninSampleApp extends Component<{}, State> {
       const userInfo = await GoogleSignin.signIn();
       this.setState({ userInfo, error: null });
     } catch (error) {
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        // sign in was cancelled
-        Alert.alert('cancelled');
-      } else if (error.code === statusCodes.IN_PROGRESS) {
-        // operation in progress already
-        Alert.alert('in progress');
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        Alert.alert('play services not available or outdated');
-      } else {
-        Alert.alert('Something went wrong', error.toString());
-        this.setState({
-          error,
-        });
+      switch (error.code) {
+        case statusCodes.SIGN_IN_CANCELLED:
+          // sign in was cancelled
+          Alert.alert('cancelled');
+          break;
+        case statusCodes.IN_PROGRESS:
+          // operation (eg. sign in) already in progress
+          Alert.alert('in progress');
+          break;
+        case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
+          // android only
+          Alert.alert('play services not available or outdated');
+          break;
+        default:
+          Alert.alert('Something went wrong', error.toString());
+          this.setState({
+            error,
+          });
       }
     }
   };

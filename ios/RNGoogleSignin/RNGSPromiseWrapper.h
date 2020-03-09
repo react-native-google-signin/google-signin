@@ -14,7 +14,7 @@ static NSString *const ASYNC_OP_IN_PROGRESS = @"ASYNC_OP_IN_PROGRESS";
 
 @interface RNGSPromiseWrapper : NSObject
 
--(BOOL)setPromiseWithInProgressCheck:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject fromCallSite: (NSString*) callsite;
+-(void)setPromiseWithInProgressCheck:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject fromCallSite: (NSString*) callsite;
 -(void)resolve: (id) result;
 -(void)reject:(NSString *)message withError:(NSError *)error;
 @property (readonly, assign) NSString *nameOfCallInProgress;
