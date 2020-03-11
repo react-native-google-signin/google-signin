@@ -14,7 +14,7 @@ You can link the module automatically or manually
 
 - in RN < 0.60 run `react-native link react-native-google-signin`
 
-##### manual linking
+##### [manual linking](#manual-linking)
 
 1. In Xcode, in the project navigator, right click Libraries ➜ Add Files to [your project's name]
 2. Go to `node_modules` ➜ `@react-native-community/google-signin` ➜ `ios` and add `RNGoogleSignin.xcodeproj`
@@ -27,6 +27,8 @@ Again, we offer two ways to do this: with and without Cocoapods. Note that we re
 ##### With Cocoapods
 
 1. install the Google Signin SDK with [CocoaPods](https://cocoapods.org/): add `pod 'GoogleSignIn', '~> 5.0.2'` in your Podfile and run `pod install`
+
+- in RN < 0.60 run `yarn add react-native-google-signin` and you can link `react-native-google-signin` with [Cocoapods](https://cocoapods.org/): add `pod 'RNGoogleSignin', :path => '../node_modules/react-native-google-signin'` you must have to skip [manual linking](#manual-linking)
 
 First time using cocoapods ? [check this out](./how-cocoapods.md)
 
