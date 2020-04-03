@@ -2,19 +2,13 @@
 
 Please see the **FAQ** at bottom before opening new issues
 
-### 1. Android SDK Requirements
-
-You need the following packages
-
-[![link config](/img/android-req.png)](#config)
-
-### 2. Google project configuration
+### 1. Google project configuration
 
 - Follow [this](./get-config-file.md) guide to get the configuration file.
 
 - Place the generated configuration file (`google-services.json`) into `<YOUR_PROJECT_ROOT>/android/app`
 
-### 3. Installation
+### 2. Installation
 
 Please note that this package requires android gradle plugin of version >= 3, which in turn requires at least gradle 4.1. Android studio should be able to do the upgrade for you.
 
@@ -104,7 +98,7 @@ public class MainApplication extends Application implements ReactApplication {
 
 The library depends on `com.google.android.gms:play-services-auth`, as seen in [build.gradle](https://github.com/react-native-community/google-signin/blob/master/android/build.gradle). If needed, you may control their versions by the `ext` closure, as seen in [build.gradle](https://github.com/react-native-community/google-signin/blob/master/example/android/build.gradle) of the example app.
 
-### 4. Running on simulator
+### 3. Running on simulator
 
 Make sure you have a simulator with Google Play Services installed.
 
