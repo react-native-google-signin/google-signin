@@ -2,19 +2,13 @@
 
 Please see the **FAQ** at bottom before opening new issues
 
-### 1. Android SDK Requirements
-
-You need the following packages
-
-[![link config](/img/android-req.png)](#config)
-
-### 2. Google project configuration
+### 1. Google project configuration
 
 - Follow [this](./get-config-file.md) guide to get the configuration file.
 
 - Place the generated configuration file (`google-services.json`) into `<YOUR_PROJECT_ROOT>/android/app`
 
-### 3. Installation
+### 2. Installation
 
 Please note that this package requires android gradle plugin of version >= 3, which in turn requires at least gradle 4.1. Android studio should be able to do the upgrade for you.
 
