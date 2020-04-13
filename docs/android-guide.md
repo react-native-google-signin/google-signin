@@ -164,6 +164,9 @@ If it is enabled, you will need to add the "App signing certificate" `SHA-1` to 
 
 You can find it at: App -> Release Management (in left sidebar) -> App signing. In there, copy `SHA-1 certificate fingerprint` into firebase console for the Android app.
 
+If you are not using firebase, and your app is enabled for "Google Play App Signing":
+Go to "https://console.developers.google.com/" -> click "Credential" in the right panel -> Find "Client ID" for type "Android" under "OAuth 2.0 Client IDs" section -> Edit -> replace "SHA-1 certificate fingerprint" with the one from App -> Release Management (in left sidebar) -> App signing.
+
 #### My project includes other react-native plugins which have different google play services versions. What to do?
 
 See ["Choose Dependency versions"](#choose-dependency-versions-optional) above.
