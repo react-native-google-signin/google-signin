@@ -1,11 +1,15 @@
 ---
 name: New issue template
-about: Template for new issues, any issues not following these templates will be automatically
-  closed
+about: Template for new issues, any issues not following these templates may be automatically closed
 ---
 
 <!--
 Please make sure you have searched previous issues before opening a new issue.
+
+### If you're having a configuration error
+
+Configuring google sign in can sometimes be tricky. If you're hitting a wall, you can get in touch with a maintainer ([@vonovak](https://github.com/vonovak)) via his [personal site](https://react-native-training.eu/). Please note that this is a paid service.
+
 -->
 
 <!-- Describe your issue in detail. -->
