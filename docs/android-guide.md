@@ -110,6 +110,10 @@ Nothing special here, as long as you run your app on a Google Android device (ag
 
 ## FAQ / Troubleshooting
 
+#### I'm getting an error and I'm not able to fix it
+
+Configuring google sign in can sometimes be tricky. If you're hitting a wall, you can get in touch with a maintainer ([@vonovak](https://github.com/vonovak)) via his [personal site](https://react-native-training.eu/). Please note that this is a paid service.
+
 #### I'm getting "A non-recoverable sign in failure occurred"
 
 See [this comment](https://github.com/react-native-community/google-signin/issues/659#issuecomment-513555464). Or [this SO question](https://stackoverflow.com/questions/53816227/google-signin-sdk-is-failing-by-throwing-error-a-non-recoverable-sign-in-failur).

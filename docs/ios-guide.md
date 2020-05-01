@@ -77,6 +77,10 @@ Because only one `openURL` method can be defined, if you have multiple listeners
 
 ## FAQ / Troubleshooting
 
+#### I'm getting an error and I'm not able to fix it
+
+Configuring google sign in can sometimes be tricky. If you're hitting a wall, you can get in touch with a maintainer ([@vonovak](https://github.com/vonovak)) via his [personal site](https://react-native-training.eu/). Please note that this is a paid service.
+
 #### On iOS the app crashes when tapping Sign In button
 
 You're most likely missing `Url Schemes` configuration. How to do it: ![configure URL schemes](/img/add-url-scheme-ios.png)
