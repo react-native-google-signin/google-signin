@@ -30,11 +30,13 @@ Again, we offer two ways to do this: with and without Cocoapods. Note that we re
 
 First time using cocoapods ? [check this out](./how-cocoapods.md)
 
-At the end, the dependencis should be linked like in this picture (this is _with_ pods).
+At the end, the dependencis should be linked like in this picture (this is _with_ pods, for RN >= 0.60).
 
-[![link config](../img/buildPhasesWithPods.png)](../img/buildPhasesWithPods.png?raw=true)
+[![link config](../img/pods-rn60.png)](../img/buildPhasesWithPods.png?raw=true)
 
 #### Without Cocoapods
+
+> Please note that since RN 0.60 pods are standard part of the development process and we do not recommend avoiding pods. The following paragraph and screenshot may not be up-to-date.
 
 1. download the GoogleSignIn SDK from [here](https://developers.google.com/identity/sign-in/ios/sdk/) and unzip it. Drag and drop the unzipped `.framework` files into the `Frameworks` group in Xcode and copy `GoogleSignIn.bundle` to your project. During copying, check `copy items if needed`.
 2. make sure `GoogleSignIn.bundle` is added in your Xcode project's Copy Bundle Resources build phase.
