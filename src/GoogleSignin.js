@@ -10,7 +10,7 @@ class GoogleSignin {
   constructor() {
     if (__DEV__ && !RNGoogleSignin) {
       console.error(
-        'RN GoogleSignin native module is not correctly linked. Please read the readme, setup and troubleshooting instructions carefully or try manual linking.'
+        `RN GoogleSignin native module is not correctly linked. Please read the readme, setup and troubleshooting instructions carefully or try manual linking. If you're using Expo, please use expo-google-sign-in. This is because Expo does not support custom native modules.`
       );
     }
   }
