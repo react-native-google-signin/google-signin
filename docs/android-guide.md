@@ -57,7 +57,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:23.0.1"
     implementation "com.facebook.react:react-native:+"
-    implementation(project(":react-native-google-signin"))
+    implementation(project(":react-native-community_google-signin")) // <--- add this dependency
 }
 
 apply plugin: 'com.google.gms.google-services' // <--- this should be the last line
