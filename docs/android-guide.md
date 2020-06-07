@@ -6,7 +6,7 @@ Please see the **FAQ** at bottom before opening new issues
 
 - Follow [this](./get-config-file.md) guide to get the configuration file.
 
-- Place the generated configuration file (`google-services.json`) into `<YOUR_PROJECT_ROOT>/android/app`
+- Place the generated configuration file (`google-services.json`) into project according to [this guide](https://developers.google.com/android/guides/google-services-plugin#adding_the_json_file).
 
 ### 2. Installation
 
@@ -57,7 +57,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:23.0.1"
     implementation "com.facebook.react:react-native:+"
-    implementation(project(":react-native-community_google-signin")) // <--- add this dependency
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0' // <-- add this; newer versions should work too
 }
 
 apply plugin: 'com.google.gms.google-services' // <--- this should be the last line
@@ -94,6 +94,17 @@ public class MainApplication extends Application implements ReactApplication {
 }
 ```
 
+in `android/app/build.gradle` you should have
+
+```gradle
+...
+dependencies {
+    ...
+    implementation(project(":react-native-google-signin"))
+}
+...
+```
+
 #### Choose Dependency versions (optional)
 
 The library depends on `com.google.android.gms:play-services-auth`, as seen in [build.gradle](https://github.com/react-native-community/google-signin/blob/master/android/build.gradle). If needed, you may control their versions by the `ext` closure, as seen in [build.gradle](https://github.com/react-native-community/google-signin/blob/master/example/android/build.gradle) of the example app.
@@ -102,11 +113,11 @@ The library depends on `com.google.android.gms:play-services-auth`, as seen in [
 
 Make sure you have a simulator with Google Play Services installed.
 
-Also to help with performance, install `HAXM` from the Android SDK Manager.
+To ensure best performance, you should use x86 emulator and have [HW acceleration](https://developer.android.com/studio/run/emulator-acceleration#accel-vm) working.
 
 ### Running on device
 
-Nothing special here, as long as you run your app on a Google Android device (again with Google Play Services installed!)
+Nothing special here, as long as you run your app on an Android device with Google Play Services installed.
 
 ## FAQ / Troubleshooting
 
