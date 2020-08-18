@@ -4,9 +4,18 @@ Please see the **FAQ** at bottom before opening new issues
 
 ### 1. Google project configuration
 
+#### 1.a - if you're using Firebase
+
 - Follow [this](./get-config-file.md) guide to get the configuration file.
 
 - Place the generated configuration file (`google-services.json`) into project according to [this guide](https://developers.google.com/android/guides/google-services-plugin#adding_the_json_file).
+
+#### 1.b - if you're NOT using Firebase
+
+- Follow the instructions to [Configure a Google API Project](https://developers.google.com/identity/sign-in/android/start#configure-a-google-api-project) from the official docs.
+
+Please see more details here https://support.google.com/cloud/answer/6158849#installedapplications&android if needed.
+It's important that OAuth 2.0 android id has fingerprint set correspondingly to the fingerprint of cerificate which is used to sign the apk. Also, package name should be the same as apk package name.
 
 ### 2. Installation
 
