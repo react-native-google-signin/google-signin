@@ -121,6 +121,8 @@ Nothing special here, as long as you run your app on an Android device with Goog
 
 ## FAQ / Troubleshooting
 
+[See troubleshooting for non-firebase users below](#troubleshooting-for-non-firebase-users)
+
 #### I'm getting an error and I'm not able to fix it
 
 Configuring google sign in can sometimes be tricky. If you're hitting a wall, you can get in touch with a maintainer ([@vonovak](https://github.com/vonovak)) via his [personal site](https://react-native-training.eu/). Please note that this is a paid service.
@@ -221,3 +223,15 @@ Also make sure the application id matches the one you enter on the cloud console
 #### I did everything and I still have problems to compile my project.
 
 Read this [medium article](https://medium.com/@suchydan/how-to-solve-google-play-services-version-collision-in-gradle-dependencies-ef086ae5c75f). Basically, if you have other play services libraries installed, you have to exclude some dependencies.
+
+### Troubleshooting for non-firebase users
+
+If you are not using firebase you can ignore all docs related to google services. You don't need a `google-services.json` or any `build.gradle` changes from this docs. Simply follow the instructions from the [the official docs](https://developers.google.com/identity/sign-in/android/start-integrating). However, be aware of following common issues which can lead to a `DEVELOPER ERROR` or an `A non-recoverable sign in failure occurred` error.
+
+#### Try different SHA1 keys
+
+Depending on your config you may need to add multiple SHA1 keys. Go to your android folder and run `./gradlew signingReport`. You should see different SHA1 keys for debug and release. Add them to the [google developer console](https://console.developers.google.com/apis/credentials) under the oauth section. Select Android as client type. You may also need your SHA1 key from the [play console](https://play.google.com). Find it in the app signature area and add it as well.
+
+#### Package name !== application id
+
+When adding a new oauth client, google asks you to add your package name. In some cases your package name is not equal to your application id. Check if your package name in the `AndroidManifest.xml` is the same as your application/bundle id. Find your application id in the play console or `android/app/build.gradle`. The format looks like `com.yourapp.id`.
