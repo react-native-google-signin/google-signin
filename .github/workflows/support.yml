@@ -1,0 +1,22 @@
+name: 'Support requests'
+
+on:
+  issues:
+    types: [labeled, unlabeled, reopened]
+
+jobs:
+  support:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: dessant/support-requests@v2
+        with:
+          github-token: ${{ github.token }}
+          support-label: 'repro-required'
+          issue-comment: >
+            :wave: @{issue-author}, sorry you're having an issue. As the issue template explains, we require that you provide a runnable example that reproduces your issue (please read the [issue template](https://raw.githubusercontent.com/react-native-google-signin/google-signin/master/.github/ISSUE_TEMPLATE/Custom.md)).
+
+            The reason is that maintainers do not have time to try reproduce bugs themselves. Please try to minimize the superfluous code and focus only on reproducing the bug.
+
+            Please create a new issue with this and we'll be happy to review it! If you're hitting a hard wall, you may consider [paid assistance](https://github.com/react-native-google-signin/google-signin/pull/861).
+          close-issue: true
+          lock-issue: false
