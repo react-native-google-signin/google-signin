@@ -39,7 +39,7 @@ import {
 
 It is mandatory to call this method before attempting to call `signIn()` and `signInSilently()`. This method is sync meaning you can call `signIn` / `signInSilently` right after it. In typical scenarios, `configure` needs to be called only once, after your app starts. In the native layer, this is a synchronous call.
 
-Example usage with for default options: you get user email and basic profile info.
+Example usage with default options: you get user email and basic profile info.
 
 ```js
 import { GoogleSignin } from '@react-native-community/google-signin';
@@ -47,7 +47,7 @@ import { GoogleSignin } from '@react-native-community/google-signin';
 GoogleSignin.configure();
 ```
 
-Example to access Google Drive both from the mobile application and from the backend server
+Example to access Google Drive both from the mobile application and from your backend server:
 
 ```js
 GoogleSignin.configure({
