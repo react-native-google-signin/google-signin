@@ -64,7 +64,6 @@ allprojects {
 ...
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "com.android.support:appcompat-v7:23.0.1"
     implementation "com.facebook.react:react-native:+"
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0' // <-- add this; newer versions should work too
 }
