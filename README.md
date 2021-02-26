@@ -63,6 +63,7 @@ GoogleSignin.configure({
   forceCodeForRefreshToken: true, // [Android] related to `serverAuthCode`, read the docs link below *.
   accountName: '', // [Android] specifies an account name on the device that should be used
   iosClientId: '<FROM DEVELOPER CONSOLE>', // [iOS] optional, if you want to specify the client ID of type iOS (otherwise, it is taken from GoogleService-Info.plist)
+  iosServicePathName: '', // [iOS] optional, if you renamed your GoogleService-Info file, new name here, e.g. GoogleService-Info-Staging
 });
 ```
 
