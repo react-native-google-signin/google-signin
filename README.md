@@ -145,7 +145,7 @@ This method only has an effect on Android. You may run into a 401 Unauthorized e
 
 #### `getTokens()`
 
-Resolves with an object containing `{ idToken: string, accessToken: string, }` or rejects with an error. Note that using `accessToken` is [discouraged](https://developers.google.com/identity/sign-in/android/migration-guide).
+Resolves with an object containing `{ idToken: string, accessToken: string, }` or rejects with an error. Note that using `accessToken` for identity assertion on your backend server is [discouraged](https://developers.google.com/identity/sign-in/android/migration-guide).
 
 #### `signOut()`
 
