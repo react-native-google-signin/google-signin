@@ -4,6 +4,7 @@ import { typeof View } from 'react-native';
 
 export type ConfigureParams = $ReadOnly<{|
   iosClientId?: string,
+  iosServicePathName?: string,
   offlineAccess?: boolean,
   webClientId?: string,
   scopes?: string[],
