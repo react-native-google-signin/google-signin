@@ -8,6 +8,10 @@
     "email": "apptailor.co@gmail.com",
     "url": "https://github.com/devfd"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
   "contributors": [
     "Johan Ruokangas (https://latehours.net)",
     "Vojtech Novak (@vonovak)",
