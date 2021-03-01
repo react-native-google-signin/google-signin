@@ -152,7 +152,7 @@ RCT_EXPORT_METHOD(getTokens:(RCTPromiseResolveBlock)resolve
 
   GIDAuthenticationHandler handler = ^void(GIDAuthentication *authentication, NSError *error) {
     if (error) {
-      reject(@"getTokens", error.localizedDescription, nil);
+      reject(@"getTokens", error.localizedDescription, error);
     } else {
       resolve(@{
                 @"idToken" : authentication.idToken,

@@ -78,7 +78,7 @@ apply plugin: 'com.google.gms.google-services' // <--- this should be the last l
 ```gradle
 ...
 include ':react-native-google-signin', ':app'
-project(':react-native-google-signin').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-community/google-signin/android')
+project(':react-native-google-signin').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-google-signin/google-signin/android')
 ```
 
 - in `MainApplication.java` you should have
@@ -199,7 +199,7 @@ See ["Choose Dependency versions"](#choose-dependency-versions-optional) above.
 #### My project includes an older version of react-native-google-signin. How to upgrade?
 
 first install the latest version
-`yarn add @react-native-community/google-signin@latest`
+`yarn add @react-native-google-signin/google-signin@latest`
 
 You need to follow this guide again to make sure everything fit together (gradle version, google-services gradle version, etc...). Check out the example project for reference.
 

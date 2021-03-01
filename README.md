@@ -1,7 +1,7 @@
 ![React Native Google Sign In](img/header.png)
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/@react-native-community/google-signin"><img src="https://badge.fury.io/js/%40react-native-community%2Fgoogle-signin.svg" alt="NPM Version"></a>
+  <a href="https://www.npmjs.com/package/@react-native-google-signin/google-signin"><img src="https://badge.fury.io/js/%40react-native-community%2Fgoogle-signin.svg" alt="NPM Version"></a>
 </p>
 
 ### 🚧🚧 Maintenance notice 🚧🚧
@@ -17,9 +17,9 @@ See this [issue](https://github.com/react-native-google-signin/google-signin/iss
 
 ## Project setup and initialization
 
-For RN >= 0.60 please use version installed from `@react-native-community/google-signin`
+For RN >= 0.60 please use version installed from `@react-native-google-signin/google-signin`
 
-`yarn add @react-native-community/google-signin`
+`yarn add @react-native-google-signin/google-signin`
 
 For RN <= 0.59 use version 2 installed from `react-native-google-signin`
 
@@ -36,7 +36,7 @@ import {
   GoogleSignin,
   GoogleSigninButton,
   statusCodes,
-} from '@react-native-community/google-signin';
+} from '@react-native-google-signin/google-signin';
 ```
 
 #### `configure(options)`
@@ -46,7 +46,7 @@ It is mandatory to call this method before attempting to call `signIn()` and `si
 Example usage with default options: you get user email and basic profile info.
 
 ```js
-import { GoogleSignin } from '@react-native-community/google-signin';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 GoogleSignin.configure();
 ```
@@ -75,7 +75,7 @@ Prompts a modal to let the user sign in into your application. Resolved promise 
 
 ```js
 // import statusCodes along with GoogleSignin
-import { GoogleSignin, statusCodes } from '@react-native-community/google-signin';
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 
 // Somewhere in your code
 signIn = async () => {
@@ -218,7 +218,7 @@ These are useful when determining which kind of error has occured during sign in
 ![signin button](img/signin-button.png)
 
 ```js
-import { GoogleSignin, GoogleSigninButton } from '@react-native-community/google-signin';
+import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
 
 render() {
   <GoogleSigninButton

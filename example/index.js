@@ -5,8 +5,8 @@ import {
   GoogleSignin,
   GoogleSigninButton,
   statusCodes,
-} from '@react-native-community/google-signin';
-import type { User } from '@react-native-community/google-signin';
+} from '@react-native-google-signin/google-signin';
+import type { User } from '@react-native-google-signin/google-signin';
 import config from './config'; // see docs/CONTRIBUTING.md for details
 import { TokenClearingView } from './TokenClearingView';
 
