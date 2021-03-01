@@ -362,21 +362,17 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-GoogleSigninSampleApp/Pods-GoogleSigninSampleApp-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-GoogleSigninSampleApp/Pods-GoogleSigninSampleApp-resources.sh",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GoogleSigninSampleApp/Pods-GoogleSigninSampleApp-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GoogleSigninSampleApp/Pods-GoogleSigninSampleApp-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		74FC8CF3EE40D872CADF3305 /* [CP] Check Pods Manifest.lock */ = {

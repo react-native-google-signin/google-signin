@@ -17,7 +17,7 @@ You can link the module automatically or manually
 ##### manual linking
 
 1. In Xcode, in the project navigator, right click Libraries ➜ Add Files to [your project's name]
-2. Go to `node_modules` ➜ `@react-native-community/google-signin` ➜ `ios` and add `RNGoogleSignin.xcodeproj`
+2. Go to `node_modules` ➜ `@react-native-google-signin/google-signin` ➜ `ios` and add `RNGoogleSignin.xcodeproj`
 3. In Xcode, in the project navigator, select your project. Add `libRNGoogleSignin.a` to your project's Build Phases ➜ Link Binary With Libraries
 
 #### Install Google Sign In SDK
@@ -67,7 +67,7 @@ This is only required if you have multiple listeners for `openURL` - for instanc
 Because only one `openURL` method can be defined, if you have multiple listeners for `openURL`, you must combine them into a single function in your `AppDelegate.m` like so:
 
 - Open `AppDelegate.m`
-- Add an import: `#import <RNGoogleSignin/RNGoogleSignin.h>` (if this one will not work try `#import "RNGoogleSignin.h"`). If this file cannot be found, you need to modify your header search paths so Xcode can find headers of `react-native-google-signin`. For example, when using the non-cocoapods installation, make sure that `$(SRCROOT)/../node_modules/@react-native-community/google-signin/ios` is included in your target's header search paths.
+- Add an import: `#import <RNGoogleSignin/RNGoogleSignin.h>` (if this one will not work try `#import "RNGoogleSignin.h"`). If this file cannot be found, you need to modify your header search paths so Xcode can find headers of `react-native-google-signin`. For example, when using the non-cocoapods installation, make sure that `$(SRCROOT)/../node_modules/@react-native-google-signin/google-signin/ios` is included in your target's header search paths.
 - Add a method to respond to the URL scheme (this is just an example of what the code can look like if you're using both `FBSDKApplicationDelegate` and `RNGoogleSignin`):
 
 ```objc

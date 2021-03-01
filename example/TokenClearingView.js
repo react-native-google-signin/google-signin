@@ -1,8 +1,8 @@
 // @flow
 import React, { useState, useCallback } from 'react';
 import { Button, TextInput, StyleSheet } from 'react-native';
-import type { User } from '@react-native-community/google-signin';
-import { GoogleSignin } from '@react-native-community/google-signin';
+import type { User } from '@react-native-google-signin/google-signin';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 export function TokenClearingView({ userInfo }: { userInfo: User }) {
   const [tokenToClear, setToken] = useState('');

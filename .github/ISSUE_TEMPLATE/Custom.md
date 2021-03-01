@@ -39,7 +39,7 @@ Configuring google sign in can sometimes be tricky. If you're hitting a wall, yo
 Please provide
 
 - react-native version
-- @react-native-community/google-signin version
+- @react-native-google-signin/google-signin version
 - your Podfile, output of running `pod install` and cocoapods version (if applicable)
 - version of Android, gradle, android plugin for gradle, `play-services-auth` and version of the Google Play Services app on your phone (if applicable)
 - version of iOS (if applicable)
