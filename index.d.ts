@@ -62,7 +62,7 @@ export interface ConfigureParams {
    * If you want to specify a different bundle path name for the GoogleService-Info, e.g. GoogleService-Info-Staging
    */
 
-  iosServicePathName?: string;
+  googleServicePlistPath?: string;
 
   /**
    * Must be true if you wish to access user APIs on behalf of the user from

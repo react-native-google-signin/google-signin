@@ -57,7 +57,7 @@ RCT_EXPORT_METHOD(configure:(NSDictionary *)options
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
-  NSString *pathName = options[@"iosServicePathName"] ? options[@"iosServicePathName"] : @"GoogleService-Info";
+  NSString *pathName = options[@"googleServicePlistPath"] ? options[@"googleServicePlistPath"] : @"GoogleService-Info";
 
   NSString *path = [[NSBundle mainBundle] pathForResource:pathName ofType:@"plist"];
 
