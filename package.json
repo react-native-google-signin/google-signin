@@ -51,17 +51,34 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.6.2",
-    "@babel/runtime": "^7.6.2",
-    "@react-native-community/eslint-config": "^0.0.5",
-    "babel-jest": "^24.9.0",
-    "eslint": "^6.4.0",
+    "@babel/core": "^7.12.9",
+    "@babel/runtime": "^7.12.5",
+    "@react-native-community/eslint-config": "^3.0.0",
+    "babel-jest": "^27.0.6",
+    "eslint": "7.30.0",
+    "jest": "^27.0.6",
+    "metro-react-native-babel-preset": "^0.66.1",
+    "react-test-renderer": "17.0.2",
     "eslint-plugin-prettier": "^3.1.2",
-    "jest": "^24.9.0",
-    "metro-react-native-babel-preset": "^0.56.0",
-    "prettier": "1.14.2",
-    "react": "16.9.0",
-    "react-native": "0.61.1",
-    "react-test-renderer": "16.9.0"
-  }
+    "prettier": "2.3.2",
+    "react": "17.0.2",
+    "react-native": "0.64.2"
+  },
+  "files": [
+    "android",
+    "ios",
+    "RNGoogleSignin.podspec",
+    "!.DS_Store",
+    "!.gradle",
+    "!.idea",
+    "!build",
+    "!gradle",
+    "!*.iml",
+    "!gradlew",
+    "!gradlew.bat",
+    "!local.properties",
+    "!project.xcworkspace",
+    "!xcshareddata",
+    "!xcuserdata"
+  ]
 }
