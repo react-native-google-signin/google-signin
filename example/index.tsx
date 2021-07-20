@@ -4,6 +4,7 @@ import { AppRegistry, StyleSheet, Text, View, Alert, Button } from 'react-native
 import {
   GoogleSignin,
   statusCodes,
+  GoogleSigninButton,
 } from '@react-native-google-signin/google-signin';
 import type { User } from '@react-native-google-signin/google-signin';
 import config from './config'; // see docs/CONTRIBUTING.md for details
@@ -63,11 +64,11 @@ class GoogleSigninSampleApp extends Component<{}, State> {
   renderSignInButton() {
     return (
       <View style={styles.container}>
-        {/* <GoogleSigninButton
+        <GoogleSigninButton
           size={GoogleSigninButton.Size.Standard}
           color={GoogleSigninButton.Color.Auto}
           onPress={this._signIn}
-        /> */}
+        />
         {this.renderError()}
       </View>
     );

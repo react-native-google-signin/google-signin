@@ -7,7 +7,7 @@
     "module": "CommonJS",
     "noEmit": true,
     "paths": {
-      "@react-native-google-signin/google-signin": ["../src"]
+      "@react-native-google-signin/google-signin": ["../"]
     },
     "skipLibCheck": true,
     "strict": true,
