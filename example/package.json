@@ -11,18 +11,21 @@
   },
   "dependencies": {
     "react": "17.0.2",
-    "react-native": "0.64.2",
-    "@react-native-google-signin/google-signin": "link:../"
+    "react-native": "0.64.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9",
-    "@babel/runtime": "^7.12.5",
+    "@babel/core": "^7.14.6",
+    "@babel/runtime": "^7.14.6",
     "@react-native-community/eslint-config": "^3.0.0",
+    "@types/jest": "^26.0.24",
+    "@types/react-native": "^0.64.12",
+    "@types/react-test-renderer": "^17.0.1",
     "babel-jest": "^27.0.6",
     "eslint": "7.30.0",
     "jest": "^27.0.6",
     "metro-react-native-babel-preset": "^0.66.1",
-    "react-test-renderer": "17.0.2"
+    "react-test-renderer": "^17.0.2",
+    "typescript": "^4.3.5"
   },
   "jest": {
     "preset": "react-native"

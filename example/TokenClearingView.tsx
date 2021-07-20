@@ -1,22 +1,18 @@
 // @flow
 import React, { useState, useCallback } from 'react';
 import { Button, TextInput, StyleSheet } from 'react-native';
-import type { User } from '@react-native-google-signin/google-signin';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
-export function TokenClearingView({ userInfo }: { userInfo: User }) {
+export function TokenClearingView() {
   const [tokenToClear, setToken] = useState('');
-  const clearToken = useCallback(
-    async () => {
-      try {
-        await GoogleSignin.clearCachedAccessToken(tokenToClear);
-        console.warn('success!');
-      } catch (err) {
-        console.error(err);
-      }
-    },
-    [tokenToClear]
-  );
+  const clearToken = useCallback(async () => {
+    try {
+      await GoogleSignin.clearCachedAccessToken(tokenToClear);
+      console.warn('success!');
+    } catch (err) {
+      console.error(err);
+    }
+  }, [tokenToClear]);
   return (
     <>
       <TextInput onChangeText={setToken} value={tokenToClear} style={styles.input} />

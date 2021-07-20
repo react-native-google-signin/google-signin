@@ -59,4 +59,9 @@ static void InitializeFlipper(UIApplication *application) {
 #endif
 }
 
+// optional
+//- (BOOL)application:(UIApplication *)application openURL:(nonnull NSURL *)url options:(nonnull NSDictionary<NSString *,id> *)options {
+//  return [RNGoogleSignin application:application openURL:url options:options];
+//}
+
 @end

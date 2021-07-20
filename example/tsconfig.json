@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "esModuleInterop": true,
+    "jsx": "react-native",
+    "lib": ["ESNext"],
+    "module": "CommonJS",
+    "noEmit": true,
+    "paths": {
+      "@react-native-google-signin/google-signin": ["../src"]
+    },
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "ESNext"
+  }
+}

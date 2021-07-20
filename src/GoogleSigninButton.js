@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 
 const { RNGoogleSignin } = NativeModules;
-const RNGoogleSigninButton = requireNativeComponent('RNGoogleSigninButton', null);
+const RNGoogleSigninButton = requireNativeComponent('RNGoogleSigninButton');
 
 export class GoogleSigninButton extends PureComponent {
   static propTypes = {
