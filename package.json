@@ -18,12 +18,9 @@
     "Andrei Calazans (@Andrei_Calazans)"
   ],
   "scripts": {
-    "android": "react-native run-android --root example/",
-    "ios": "react-native run-ios",
-    "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prettier:check": "prettier --list-different '**/*.js' '**/*.md'",
-    "prettier:write": "prettier --write '**/*.js' '**/*.md'",
+    "prettier:check": "prettier --list-different {,*/**/}*.{js,md,ts,tsx}",
+    "prettier:write": "prettier --write {,*/**/}*.{js,md,ts,tsx}",
     "lint": "eslint ."
   },
   "keywords": [

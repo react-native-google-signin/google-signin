@@ -16,7 +16,7 @@ export default {
 ```
 
 ### Running
-
+- Install example dependencies with `yarn install`
 - Start Metro bundler with `yarn start`
 - Run `yarn ios` or `yarn android` to run the example app
 
