@@ -165,7 +165,7 @@ signOut = async () => {
 
 #### `revokeAccess()`
 
-Removes your application from the user authorized applications. Read more about it [here](https://developers.google.com/identity/sign-in/ios/disconnect#objective-c) and [here](<https://developers.google.com/android/reference/com/google/android/gms/auth/api/signin/GoogleSignInClient#revokeAccess()>)
+Removes your application from the user authorized applications. Read more about it [here](https://developers.google.com/identity/sign-in/ios/disconnect#objective-c) and [here](<https://developers.google.com/android/reference/com/google/android/gms/auth/api/signin/GoogleSignInClient#revokeAccess()>).
 
 ```js
 revokeAccess = async () => {
