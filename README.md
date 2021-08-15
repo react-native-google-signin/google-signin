@@ -150,12 +150,11 @@ Resolves with an object containing `{ idToken: string, accessToken: string, }` o
 
 #### `signOut()`
 
-Removes user session from the device.
+Signs out the current user.
 
 ```js
 signOut = async () => {
   try {
-    await GoogleSignin.revokeAccess();
     await GoogleSignin.signOut();
     this.setState({ user: null }); // Remember to remove the user from your app's state as well
   } catch (error) {
@@ -166,13 +165,14 @@ signOut = async () => {
 
 #### `revokeAccess()`
 
-Removes your application from the user authorized applications.
+Removes your application from the user authorized applications. Read more about it [here](https://developers.google.com/identity/sign-in/ios/disconnect#objective-c) and [here](<https://developers.google.com/android/reference/com/google/android/gms/auth/api/signin/GoogleSignInClient#revokeAccess()>).
 
 ```js
 revokeAccess = async () => {
   try {
     await GoogleSignin.revokeAccess();
-    console.log('deleted');
+    // Google Account disconnected from your app.
+    // Perform clean-up actions, such as deleting data associated with the disconnected account.
   } catch (error) {
     console.error(error);
   }
