@@ -179,7 +179,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void signIn(Promise promise) {
+    public void signIn(final ReadableMap config, Promise promise) {
         if (_apiClient == null) {
             rejectWithNullClientError(promise);
             return;

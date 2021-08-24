@@ -1,4 +1,4 @@
-package com.example.reactnativegooglesigningooglesignin;
+package com.example.googlesigninsampleapp;
 
 import com.facebook.react.ReactActivity;
 

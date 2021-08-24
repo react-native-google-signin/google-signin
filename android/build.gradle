@@ -18,11 +18,11 @@ def safeExtGet(prop, fallback) {
 }
 
 android {
-    compileSdkVersion safeExtGet('GoogleSignin_compileSdkVersion', 29)
-    buildToolsVersion safeExtGet('GoogleSignin_buildToolsVersion', '29.0.2')
+    compileSdkVersion safeExtGet('GoogleSignin_compileSdkVersion', 30)
+    buildToolsVersion safeExtGet('GoogleSignin_buildToolsVersion', '30.0.2')
     defaultConfig {
-        minSdkVersion safeExtGet('GoogleSignin_minSdkVersion', 16)
-        targetSdkVersion safeExtGet('GoogleSignin_targetSdkVersion', 29)
+        minSdkVersion safeExtGet('GoogleSignin_minSdkVersion', 21)
+        targetSdkVersion safeExtGet('GoogleSignin_targetSdkVersion', 30)
         versionCode 1
         versionName "1.0"
 
