@@ -145,7 +145,6 @@
 				6BA93A27305CB9F0860D5E19 /* Pods-GoogleSigninExample-GoogleSigninExampleTests.debug.xcconfig */,
 				553A8C44981E74D8C3D47B09 /* Pods-GoogleSigninExample-GoogleSigninExampleTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -648,7 +647,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.reactnativegooglesigningooglesignin;
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.GoogleSigninSampleApp;
 				PRODUCT_NAME = GoogleSigninExample;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -670,7 +669,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.reactnativegooglesigningooglesignin;
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.GoogleSigninSampleApp;
 				PRODUCT_NAME = GoogleSigninExample;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
