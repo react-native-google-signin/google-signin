@@ -55,4 +55,5 @@ repositories {
 dependencies {
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation "com.google.android.gms:play-services-auth:${safeExtGet('googlePlayServicesAuthVersion', '19.2.0')}"
 }

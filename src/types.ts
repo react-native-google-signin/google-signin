@@ -22,16 +22,27 @@ export interface HasPlayServicesParams {
   showPlayServicesUpdateDialog?: boolean;
 }
 
-export interface SignInOptions {
+export interface SignInParams {
+  /**
+   * iOS ONLY. The user's ID, or email address, to be prefilled in the authentication UI if possible.
+   * https://developers.google.com/identity/sign-in/ios/api/interface_g_i_d_sign_in.html#a0a68c7504c31ab0b728432565f6e33fd
+   */
   loginHint?: string;
 }
 
-export interface ConfigureParams {
+export interface AddScopesParams {
   /**
    * The Google API scopes to request access to. Default is email and profile.
    */
   scopes?: string[];
+}
 
+export interface ConfigureParams {
+  /**
+   * ANDROID ONLY. Use AddScopes() on iOS
+   * The Google API scopes to request access to. Default is email and profile.
+   */
+  scopes?: string[];
   /**
    * Web client ID from Developer Console. Required for offline access
    */
@@ -57,12 +68,6 @@ export interface ConfigureParams {
    * Specifies a hosted domain restriction
    */
   hostedDomain?: string;
-
-  /**
-   * iOS ONLY.[iOS] The user's ID, or email address, to be prefilled in the authentication UI if possible.
-   * https://developers.google.com/identity/sign-in/ios/api/interface_g_i_d_sign_in.html#a0a68c7504c31ab0b728432565f6e33fd
-   */
-  loginHint?: string;
 
   /**
    * ANDROID ONLY. If true, the granted server auth code can be exchanged for an access token and a refresh token.

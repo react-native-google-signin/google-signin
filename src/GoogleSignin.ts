@@ -1,5 +1,11 @@
 import { NativeModules, Platform } from 'react-native';
-import type { SignInOptions, ConfigureParams, HasPlayServicesParams, User } from './types';
+import type {
+  AddScopesParams,
+  SignInParams,
+  ConfigureParams,
+  HasPlayServicesParams,
+  User,
+} from './types';
 
 const { RNGoogleSignin } = NativeModules;
 
@@ -16,7 +22,7 @@ class GoogleSignin {
     }
   }
 
-  async signIn(options: SignInOptions = {}): Promise<User> {
+  async signIn(options: SignInParams = {}): Promise<User> {
     await this.configPromise;
     return await RNGoogleSignin.signIn(options);
   }
@@ -42,6 +48,10 @@ class GoogleSignin {
     }
 
     this.configPromise = RNGoogleSignin.configure(options);
+  }
+
+  async addScopes(options: AddScopesParams): Promise<User> {
+    return IS_IOS ? RNGoogleSignin.addScopes(options) : null;
   }
 
   async signInSilently(): Promise<User> {

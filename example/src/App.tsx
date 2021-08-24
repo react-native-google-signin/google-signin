@@ -17,6 +17,10 @@ type State = {
   userInfo?: User;
 };
 
+const prettyJson = (value: any) => {
+  return JSON.stringify(value, null, 2);
+};
+
 export default class GoogleSigninSampleApp extends Component<{}, State> {
   state = {
     userInfo: undefined,
@@ -56,6 +60,7 @@ export default class GoogleSigninSampleApp extends Component<{}, State> {
     return (
       <View style={[styles.container, styles.pageContainer]}>
         {this.renderIsSignedIn()}
+        {this.renderAddScopes()}
         {this.renderGetCurrentUser()}
         {this.renderGetTokens()}
         {body}
@@ -80,9 +85,23 @@ export default class GoogleSigninSampleApp extends Component<{}, State> {
       <Button
         onPress={async () => {
           const userInfo = await GoogleSignin.getCurrentUser();
-          Alert.alert('current user', userInfo ? JSON.stringify(userInfo.user) : 'null');
+          Alert.alert('current user', userInfo ? prettyJson(userInfo.user) : 'null');
         }}
         title="get current user"
+      />
+    );
+  }
+
+  renderAddScopes() {
+    return (
+      <Button
+        onPress={async () => {
+          const user = await GoogleSignin.addScopes({
+            scopes: ['https://www.googleapis.com/auth/user.gender.read'],
+          });
+          Alert.alert('user', prettyJson(user));
+        }}
+        title="request more scopes [ios]"
       />
     );
   }
@@ -92,7 +111,7 @@ export default class GoogleSigninSampleApp extends Component<{}, State> {
       <Button
         onPress={async () => {
           const isSignedIn = await GoogleSignin.getTokens();
-          Alert.alert('tokens', JSON.stringify(isSignedIn));
+          Alert.alert('tokens', prettyJson(isSignedIn));
         }}
         title="get tokens"
       />
@@ -103,7 +122,7 @@ export default class GoogleSigninSampleApp extends Component<{}, State> {
     return (
       <View style={styles.container}>
         <Text style={styles.userInfo}>Welcome {userInfo.user.name}</Text>
-        <Text>Your user info: {JSON.stringify(userInfo.user)}</Text>
+        <Text>Your user info: {prettyJson(userInfo.user)}</Text>
         <TokenClearingView />
 
         <Button onPress={this._signOut} title="Log out" />
