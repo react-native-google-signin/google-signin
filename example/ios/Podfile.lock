@@ -1,4 +1,9 @@
 PODS:
+  - AppAuth (1.4.0):
+    - AppAuth/Core (= 1.4.0)
+    - AppAuth/ExternalUserAgent (= 1.4.0)
+  - AppAuth/Core (1.4.0)
+  - AppAuth/ExternalUserAgent (1.4.0)
   - boost-for-react-native (1.63.0)
   - CocoaAsyncSocket (7.6.5)
   - DoubleConversion (1.1.6)
@@ -72,6 +77,14 @@ PODS:
     - FlipperKit/FlipperKitNetworkPlugin
   - fmt (6.2.1)
   - glog (0.3.5)
+  - GoogleSignIn (6.0.1):
+    - AppAuth (~> 1.4)
+    - GTMAppAuth (~> 1.0)
+    - GTMSessionFetcher/Core (~> 1.1)
+  - GTMAppAuth (1.2.2):
+    - AppAuth/Core (~> 1.4)
+    - GTMSessionFetcher/Core (~> 1.5)
+  - GTMSessionFetcher/Core (1.6.1)
   - libevent (2.1.12)
   - OpenSSL-Universal (1.1.180)
   - RCT-Folly (2021.04.26.00):
@@ -334,6 +347,7 @@ PODS:
     - React-jsi (= 0.65.0-rc.4)
     - React-perflogger (= 0.65.0-rc.4)
   - RNGoogleSignin (0.1.0):
+    - GoogleSignIn (~> 6.0.1)
     - React-Core
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
@@ -395,6 +409,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - AppAuth
     - boost-for-react-native
     - CocoaAsyncSocket
     - Flipper
@@ -407,6 +422,9 @@ SPEC REPOS:
     - Flipper-RSocket
     - FlipperKit
     - fmt
+    - GoogleSignIn
+    - GTMAppAuth
+    - GTMSessionFetcher
     - libevent
     - OpenSSL-Universal
     - YogaKit
@@ -472,6 +490,7 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
+  AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: cde416483dac037923206447da6e1454df403714
@@ -488,6 +507,9 @@ SPEC CHECKSUMS:
   FlipperKit: aec2d931adeee48a07bab1ea8bcc8a6bb87dfce4
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
+  GoogleSignIn: 1b0c4ec33a6fe282f4fa35d8ac64263230ddaf36
+  GTMAppAuth: ad5c2b70b9a8689e1a04033c9369c4915bfcbe89
+  GTMSessionFetcher: 36689134877faeb055b27dfa4ccc9ceaa42e029e
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   OpenSSL-Universal: 1aa4f6a6ee7256b83db99ec1ccdaa80d10f9af9b
   RCT-Folly: 0dd9e1eb86348ecab5ba76f910b56f4b5fef3c46
@@ -513,7 +535,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: 059f6ca86faefd17af2b35ff81eb5d337ac759ea
   React-runtimeexecutor: 6a4f07b51fae7760bf30a2adc22104835870a1c4
   ReactCommon: 180ff5ccf259754ce705063e8e93df72189ccc9f
-  RNGoogleSignin: 0028dd5a558fa287cecfb369743eadd1ab27ee0c
+  RNGoogleSignin: fe93a26dd577458c4a32e02e9e48638d09095e63
   Yoga: 3cd4ce8fb888448497bed1c8f26369ad2c016a9c
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 

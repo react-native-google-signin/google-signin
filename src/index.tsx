@@ -1,9 +1,2 @@
-import { NativeModules } from 'react-native';
-
-type GoogleSigninType = {
-  multiply(a: number, b: number): Promise<number>;
-};
-
-const { GoogleSignin } = NativeModules;
-
-export default GoogleSignin as GoogleSigninType;
+export { GoogleSigninSingleton as GoogleSignin, statusCodes } from './GoogleSignin';
+export { GoogleSigninButton } from './GoogleSigninButton';
