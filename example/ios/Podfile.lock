@@ -77,7 +77,7 @@ PODS:
     - FlipperKit/FlipperKitNetworkPlugin
   - fmt (6.2.1)
   - glog (0.3.5)
-  - GoogleSignIn (6.0.1):
+  - GoogleSignIn (6.0.2):
     - AppAuth (~> 1.4)
     - GTMAppAuth (~> 1.0)
     - GTMSessionFetcher/Core (~> 1.1)
@@ -347,7 +347,7 @@ PODS:
     - React-jsi (= 0.65.0-rc.4)
     - React-perflogger (= 0.65.0-rc.4)
   - RNGoogleSignin (0.1.0):
-    - GoogleSignIn (~> 6.0.1)
+    - GoogleSignIn (~> 6.0.2)
     - React-Core
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
@@ -507,7 +507,7 @@ SPEC CHECKSUMS:
   FlipperKit: aec2d931adeee48a07bab1ea8bcc8a6bb87dfce4
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
-  GoogleSignIn: 1b0c4ec33a6fe282f4fa35d8ac64263230ddaf36
+  GoogleSignIn: fd381840dbe7c1137aa6dc30849a5c3e070c034a
   GTMAppAuth: ad5c2b70b9a8689e1a04033c9369c4915bfcbe89
   GTMSessionFetcher: 36689134877faeb055b27dfa4ccc9ceaa42e029e
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
@@ -535,7 +535,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: 059f6ca86faefd17af2b35ff81eb5d337ac759ea
   React-runtimeexecutor: 6a4f07b51fae7760bf30a2adc22104835870a1c4
   ReactCommon: 180ff5ccf259754ce705063e8e93df72189ccc9f
-  RNGoogleSignin: fe93a26dd577458c4a32e02e9e48638d09095e63
+  RNGoogleSignin: f5a3b7296dbabd7f2a5c04dae4d2a8cf4cf455d3
   Yoga: 3cd4ce8fb888448497bed1c8f26369ad2c016a9c
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
