@@ -1,10 +1,8 @@
-// @flow
 import React, { useState, useCallback } from 'react';
 import { Button, TextInput, StyleSheet } from 'react-native';
-import type { User } from '@react-native-google-signin/google-signin';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
-export function TokenClearingView({ userInfo }: { userInfo: User }) {
+export function TokenClearingView() {
   const [tokenToClear, setToken] = useState('');
   const clearToken = useCallback(async () => {
     try {
@@ -16,7 +14,13 @@ export function TokenClearingView({ userInfo }: { userInfo: User }) {
   }, [tokenToClear]);
   return (
     <>
-      <TextInput onChangeText={setToken} value={tokenToClear} style={styles.input} />
+      <TextInput
+        onChangeText={setToken}
+        value={tokenToClear}
+        style={styles.input}
+        placeholderTextColor={'grey'}
+        placeholder={'put token to clear here'}
+      />
       <Button title="clear token" onPress={clearToken} />
     </>
   );

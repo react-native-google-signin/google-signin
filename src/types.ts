@@ -5,30 +5,12 @@
 //                 Christian Chown <https://github.com/christianchown>
 //                 Eric Chen <https://github.com/echentw>
 
-import * as React from 'react';
-import { StyleProp, ViewProps, ViewStyle } from 'react-native';
-
-export interface GoogleSigninButtonProps extends ViewProps {
-  style?: StyleProp<ViewStyle>;
-  size?: GoogleSigninButton.Size;
-  color?: GoogleSigninButton.Color;
-  disabled?: boolean;
-  onPress?(): void;
-}
-
-
-
-// export namespace GoogleSigninButton {
-//   enum Size {
-//     Standard,
-//     Wide,
-//     Icon,
-//   }
-//
-//   enum Color {
-//     Light,
-//     Dark,
-//   }
+export interface RNGoogleSignType {
+  BUTTON_SIZE_STANDARD: 0;
+  BUTTON_SIZE_WIDE: 1;
+  BUTTON_SIZE_ICON: 2;
+  BUTTON_COLOR_DARK: 0;
+  BUTTON_COLOR_LIGHT: 1;
 }
 
 export interface HasPlayServicesParams {
@@ -38,6 +20,10 @@ export interface HasPlayServicesParams {
    * Default is true
    */
   showPlayServicesUpdateDialog?: boolean;
+}
+
+export interface SignInOptions {
+  loginHint?: string;
 }
 
 export interface ConfigureParams {
@@ -106,49 +92,3 @@ export interface User {
    */
   serverAuthCode: string | null;
 }
-
-// export namespace GoogleSignin {
-//   /**
-//    * Check if the device has Google Play Services installed. Always resolves
-//    * true on iOS
-//    */
-//   function hasPlayServices(params?: HasPlayServicesParams): Promise<boolean>;
-//
-//   /**
-//    * Configures the library for login. MUST be called before attempting login
-//    */
-//   function configure(params?: ConfigureParams): void;
-//
-//   /**
-//    * Returns a Promise that resolves with the current signed in user or rejects
-//    * if not signed in.
-//    */
-//   function signInSilently(): Promise<User>;
-//
-//   /**
-//    * Prompts the user to sign in with their Google account. Resolves with the
-//    * user if successful.
-//    */
-//   function signIn(): Promise<User>;
-//
-//   /**
-//    * Signs the user out.
-//    */
-//   function signOut(): Promise<null>;
-//
-//   /**
-//    * Removes your application from the user's authorized applications
-//    */
-//   function revokeAccess(): Promise<null>;
-//
-//   /**
-//    * Returns whether the user is currently signed in
-//    */
-//   function isSignedIn(): Promise<boolean>;
-//
-//   function getCurrentUser(): Promise<User | null>;
-//
-//   function clearCachedAccessToken(token: string): Promise<null>;
-//
-//   function getTokens(): Promise<{ idToken: string; accessToken: string }>;
-// }

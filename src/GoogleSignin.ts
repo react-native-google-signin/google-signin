@@ -1,5 +1,5 @@
 import { NativeModules, Platform } from 'react-native';
-import type { ConfigureParams, HasPlayServicesParams } from './types';
+import type { SignInOptions, ConfigureParams, HasPlayServicesParams, User } from './types';
 
 const { RNGoogleSignin } = NativeModules;
 
@@ -16,12 +16,14 @@ class GoogleSignin {
     }
   }
 
-  async signIn() {
+  async signIn(options: SignInOptions = {}): Promise<User> {
     await this.configPromise;
-    return await RNGoogleSignin.signIn();
+    return await RNGoogleSignin.signIn(options);
   }
 
-  async hasPlayServices(options: HasPlayServicesParams = { showPlayServicesUpdateDialog: true }) {
+  async hasPlayServices(
+    options: HasPlayServicesParams = { showPlayServicesUpdateDialog: true },
+  ): Promise<boolean> {
     if (IS_IOS) {
       return true;
     } else {
@@ -34,7 +36,7 @@ class GoogleSignin {
     }
   }
 
-  configure(options: ConfigureParams = {}) {
+  configure(options: ConfigureParams = {}): void {
     if (options.offlineAccess && !options.webClientId) {
       throw new Error('RNGoogleSignin: offline use requires server web ClientID');
     }
@@ -42,35 +44,35 @@ class GoogleSignin {
     this.configPromise = RNGoogleSignin.configure(options);
   }
 
-  async signInSilently() {
+  async signInSilently(): Promise<User> {
     await this.configPromise;
     return RNGoogleSignin.signInSilently();
   }
 
-  async signOut() {
+  async signOut(): Promise<null> {
     return RNGoogleSignin.signOut();
   }
 
-  async revokeAccess() {
+  async revokeAccess(): Promise<null> {
     return RNGoogleSignin.revokeAccess();
   }
 
-  async isSignedIn() {
+  async isSignedIn(): Promise<boolean> {
     return RNGoogleSignin.isSignedIn();
   }
 
-  async getCurrentUser() {
+  async getCurrentUser(): Promise<User | null> {
     return RNGoogleSignin.getCurrentUser();
   }
 
-  async clearCachedAccessToken(tokenString: string) {
+  async clearCachedAccessToken(tokenString: string): Promise<null> {
     if (!tokenString || typeof tokenString !== 'string') {
       return Promise.reject('GoogleSignIn: clearCachedAccessToken() expects a string token.');
     }
     return IS_IOS ? null : await RNGoogleSignin.clearCachedAccessToken(tokenString);
   }
 
-  async getTokens() {
+  async getTokens(): Promise<{ idToken: string; accessToken: string }> {
     if (IS_IOS) {
       const tokens = await RNGoogleSignin.getTokens();
       return tokens;

@@ -1,25 +1,40 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 
 import {
   NativeModules,
-  requireNativeComponent,
-  ViewPropTypes,
   Platform,
   DeviceEventEmitter,
   StyleSheet,
+  EmitterSubscription,
+  ViewProps,
+  StyleProp,
+  ViewStyle,
 } from 'react-native';
+import { RNGoogleSigninButton } from './RNGoogleSiginButton';
+import type { RNGoogleSignType } from './types';
 
-const { RNGoogleSignin } = NativeModules;
-// const RNGoogleSigninButton = requireNativeComponent('RNGoogleSigninButton');
+const RNGoogleSignin: RNGoogleSignType = NativeModules.RNGoogleSignin;
 
-export class GoogleSigninButton extends PureComponent {
-  static propTypes = {
-    ...ViewPropTypes,
-    size: PropTypes.number,
-    color: PropTypes.number,
-    disabled: PropTypes.bool,
-    onPress: PropTypes.func.isRequired,
+export interface GoogleSigninButtonProps extends ViewProps {
+  style?: StyleProp<ViewStyle>;
+  size?: 0 | 1 | 2;
+  color?: 0 | 1;
+  disabled?: boolean;
+  onPress?(): void;
+}
+
+export class GoogleSigninButton extends PureComponent<GoogleSigninButtonProps> {
+  _clickListener?: EmitterSubscription;
+
+  static Size = {
+    Icon: RNGoogleSignin.BUTTON_SIZE_ICON,
+    Standard: RNGoogleSignin.BUTTON_SIZE_STANDARD,
+    Wide: RNGoogleSignin.BUTTON_SIZE_WIDE,
+  };
+
+  static Color = {
+    Dark: RNGoogleSignin.BUTTON_COLOR_DARK,
+    Light: RNGoogleSignin.BUTTON_COLOR_LIGHT,
   };
 
   static defaultProps = {
@@ -52,8 +67,8 @@ export class GoogleSigninButton extends PureComponent {
   render() {
     const { style, ...props } = this.props;
 
-    return null;
-    // return <RNGoogleSigninButton style={[this.getRecommendedSize(), style]} {...props} />;
+    // @ts-ignore style prop incompatible
+    return <RNGoogleSigninButton {...props} style={[this.getRecommendedSize(), style]} />;
   }
 }
 
@@ -65,15 +80,3 @@ const styles = StyleSheet.create({
   standardSize: { width: 212, height: 48 },
   wideSize: { width: 312, height: 48 },
 });
-
-GoogleSigninButton.Size = {
-  Icon: RNGoogleSignin.BUTTON_SIZE_ICON,
-  Standard: RNGoogleSignin.BUTTON_SIZE_STANDARD,
-  Wide: RNGoogleSignin.BUTTON_SIZE_WIDE,
-};
-
-GoogleSigninButton.Color = {
-  Auto: RNGoogleSignin.BUTTON_COLOR_AUTO,
-  Light: RNGoogleSignin.BUTTON_COLOR_LIGHT,
-  Dark: RNGoogleSignin.BUTTON_COLOR_DARK,
-};
