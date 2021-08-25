@@ -13,7 +13,7 @@
     "android",
     "ios",
     "cpp",
-    "react-native-google-signin-google-signin.podspec",
+    "RNGoogleSignin.podspec",
     "!lib/typescript/example",
     "!android/build",
     "!ios/build",
