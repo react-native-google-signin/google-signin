@@ -50,8 +50,12 @@ class GoogleSignin {
     this.configPromise = RNGoogleSignin.configure(options);
   }
 
-  async addScopes(options: AddScopesParams): Promise<User> {
-    return IS_IOS ? RNGoogleSignin.addScopes(options) : null;
+  async addScopes(options: AddScopesParams): Promise<User | null> {
+    const isSignedIn = await this.isSignedIn();
+    if (!isSignedIn) {
+      return null;
+    }
+    return IS_IOS ? RNGoogleSignin.addScopes(options) : RNGoogleSignin.getCurrentUser();
   }
 
   async signInSilently(): Promise<User> {

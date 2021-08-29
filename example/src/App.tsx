@@ -47,7 +47,9 @@ export default class GoogleSigninSampleApp extends Component<{}, State> {
       this.setState({ userInfo, error: undefined });
     } catch (error) {
       const errorMessage =
-        error.code === statusCodes.SIGN_IN_REQUIRED ? 'Please sign in :)' : error.message;
+        error.code === statusCodes.SIGN_IN_REQUIRED
+          ? 'User not signed it yet, please sign in :)'
+          : error.message;
       this.setState({
         error: new Error(errorMessage),
       });

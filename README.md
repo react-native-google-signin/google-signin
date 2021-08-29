@@ -1,7 +1,7 @@
 ![React Native Google Sign In](img/header.png)
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/@react-native-google-signin/google-signin"><img src="https://badge.fury.io/js/%40react-native-community%2Fgoogle-signin.svg" alt="NPM Version"></a>
+  <a href="https://www.npmjs.com/package/@react-native-google-signin/google-signin"><img src="https://badge.fury.io/js/@react-native-google-signin%2Fgoogle-signin.svg" alt="NPM Version"></a>
 </p>
 
 ### 🚧🚧 Maintenance notice 🚧🚧
@@ -102,7 +102,7 @@ signIn = async () => {
 
 #### `addScopes(options: { scopes: Array<string> })`
 
-This is an iOS-only method (resolves to `null` on Android). When calling `signIn` on iOS, only basic profile scopes (email, profile, openid) are requested. If you want access to more scopes, use this call. Read more about this [here](https://github.com/google/GoogleSignIn-iOS/issues/23).
+This is an iOS-only method (calls `getCurrentUser()` on Android) that resolves with `null` or `userInfo` object. When calling `signIn` on iOS, only basic profile scopes (email, profile, openid) are requested. If you want access to more scopes, use this call. Read more about this [here](https://github.com/google/GoogleSignIn-iOS/issues/23).
 
 Example:
 
