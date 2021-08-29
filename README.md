@@ -62,7 +62,7 @@ GoogleSignin.configure({
   iosClientId: '<FROM DEVELOPER CONSOLE>', // [iOS] if you want to specify the client ID of type iOS (otherwise, it is taken from GoogleService-Info.plist)
   googleServicePlistPath: '', // [iOS] if you renamed your GoogleService-Info file, new name here, e.g. GoogleService-Info-Staging
   openIdRealm: '', // [iOS] The OpenID2 realm of the home web server. This allows Google to include the user's OpenID Identifier in the OpenID Connect ID token.
-  userImageSize: 120, // [iOS] The desired height (and width) of the profile image. Defaults to 120px
+  profileImageSize: 120, // [iOS] The desired height (and width) of the profile image. Defaults to 120px
 });
 ```
 
