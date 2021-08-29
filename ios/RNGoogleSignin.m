@@ -5,6 +5,7 @@
 @interface RNGoogleSignin ()
 
 @property (nonatomic) GIDConfiguration *configuration;
+@property (nonatomic) NSUInteger profileImageSize;
 
 @end
 
@@ -67,6 +68,12 @@ RCT_EXPORT_METHOD(configure:(NSDictionary *)options
     NSDictionary *plist = [[NSDictionary alloc] initWithContentsOfFile:path];
     clientId = plist[kClientIdKey];
   }
+  if (options[@"profileImageSize"]) {
+    NSNumber* size = options[@"profileImageSize"];
+    _profileImageSize = [size unsignedIntegerValue];
+  } else {
+    _profileImageSize = 120;
+  }
 
   GIDConfiguration* config = [[GIDConfiguration alloc] initWithClientID:clientId serverClientID:options[@"webClientId"] hostedDomain:options[@"hostedDomain"] openIDRealm:options[@"openIDRealm"]];
   _configuration = config;
@@ -78,16 +85,7 @@ RCT_EXPORT_METHOD(signInSilently:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
   [GIDSignIn.sharedInstance restorePreviousSignInWithCallback:^(GIDGoogleUser * _Nullable user, NSError * _Nullable error) {
-    // TODO dupe
-      if (error) {
-        [RNGoogleSignin rejectWithSigninError:error withRejector:reject];
-      } else {
-        if (user) {
-          resolve([RNGoogleSignin createUserDictionary:user]);
-        } else {
-          reject(@"signInSilently", @"user was null", nil);
-        }
-      }
+    [self handleAsyncCallback:user withError:error withResolver:resolve withRejector:reject fromCallsite:@"signInSilently"];
   }];
 }
 
@@ -99,16 +97,7 @@ RCT_EXPORT_METHOD(signIn:(NSDictionary *)options
   NSString* hint = options[@"loginHint"];
   
   [GIDSignIn.sharedInstance signInWithConfiguration:_configuration presentingViewController:presentingViewController hint:hint callback:^(GIDGoogleUser * _Nullable user, NSError * _Nullable error) {
-    // TODO dupe
-    if (error) {
-      [RNGoogleSignin rejectWithSigninError:error withRejector:reject];
-    } else {
-      if (user) {
-        resolve([RNGoogleSignin createUserDictionary:user]);
-      } else {
-        reject(@"signIn", @"user was null", nil);
-      }
-    }
+    [self handleAsyncCallback:user withError:error withResolver:resolve withRejector:reject fromCallsite:@"signIn"];
   }];
 }
 
@@ -120,16 +109,7 @@ RCT_EXPORT_METHOD(addScopes:(NSDictionary *)options
   UIViewController* presentingViewController = RCTPresentedViewController();
 
   [GIDSignIn.sharedInstance addScopes:scopes presentingViewController:presentingViewController callback:^(GIDGoogleUser * _Nullable user, NSError * _Nullable error) {
-    // TODO dupe
-    if (error) {
-      [RNGoogleSignin rejectWithSigninError:error withRejector:reject];
-    } else {
-      if (user) {
-        resolve([RNGoogleSignin createUserDictionary:user]);
-      } else {
-        reject(@"signIn", @"user was null", nil);
-      }
-    }
+    [self handleAsyncCallback:user withError:error withResolver:resolve withRejector:reject fromCallsite:@"addScopes"];
   }];
 }
 
@@ -163,7 +143,7 @@ RCT_EXPORT_METHOD(getCurrentUser:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
   GIDGoogleUser *currentUser = GIDSignIn.sharedInstance.currentUser;
-  resolve(RCTNullIfNil([RNGoogleSignin createUserDictionary:currentUser]));
+  resolve(RCTNullIfNil([self createUserDictionary:currentUser]));
 }
 
 RCT_EXPORT_METHOD(getTokens:(RCTPromiseResolveBlock)resolve
@@ -191,11 +171,11 @@ RCT_EXPORT_METHOD(getTokens:(RCTPromiseResolveBlock)resolve
   }];
 }
 
-+ (NSDictionary*)createUserDictionary: (nullable GIDGoogleUser *) user {
+- (NSDictionary*)createUserDictionary: (nullable GIDGoogleUser *) user {
   if (!user) {
     return nil;
   }
-  NSURL *imageURL = user.profile.hasImage ? [user.profile imageURLWithDimension:120] : nil;
+  NSURL *imageURL = user.profile.hasImage ? [user.profile imageURLWithDimension:_profileImageSize] : nil;
 
   NSDictionary *userInfo = @{
                              @"id": user.userID,
@@ -213,6 +193,19 @@ RCT_EXPORT_METHOD(getTokens:(RCTPromiseResolveBlock)resolve
                            @"scopes": user.grantedScopes,
                            };
   return params;
+}
+
+
+- (void)handleAsyncCallback: (GIDGoogleUser * _Nullable) user withError: (NSError * _Nullable) error withResolver: (RCTPromiseResolveBlock) resolve withRejector: (RCTPromiseRejectBlock) reject fromCallsite: (NSString *) from {
+  if (error) {
+    [RNGoogleSignin rejectWithSigninError:error withRejector:reject];
+  } else {
+    if (user) {
+      resolve([self createUserDictionary:user]);
+    } else {
+      reject(from, @"user was null", nil);
+    }
+  }
 }
 
 + (void)rejectWithSigninError: (NSError *) error withRejector: (RCTPromiseRejectBlock) rejector {

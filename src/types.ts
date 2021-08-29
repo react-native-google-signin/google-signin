@@ -78,6 +78,17 @@ export interface ConfigureParams {
    * ANDROID ONLY. An account name that should be prioritized.
    */
   accountName?: string;
+
+  /**
+   * iOS ONLY
+   * The OpenID2 realm of the home web server. This allows Google to include the user's OpenID
+   * Identifier in the OpenID Connect ID token.
+   */
+  openIdRealm?: string;
+  /**
+   * iOS ONLY The desired height (and width) of the profile image. Defaults to 120px
+   */
+  profileImageSize?: number;
 }
 
 export interface User {

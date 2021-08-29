@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Alert, Button } from 'react-native';
+import { StyleSheet, Text, View, Alert, Button, Image } from 'react-native';
 import {
   GoogleSignin,
   GoogleSigninButton,
@@ -20,6 +20,7 @@ type State = {
 const prettyJson = (value: any) => {
   return JSON.stringify(value, null, 2);
 };
+const PROFILE_IMAGE_SIZE = 150;
 
 export default class GoogleSigninSampleApp extends Component<{}, State> {
   state = {
@@ -36,6 +37,7 @@ export default class GoogleSigninSampleApp extends Component<{}, State> {
     GoogleSignin.configure({
       webClientId: config.webClientId,
       offlineAccess: false,
+      profileImageSize: PROFILE_IMAGE_SIZE,
     });
   }
 
@@ -123,6 +125,12 @@ export default class GoogleSigninSampleApp extends Component<{}, State> {
       <View style={styles.container}>
         <Text style={styles.userInfo}>Welcome {userInfo.user.name}</Text>
         <Text>Your user info: {prettyJson(userInfo.user)}</Text>
+        {userInfo.user.photo && (
+          <Image
+            style={{ width: PROFILE_IMAGE_SIZE, height: PROFILE_IMAGE_SIZE }}
+            source={{ uri: userInfo.user.photo }}
+          />
+        )}
         <TokenClearingView />
 
         <Button onPress={this._signOut} title="Log out" />

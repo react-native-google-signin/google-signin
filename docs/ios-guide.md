@@ -2,31 +2,17 @@
 
 ### 1. Installation
 
-NOTE for RN < 0.60 `react-native-link` may add the `RNGoogleSignin` podspec to your Podfile. If your Podfile looks roughly like the one described [here](http://facebook.github.io/react-native/docs/integration-with-existing-apps#configuring-cocoapods-dependencies) then this is likely what you want, but otherwise you may get stuck with build errors. If your Podfile does not refer to the `React` podspec, then you probably do not want to use the `RNGoogleSignin` podspec and we recommend that you rename or delete the `RNGoogleSignin.podspec` file from `node_modules/@react-native-community/google-signin` and only then run `react-native link @react-native-community/google-signin`. This is a one-time operation that you won't need to repeat later.
-
 #### Link the native module
 
-You can link the module automatically or manually
-
-##### automatic linking
-
-- in RN >= 0.60 run `pod install` in `ios/` directory to install the module
-
-- in RN < 0.60 run `react-native link react-native-google-signin`
-
-##### manual linking
-
-1. In Xcode, in the project navigator, right click Libraries ➜ Add Files to [your project's name]
-2. Go to `node_modules` ➜ `@react-native-google-signin/google-signin` ➜ `ios` and add `RNGoogleSignin.xcodeproj`
-3. In Xcode, in the project navigator, select your project. Add `libRNGoogleSignin.a` to your project's Build Phases ➜ Link Binary With Libraries
+- run `pod install` in `ios/` directory to install the module
 
 #### Install Google Sign In SDK
 
-Again, we offer two ways to do this: with and without Cocoapods. Note that we require Google Sign In SDK version >= 5.0.0!
+Again, we offer two ways to do this: with and without Cocoapods. Note that we require Google Sign In SDK version >= 6.0.0!
 
 ##### With Cocoapods
 
-1. install the Google Signin SDK with [CocoaPods](https://cocoapods.org/): add `pod 'GoogleSignIn', '~> 5.0.2'` in your Podfile and run `pod install`
+install the Google Signin SDK with [CocoaPods](https://cocoapods.org/): add `pod 'GoogleSignIn', '~> 6.0.2'` in your Podfile and run `pod install`
 
 First time using cocoapods ? [check this out](./how-cocoapods.md)
 

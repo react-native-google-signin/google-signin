@@ -71,48 +71,6 @@ dependencies {
 apply plugin: 'com.google.gms.google-services' // <--- this should be the last line
 ```
 
-4. Check that `react-native link` linked the native module, **only if you used** `react-native link`!
-
-- in `android/settings.gradle` you should have
-
-```gradle
-...
-include ':react-native-google-signin', ':app'
-project(':react-native-google-signin').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-google-signin/google-signin/android')
-```
-
-- in `MainApplication.java` you should have
-
-```java
-import co.apptailor.googlesignin.RNGoogleSigninPackage;  // <--- import
-
-public class MainApplication extends Application implements ReactApplication {
-
-  ......
-
-  @Override
-    protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-          new RNGoogleSigninPackage() // <-- this needs to be in the list
-      );
-    }
-  ......
-
-}
-```
-
-in `android/app/build.gradle` you should have
-
-```gradle
-...
-dependencies {
-    ...
-    implementation(project(":react-native-google-signin"))
-}
-...
-```
-
 #### Choose Dependency versions (optional)
 
 The library depends on `com.google.android.gms:play-services-auth`, as seen in [build.gradle](https://github.com/react-native-community/google-signin/blob/master/android/build.gradle). If needed, you may control their versions by the `ext` closure, as seen in [build.gradle](https://github.com/react-native-community/google-signin/blob/master/example/android/build.gradle) of the example app.

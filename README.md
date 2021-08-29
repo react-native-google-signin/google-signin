@@ -13,17 +13,15 @@ See this [issue](https://github.com/react-native-google-signin/google-signin/iss
 - Support all 3 types of authentication methods (standard, with server-side validation or with offline access (aka server side access))
 - Promise-based API consistent between Android and iOS
 - Typings for TypeScript and Flow
-- Native signin buttons
+- Native sign in buttons
+
+## Requirements
+
+- RN >= 0.60
 
 ## Project setup and initialization
 
-For RN >= 0.60 please use version installed from `@react-native-google-signin/google-signin`
-
 `yarn add @react-native-google-signin/google-signin`
-
-For RN <= 0.59 use version 2 installed from `react-native-google-signin`
-
-`yarn add react-native-google-signin`
 
 Then follow the [Android guide](docs/android-guide.md) and [iOS guide](docs/ios-guide.md)
 
@@ -41,7 +39,7 @@ import {
 
 #### `configure(options)`
 
-It is mandatory to call this method before attempting to call `signIn()` and `signInSilently()`. This method is sync meaning you can call `signIn` / `signInSilently` right after it. In typical scenarios, `configure` needs to be called only once, after your app starts. In the native layer, this is a synchronous call.
+It is mandatory to call this method before attempting to call `signIn()` and `signInSilently()`. This method is sync meaning you can call `signIn` / `signInSilently` right after it. In typical scenarios, `configure` needs to be called only once, after your app starts. In the native layer, this is a synchronous call. All parameters are optional.
 
 Example usage with default options: you get user email and basic profile info.
 
@@ -51,27 +49,32 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin';
 GoogleSignin.configure();
 ```
 
-Example to access Google Drive both from the mobile application and from your backend server:
+An example with all options enumerated:
 
 ```js
 GoogleSignin.configure({
-  scopes: ['https://www.googleapis.com/auth/drive.readonly'], // what API you want to access on behalf of the user, default is email and profile
+  scopes: ['https://www.googleapis.com/auth/drive.readonly'], // [Android] what API you want to access on behalf of the user, default is email and profile
   webClientId: '<FROM DEVELOPER CONSOLE>', // client ID of type WEB for your server (needed to verify user ID and offline access)
   offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
   hostedDomain: '', // specifies a hosted domain restriction
-  loginHint: '', // [iOS] The user's ID, or email address, to be prefilled in the authentication UI if possible. [See docs here](https://developers.google.com/identity/sign-in/ios/api/interface_g_i_d_sign_in.html#a0a68c7504c31ab0b728432565f6e33fd)
   forceCodeForRefreshToken: true, // [Android] related to `serverAuthCode`, read the docs link below *.
   accountName: '', // [Android] specifies an account name on the device that should be used
-  iosClientId: '<FROM DEVELOPER CONSOLE>', // [iOS] optional, if you want to specify the client ID of type iOS (otherwise, it is taken from GoogleService-Info.plist)
-  googleServicePlistPath: '', // [iOS] optional, if you renamed your GoogleService-Info file, new name here, e.g. GoogleService-Info-Staging
+  iosClientId: '<FROM DEVELOPER CONSOLE>', // [iOS] if you want to specify the client ID of type iOS (otherwise, it is taken from GoogleService-Info.plist)
+  googleServicePlistPath: '', // [iOS] if you renamed your GoogleService-Info file, new name here, e.g. GoogleService-Info-Staging
+  openIdRealm: '', // [iOS] The OpenID2 realm of the home web server. This allows Google to include the user's OpenID Identifier in the OpenID Connect ID token.
+  userImageSize: 120, // [iOS] The desired height (and width) of the profile image. Defaults to 120px
 });
 ```
 
 \* [forceCodeForRefreshToken docs](https://developers.google.com/android/reference/com/google/android/gms/auth/api/signin/GoogleSignInOptions.Builder#public-googlesigninoptions.builder-requestserverauthcode-string-serverclientid,-boolean-forcecodeforrefreshtoken)
 
-#### `signIn()`
+#### `signIn(options: { loginHint?: string })`
 
 Prompts a modal to let the user sign in into your application. Resolved promise returns an [`userInfo` object](#3-userinfo). Rejects with error otherwise.
+
+Options: an object which contains a single key:
+
+`loginHint`: [iOS-only] The user's ID, or email address, to be prefilled in the authentication UI if possible. [See docs here](<https://developers.google.com/identity/sign-in/ios/reference/Classes/GIDSignIn#/c:objc(cs)GIDSignIn(im)signInWithConfiguration:presentingViewController:hint:callback:>)
 
 ```js
 // import statusCodes along with GoogleSignin
@@ -95,6 +98,18 @@ signIn = async () => {
     }
   }
 };
+```
+
+#### `addScopes(options: { scopes: Array<string> })`
+
+This is an iOS-only method (resolves to `null` on Android). When calling `signIn` on iOS, only basic profile scopes (email, profile, openid) are requested. If you want access to more scopes, use this call. Read more about this [here](https://github.com/google/GoogleSignIn-iOS/issues/23).
+
+Example:
+
+```js
+const user = await GoogleSignin.addScopes({
+  scopes: ['https://www.googleapis.com/auth/user.gender.read'],
+});
 ```
 
 #### `signInSilently()`
@@ -142,7 +157,7 @@ getCurrentUser = async () => {
 
 #### `clearCachedAccessToken(accessTokenString)`
 
-This method only has an effect on Android. You may run into a 401 Unauthorized error when a token is invalid. Call this method to remove the token from local cache and then call `getTokens()` to get fresh tokens. Calling this method on iOS does nothing and always resolves. This is because on iOS, `getTokens()` always returns valid tokens, refreshing them first if they have expired or are about to expire (see [docs](https://developers.google.com/identity/sign-in/ios/reference/Classes/GIDAuthentication#-gettokenswithhandler:)).
+This method only has an effect on Android. You may run into a 401 Unauthorized error when a token is invalid. Call this method to remove the token from local cache and then call `getTokens()` to get fresh tokens. Calling this method on iOS does nothing and always resolves. This is because on iOS, `getTokens()` always returns valid tokens, refreshing them first if they have expired or are about to expire (see [docs](https://developers.google.com/identity/sign-in/ios/reference/Classes/GIDAuthentication#-dowithfreshtokens:)).
 
 #### `getTokens()`
 
@@ -220,14 +235,13 @@ These are useful when determining which kind of error has occured during sign in
 ```js
 import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
 
-render() {
-  <GoogleSigninButton
-    style={{ width: 192, height: 48 }}
-    size={GoogleSigninButton.Size.Wide}
-    color={GoogleSigninButton.Color.Dark}
-    onPress={this._signIn}
-    disabled={this.state.isSigninInProgress} />
-}
+<GoogleSigninButton
+  style={{ width: 192, height: 48 }}
+  size={GoogleSigninButton.Size.Wide}
+  color={GoogleSigninButton.Color.Dark}
+  onPress={this._signIn}
+  disabled={this.state.isSigninInProgress}
+/>;
 ```
 
 #### Props

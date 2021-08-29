@@ -13,9 +13,7 @@ RCT_EXPORT_MODULE()
 - (UIView *)view
 {
   RNGoogleSignInButton *button = [[RNGoogleSignInButton alloc] init];
-  button.colorScheme = kGIDSignInButtonColorSchemeLight;
-  button.style = kGIDSignInButtonStyleStandard;
-  
+
   [button addTarget:self action:@selector(onButtonPress:) forControlEvents:UIControlEventTouchUpInside];
 
   return button;
