@@ -6,7 +6,7 @@
 
 ### 7.0.0-alpha available
 
-Please see more [here](https://github.com/react-native-google-signin/google-signin/issues/972), documentation for v7 alpha currently lives in [this branch](https://github.com/react-native-google-signin/google-signin/tree/feat/use-latest-sdk) but is a WIP.
+Please see more [here](https://github.com/react-native-google-signin/google-signin/issues/972), documentation for v7 alpha currently lives in [this branch](https://github.com/react-native-google-signin/google-signin/tree/feat/use-latest-sdk).
 
 ### 🚧🚧 Maintenance notice 🚧🚧
 
