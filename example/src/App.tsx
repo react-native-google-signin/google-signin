@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, Alert, Button, Image } from 'react-native';
 import {
   GoogleSignin,
   GoogleSigninButton,
+  NativeModuleError,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 import type { User } from '@react-native-google-signin/google-signin';
@@ -46,10 +47,11 @@ export default class GoogleSigninSampleApp extends Component<{}, State> {
       const userInfo = await GoogleSignin.signInSilently();
       this.setState({ userInfo, error: undefined });
     } catch (error) {
+      const typedError = error as NativeModuleError;
       const errorMessage =
-        error.code === statusCodes.SIGN_IN_REQUIRED
+        typedError.code === statusCodes.SIGN_IN_REQUIRED
           ? 'User not signed it yet, please sign in :)'
-          : error.message;
+          : typedError.message;
       this.setState({
         error: new Error(errorMessage),
       });
@@ -170,7 +172,9 @@ export default class GoogleSigninSampleApp extends Component<{}, State> {
       const userInfo = await GoogleSignin.signIn();
       this.setState({ userInfo, error: undefined });
     } catch (error) {
-      switch (error.code) {
+      const typedError = error as NativeModuleError;
+
+      switch (typedError.code) {
         case statusCodes.SIGN_IN_CANCELLED:
           // sign in was cancelled
           Alert.alert('cancelled');
@@ -184,9 +188,9 @@ export default class GoogleSigninSampleApp extends Component<{}, State> {
           Alert.alert('play services not available or outdated');
           break;
         default:
-          Alert.alert('Something went wrong', error.toString());
+          Alert.alert('Something went wrong', typedError.toString());
           this.setState({
-            error,
+            error: typedError,
           });
       }
     }
@@ -199,8 +203,10 @@ export default class GoogleSigninSampleApp extends Component<{}, State> {
 
       this.setState({ userInfo: undefined, error: undefined });
     } catch (error) {
+      const typedError = error as NativeModuleError;
+
       this.setState({
-        error,
+        error: typedError,
       });
     }
   };

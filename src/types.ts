@@ -108,3 +108,7 @@ export interface User {
    */
   serverAuthCode: string | null;
 }
+
+export interface NativeModuleError extends Error {
+  code: string;
+}
