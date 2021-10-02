@@ -11,7 +11,7 @@
 
 ```js
 export default {
-  webClientId: 'your-id.apps.googleusercontent.com',
+  webClientId: 'your-web-client-id.apps.googleusercontent.com',
 };
 ```
 

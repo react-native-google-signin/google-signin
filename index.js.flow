@@ -8,10 +8,22 @@ export type ConfigureParams = $ReadOnly<{|
   offlineAccess?: boolean,
   webClientId?: string,
   scopes?: string[],
-  loginHint?: string,
   hostedDomain?: string,
   forceCodeForRefreshToken?: boolean,
   accountName?: string,
+  openIdRealm?: string,
+  profileImageSize?: number,
+|}>;
+
+export type SignInParams = $ReadOnly<{|
+  loginHint?: string,
+|}>;
+
+export type AddScopesParams = $ReadOnly<{|
+  /**
+   * The Google API scopes to request access to. Default is email and profile.
+   */
+  scopes?: string[],
 |}>;
 
 export type GoogleSigninButtonProps = $ReadOnly<{|
@@ -75,7 +87,8 @@ declare export class GoogleSignin {
   static hasPlayServices: (params?: HasPlayServicesParams) => Promise<boolean>;
   static configure: (params?: ConfigureParams) => void;
   static signInSilently: () => Promise<User>;
-  static signIn: () => Promise<User>;
+  static signIn: (params?: SignInParams) => Promise<User>;
+  static addScopes: (params: AddScopesParams) => Promise<User | null>;
   static signOut: () => Promise<null>;
   static revokeAccess: () => Promise<null>;
   static isSignedIn: () => Promise<boolean>;

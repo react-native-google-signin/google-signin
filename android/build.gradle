@@ -1,54 +1,59 @@
-def safeExtGet(prop, fallback) {
-    rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
-}
-
 buildscript {
-	// The Android Gradle plugin is only required when opening the android folder stand-alone.
-	// This avoids unnecessary downloads and potential conflicts when the library is included as a
-	// module dependency in an application project.
-	if (project == rootProject) {
-		repositories {
-			google()
-      mavenCentral()
-		}
+    if (project == rootProject) {
+        repositories {
+            google()
+            jcenter()
+        }
 
-		dependencies {
-			classpath("com.android.tools.build:gradle:3.6.3")
-		}
-	}
-}
-
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-        maven { url "$projectDir/../node_modules/react-native/android" }
+        dependencies {
+            classpath 'com.android.tools.build:gradle:3.5.3'
+        }
     }
 }
 
 apply plugin: 'com.android.library'
 
-android {
-    compileSdkVersion safeExtGet('compileSdkVersion', 28)
+def safeExtGet(prop, fallback) {
+    rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
+}
 
+android {
+    compileSdkVersion safeExtGet('GoogleSignin_compileSdkVersion', 30)
+    buildToolsVersion safeExtGet('GoogleSignin_buildToolsVersion', '30.0.2')
     defaultConfig {
-        minSdkVersion safeExtGet('minSdkVersion', 18)
-        targetSdkVersion safeExtGet('targetSdkVersion', 28)
+        minSdkVersion safeExtGet('GoogleSignin_minSdkVersion', 21)
+        targetSdkVersion safeExtGet('GoogleSignin_targetSdkVersion', 30)
         versionCode 1
         versionName "1.0"
-        ndk {
-            abiFilters "armeabi-v7a", "x86"
-        }
+
     }
 
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
     lintOptions {
-        abortOnError false
+        disable 'GradleCompatible'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
+repositories {
+    mavenLocal()
+    maven {
+        // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
+        url("$rootDir/../node_modules/react-native/android")
+    }
+    google()
+    jcenter()
+}
+
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "androidx.appcompat:appcompat:1.1.0"
-    implementation "com.google.android.gms:play-services-auth:${safeExtGet('googlePlayServicesAuthVersion', '17.0.0')}"
-    implementation "com.facebook.react:react-native:+"
+    //noinspection GradleDynamicVersion
+    implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation "com.google.android.gms:play-services-auth:${safeExtGet('googlePlayServicesAuthVersion', '19.2.0')}"
 }

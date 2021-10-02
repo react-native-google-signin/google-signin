@@ -37,12 +37,12 @@ buildscript {
         compileSdkVersion = 27
         targetSdkVersion = 26
         supportLibVersion = "27.1.1"
-        googlePlayServicesAuthVersion = "16.0.1" // <--- use this version or newer
+        googlePlayServicesAuthVersion = "19.2.0" // <--- use this version or newer
     }
 ...
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.2' // <--- use this version or newer
-        classpath 'com.google.gms:google-services:4.1.0' // <--- use this version or newer
+        classpath 'com.android.tools.build:gradle:4.2.1' // <--- use this version or newer
+        classpath 'com.google.gms:google-services:4.3.10' // <--- use this version or newer
     }
 ...
 allprojects {
@@ -69,48 +69,6 @@ dependencies {
 }
 
 apply plugin: 'com.google.gms.google-services' // <--- this should be the last line
-```
-
-4. Check that `react-native link` linked the native module, **only if you used** `react-native link`!
-
-- in `android/settings.gradle` you should have
-
-```gradle
-...
-include ':react-native-google-signin', ':app'
-project(':react-native-google-signin').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-google-signin/google-signin/android')
-```
-
-- in `MainApplication.java` you should have
-
-```java
-import co.apptailor.googlesignin.RNGoogleSigninPackage;  // <--- import
-
-public class MainApplication extends Application implements ReactApplication {
-
-  ......
-
-  @Override
-    protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-          new RNGoogleSigninPackage() // <-- this needs to be in the list
-      );
-    }
-  ......
-
-}
-```
-
-in `android/app/build.gradle` you should have
-
-```gradle
-...
-dependencies {
-    ...
-    implementation(project(":react-native-google-signin"))
-}
-...
 ```
 
 #### Choose Dependency versions (optional)
