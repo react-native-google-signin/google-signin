@@ -4,10 +4,6 @@
   <a href="https://www.npmjs.com/package/@react-native-google-signin/google-signin"><img src="https://badge.fury.io/js/@react-native-google-signin%2Fgoogle-signin.svg" alt="NPM Version"></a>
 </p>
 
-### 7.0.0-alpha available
-
-Please see more [here](https://github.com/react-native-google-signin/google-signin/issues/972), documentation for v7 alpha currently lives in [this branch](https://github.com/react-native-google-signin/google-signin/tree/feat/use-latest-sdk).
-
 ### 🚧🚧 Maintenance notice 🚧🚧
 
 See this [issue](https://github.com/react-native-google-signin/google-signin/issues/942)
