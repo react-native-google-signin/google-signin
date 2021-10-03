@@ -72,11 +72,12 @@ export class GoogleSigninButton extends PureComponent<GoogleSigninButtonProps> {
   }
 }
 
+// sizes according to https://developers.google.com/identity/sign-in/ios/reference/Classes/GIDSignInButton
 const styles = StyleSheet.create({
   iconSize: {
     width: 48,
     height: 48,
   },
-  standardSize: { width: 212, height: 48 },
+  standardSize: { width: 230, height: 48 },
   wideSize: { width: 312, height: 48 },
 });
