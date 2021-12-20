@@ -4,7 +4,7 @@ executorType: docker
 defaults: &defaults
   working_directory: ~/project
   docker:
-    - image: 'cimg/node:16.7.0'
+    - image: 'cimg/node:16.13.1'
 
 jobs:
   build:
