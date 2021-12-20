@@ -2,7 +2,7 @@ buildscript {
     if (project == rootProject) {
         repositories {
             google()
-            jcenter()
+            mavenCentral()
         }
 
         dependencies {
@@ -18,14 +18,13 @@ def safeExtGet(prop, fallback) {
 }
 
 android {
-    compileSdkVersion safeExtGet('GoogleSignin_compileSdkVersion', 30)
-    buildToolsVersion safeExtGet('GoogleSignin_buildToolsVersion', '30.0.2')
+    compileSdkVersion safeExtGet('compileSdkVersion', 30)
+    buildToolsVersion safeExtGet('buildToolsVersion', '30.0.2')
     defaultConfig {
-        minSdkVersion safeExtGet('GoogleSignin_minSdkVersion', 21)
-        targetSdkVersion safeExtGet('GoogleSignin_targetSdkVersion', 30)
+        minSdkVersion safeExtGet('minSdkVersion', 21)
+        targetSdkVersion safeExtGet('targetSdkVersion', 30)
         versionCode 1
         versionName "1.0"
-
     }
 
     buildTypes {
@@ -49,7 +48,6 @@ repositories {
         url("$rootDir/../node_modules/react-native/android")
     }
     google()
-    jcenter()
 }
 
 dependencies {
