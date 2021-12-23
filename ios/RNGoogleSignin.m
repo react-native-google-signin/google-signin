@@ -1,5 +1,6 @@
 #import <React/RCTLog.h>
 #import <React/RCTUtils.h>
+#import <GoogleSignIn/GoogleSignIn.h>
 #import "RNGoogleSignin.h"
 
 @interface RNGoogleSignin ()
