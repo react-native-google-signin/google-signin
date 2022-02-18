@@ -26,12 +26,12 @@
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "prepare": "bob build",
-    "release": "release-it",
+    "release": "yarn prepare && release-it",
     "example": "yarn --cwd example",
     "pods": "cd example && pod-install --quiet",
     "bootstrap": "yarn example && yarn && yarn pods",
-    "prettier:check": "prettier --list-different '**/*.js' '**/*.md'",
-    "prettier:write": "prettier --write '**/*.js' '**/*.md'"
+    "prettier:check": "prettier --list-different '**/*.{js,ts,tsx}' '**/*.md'",
+    "prettier:write": "prettier --write '**/*.{js,ts,tsx}' '**/*.md'"
   },
   "keywords": [
     "react-native",
