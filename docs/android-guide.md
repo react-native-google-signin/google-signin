@@ -97,9 +97,14 @@ Configuring google sign in can sometimes be tricky. If you're hitting a wall, yo
 
 See [this comment](https://github.com/react-native-community/google-signin/issues/659#issuecomment-513555464). Or [this SO question](https://stackoverflow.com/questions/53816227/google-signin-sdk-is-failing-by-throwing-error-a-non-recoverable-sign-in-failur).
 
-#### Getting `DEVELOPER_ERROR` or `code: 10` error message on Android when trying to login.
+#### Getting `DEVELOPER_ERROR` or `code: 10` error message on Android when trying to login. OR signin() hangs and never resolves the promise.
 
-This is configuration mismatch. Make sure that your SHA certificate fingerprint and package name you entered in Firebase are correct.
+This is configuration mismatch. Make sure that your SHA certificate fingerprint and package name you entered in Firebase are correct. If you are in development, make sure your development signing fingerprint is added as well. 
+
+To get the SHA1: 
+
+1. From your project root, `cd android && ./gradlew signingReport`.
+2. Scroll to the top of output, see the fingerprints. Debug fingerprint is used in dev, release fingerprint is used in production. 
 
 To add the SHA1:
 
