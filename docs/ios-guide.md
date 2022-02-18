@@ -43,6 +43,7 @@ At the end, the dependencis should be linked like in this picture (this is _with
 
 - Configure URL types in the `Info` panel (see screenshot)
   - add a URL with scheme set to your `REVERSED_CLIENT_ID` (found inside `GoogleService-Info.plist`)
+- If you need to support Mac Catalyst, you will need to enable the Keychain Sharing capability on each build target. No keychain groups need to be added.
 
 [![link config](../img/urlTypes.png)](../img/urlTypes.png?raw=true)
 
