@@ -12,7 +12,7 @@ Again, we offer two ways to do this: with and without Cocoapods. Note that we re
 
 ##### With Cocoapods
 
-install the Google Signin SDK with [CocoaPods](https://cocoapods.org/): add `pod 'GoogleSignIn', '~> 6.0.2'` in your Podfile and run `pod install`
+install the Google Signin SDK with [CocoaPods](https://cocoapods.org/): add `pod 'GoogleSignIn', '~> 6.1.0'` in your Podfile and run `pod install`
 
 First time using cocoapods ? [check this out](./how-cocoapods.md)
 
