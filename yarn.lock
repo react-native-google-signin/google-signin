@@ -2243,7 +2243,7 @@
     xcode "^3.0.1"
     xml2js "^0.4.23"
 
-"@expo/config-plugins@4.0.18", "@expo/config-plugins@^4.0.4":
+"@expo/config-plugins@4.0.18":
   version "4.0.18"
   resolved "https://registry.yarnpkg.com/@expo/config-plugins/-/config-plugins-4.0.18.tgz#80cf6a3aed83e78f714ad097d80e5a7cca48591a"
   integrity sha512-tW4bnrnKhn+PPHF8wf1KAoubICAVUHW8CcagvyFqaRIzeh6yavMIOsQShxOVTbgx7LzSyymZ1nEs45yCGAiMfA==

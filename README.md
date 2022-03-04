@@ -27,7 +27,7 @@ Then follow the [Android guide](docs/android-guide.md) and [iOS guide](docs/ios-
 
 ## Expo installation
 
-> This package cannot be used in the "Expo Go" app because [it requires custom native code](https://docs.expo.io/workflow/customizing/).
+> This package cannot be used in the "Expo Go" app because [it requires custom native code](https://docs.expo.io/workflow/customizing/). _However, you can add custom native code to expo by following the guide below._
 
 - First install the package with yarn, npm, or [`expo install`](https://docs.expo.io/workflow/expo-cli/#expo-install).
 
