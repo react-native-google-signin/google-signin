@@ -44,11 +44,6 @@ After installing this npm package, add the [config plugin](https://docs.expo.io/
       "googleServicesFile": "./google-services.json"
     },
     "ios": {
-      "config": {
-        "googleSignIn": {
-          "reservedClientId": "com.googleusercontent.apps.1234567890-abcdefg"
-        }
-      },
       "googleServicesFile": "./GoogleService-Info.plist"
     },
     "plugins": ["@react-native-google-signin/google-signin"]
