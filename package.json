@@ -84,6 +84,11 @@
     "react": "*",
     "react-native": "*"
   },
+  "peerDependenciesMeta": {
+    "@expo/config-plugins": {
+      "optional": true
+    }
+  },
   "jest": {
     "preset": "react-native",
     "modulePathIgnorePatterns": [
