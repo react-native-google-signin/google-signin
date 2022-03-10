@@ -1,0 +1,9 @@
+{
+  "platforms": [
+    "android",
+    "ios"
+  ],
+  "ios": {
+    "appDelegateSubscribers": ["GoogleSignInAppDelegate"]
+  }
+}
