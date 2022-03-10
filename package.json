@@ -30,7 +30,7 @@
     "test": "jest",
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
-    "prepare": "bob build && npm run build:plugin",
+    "prepare": "bob build && yarn run build:plugin",
     "release": "yarn prepare && release-it",
     "example": "yarn --cwd example",
     "pods": "cd example && pod-install --quiet",
@@ -59,6 +59,7 @@
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^13.2.0",
+    "@expo/config-plugins": "^4.1.0",
     "@react-native-community/eslint-config": "^3.0.0",
     "@release-it/conventional-changelog": "^3.3.0",
     "@types/jest": "^27.0.1",
