@@ -37,5 +37,5 @@ Follow the instructions to [Configure a Google API Project](https://developers.g
 
 ## WebClientId
 
-`webClientId` will be automatically generated once you create the app in the firebase console or configure the API. You can access the it [here](https://console.developers.google.com/apis/credentials).
+`webClientId` will be automatically generated once you create the app in the firebase console or configure the API. You can access it [here](https://console.developers.google.com/apis/credentials).
 Make sure you select the correct project. `webClientId` should be under OAuth section.
