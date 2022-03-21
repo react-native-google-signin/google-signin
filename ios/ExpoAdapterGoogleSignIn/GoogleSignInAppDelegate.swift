@@ -1,3 +1,4 @@
+#if canImport(ExpoModulesCore) 
 import ExpoModulesCore
 import GoogleSignIn
 
@@ -6,3 +7,4 @@ public class GoogleSignInAppDelegate: ExpoAppDelegateSubscriber {
     return GIDSignIn.sharedInstance.handle(url)
   }
 }
+#endif
