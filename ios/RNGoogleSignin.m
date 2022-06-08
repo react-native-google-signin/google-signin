@@ -102,6 +102,19 @@ RCT_EXPORT_METHOD(signIn:(NSDictionary *)options
   }];
 }
 
+RCT_EXPORT_METHOD(signInWithAdditionalScopes:(NSDictionary *)options
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
+{
+  UIViewController* presentingViewController = RCTPresentedViewController();
+  NSString* hint = options[@"loginHint"];
+  NSArray<NSString *> additionalScopes= options[@"scopes"]
+  
+  [GIDSignIn.sharedInstance signInWithConfiguration:_configuration presentingViewController:presentingViewController hint:hint additionalScopes:additionalScopes callback:^(GIDGoogleUser * _Nullable user, NSError * _Nullable error) {
+    [self handleAsyncCallback:user withError:error withResolver:resolve withRejector:reject fromCallsite:@"signIn"];
+  }];
+}
+
 RCT_EXPORT_METHOD(addScopes:(NSDictionary *)options
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)

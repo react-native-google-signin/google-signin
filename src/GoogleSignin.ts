@@ -26,6 +26,10 @@ class GoogleSignin {
     await this.configPromise;
     return await RNGoogleSignin.signIn(options);
   }
+  async signInWithAdditionalScopes(options: SignInParams = {}): Promise<User> {
+    await this.configPromise;
+    return await RNGoogleSignin.signInWithAdditionalScopes(options);
+  }
 
   async hasPlayServices(
     options: HasPlayServicesParams = { showPlayServicesUpdateDialog: true },
