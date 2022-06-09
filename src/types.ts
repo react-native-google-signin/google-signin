@@ -29,6 +29,16 @@ export interface SignInParams {
    */
   loginHint?: string;
 }
+export interface SignInParamsWithScope {
+  /**
+   * iOS ONLY. The user's ID, or email address, to be prefilled in the authentication UI if possible.
+   * https://developers.google.com/identity/sign-in/ios/api/interface_g_i_d_sign_in.html#a0a68c7504c31ab0b728432565f6e33fd
+   *
+   * The Google API scopes to request access to. Default is email and profile.
+   */
+  loginHint?: string;
+  scopes?: string[];
+}
 
 export interface AddScopesParams {
   /**
