@@ -5,7 +5,6 @@ import type {
   ConfigureParams,
   HasPlayServicesParams,
   User,
-  SignInParamsWithScope,
 } from './types';
 
 const { RNGoogleSignin } = NativeModules;
@@ -26,10 +25,6 @@ class GoogleSignin {
   async signIn(options: SignInParams = {}): Promise<User> {
     await this.configPromise;
     return await RNGoogleSignin.signIn(options);
-  }
-  async signInWithAdditionalScopes(options: SignInParamsWithScope = {}): Promise<User> {
-    await this.configPromise;
-    return await RNGoogleSignin.signInWithAdditionalScopes(options);
   }
 
   async hasPlayServices(
