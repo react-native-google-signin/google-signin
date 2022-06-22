@@ -80,7 +80,7 @@ RCT_EXPORT_METHOD(configure:(NSDictionary *)options
   GIDConfiguration* config = [[GIDConfiguration alloc] initWithClientID:clientId serverClientID:options[@"webClientId"] hostedDomain:options[@"hostedDomain"] openIDRealm:options[@"openIDRealm"]];
   _configuration = config;
   
-  NSArray* scopes=options[@"scopes"]
+  NSArray* scopes=options[@"scopes"];
   _scopes=scopes;
 
   resolve([NSNull null]);
