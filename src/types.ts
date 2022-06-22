@@ -28,7 +28,6 @@ export interface SignInParams {
    * https://developers.google.com/identity/sign-in/ios/api/interface_g_i_d_sign_in.html#a0a68c7504c31ab0b728432565f6e33fd
    */
   loginHint?: string;
-  scopes?: string[];
 }
 
 export interface AddScopesParams {
