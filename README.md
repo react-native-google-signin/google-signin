@@ -81,7 +81,7 @@ An example with all options enumerated:
 
 ```js
 GoogleSignin.configure({
-  scopes: ['https://www.googleapis.com/auth/drive.readonly'], // [Android] what API you want to access on behalf of the user, default is email and profile
+  scopes: ['https://www.googleapis.com/auth/drive.readonly'], // what API you want to access on behalf of the user, default is email and profile
   webClientId: '<FROM DEVELOPER CONSOLE>', // client ID of type WEB for your server (needed to verify user ID and offline access)
   offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
   hostedDomain: '', // specifies a hosted domain restriction
@@ -130,7 +130,11 @@ signIn = async () => {
 
 #### `addScopes(options: { scopes: Array<string> })`
 
-This is an iOS-only method (calls `getCurrentUser()` on Android) that resolves with `null` or `userInfo` object. When calling `signIn` on iOS, only basic profile scopes (email, profile, openid) are requested. If you want access to more scopes, use this call. Read more about this [here](https://github.com/google/GoogleSignIn-iOS/issues/23).
+This is an iOS-only method (calls `getCurrentUser()` on Android) that resolves with `null` or `userInfo` object. 
+
+As of version 8 of this package, you may not need this call: you can supply required scopes to the `configure` call.
+
+If you want access to more scopes later, use this call.
 
 Example:
 
