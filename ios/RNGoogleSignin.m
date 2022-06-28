@@ -6,7 +6,7 @@
 @interface RNGoogleSignin ()
 
 @property (nonatomic) GIDConfiguration *configuration;
-@property (nonatomic) NSArray *_scopes;
+@property (nonatomic) NSArray *scopes;
 @property (nonatomic) NSUInteger profileImageSize;
 
 @end
