@@ -6,6 +6,7 @@
 @interface RNGoogleSignin ()
 
 @property (nonatomic) GIDConfiguration *configuration;
+@property (nonatomic) NSArray *scopes;
 @property (nonatomic) NSUInteger profileImageSize;
 
 @end
@@ -78,6 +79,9 @@ RCT_EXPORT_METHOD(configure:(NSDictionary *)options
 
   GIDConfiguration* config = [[GIDConfiguration alloc] initWithClientID:clientId serverClientID:options[@"webClientId"] hostedDomain:options[@"hostedDomain"] openIDRealm:options[@"openIDRealm"]];
   _configuration = config;
+  
+  NSArray* scopes=options[@"scopes"];
+  _scopes=scopes;
 
   resolve([NSNull null]);
 }
@@ -96,10 +100,10 @@ RCT_EXPORT_METHOD(signIn:(NSDictionary *)options
 {
   UIViewController* presentingViewController = RCTPresentedViewController();
   NSString* hint = options[@"loginHint"];
-  
-  [GIDSignIn.sharedInstance signInWithConfiguration:_configuration presentingViewController:presentingViewController hint:hint callback:^(GIDGoogleUser * _Nullable user, NSError * _Nullable error) {
+  [GIDSignIn.sharedInstance signInWithConfiguration:_configuration presentingViewController:presentingViewController hint:hint additionalScopes:_scopes callback:^(GIDGoogleUser * _Nullable user, NSError * _Nullable error) {
     [self handleAsyncCallback:user withError:error withResolver:resolve withRejector:reject fromCallsite:@"signIn"];
   }];
+  
 }
 
 RCT_EXPORT_METHOD(addScopes:(NSDictionary *)options
