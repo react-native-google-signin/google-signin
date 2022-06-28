@@ -130,7 +130,7 @@ signIn = async () => {
 
 #### `addScopes(options: { scopes: Array<string> })`
 
-This is an iOS-only method (calls `getCurrentUser()` on Android) that resolves with `null` or `userInfo` object. 
+This is an iOS-only method (calls `getCurrentUser()` on Android) that resolves with `null` or `userInfo` object.
 
 As of version 8 of this package, you may not need this call: you can supply required scopes to the `configure` call.
 
