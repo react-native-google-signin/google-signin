@@ -125,11 +125,21 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
             final Promise promise
     ) {
         final ReadableArray scopes = config.hasKey("scopes") ? config.getArray("scopes") : Arguments.createArray();
-        final String webClientId = config.hasKey("webClientId") ? config.getString("webClientId") : null;
+        String webClientId = config.hasKey("webClientId") ? config.getString("webClientId") : null;
         final boolean offlineAccess = config.hasKey("offlineAccess") && config.getBoolean("offlineAccess");
         final boolean forceCodeForRefreshToken = config.hasKey("forceCodeForRefreshToken") && config.getBoolean("forceCodeForRefreshToken");
         final String accountName = config.hasKey("accountName") ? config.getString("accountName") : null;
         final String hostedDomain = config.hasKey("hostedDomain") ? config.getString("hostedDomain") : null;
+
+        if (webClientId == null) {
+            int id = getCurrentActivity().getResources().getIdentifier("default_web_client_id", "string", getCurrentActivity().getPackageName());
+            if (id != 0) {
+                webClientId = getCurrentActivity().getResources().getString(id);
+            } else if (offlineAccess) {
+                promise.reject(MODULE_NAME, "offlineAccess requires webClientId");
+                return;
+            }
+        }
 
         GoogleSignInOptions options = getSignInOptions(createScopesArray(scopes), webClientId, offlineAccess, forceCodeForRefreshToken, accountName, hostedDomain);
         _apiClient = GoogleSignIn.getClient(getReactApplicationContext(), options);
