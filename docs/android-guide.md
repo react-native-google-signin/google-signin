@@ -155,6 +155,17 @@ You can find it at: App -> Release (in left sidebar) -> Setup -> App integrity. 
 If you are not using firebase, and your app is enabled for "Google Play App Signing":
 Go to "https://console.developers.google.com/" -> click "Credential" in the right panel -> Find "Client ID" for type "Android" under "OAuth 2.0 Client IDs" section -> Edit -> replace "SHA-1 certificate fingerprint" with the one from App -> Release (in left sidebar) -> Setup -> App integrity -> App signing key certificate.
 
+#### (Firebase) Google Login only works during development but not working on app from play store or internal sharing after you already added all SHA1 (debug, production and internal sharing) to the firebase project settings.
+
+Try adding the `Client IDs` manually copy from `GCP Credential` to `firebase->Authentication->Sign-in method->edit google provder->Whitelist client IDs from external projects (optional)`.
+
+<img src="../img/firebase-manually-add-client-ids-from-gcp-1.png" />
+
+<img src="../img/firebase-manually-add-client-ids-from-gcp-2.png" />
+
+Maybe it's related to `Error updating Google` on firebase and this [answer](https://stackoverflow.com/a/68074073/6414615) would solve that error.
+
+
 #### My project includes other react-native plugins which have different google play services versions. What to do?
 
 See ["Choose Dependency versions"](#choose-dependency-versions-optional) above.
