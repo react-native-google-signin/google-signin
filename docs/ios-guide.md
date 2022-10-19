@@ -16,7 +16,6 @@ At the end, the dependencis should be linked like in this picture (this is _with
 
 [![link config](../img/pods-rn60.png)](../img/buildPhasesWithPods.png?raw=true)
 
-
 ### 2. Google project configuration
 
 - Follow [this](./get-config-file.md) guide to get the configuration file.
