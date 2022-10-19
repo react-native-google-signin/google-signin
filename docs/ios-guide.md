@@ -12,9 +12,9 @@ Again, we offer two ways to do this: with and without Cocoapods. Note that we re
 
 ##### With Cocoapods
 
-install the Google Signin SDK with [CocoaPods](https://cocoapods.org/): add `pod 'GoogleSignIn', '~> 6.1.0'` in your Podfile and run `pod install`
+The [podspec](https://github.com/react-native-google-signin/google-signin/blob/master/RNGoogleSignin.podspec) will install a compatible version of the [GoogleSignIn pod](https://github.com/react-native-google-signin/google-signin/blob/master/RNGoogleSignin.podspec). All you need to do is run `pod install` and then recompile the iOS project.
 
-First time using cocoapods ? [check this out](./how-cocoapods.md)
+First time using cocoapods? [check this out](./how-cocoapods.md)
 
 At the end, the dependencis should be linked like in this picture (this is _with_ pods, for RN >= 0.60).
 
