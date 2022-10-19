@@ -8,30 +8,13 @@
 
 #### Install Google Sign In SDK
 
-Again, we offer two ways to do this: with and without Cocoapods. Note that we require Google Sign In SDK version >= 6.0.0!
+The [podspec](https://github.com/react-native-google-signin/google-signin/blob/master/RNGoogleSignin.podspec) will install a compatible version of the [GoogleSignIn pod](https://github.com/react-native-google-signin/google-signin/blob/master/RNGoogleSignin.podspec). All you need to do is run `pod install` and then recompile the iOS project.
 
-##### With Cocoapods
-
-install the Google Signin SDK with [CocoaPods](https://cocoapods.org/): add `pod 'GoogleSignIn', '~> 6.1.0'` in your Podfile and run `pod install`
-
-First time using cocoapods ? [check this out](./how-cocoapods.md)
+First time using cocoapods? [check this out](./how-cocoapods.md)
 
 At the end, the dependencis should be linked like in this picture (this is _with_ pods, for RN >= 0.60).
 
 [![link config](../img/pods-rn60.png)](../img/buildPhasesWithPods.png?raw=true)
-
-#### Without Cocoapods
-
-> Please note that since RN 0.60 pods are standard part of the development process and we do not recommend avoiding pods. The following paragraph and screenshot may not be up-to-date.
-
-1. download the GoogleSignIn SDK from [here](https://developers.google.com/identity/sign-in/ios/sdk/) and unzip it. Drag and drop the unzipped `.framework` files into the `Frameworks` group in Xcode and copy `GoogleSignIn.bundle` to your project. During copying, check `copy items if needed`.
-2. make sure `GoogleSignIn.bundle` is added in your Xcode project's Copy Bundle Resources build phase.
-
-**NOTE** according to [google sign in docs](https://developers.google.com/identity/sign-in/ios/sdk/) you may also need to do this: In <your target> -> Build Phases -> `Link binary with libraries` step, add `libRNGoogleSignin.a`, `AddressBook.framework`, `SafariServices.framework`, `SystemConfiguration.framework` and `libz.tbd`. We have found it not to be necessary for a successful build, but we recommend to follow Google's installation instructions!
-
-At the end, the dependencis should be linked like in this picture (this is _without_ pods).
-
-[![link config](../img/buildPhasesWithoutPods.png)](../img/buildPhasesWithoutPods.png?raw=true)
 
 ### 2. Google project configuration
 

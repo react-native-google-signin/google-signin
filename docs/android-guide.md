@@ -23,9 +23,7 @@ Please note that this package requires android gradle plugin of version >= 3, wh
 
 1 . link the native module
 
-in RN >= 0.60 you should not need to do anything thanks to [autolinking](https://github.com/react-native-community/cli/blob/master/docs/autolinking.md)
-
-in RN < 0.60 run `react-native link react-native-google-signin`
+In RN >= 0.60 you should not need to do anything thanks to [autolinking](https://github.com/react-native-community/cli/blob/master/docs/autolinking.md)
 
 2 . Update `android/build.gradle` with
 
@@ -158,22 +156,6 @@ Go to "https://console.developers.google.com/" -> click "Credential" in the righ
 #### My project includes other react-native plugins which have different google play services versions. What to do?
 
 See ["Choose Dependency versions"](#choose-dependency-versions-optional) above.
-
-#### My project includes an older version of react-native-google-signin. How to upgrade?
-
-first install the latest version
-`yarn add @react-native-google-signin/google-signin@latest`
-
-You need to follow this guide again to make sure everything fit together (gradle version, google-services gradle version, etc...). Check out the example project for reference.
-
-clean everything to be sure
-
-```
-cd android
-./gradlew clean
-```
-
-now `react-native run-android`
 
 #### After upgrading and thoroughly following the guide the build fail with `Missing api_key/current_key object`. What to do?
 
