@@ -6,22 +6,18 @@ import {
   DeviceEventEmitter,
   StyleSheet,
   EmitterSubscription,
-  ViewProps,
-  StyleProp,
-  ViewStyle,
 } from 'react-native';
 import { RNGoogleSigninButton } from './RNGoogleSiginButton';
-import type { RNGoogleSignType } from './types';
+import type { GoogleSigninButtonProps } from './types';
 
-const RNGoogleSignin: RNGoogleSignType = NativeModules.RNGoogleSignin;
-
-export interface GoogleSigninButtonProps extends ViewProps {
-  style?: StyleProp<ViewStyle>;
-  size?: 0 | 1 | 2;
-  color?: 0 | 1;
-  disabled?: boolean;
-  onPress?(): void;
+interface RNGoogleSignStaticsType {
+  BUTTON_SIZE_STANDARD: 0;
+  BUTTON_SIZE_WIDE: 1;
+  BUTTON_SIZE_ICON: 2;
+  BUTTON_COLOR_DARK: 0;
+  BUTTON_COLOR_LIGHT: 1;
 }
+const RNGoogleSignin: RNGoogleSignStaticsType = NativeModules.RNGoogleSignin;
 
 export class GoogleSigninButton extends PureComponent<GoogleSigninButtonProps> {
   _clickListener?: EmitterSubscription;

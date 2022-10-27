@@ -22,9 +22,12 @@
     "!**/__mocks__",
     "app.plugin.js",
     "expo-module.config.json",
-    "plugin/build"
+    "plugin/build",
+    "jest/build/jest",
+    "README.md"
   ],
   "scripts": {
+    "build:mock": "tsc --build jest",
     "build:plugin": "tsc --build plugin",
     "clean:plugin": "expo-module clean plugin",
     "test": "jest",
@@ -90,13 +93,6 @@
       "optional": true
     }
   },
-  "jest": {
-    "preset": "react-native",
-    "modulePathIgnorePatterns": [
-      "<rootDir>/example/node_modules",
-      "<rootDir>/lib/"
-    ]
-  },
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
@@ -113,11 +109,15 @@
     "extends": [
       "@react-native-community",
       "prettier"
-    ]
+    ],
+    "env": {
+      "jest": true
+    }
   },
   "eslintIgnore": [
     "node_modules/",
-    "lib/"
+    "lib/",
+    "build/"
   ],
   "react-native-builder-bob": {
     "source": "src",
