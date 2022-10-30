@@ -1,5 +1,5 @@
 # Configuration and credential files
 android/app/google-services.json
 ios/GoogleService-Info.plist
-publicConfig.js
-publicConfig.ts
+config.js
+config.ts

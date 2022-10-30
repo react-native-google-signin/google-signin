@@ -7,7 +7,8 @@ import {
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 import type { User } from '@react-native-google-signin/google-signin';
-import config from './publicConfig'; // see docs/CONTRIBUTING.md for details
+// @ts-ignore see docs/CONTRIBUTING.md for details
+import config from './config';
 import { TokenClearingView } from './TokenClearingView';
 
 type ErrorWithCode = Error & { code?: string };

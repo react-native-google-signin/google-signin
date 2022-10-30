@@ -7,7 +7,7 @@
   - `GoogleService-Info.plist` in `ios/` and linked in XCode by dragging it to the file tree.
 - Run `yarn` on project root to install required Javascript dependencies
 - Go to `ios/` and run `pod install` to install required native iOS dependencies
-- create `publicConfig.js` with the following content:
+- create `config.js` with the following content:
 
 ```js
 export default {
