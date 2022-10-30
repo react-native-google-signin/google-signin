@@ -2,6 +2,7 @@ import React from 'react';
 import { Pressable, Text } from 'react-native';
 import type { User, GoogleSigninButtonProps } from '../src/types';
 import type { GoogleSigninSingleton } from '../src/GoogleSignin';
+import type { GoogleSigninButton } from '../src';
 
 export const mockUserInfo: User = {
   idToken: 'mockIdToken',
@@ -24,6 +25,10 @@ const MockGoogleSigninButton = (props: GoogleSigninButtonProps) => {
     </Pressable>
   );
 };
+MockGoogleSigninButton.Size = { Standard: 0, Wide: 1, Icon: 2 };
+MockGoogleSigninButton.Color = { Dark: 0, Light: 1 };
+
+const MockGoogleSigninButtonTyped: typeof GoogleSigninButton = MockGoogleSigninButton;
 
 const mockStatusCodes = {
   SIGN_IN_CANCELLED: 'mock_SIGN_IN_CANCELLED',
@@ -51,5 +56,5 @@ const mockGoogleSignin: typeof GoogleSigninSingleton = {
 jest.mock('@react-native-google-signin/google-signin', () => ({
   statusCodes: mockStatusCodes,
   GoogleSignin: mockGoogleSignin,
-  GoogleSigninButton: MockGoogleSigninButton,
+  GoogleSigninButton: MockGoogleSigninButtonTyped,
 }));

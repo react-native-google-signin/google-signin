@@ -108,8 +108,8 @@ export interface NativeModuleError extends Error {
 
 export interface GoogleSigninButtonProps extends ViewProps {
   style?: StyleProp<ViewStyle>;
-  size?: 0 | 1 | 2;
-  color?: 0 | 1;
+  size?: number;
+  color?: number;
   disabled?: boolean;
   onPress?(): void;
 }

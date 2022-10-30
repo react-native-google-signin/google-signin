@@ -3,8 +3,8 @@
   "compilerOptions": {
     "outDir": "./build",
     "jsx": "react",
-    "declaration": false
+    "declaration": false,
+    "importsNotUsedAsValues": "error"
   },
   "include": ["./setup.tsx"],
-  "exclude": ["../src/**/*"]
 }
