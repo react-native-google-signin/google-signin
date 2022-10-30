@@ -13,7 +13,7 @@ export const mockUserInfo: User = {
     id: 'mockId',
     givenName: 'mockGivenName',
     familyName: 'mockFamilyName',
-    photo: 'mockPhotoUtl',
+    photo: null,
     name: 'mockFullName',
   },
 };
