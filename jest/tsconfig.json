@@ -1,0 +1,10 @@
+{
+  "extends": "expo-module-scripts/tsconfig.plugin",
+  "compilerOptions": {
+    "outDir": "./build",
+    "jsx": "react",
+    "declaration": false,
+    "importsNotUsedAsValues": "error"
+  },
+  "include": ["./setup.tsx"],
+}

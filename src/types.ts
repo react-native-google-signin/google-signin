@@ -1,17 +1,11 @@
-// Type definitions for @react-native-google-signin/google-signin 6.0
+// Type definitions for @react-native-google-signin/google-signin
 // Project: https://github.com/react-native-community/google-signin
 // Definitions by: Jacob Froman <https://github.com/j-fro>
 //                 Michele Bombardi <https://github.com/bm-software>
 //                 Christian Chown <https://github.com/christianchown>
 //                 Eric Chen <https://github.com/echentw>
 
-export interface RNGoogleSignType {
-  BUTTON_SIZE_STANDARD: 0;
-  BUTTON_SIZE_WIDE: 1;
-  BUTTON_SIZE_ICON: 2;
-  BUTTON_COLOR_DARK: 0;
-  BUTTON_COLOR_LIGHT: 1;
-}
+import type { StyleProp, ViewProps, ViewStyle } from 'react-native';
 
 export interface HasPlayServicesParams {
   /**
@@ -39,7 +33,6 @@ export interface AddScopesParams {
 
 export interface ConfigureParams {
   /**
-   * ANDROID ONLY. Use AddScopes() on iOS
    * The Google API scopes to request access to. Default is email and profile.
    */
   scopes?: string[];
@@ -111,4 +104,12 @@ export interface User {
 
 export interface NativeModuleError extends Error {
   code: string;
+}
+
+export interface GoogleSigninButtonProps extends ViewProps {
+  style?: StyleProp<ViewStyle>;
+  size?: number;
+  color?: number;
+  disabled?: boolean;
+  onPress?(): void;
 }

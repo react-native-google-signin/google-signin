@@ -22,15 +22,18 @@
     "!**/__mocks__",
     "app.plugin.js",
     "expo-module.config.json",
-    "plugin/build"
+    "plugin/build",
+    "jest/build/setup.js",
+    "README.md"
   ],
   "scripts": {
+    "build:mock": "tsc --build jest && cp jest/build/jest/setup.js jest/build/setup.js",
     "build:plugin": "tsc --build plugin",
     "clean:plugin": "expo-module clean plugin",
     "test": "jest",
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
-    "prepare": "bob build && yarn run build:plugin",
+    "prepare": "bob build && yarn build:plugin && yarn build:mock",
     "release": "yarn prepare && npx semantic-release",
     "example": "yarn --cwd example",
     "pods": "cd example && pod-install --quiet",
@@ -78,7 +81,7 @@
     "react-native": "^0.65.1",
     "react-native-builder-bob": "^0.18.0",
     "semantic-release": "^19.0.5",
-    "typescript": "^4.4.3"
+    "typescript": "^4.8.4"
   },
   "peerDependencies": {
     "@expo/config-plugins": "^4.1.0",
@@ -89,13 +92,6 @@
     "@expo/config-plugins": {
       "optional": true
     }
-  },
-  "jest": {
-    "preset": "react-native",
-    "modulePathIgnorePatterns": [
-      "<rootDir>/example/node_modules",
-      "<rootDir>/lib/"
-    ]
   },
   "husky": {
     "hooks": {
@@ -113,11 +109,15 @@
     "extends": [
       "@react-native-community",
       "prettier"
-    ]
+    ],
+    "env": {
+      "jest": true
+    }
   },
   "eslintIgnore": [
     "node_modules/",
-    "lib/"
+    "lib/",
+    "build/"
   ],
   "react-native-builder-bob": {
     "source": "src",

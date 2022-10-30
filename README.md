@@ -13,6 +13,7 @@ See this [issue](https://github.com/react-native-google-signin/google-signin/iss
 - Support all 3 types of authentication methods (standard, with server-side validation or with offline access (aka server side access))
 - Promise-based API consistent between Android and iOS
 - Typings for TypeScript and Flow
+- Mock of the native module for testing with Jest
 - Native sign in buttons
 
 ## Requirements
@@ -323,6 +324,18 @@ Example `userInfo` which is returned after successful sign in.
     name: string // full name
   }
 }
+```
+
+## Jest module mock
+
+If you use Jest for testing, you may need to mock the functionality of the native module. This library ships with a Jest mock that you can add to the `setupFiles` array in the Jest config.
+
+By default, the mock behaves as if the calls were successful and returns mock user data.
+
+```
+"setupFiles": [
+ "./node_modules/@react-native-google-signin/google-signin/jest/build/setup.js"
+],
 ```
 
 ## Want to contribute?
