@@ -31,7 +31,7 @@
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "prepare": "bob build && yarn run build:plugin",
-    "release": "yarn prepare && release-it",
+    "release": "yarn prepare && npx semantic-release",
     "example": "yarn --cwd example",
     "pods": "cd example && pod-install --quiet",
     "bootstrap": "yarn example && yarn && yarn pods",
@@ -61,7 +61,7 @@
     "@commitlint/config-conventional": "^13.2.0",
     "@expo/config-plugins": "^4.1.0",
     "@react-native-community/eslint-config": "^3.0.0",
-    "@release-it/conventional-changelog": "^3.3.0",
+    "@semantic-release/git": "^10.0.1",
     "@types/jest": "^27.0.1",
     "@types/react": "^17.0.19",
     "@types/react-native": "0.64.13",
@@ -77,7 +77,7 @@
     "react": "17.0.2",
     "react-native": "^0.65.1",
     "react-native-builder-bob": "^0.18.0",
-    "release-it": "^14.11.6",
+    "semantic-release": "^19.0.5",
     "typescript": "^4.4.3"
   },
   "peerDependencies": {
@@ -107,23 +107,6 @@
     "extends": [
       "@commitlint/config-conventional"
     ]
-  },
-  "release-it": {
-    "git": {
-      "commitMessage": "chore: release ${version}",
-      "tagName": "v${version}"
-    },
-    "npm": {
-      "publish": true
-    },
-    "github": {
-      "release": true
-    },
-    "plugins": {
-      "@release-it/conventional-changelog": {
-        "preset": "angular"
-      }
-    }
   },
   "eslintConfig": {
     "root": true,

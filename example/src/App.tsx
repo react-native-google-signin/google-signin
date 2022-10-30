@@ -1,4 +1,3 @@
-// @flow
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Alert, Button, Image } from 'react-native';
 import {
@@ -8,7 +7,8 @@ import {
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 import type { User } from '@react-native-google-signin/google-signin';
-import config from './config'; // see docs/CONTRIBUTING.md for details
+// @ts-ignore see docs/CONTRIBUTING.md for details
+import config from './config';
 import { TokenClearingView } from './TokenClearingView';
 
 type ErrorWithCode = Error & { code?: string };
