@@ -13,18 +13,18 @@ interface RNGoogleSignStaticsType {
 }
 const RNGoogleSignin: RNGoogleSignStaticsType = NativeModules.RNGoogleSignin;
 
-export const GoogleSigninButton = ({ onPress, ...props }: GoogleSigninButtonProps) => {
+export const GoogleSigninButton = (props: GoogleSigninButtonProps) => {
   useEffect(() => {
     if (Platform.OS === 'ios') {
       return;
     }
     const clickListener = DeviceEventEmitter.addListener('RNGoogleSigninButtonClicked', () => {
-      onPress && onPress();
+      props.onPress?.();
     });
     return () => {
       clickListener.remove();
     };
-  }, [onPress]);
+  }, [props.onPress]);
 
   const recommendedSize = (() => {
     switch (props.size) {
