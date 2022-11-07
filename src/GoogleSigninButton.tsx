@@ -13,21 +13,21 @@ interface RNGoogleSignStaticsType {
 }
 const RNGoogleSignin: RNGoogleSignStaticsType = NativeModules.RNGoogleSignin;
 
-export const GoogleSigninButton = (props: GoogleSigninButtonProps) => {
+export const GoogleSigninButton = ({ onPress, style, ...rest }: GoogleSigninButtonProps) => {
   useEffect(() => {
     if (Platform.OS === 'ios') {
       return;
     }
     const clickListener = DeviceEventEmitter.addListener('RNGoogleSigninButtonClicked', () => {
-      props.onPress?.();
+      onPress?.();
     });
     return () => {
       clickListener.remove();
     };
-  }, [props.onPress]);
+  }, [onPress]);
 
   const recommendedSize = (() => {
-    switch (props.size) {
+    switch (rest.size) {
       case RNGoogleSignin.BUTTON_SIZE_ICON:
         return styles.iconSize;
       case RNGoogleSignin.BUTTON_SIZE_WIDE:
@@ -37,10 +37,8 @@ export const GoogleSigninButton = (props: GoogleSigninButtonProps) => {
     }
   })();
 
-  const { style, ...other } = props;
-
   // @ts-ignore style prop incompatible
-  return <RNGoogleSigninButton {...other} style={[recommendedSize, style]} />;
+  return <RNGoogleSigninButton {...rest} onPress={onPress} style={[recommendedSize, style]} />;
 };
 
 GoogleSigninButton.Size = {
