@@ -1,17 +1,18 @@
+import type { ExpoConfig } from 'expo/config';
 import {
   ConfigPlugin,
   AndroidConfig,
   IOSConfig,
   createRunOncePlugin,
   withPlugins,
-} from '@expo/config-plugins';
+} from 'expo/config-plugins';
 
 const pkg = require('@react-native-google-signin/google-signin/package.json');
 
 /**
- * Apply google-signin configuration for Expo SDK 44 projects.
+ * Apply google-signin configuration for Expo SDK 47+ projects.
  */
-const withGoogleSignIn: ConfigPlugin = (config) => {
+const withGoogleSignIn: ConfigPlugin = (config: ExpoConfig) => {
   return withPlugins(config, [
     // Android
     AndroidConfig.GoogleServices.withClassPath,
