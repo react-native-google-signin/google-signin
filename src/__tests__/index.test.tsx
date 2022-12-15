@@ -1,9 +1,5 @@
 import '../../jest/setup';
-import {
-  GoogleSignin,
-  statusCodes,
-  GoogleSigninButton,
-} from '@react-native-google-signin/google-signin';
+import { GoogleSignin, statusCodes, GoogleSigninButton } from 'rn-google-signin';
 import { mockUserInfo } from '../../jest/setup';
 
 it('sanity check for exported mock methods', async () => {

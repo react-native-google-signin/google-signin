@@ -53,7 +53,7 @@ const mockGoogleSignin: typeof GoogleSigninSingleton = {
   clearCachedAccessToken: jest.fn().mockResolvedValue(null),
 };
 
-jest.mock('@react-native-google-signin/google-signin', () => ({
+jest.mock('rn-google-signin', () => ({
   statusCodes: mockStatusCodes,
   GoogleSignin: mockGoogleSignin,
   GoogleSigninButton: MockGoogleSigninButtonTyped,

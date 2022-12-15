@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Button, TextInput, StyleSheet } from 'react-native';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { GoogleSignin } from 'rn-google-signin';
 
 export function TokenClearingView() {
   const [tokenToClear, setToken] = useState('');

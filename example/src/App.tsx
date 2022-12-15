@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Alert, Button, Image } from 'react-native';
-import {
-  GoogleSignin,
-  GoogleSigninButton,
-  NativeModuleError,
-  statusCodes,
-} from '@react-native-google-signin/google-signin';
-import type { User } from '@react-native-google-signin/google-signin';
+import { GoogleSignin, GoogleSigninButton, NativeModuleError, statusCodes } from 'rn-google-signin';
+import type { User } from 'rn-google-signin';
 // @ts-ignore see docs/CONTRIBUTING.md for details
 import config from './config';
 import { TokenClearingView } from './TokenClearingView';

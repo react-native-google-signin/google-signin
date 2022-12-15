@@ -6,7 +6,7 @@ import {
   withPlugins,
 } from '@expo/config-plugins';
 
-const pkg = require('@react-native-google-signin/google-signin/package.json');
+const pkg = require('rn-google-signin/package.json');
 
 /**
  * Apply google-signin configuration for Expo SDK 44 projects.

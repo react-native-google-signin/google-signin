@@ -1,5 +1,5 @@
 {
-  "name": "@react-native-google-signin/google-signin-example",
+  "name": "rn-google-signin-example",
   "description": "Example app for @react-native-google-signin/google-signin",
   "version": "0.0.1",
   "private": true,

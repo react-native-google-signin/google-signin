@@ -284,8 +284,8 @@ PODS:
     - React-cxxreact (= 0.65.1)
     - React-jsi (= 0.65.1)
     - React-perflogger (= 0.65.1)
-  - RNGoogleSignin (7.2.2):
-    - GoogleSignIn (~> 6.2.2)
+  - RNGoogleSignin (8.2.2):
+    - GoogleSignIn (~> 6.2)
     - React-Core
   - Yoga (1.14.0)
 
@@ -425,7 +425,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: 92d41c2442e5328cc4d342cd7f78e5876b68bae5
   React-runtimeexecutor: 85187f19dd9c47a7c102f9994f9d14e4dc2110de
   ReactCommon: eafed38eec7b591c31751bfa7494801618460459
-  RNGoogleSignin: 5beedd5aa6b94c8cd54d4f43622b80334bd99d66
+  RNGoogleSignin: 7af32e9f8bdbef36fc815bdd610ad8f6a905c0a8
   Yoga: aa0cb45287ebe1004c02a13f279c55a95f1572f4
 
 PODFILE CHECKSUM: bedadfd216edba89f4c0f7f4b826c6ac01d10128
