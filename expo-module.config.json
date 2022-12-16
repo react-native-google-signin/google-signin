@@ -1,9 +1,9 @@
 {
   "platforms": [
-    "android",
     "ios"
   ],
   "ios": {
-    "appDelegateSubscribers": ["GoogleSignInAppDelegate"]
+    "appDelegateSubscribers": ["GoogleSignInAppDelegate"],
+    "podspecPath": "expo/ios/ExpoAdapterGoogleSignIn.podspec"
   }
 }
