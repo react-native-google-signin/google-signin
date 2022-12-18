@@ -13,6 +13,7 @@
     "android",
     "ios",
     "cpp",
+    "expo",
     "RNGoogleSignin.podspec",
     "!lib/typescript/example",
     "!android/build",
