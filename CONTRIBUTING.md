@@ -2,7 +2,7 @@
 
 Want to add a feature or fix a bug? Great! This short guide will help.
 
-Development is best done using the example project. After you clone the repo, see the example project's [readme](../example/README.md) for instructions on how to get it running.
+Development is best done using the example project. After you clone the repo, see the example project's [readme](example/README.md) for instructions on how to get it running.
 
 When done, the example project should build successfully on both platforms and you should be able to sign in using the example app.
 
