@@ -4,7 +4,7 @@
   <a href="https://www.npmjs.com/package/@react-native-google-signin/google-signin"><img src="https://badge.fury.io/js/@react-native-google-signin%2Fgoogle-signin.svg" alt="NPM Version"></a>
 </p>
 
-### 🚧🚧 Maintenance notice 🚧🚧
+### 🚧🚧 New features planned: looking for financial backers and collaborators 🚧🚧
 
 See this [issue](https://github.com/react-native-google-signin/google-signin/issues/942)
 
@@ -147,7 +147,7 @@ const user = await GoogleSignin.addScopes({
 
 May be called eg. in the `componentDidMount` of your main component. This method returns the [current user](#3-userinfo) and rejects with an error otherwise.
 
-To see how to handle errors read [`signIn()` method](#signin)
+To see how to handle errors read [`signIn()` method](#signinoptions--loginhint-string-)
 
 ```js
 getCurrentUserInfo = async () => {
@@ -257,7 +257,7 @@ These are useful when determining which kind of error has occured during sign in
 | `SIGN_IN_REQUIRED`            | Useful for use with `signInSilently()` - no user has signed in yet                                                                                                                                                                                                                                                                                                        |
 | `PLAY_SERVICES_NOT_AVAILABLE` | Play services are not available or outdated, this can only happen on Android                                                                                                                                                                                                                                                                                              |
 
-[Example how to use `statusCodes`](#signin).
+[Example how to use `statusCodes`](#signinoptions--loginhint-string-).
 
 ### 2. GoogleSigninButton
 
@@ -338,7 +338,7 @@ By default, the mock behaves as if the calls were successful and returns mock us
 
 ## Want to contribute?
 
-Check out the [contributor guide](docs/CONTRIBUTING.md)!
+Check out the [contributor guide](CONTRIBUTING.md)!
 
 ## Notes
 
