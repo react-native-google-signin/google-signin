@@ -15,7 +15,7 @@ Please see the **FAQ** at bottom before opening new issues
 - Follow the instructions to [Configure a Google API Project](https://developers.google.com/identity/sign-in/android/start#configure-a-google-api-project) from the official docs.
 
 Please see more details here https://support.google.com/cloud/answer/6158849#installedapplications&android if needed.
-It's important that OAuth 2.0 android id has fingerprint set correspondingly to the fingerprint of cerificate which is used to sign the apk. Also, package name should be the same as apk package name.
+It's important that OAuth 2.0 android id has fingerprint set correspondingly to the fingerprint of certificate which is used to sign the apk. Also, package name should be the same as apk package name.
 
 ### 2. Installation
 
