@@ -55,7 +55,13 @@ class GoogleSignin {
     if (!isSignedIn) {
       return null;
     }
-    return IS_IOS ? RNGoogleSignin.addScopes(options) : RNGoogleSignin.getCurrentUser();
+    if (IS_IOS) {
+      return RNGoogleSignin.addScopes(options);
+    } else {
+      await RNGoogleSignin.addScopes(options);
+      // on Android, the user returned in onActivityResult() will contain only the scopes added, not the ones present previously
+      return this.signInSilently();
+    }
   }
 
   async signInSilently(): Promise<User> {

@@ -1,5 +1,14 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Alert, Button, Image } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Alert,
+  Button,
+  Image,
+  ScrollView,
+  SafeAreaView,
+} from 'react-native';
 import {
   GoogleSignin,
   GoogleSigninButton,
@@ -63,13 +72,15 @@ export default class GoogleSigninSampleApp extends Component<{}, State> {
 
     const body = userInfo ? this.renderUserInfo(userInfo) : this.renderSignInButton();
     return (
-      <View style={[styles.container, styles.pageContainer]}>
-        {this.renderIsSignedIn()}
-        {this.renderAddScopes()}
-        {this.renderGetCurrentUser()}
-        {this.renderGetTokens()}
-        {body}
-      </View>
+      <SafeAreaView style={[styles.container, styles.pageContainer]}>
+        <ScrollView>
+          {this.renderIsSignedIn()}
+          {this.renderAddScopes()}
+          {this.renderGetCurrentUser()}
+          {this.renderGetTokens()}
+          {body}
+        </ScrollView>
+      </SafeAreaView>
     );
   }
 
@@ -90,7 +101,7 @@ export default class GoogleSigninSampleApp extends Component<{}, State> {
       <Button
         onPress={async () => {
           const userInfo = await GoogleSignin.getCurrentUser();
-          Alert.alert('current user', userInfo ? prettyJson(userInfo.user) : 'null');
+          Alert.alert('current user', userInfo ? prettyJson(userInfo) : 'null');
         }}
         title="get current user"
       />
@@ -104,9 +115,11 @@ export default class GoogleSigninSampleApp extends Component<{}, State> {
           const user = await GoogleSignin.addScopes({
             scopes: ['https://www.googleapis.com/auth/user.gender.read'],
           });
+          this._getCurrentUser();
+
           Alert.alert('user', prettyJson(user));
         }}
-        title="request more scopes [ios]"
+        title="request more scopes"
       />
     );
   }
@@ -126,8 +139,11 @@ export default class GoogleSigninSampleApp extends Component<{}, State> {
   renderUserInfo(userInfo: User) {
     return (
       <View style={styles.container}>
-        <Text style={styles.userInfo}>Welcome {userInfo.user.name}</Text>
-        <Text>Your user info: {prettyJson(userInfo.user)}</Text>
+        <Text style={styles.welcomeText}>Welcome {userInfo.user.name}</Text>
+        <Text style={{ color: 'black' }}>
+          Your user info:{' '}
+          {prettyJson({ ...userInfo, idToken: `${userInfo?.idToken?.slice(0, 5)}...` })}
+        </Text>
         {userInfo.user.photo && (
           <Image
             style={{ width: PROFILE_IMAGE_SIZE, height: PROFILE_IMAGE_SIZE }}
@@ -160,7 +176,7 @@ export default class GoogleSigninSampleApp extends Component<{}, State> {
     if (error !== undefined) {
       // @ts-ignore
       const text = `${error.toString()} ${error.code ? error.code : ''}`;
-      return <Text>{text}</Text>;
+      return <Text style={{ color: 'black' }}>{text}</Text>;
     }
     return null;
   }
@@ -217,16 +233,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-  userInfo: { fontSize: 18, fontWeight: 'bold', marginBottom: 20 },
+  welcomeText: { fontSize: 18, fontWeight: 'bold', marginBottom: 20, color: 'black' },
   pageContainer: { flex: 1 },
 });
