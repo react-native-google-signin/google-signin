@@ -112,7 +112,7 @@ signIn = async () => {
   try {
     await GoogleSignin.hasPlayServices();
     const userInfo = await GoogleSignin.signIn();
-    this.setState({ userInfo });
+    setState({ userInfo });
   } catch (error) {
     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
       // user cancelled the login flow
@@ -129,11 +129,9 @@ signIn = async () => {
 
 #### `addScopes(options: { scopes: Array<string> })`
 
-This is an iOS-only method (calls `getCurrentUser()` on Android) that resolves with `null` or `userInfo` object.
+This is a method that resolves with `null` or `userInfo` object.
 
-As of version 8 of this package, you may not need this call: you can supply required scopes to the `configure` call.
-
-If you want access to more scopes later, use this call.
+You may not need this call: you can supply required scopes to the `configure` call. However, if you want to gain access to more scopes later, use this call.
 
 Example:
 
@@ -153,7 +151,7 @@ To see how to handle errors read [`signIn()` method](#signinoptions--loginhint-s
 getCurrentUserInfo = async () => {
   try {
     const userInfo = await GoogleSignin.signInSilently();
-    this.setState({ userInfo });
+    setState({ userInfo });
   } catch (error) {
     if (error.code === statusCodes.SIGN_IN_REQUIRED) {
       // user has not signed in yet
@@ -171,7 +169,7 @@ This method may be used to find out whether some user is currently signed in. It
 ```js
 isSignedIn = async () => {
   const isSignedIn = await GoogleSignin.isSignedIn();
-  this.setState({ isLoginScreenPresented: !isSignedIn });
+  setState({ isLoginScreenPresented: !isSignedIn });
 };
 ```
 
@@ -182,7 +180,7 @@ This method resolves with `null` or `userInfo` object. The call never rejects an
 ```js
 getCurrentUser = async () => {
   const currentUser = await GoogleSignin.getCurrentUser();
-  this.setState({ currentUser });
+  setState({ currentUser });
 };
 ```
 
@@ -202,7 +200,7 @@ Signs out the current user.
 signOut = async () => {
   try {
     await GoogleSignin.signOut();
-    this.setState({ user: null }); // Remember to remove the user from your app's state as well
+    setState({ user: null }); // Remember to remove the user from your app's state as well
   } catch (error) {
     console.error(error);
   }

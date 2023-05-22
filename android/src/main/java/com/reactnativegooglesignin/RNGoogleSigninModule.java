@@ -40,6 +40,7 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.CommonStatusCodes;
+import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -55,6 +56,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
 
     public static final int RC_SIGN_IN = 9001;
     public static final int REQUEST_CODE_RECOVER_AUTH = 53294;
+    public static final int REQUEST_CODE_ADD_SCOPES = 53295;
     public static final String MODULE_NAME = "RNGoogleSignin";
     public static final String PLAY_SERVICES_NOT_AVAILABLE = "PLAY_SERVICES_NOT_AVAILABLE";
     public static final String ERROR_USER_RECOVERABLE_AUTH = "ERROR_USER_RECOVERABLE_AUTH";
@@ -201,6 +203,25 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         });
     }
 
+    @ReactMethod
+    public void addScopes(final ReadableMap config, Promise promise) {
+      final Activity activity = getCurrentActivity();
+      if (activity == null) {
+        promise.reject(MODULE_NAME, "activity is null");
+        return;
+      }
+      promiseWrapper.setPromiseWithInProgressCheck(promise, "addScopes");
+
+      ReadableArray scopes = config.getArray("scopes");
+      Scope[] scopeArr = new Scope[scopes.size()];
+      for (int i = 0; i < scopes.size(); i++) {
+        scopeArr[i] = new Scope(scopes.getString(i));
+      }
+
+      GoogleSignIn.requestPermissions(
+        activity, REQUEST_CODE_ADD_SCOPES, GoogleSignIn.getLastSignedInAccount(activity), scopeArr);
+    }
+
     private class RNGoogleSigninActivityEventListener extends BaseActivityEventListener {
         @Override
         public void onActivityResult(Activity activity, final int requestCode, final int resultCode, final Intent intent) {
@@ -214,6 +235,12 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
                 } else {
                     promiseWrapper.reject(MODULE_NAME, "Failed authentication recovery attempt, probably user-rejected.");
                 }
+            } else if (requestCode == REQUEST_CODE_ADD_SCOPES) {
+              if (resultCode == Activity.RESULT_OK) {
+                promiseWrapper.resolve(null);
+              } else {
+                promiseWrapper.reject(MODULE_NAME, "Failed to add scopes.");
+              }
             }
         }
     }
