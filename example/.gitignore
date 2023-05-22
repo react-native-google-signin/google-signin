@@ -1,3 +1,19 @@
+*.binlog
+*.hprof
+*.xcworkspace/
+*.zip
+.DS_Store
+.gradle/
+.idea/
+.vs/
+.xcode.env
+Pods/
+build/
+dist/
+local.properties
+msbuild.binlog
+node_modules/
+
 # Configuration and credential files
 android/app/google-services.json
 ios/GoogleService-Info.plist

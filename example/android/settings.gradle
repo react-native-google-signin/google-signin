@@ -1,6 +1,12 @@
-rootProject.name = 'GoogleSigninExample'
-apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
-include ':app'
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+        google()
+    }
+}
 
-include ':reactnativegooglesigningooglesignin'
-project(':reactnativegooglesigningooglesignin').projectDir = new File(rootProject.projectDir, '../../android')
+rootProject.name = "google-signin-example"
+
+apply(from: "../../node_modules/react-native-test-app/test-app.gradle")
+applyTestAppSettings(settings)

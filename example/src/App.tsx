@@ -61,7 +61,6 @@ export default class GoogleSigninSampleApp extends Component<{}, State> {
   render() {
     const { userInfo } = this.state;
 
-    // @ts-ignore
     const body = userInfo ? this.renderUserInfo(userInfo) : this.renderSignInButton();
     return (
       <View style={[styles.container, styles.pageContainer]}>
