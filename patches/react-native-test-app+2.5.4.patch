@@ -1,0 +1,20 @@
+diff --git a/node_modules/react-native-test-app/android/app/build.gradle b/node_modules/react-native-test-app/android/app/build.gradle
+index 1053977..d8e12aa 100644
+--- a/node_modules/react-native-test-app/android/app/build.gradle
++++ b/node_modules/react-native-test-app/android/app/build.gradle
+@@ -8,6 +8,7 @@ plugins {
+     id("com.android.application")
+     id("com.google.devtools.ksp").version("${kspVersion}")
+     id("org.jetbrains.kotlin.android")
++    id 'com.google.gms.google-services'
+ }
+ 
+ checkEnvironment()
+@@ -348,6 +349,7 @@ android {
+ 
+ dependencies {
+     implementation project(":support")
++    implementation platform('com.google.firebase:firebase-bom:32.0.0')
+ 
+     if (project.ext.react.enableHermes) {
+         if (autodetectReactNativeVersion) {

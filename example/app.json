@@ -1,4 +1,36 @@
 {
-  "name": "GoogleSigninExample",
-  "displayName": "GoogleSignin Example"
+  "$schema": "https://raw.githubusercontent.com/microsoft/react-native-test-app/trunk/schema.json",
+  "name": "google-signin-example",
+  "displayName": "google-signin-example",
+  "singleApp": "defaultApp",
+  "components": [
+    {
+      "appKey": "google-signin-example",
+      "displayName": "google-signin-example",
+      "slug": "defaultApp"
+    }
+  ],
+  "android": {
+  },
+  "ios": {
+    "bundleIdentifier": "org.reactjs.native.example.GoogleSigninSampleApp"
+  },
+  "resources": {
+    "android": [
+      "dist/res",
+      "dist/main.android.jsbundle"
+    ],
+    "ios": [
+      "dist/assets",
+      "dist/main.ios.jsbundle"
+    ],
+    "macos": [
+      "dist/assets",
+      "dist/main.macos.jsbundle"
+    ],
+    "windows": [
+      "dist/assets",
+      "dist/main.windows.bundle"
+    ]
+  }
 }
