@@ -26,14 +26,6 @@ const config = {
   resolver: {
     blockList,
   },
-  // transformer: {
-  //   getTransformOptions: async () => ({
-  //     transform: {
-  //       experimentalImportSupport: false,
-  //       inlineRequires: false,
-  //     },
-  //   }),
-  // },
 };
 
 // Starting with react-native 0.72, we are required to provide a full config.
