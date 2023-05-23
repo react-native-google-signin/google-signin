@@ -140,7 +140,7 @@ export default class GoogleSigninSampleApp extends Component<{}, State> {
     return (
       <View style={styles.container}>
         <Text style={styles.welcomeText}>Welcome {userInfo.user.name}</Text>
-        <Text style={{ color: 'black' }}>
+        <Text selectable style={{ color: 'black' }}>
           Your user info:{' '}
           {prettyJson({ ...userInfo, idToken: `${userInfo?.idToken?.slice(0, 5)}...` })}
         </Text>
