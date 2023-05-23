@@ -10,7 +10,7 @@ See this [issue](https://github.com/react-native-google-signin/google-signin/iss
 
 ## Features
 
-- Support all 3 types of authentication methods (standard, with server-side validation or with offline access (aka server side access))
+- Support all 3 types of authentication methods (standard, with server-side validation or with offline access (aka server-side access))
 - Promise-based API consistent between Android and iOS
 - Typings for TypeScript and Flow
 - Mock of the native module for testing with Jest
@@ -64,7 +64,7 @@ import {
 } from '@react-native-google-signin/google-signin';
 ```
 
-#### `configure(options)`
+#### `configure(options): void`
 
 It is mandatory to call this method before attempting to call `signIn()` and `signInSilently()`. This method is sync meaning you can call `signIn` / `signInSilently` right after it. In typical scenarios, `configure` needs to be called only once, after your app starts. In the native layer, this is a synchronous call. All parameters are optional.
 
@@ -129,7 +129,7 @@ signIn = async () => {
 
 #### `addScopes(options: { scopes: Array<string> })`
 
-This is a method that resolves with `null` or `userInfo` object.
+This method resolves with `userInfo` object or with `null` if no user is currently logged in.
 
 You may not need this call: you can supply required scopes to the `configure` call. However, if you want to gain access to more scopes later, use this call.
 
@@ -143,7 +143,7 @@ const user = await GoogleSignin.addScopes({
 
 #### `signInSilently()`
 
-May be called eg. in the `componentDidMount` of your main component. This method returns the [current user](#3-userinfo) and rejects with an error otherwise.
+May be called e.g. in the `componentDidMount` of your main component. This method returns the [current user](#3-userinfo) and rejects with an error otherwise.
 
 To see how to handle errors read [`signIn()` method](#signinoptions--loginhint-string-)
 
@@ -164,7 +164,10 @@ getCurrentUserInfo = async () => {
 
 #### `isSignedIn()`
 
-This method may be used to find out whether some user is currently signed in. It returns a promise which resolves with a boolean value (it never rejects). In the native layer, this is a synchronous call. This means that it will resolve even when the device is offline. Note that it may happen that `isSignedIn()` resolves to true and calling `signInSilently()` rejects with an error (eg. due to a network issue).
+This method may be used to find out whether some user previously signed in. It returns a promise which resolves with a boolean value (it never rejects). In the native layer, this is a synchronous call and will resolve even when the device is offline.
+
+Note that `isSignedIn()` can return true but `getCurrentUser()` can return `null` in which case you can call `signInSilently()` to recover the user.
+However, it may happen that calling `signInSilently()` rejects with an error (e.g. due to a network issue).
 
 ```js
 isSignedIn = async () => {
@@ -175,7 +178,7 @@ isSignedIn = async () => {
 
 #### `getCurrentUser()`
 
-This method resolves with `null` or `userInfo` object. The call never rejects and in the native layer, this is a synchronous call. Note that on Android, `accessToken` is always `null` in the response.
+This method resolves with `null` or `userInfo` object of the currently signed-in user. The call never rejects and in the native layer, this is a synchronous call. Note that on Android, `accessToken` is always `null` in the response.
 
 ```js
 getCurrentUser = async () => {
@@ -251,7 +254,7 @@ These are useful when determining which kind of error has occured during sign in
 | Name                          | Description                                                                                                                                                                                                                                                                                                                                                               |
 | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `SIGN_IN_CANCELLED`           | When user cancels the sign in flow                                                                                                                                                                                                                                                                                                                                        |
-| `IN_PROGRESS`                 | Trying to invoke another operation (eg. `signInSilently`) when previous one has not yet finished. If you call eg. `signInSilently` twice, 2 calls to `signInSilently` in the native module will be done. The promise from the first call to `signInSilently` will be rejected with this error, and the second will resolve / reject with the result of the native module. |
+| `IN_PROGRESS`                 | Trying to invoke another operation (e.g. `signInSilently`) when previous one has not yet finished. If you call e.g. `signInSilently` twice, 2 calls to `signInSilently` in the native module will be done. The promise from the first call to `signInSilently` will be rejected with this error, and the second will resolve / reject with the result of the native module. |
 | `SIGN_IN_REQUIRED`            | Useful for use with `signInSilently()` - no user has signed in yet                                                                                                                                                                                                                                                                                                        |
 | `PLAY_SERVICES_NOT_AVAILABLE` | Play services are not available or outdated, this can only happen on Android                                                                                                                                                                                                                                                                                              |
 
@@ -265,7 +268,6 @@ These are useful when determining which kind of error has occured during sign in
 import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
 
 <GoogleSigninButton
-  style={{ width: 192, height: 48 }}
   size={GoogleSigninButton.Size.Wide}
   color={GoogleSigninButton.Color.Dark}
   onPress={this._signIn}
@@ -340,13 +342,13 @@ Check out the [contributor guide](CONTRIBUTING.md)!
 
 ## Notes
 
-Calling the methods exposed by this package may involve remote network calls and you should thus take into account that such calls may take a long time to complete (eg. in case of poor network connection).
+Calling the methods exposed by this package may involve remote network calls and you should thus take into account that such calls may take a long time to complete (e.g. in case of poor network connection).
 
 **idToken Note**: idToken is not null only if you specify a valid `webClientId`. `webClientId` corresponds to your server clientID on the developers console. It **HAS TO BE** of type **WEB**
 
 Read [iOS documentation](https://developers.google.com/identity/sign-in/ios/backend-auth) and [Android documentation](https://developers.google.com/identity/sign-in/android/backend-auth) for more information
 
-**serverAuthCode Note**: serverAuthCode is not null only if you specify a valid `webClientId` and set `offlineAccess` to true. once you get the auth code, you can send it to your backend server and exchange the code for an access token. Only with this freshly acquired token can you access user data.
+**serverAuthCode Note**: serverAuthCode is not null only if you specify a valid `webClientId` and set `offlineAccess` to true. Once you get the auth code, you can send it to your backend server and exchange the code for an access token. Only with this freshly acquired token can you access user data.
 
 Read [iOS documentation](https://developers.google.com/identity/sign-in/ios/offline-access) and [Android documentation](https://developers.google.com/identity/sign-in/android/offline-access) for more information.
 

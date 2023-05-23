@@ -103,7 +103,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
 
         if (activity == null) {
             Log.w(MODULE_NAME, "could not determine playServicesAvailable, activity is null");
-            promise.reject(MODULE_NAME, "activity is null");
+            rejectWithNullActivity(promise);
             return;
         }
 
@@ -119,6 +119,10 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         } else {
             promise.resolve(true);
         }
+    }
+
+    private static void rejectWithNullActivity(Promise promise) {
+        promise.reject(MODULE_NAME, "activity is null");
     }
 
     @ReactMethod
@@ -155,7 +159,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
                 } else {
                     result.addOnCompleteListener(new OnCompleteListener() {
                         @Override
-                        public void onComplete(Task task) {
+                        public void onComplete(@NonNull Task task) {
                             handleSignInTaskResult(task);
                         }
                     });
@@ -190,7 +194,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         final Activity activity = getCurrentActivity();
 
         if (activity == null) {
-            promise.reject(MODULE_NAME, "activity is null");
+            rejectWithNullActivity(promise);
             return;
         }
         promiseWrapper.setPromiseWithInProgressCheck(promise, "signIn");
@@ -207,7 +211,12 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
     public void addScopes(final ReadableMap config, Promise promise) {
       final Activity activity = getCurrentActivity();
       if (activity == null) {
-        promise.reject(MODULE_NAME, "activity is null");
+        rejectWithNullActivity(promise);
+        return;
+      }
+      GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getReactApplicationContext());
+      if (account == null) {
+        promise.resolve(false);
         return;
       }
       promiseWrapper.setPromiseWithInProgressCheck(promise, "addScopes");
@@ -219,7 +228,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
       }
 
       GoogleSignIn.requestPermissions(
-        activity, REQUEST_CODE_ADD_SCOPES, GoogleSignIn.getLastSignedInAccount(activity), scopeArr);
+        activity, REQUEST_CODE_ADD_SCOPES, account, scopeArr);
     }
 
     private class RNGoogleSigninActivityEventListener extends BaseActivityEventListener {
@@ -236,11 +245,11 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
                     promiseWrapper.reject(MODULE_NAME, "Failed authentication recovery attempt, probably user-rejected.");
                 }
             } else if (requestCode == REQUEST_CODE_ADD_SCOPES) {
-              if (resultCode == Activity.RESULT_OK) {
-                promiseWrapper.resolve(null);
-              } else {
-                promiseWrapper.reject(MODULE_NAME, "Failed to add scopes.");
-              }
+                if (resultCode == Activity.RESULT_OK) {
+                  promiseWrapper.resolve(true);
+                } else {
+                  promiseWrapper.reject(MODULE_NAME, "Failed to add scopes.");
+                }
             }
         }
     }
