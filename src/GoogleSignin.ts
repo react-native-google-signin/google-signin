@@ -51,15 +51,15 @@ class GoogleSignin {
   }
 
   async addScopes(options: AddScopesParams): Promise<User | null> {
-    const isSignedIn = await this.isSignedIn();
-    if (!isSignedIn) {
-      return null;
-    }
     if (IS_IOS) {
       return RNGoogleSignin.addScopes(options);
     } else {
-      await RNGoogleSignin.addScopes(options);
+      const hasUser = await RNGoogleSignin.addScopes(options);
+      if (!hasUser) {
+        return null;
+      }
       // on Android, the user returned in onActivityResult() will contain only the scopes added, not the ones present previously
+      // we work around it by calling signInSilently() which returns the user object with all scopes
       return this.signInSilently();
     }
   }

@@ -57,13 +57,13 @@ export default class GoogleSigninSampleApp extends Component<{}, State> {
       this.setState({ userInfo, error: undefined });
     } catch (error) {
       const typedError = error as NativeModuleError;
-      const errorMessage =
-        typedError.code === statusCodes.SIGN_IN_REQUIRED
-          ? 'User not signed it yet, please sign in :)'
-          : typedError.message;
-      this.setState({
-        error: new Error(errorMessage),
-      });
+      if (typedError.code === statusCodes.SIGN_IN_REQUIRED) {
+        this.setState({
+          error: new Error('User not signed it yet, please sign in :)'),
+        });
+      } else {
+        this.setState({ error: typedError });
+      }
     }
   }
 
@@ -140,7 +140,7 @@ export default class GoogleSigninSampleApp extends Component<{}, State> {
     return (
       <View style={styles.container}>
         <Text style={styles.welcomeText}>Welcome {userInfo.user.name}</Text>
-        <Text style={{ color: 'black' }}>
+        <Text selectable style={{ color: 'black' }}>
           Your user info:{' '}
           {prettyJson({ ...userInfo, idToken: `${userInfo?.idToken?.slice(0, 5)}...` })}
         </Text>
@@ -176,7 +176,11 @@ export default class GoogleSigninSampleApp extends Component<{}, State> {
     if (error !== undefined) {
       // @ts-ignore
       const text = `${error.toString()} ${error.code ? error.code : ''}`;
-      return <Text style={{ color: 'black' }}>{text}</Text>;
+      return (
+        <Text selectable style={{ color: 'black' }}>
+          {text}
+        </Text>
+      );
     }
     return null;
   }

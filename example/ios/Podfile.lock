@@ -76,14 +76,14 @@ PODS:
     - FlipperKit/FlipperKitNetworkPlugin
   - fmt (6.2.1)
   - glog (0.3.5)
-  - GoogleSignIn (6.2.4):
+  - GoogleSignIn (7.0.0):
     - AppAuth (~> 1.5)
-    - GTMAppAuth (~> 1.3)
-    - GTMSessionFetcher/Core (< 3.0, >= 1.1)
-  - GTMAppAuth (1.3.1):
+    - GTMAppAuth (< 3.0, >= 1.3)
+    - GTMSessionFetcher/Core (< 4.0, >= 1.1)
+  - GTMAppAuth (2.0.0):
     - AppAuth/Core (~> 1.6)
-    - GTMSessionFetcher/Core (< 3.0, >= 1.5)
-  - GTMSessionFetcher/Core (2.3.0)
+    - GTMSessionFetcher/Core (< 4.0, >= 1.5)
+  - GTMSessionFetcher/Core (3.1.1)
   - libevent (2.1.12)
   - OpenSSL-Universal (1.1.1100)
   - RCT-Folly (2021.07.22.00):
@@ -417,12 +417,12 @@ PODS:
     - React-Core
     - React-cxxreact
     - ReactCommon/turbomodule/core
-  - ReactTestApp-DevSupport (2.5.3):
+  - ReactTestApp-DevSupport (2.5.4):
     - React-Core
     - React-jsi
   - ReactTestApp-Resources (1.0.0-dev)
-  - RNGoogleSignin (9.0.2):
-    - GoogleSignIn (~> 6.2)
+  - RNGoogleSignin (9.1.0):
+    - GoogleSignIn (~> 7.0)
     - React-Core
   - SocketRocket (0.6.0)
   - Yoga (1.14.0)
@@ -611,9 +611,9 @@ SPEC CHECKSUMS:
   FlipperKit: 2efad7007d6745a3f95e4034d547be637f89d3f6
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 04b94705f318337d7ead9e6d17c019bd9b1f6b1b
-  GoogleSignIn: 5651ce3a61e56ca864160e79b484cd9ed3f49b7a
-  GTMAppAuth: 0ff230db599948a9ad7470ca667337803b3fc4dd
-  GTMSessionFetcher: 3a63d75eecd6aa32c2fc79f578064e1214dfdec2
+  GoogleSignIn: b232380cf495a429b8095d3178a8d5855b42e842
+  GTMAppAuth: 99fb010047ba3973b7026e45393f51f27ab965ae
+  GTMSessionFetcher: e8647203b65cee28c5f73d0f473d096653945e72
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
@@ -646,9 +646,9 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: d6f826a648b18fd6dc307dae452f1e77f217e283
   ReactCommon: 679ea3e94c9d515194f6af0f94648ff110f4796a
   ReactNativeHost: db8821d7e4f6e3ec3c3b877ee455eee161d47009
-  ReactTestApp-DevSupport: 8e3030aaf85e328faca59c09740bf6891ff5d160
+  ReactTestApp-DevSupport: 4303e2abeace1d078f8dd8a09e7046498a0f996e
   ReactTestApp-Resources: 1f512f66574607bcfa614e9c0d30e7a990fecf30
-  RNGoogleSignin: 22e468a9474dbcb8618d8847205ad4f0b2575d13
+  RNGoogleSignin: 5a2fb074136ab4dadbf545bd7479fe52feaee9c8
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
   Yoga: 6d37a6867a5577ebcd55eb9f4bb4d0a430ae0039
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
