@@ -143,7 +143,7 @@ const user = await GoogleSignin.addScopes({
 
 #### `signInSilently()`
 
-May be called e.g. in the `componentDidMount` of your main component. This method returns the [current user](#3-userinfo) and rejects with an error otherwise.
+May be called e.g. after of your main component mounts. This method returns a Promise that resolves with the [current user](#3-userinfo) and rejects with an error otherwise.
 
 To see how to handle errors read [`signIn()` method](#signinoptions--loginhint-string-)
 
@@ -189,7 +189,7 @@ getCurrentUser = async () => {
 
 #### `clearCachedAccessToken(accessTokenString)`
 
-This method only has an effect on Android. You may run into a 401 Unauthorized error when a token is invalid. Call this method to remove the token from local cache and then call `getTokens()` to get fresh tokens. Calling this method on iOS does nothing and always resolves. This is because on iOS, `getTokens()` always returns valid tokens, refreshing them first if they have expired or are about to expire (see [docs](https://developers.google.com/identity/sign-in/ios/reference/Classes/GIDAuthentication#-dowithfreshtokens:)).
+This method only has an effect on Android. You may run into a `401 Unauthorized` error when a token is invalid. Call this method to remove the token from local cache and then call `getTokens()` to get fresh tokens. Calling this method on iOS does nothing and always resolves. This is because on iOS, `getTokens()` always returns valid tokens, refreshing them first if they have expired or are about to expire (see [docs](https://developers.google.com/identity/sign-in/ios/reference/Classes/GIDGoogleUser#-refreshtokensifneededwithcompletion:)).
 
 #### `getTokens()`
 
@@ -312,7 +312,7 @@ Example `userInfo` which is returned after successful sign in.
 {
   idToken: string,
   serverAuthCode: string,
-  scopes: Array<string>, // on iOS this is empty array if no additional scopes are defined
+  scopes: Array<string>
   user: {
     email: string,
     id: string,
