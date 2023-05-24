@@ -178,7 +178,7 @@ isSignedIn = async () => {
 
 #### `getCurrentUser()`
 
-This method resolves with `null` or `userInfo` object of the currently signed-in user. The call never rejects and in the native layer, this is a synchronous call. Note that on Android, `accessToken` is always `null` in the response.
+This method resolves with `null` or `userInfo` object of the currently signed-in user. The call never rejects and in the native layer, this is a synchronous call.
 
 ```js
 getCurrentUser = async () => {

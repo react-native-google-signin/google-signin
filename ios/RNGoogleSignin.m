@@ -175,8 +175,8 @@ RCT_EXPORT_METHOD(getTokens:(RCTPromiseResolveBlock)resolve
     } else {
       if (user) {
         resolve(@{
-                  @"idToken" : user.idToken,
-                  @"accessToken" : user.accessToken,
+                  @"idToken" : user.idToken.tokenString,
+                  @"accessToken" : user.accessToken.tokenString,
                   });
       } else {
         reject(@"getTokens", @"user was null", nil);
