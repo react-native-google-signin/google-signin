@@ -1,30 +1,22 @@
-import { NativeModules, Platform } from 'react-native';
-import type {
+import { Platform } from 'react-native';
+import type { User } from './types';
+import {
   AddScopesParams,
-  SignInParams,
   ConfigureParams,
+  GetTokensResponse,
   HasPlayServicesParams,
-  User,
-} from './types';
-
-const { RNGoogleSignin } = NativeModules;
+  SignInParams,
+  NativeModule,
+} from './spec/NativeGoogleSignin';
 
 const IS_IOS = Platform.OS === 'ios';
 
 class GoogleSignin {
   configPromise?: Promise<void>;
 
-  constructor() {
-    if (__DEV__ && !RNGoogleSignin) {
-      console.error(
-        `RN GoogleSignin native module is not correctly linked. Please read the readme, setup and troubleshooting instructions carefully or try manual linking.`,
-      );
-    }
-  }
-
   async signIn(options: SignInParams = {}): Promise<User> {
     await this.configPromise;
-    return await RNGoogleSignin.signIn(options);
+    return (await NativeModule.signIn(options)) as User;
   }
 
   async hasPlayServices(
@@ -38,7 +30,7 @@ class GoogleSignin {
           'RNGoogleSignin: Missing property `showPlayServicesUpdateDialog` in options object for `hasPlayServices`',
         );
       }
-      return RNGoogleSignin.playServicesAvailable(options.showPlayServicesUpdateDialog);
+      return NativeModule.playServicesAvailable(options);
     }
   }
 
@@ -47,14 +39,14 @@ class GoogleSignin {
       throw new Error('RNGoogleSignin: offline use requires server web ClientID');
     }
 
-    this.configPromise = RNGoogleSignin.configure(options);
+    this.configPromise = NativeModule.configure(options);
   }
 
   async addScopes(options: AddScopesParams): Promise<User | null> {
     if (IS_IOS) {
-      return RNGoogleSignin.addScopes(options);
+      return NativeModule.addScopes(options) as Promise<User | null>;
     } else {
-      const hasUser = await RNGoogleSignin.addScopes(options);
+      const hasUser = await NativeModule.addScopes(options);
       if (!hasUser) {
         return null;
       }
@@ -66,38 +58,38 @@ class GoogleSignin {
 
   async signInSilently(): Promise<User> {
     await this.configPromise;
-    return RNGoogleSignin.signInSilently();
+    return NativeModule.signInSilently() as Promise<User>;
   }
 
   async signOut(): Promise<null> {
-    return RNGoogleSignin.signOut();
+    return NativeModule.signOut();
   }
 
   async revokeAccess(): Promise<null> {
-    return RNGoogleSignin.revokeAccess();
+    return NativeModule.revokeAccess();
   }
 
-  async isSignedIn(): Promise<boolean> {
-    return RNGoogleSignin.isSignedIn();
+  // TODO breaking!
+  hasPreviousSignIn(): boolean {
+    return NativeModule.hasPreviousSignIn();
   }
 
-  async getCurrentUser(): Promise<User | null> {
-    return RNGoogleSignin.getCurrentUser();
+  getCurrentUser(): User | null {
+    return NativeModule.getCurrentUser() as User | null;
   }
 
   async clearCachedAccessToken(tokenString: string): Promise<null> {
     if (!tokenString || typeof tokenString !== 'string') {
       return Promise.reject('GoogleSignIn: clearCachedAccessToken() expects a string token.');
     }
-    return IS_IOS ? null : await RNGoogleSignin.clearCachedAccessToken(tokenString);
+    return IS_IOS ? null : NativeModule.clearCachedAccessToken(tokenString);
   }
 
-  async getTokens(): Promise<{ idToken: string; accessToken: string }> {
+  async getTokens(): Promise<GetTokensResponse> {
     if (IS_IOS) {
-      const tokens = await RNGoogleSignin.getTokens();
-      return tokens;
+      return NativeModule.getTokens();
     } else {
-      const userObject = await RNGoogleSignin.getTokens();
+      const userObject = await NativeModule.getTokens();
       return {
         idToken: userObject.idToken,
         accessToken: userObject.accessToken,
@@ -109,8 +101,8 @@ class GoogleSignin {
 export const GoogleSigninSingleton = new GoogleSignin();
 
 export const statusCodes = {
-  SIGN_IN_CANCELLED: RNGoogleSignin.SIGN_IN_CANCELLED as string,
-  IN_PROGRESS: RNGoogleSignin.IN_PROGRESS as string,
-  PLAY_SERVICES_NOT_AVAILABLE: RNGoogleSignin.PLAY_SERVICES_NOT_AVAILABLE as string,
-  SIGN_IN_REQUIRED: RNGoogleSignin.SIGN_IN_REQUIRED as string,
+  // SIGN_IN_CANCELLED: NativeModule.SIGN_IN_CANCELLEDg,
+  // IN_PROGRESS: RNGoogleSignin.IN_PROGRESS as string,
+  // PLAY_SERVICES_NOT_AVAILABLE: RNGoogleSignin.PLAY_SERVICES_NOT_AVAILABLE as string,
+  // SIGN_IN_REQUIRED: RNGoogleSignin.SIGN_IN_REQUIRED as string,
 } as const;

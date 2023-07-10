@@ -37,14 +37,15 @@ static NSString *const kClientIdKey = @"CLIENT_ID";
            };
 }
 
+
 + (BOOL)requiresMainQueueSetup
 {
   return NO;
 }
 
 RCT_EXPORT_METHOD(configure:(NSDictionary *)options
-                  resolver:(RCTPromiseResolveBlock)resolve
-                  rejecter:(RCTPromiseRejectBlock)reject)
+                  resolve:(RCTPromiseResolveBlock)resolve
+                  reject:(RCTPromiseRejectBlock)reject)
 {
   NSString *pathName = options[@"googleServicePlistPath"] ? options[@"googleServicePlistPath"] : @"GoogleService-Info";
 
@@ -87,7 +88,7 @@ RCT_EXPORT_METHOD(configure:(NSDictionary *)options
 }
 
 RCT_EXPORT_METHOD(signInSilently:(RCTPromiseResolveBlock)resolve
-                  rejecter:(RCTPromiseRejectBlock)reject)
+                  reject:(RCTPromiseRejectBlock)reject)
 {
   [GIDSignIn.sharedInstance restorePreviousSignInWithCompletion:^(GIDGoogleUser * _Nullable user, NSError * _Nullable error) {
     [self handleCompletion:user serverAuthCode:nil withError:error withResolver:resolve withRejector:reject fromCallsite:@"signInSilently"];
@@ -95,8 +96,8 @@ RCT_EXPORT_METHOD(signInSilently:(RCTPromiseResolveBlock)resolve
 }
 
 RCT_EXPORT_METHOD(signIn:(NSDictionary *)options
-                  resolver:(RCTPromiseResolveBlock)resolve
-                  rejecter:(RCTPromiseRejectBlock)reject)
+                  resolve:(RCTPromiseResolveBlock)resolve
+                  reject:(RCTPromiseRejectBlock)reject)
 {
   dispatch_async(dispatch_get_main_queue(), ^{
       UIViewController* presentingViewController = RCTPresentedViewController();
@@ -110,8 +111,8 @@ RCT_EXPORT_METHOD(signIn:(NSDictionary *)options
 }
 
 RCT_EXPORT_METHOD(addScopes:(NSDictionary *)options
-                  resolver:(RCTPromiseResolveBlock)resolve
-                  rejecter:(RCTPromiseRejectBlock)reject)
+                  resolve:(RCTPromiseResolveBlock)resolve
+                  reject:(RCTPromiseRejectBlock)reject)
 {
   dispatch_async(dispatch_get_main_queue(), ^{
       GIDGoogleUser *currentUser = GIDSignIn.sharedInstance.currentUser;
@@ -129,14 +130,14 @@ RCT_EXPORT_METHOD(addScopes:(NSDictionary *)options
 }
 
 RCT_EXPORT_METHOD(signOut:(RCTPromiseResolveBlock)resolve
-                  signOutReject:(RCTPromiseRejectBlock)reject)
+                  reject:(RCTPromiseRejectBlock)reject)
 {
   [GIDSignIn.sharedInstance signOut];
   resolve([NSNull null]);
 }
 
 RCT_EXPORT_METHOD(revokeAccess:(RCTPromiseResolveBlock)resolve
-                  revokeAccessReject:(RCTPromiseRejectBlock)reject)
+                  reject:(RCTPromiseRejectBlock)reject)
 {
   [GIDSignIn.sharedInstance disconnectWithCompletion:^(NSError * _Nullable error) {
     if (error) {
@@ -147,22 +148,20 @@ RCT_EXPORT_METHOD(revokeAccess:(RCTPromiseResolveBlock)resolve
   }];
 }
 
-RCT_EXPORT_METHOD(isSignedIn:(RCTPromiseResolveBlock)resolve
-                  rejecter:(RCTPromiseRejectBlock)reject)
+RCT_EXPORT_SYNCHRONOUS_TYPED_METHOD(NSNumber *, hasPreviousSignIn)
 {
   BOOL isSignedIn = [GIDSignIn.sharedInstance hasPreviousSignIn];
-  resolve(@(isSignedIn));
+  return @(isSignedIn);
 }
 
-RCT_EXPORT_METHOD(getCurrentUser:(RCTPromiseResolveBlock)resolve
-                  rejecter:(RCTPromiseRejectBlock)reject)
+RCT_EXPORT_SYNCHRONOUS_TYPED_METHOD(NSDictionary*, getCurrentUser)
 {
   GIDGoogleUser *currentUser = GIDSignIn.sharedInstance.currentUser;
-  resolve(RCTNullIfNil([self createUserDictionary:currentUser serverAuthCode:nil]));
+  return RCTNullIfNil([self createUserDictionary:currentUser serverAuthCode:nil]);
 }
 
 RCT_EXPORT_METHOD(getTokens:(RCTPromiseResolveBlock)resolve
-                    rejecter:(RCTPromiseRejectBlock)reject)
+                    reject:(RCTPromiseRejectBlock)reject)
 {
   GIDGoogleUser *currentUser = GIDSignIn.sharedInstance.currentUser;
   if (currentUser == nil) {
@@ -184,6 +183,12 @@ RCT_EXPORT_METHOD(getTokens:(RCTPromiseResolveBlock)resolve
     }
   }];
 }
+
+- (void)playServicesAvailable:(NSDictionary *)params resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
+    // noop on ios
+    resolve(@(YES));
+}
+
 
 - (NSDictionary*)createUserDictionary: (nullable GIDSignInResult *) result {
   return [self createUserDictionary:result.user serverAuthCode:result.serverAuthCode];
@@ -260,10 +265,13 @@ RCT_EXPORT_METHOD(getTokens:(RCTPromiseResolveBlock)resolve
   rejector(errorCode, message, error);
 }
 
-+ (BOOL)application:(UIApplication *)app
-            openURL:(NSURL *)url
-            options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
-  return [GIDSignIn.sharedInstance handleURL:url];
+#ifdef RCT_NEW_ARCH_ENABLED
+
+- (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:
+   (const facebook::react::ObjCTurboModule::InitParams &)params
+{
+   return std::make_shared<facebook::react::NativeGoogleSigninSpecJSI>(params);
 }
+#endif
 
 @end

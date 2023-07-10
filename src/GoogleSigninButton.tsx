@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react';
 
-import { NativeModules, Platform, DeviceEventEmitter, StyleSheet } from 'react-native';
-import { RNGoogleSigninButton } from './RNGoogleSiginButton';
+import { Platform, DeviceEventEmitter, StyleSheet } from 'react-native';
 import type { GoogleSigninButtonProps } from './types';
+import { RNGoogleSigninButton } from './spec/SignInButtonNativeComponent';
+import { NativeModule } from './spec/NativeGoogleSignin';
 
-interface RNGoogleSignStaticsType {
-  BUTTON_SIZE_STANDARD: number;
-  BUTTON_SIZE_WIDE: number;
-  BUTTON_SIZE_ICON: number;
-  BUTTON_COLOR_DARK: number;
-  BUTTON_COLOR_LIGHT: number;
-}
-const RNGoogleSignin: RNGoogleSignStaticsType = NativeModules.RNGoogleSignin;
+const {
+  BUTTON_SIZE_WIDE,
+  BUTTON_SIZE_ICON,
+  BUTTON_SIZE_STANDARD,
+  BUTTON_COLOR_DARK,
+  BUTTON_COLOR_LIGHT,
+} = NativeModule.getConstants();
 
 export const GoogleSigninButton = ({ onPress, style, ...rest }: GoogleSigninButtonProps) => {
   useEffect(() => {
@@ -28,28 +28,33 @@ export const GoogleSigninButton = ({ onPress, style, ...rest }: GoogleSigninButt
 
   const recommendedSize = (() => {
     switch (rest.size) {
-      case RNGoogleSignin.BUTTON_SIZE_ICON:
+      case BUTTON_SIZE_ICON:
         return styles.iconSize;
-      case RNGoogleSignin.BUTTON_SIZE_WIDE:
+      case BUTTON_SIZE_WIDE:
         return styles.wideSize;
       default:
         return styles.standardSize;
     }
   })();
 
-  // @ts-ignore style prop incompatible
-  return <RNGoogleSigninButton {...rest} onPress={onPress} style={[recommendedSize, style]} />;
+  return (
+    <RNGoogleSigninButton
+      {...rest}
+      onPress={onPress}
+      style={StyleSheet.compose(recommendedSize, style)}
+    />
+  );
 };
 
 GoogleSigninButton.Size = {
-  Icon: RNGoogleSignin.BUTTON_SIZE_ICON,
-  Standard: RNGoogleSignin.BUTTON_SIZE_STANDARD,
-  Wide: RNGoogleSignin.BUTTON_SIZE_WIDE,
+  Icon: BUTTON_SIZE_ICON,
+  Standard: BUTTON_SIZE_STANDARD,
+  Wide: BUTTON_SIZE_WIDE,
 };
 
 GoogleSigninButton.Color = {
-  Dark: RNGoogleSignin.BUTTON_COLOR_DARK,
-  Light: RNGoogleSignin.BUTTON_COLOR_LIGHT,
+  Dark: BUTTON_COLOR_DARK,
+  Light: BUTTON_COLOR_LIGHT,
 };
 
 // sizes according to https://developers.google.com/identity/sign-in/ios/reference/Classes/GIDSignInButton
