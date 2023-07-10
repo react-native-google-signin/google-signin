@@ -28,7 +28,7 @@
     "README.md"
   ],
   "scripts": {
-    "start": "react-native start --port=8081",
+    "start": "react-native start --port=8081 --reset-cache",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "build:mock": "tsc --build jest && cp jest/build/jest/setup.js jest/build/setup.js",

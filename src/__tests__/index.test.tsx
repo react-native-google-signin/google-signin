@@ -7,8 +7,9 @@ import {
 import { mockUserInfo } from '../../jest/setup';
 
 it('sanity check for exported mock methods', async () => {
-  expect(await GoogleSignin.isSignedIn()).toBe(true);
+  expect(GoogleSignin.hasPreviousSignIn()).toBe(true);
   expect(await GoogleSignin.signIn()).toStrictEqual(mockUserInfo);
+  expect(GoogleSignin.getCurrentUser()).toStrictEqual(mockUserInfo);
   expect(await GoogleSignin.signOut()).toBeNull();
   expect(GoogleSigninButton).toBeInstanceOf(Function);
   expect(statusCodes).toStrictEqual({

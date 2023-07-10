@@ -100,9 +100,11 @@ class GoogleSignin {
 
 export const GoogleSigninSingleton = new GoogleSignin();
 
-export const statusCodes = {
-  // SIGN_IN_CANCELLED: NativeModule.SIGN_IN_CANCELLEDg,
-  // IN_PROGRESS: RNGoogleSignin.IN_PROGRESS as string,
-  // PLAY_SERVICES_NOT_AVAILABLE: RNGoogleSignin.PLAY_SERVICES_NOT_AVAILABLE as string,
-  // SIGN_IN_REQUIRED: RNGoogleSignin.SIGN_IN_REQUIRED as string,
-} as const;
+const { SIGN_IN_CANCELLED, IN_PROGRESS, PLAY_SERVICES_NOT_AVAILABLE, SIGN_IN_REQUIRED } =
+  NativeModule.getConstants();
+export const statusCodes = Object.freeze({
+  SIGN_IN_CANCELLED,
+  IN_PROGRESS,
+  PLAY_SERVICES_NOT_AVAILABLE,
+  SIGN_IN_REQUIRED,
+} as const);

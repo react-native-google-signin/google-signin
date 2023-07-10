@@ -98,8 +98,8 @@ export interface Spec extends TurboModule {
     BUTTON_SIZE_ICON: number;
     BUTTON_SIZE_WIDE: number;
     BUTTON_SIZE_STANDARD: number;
-    BUTTON_COLOR_DARK: string;
-    BUTTON_COLOR_LIGHT: string;
+    BUTTON_COLOR_DARK: number;
+    BUTTON_COLOR_LIGHT: number;
   };
 }
 

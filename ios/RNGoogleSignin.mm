@@ -37,6 +37,21 @@ static NSString *const kClientIdKey = @"CLIENT_ID";
            };
 }
 
+- (facebook::react::ModuleConstants<JS::NativeGoogleSignin::Constants>)getConstants {
+  return facebook::react::typedConstants<JS::NativeGoogleSignin::Constants>(
+          {.BUTTON_SIZE_ICON = kGIDSignInButtonStyleIconOnly,
+                  .BUTTON_SIZE_STANDARD = kGIDSignInButtonStyleStandard,
+                  .BUTTON_SIZE_WIDE = kGIDSignInButtonStyleWide,
+                  .BUTTON_COLOR_LIGHT = kGIDSignInButtonColorSchemeLight,
+                  .BUTTON_COLOR_DARK = kGIDSignInButtonColorSchemeDark,
+                  .SIGN_IN_CANCELLED = [@(kGIDSignInErrorCodeCanceled) stringValue],
+                  .SIGN_IN_REQUIRED = [@(kGIDSignInErrorCodeHasNoAuthInKeychain) stringValue],
+                  .IN_PROGRESS = ASYNC_OP_IN_PROGRESS,
+                  .PLAY_SERVICES_NOT_AVAILABLE = PLAY_SERVICES_NOT_AVAILABLE // this never happens on iOS
+          });
+
+
+}
 
 + (BOOL)requiresMainQueueSetup
 {
@@ -187,6 +202,11 @@ RCT_EXPORT_METHOD(getTokens:(RCTPromiseResolveBlock)resolve
 - (void)playServicesAvailable:(NSDictionary *)params resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
     // noop on ios
     resolve(@(YES));
+}
+
+- (void)clearCachedAccessToken:(NSString *)tokenString resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
+    // noop on ios
+    resolve([NSNull null]);
 }
 
 

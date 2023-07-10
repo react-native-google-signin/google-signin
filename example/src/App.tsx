@@ -88,7 +88,7 @@ export default class GoogleSigninSampleApp extends Component<{}, State> {
     return (
       <Button
         onPress={async () => {
-          const isSignedIn = await GoogleSignin.isSignedIn();
+          const isSignedIn = GoogleSignin.hasPreviousSignIn();
           Alert.alert(String(isSignedIn));
         }}
         title="is user signed in?"
@@ -142,7 +142,7 @@ export default class GoogleSigninSampleApp extends Component<{}, State> {
         <Text style={styles.welcomeText}>Welcome {userInfo.user.name}</Text>
         <Text selectable style={{ color: 'black' }}>
           Your user info:{' '}
-          {prettyJson({ ...userInfo, idToken: `${userInfo?.idToken?.slice(0, 5)}...` })}
+          {prettyJson({ ...userInfo, idToken: `${userInfo.idToken?.slice(0, 5)}...` })}
         </Text>
         {userInfo.user.photo && (
           <Image
@@ -234,7 +234,7 @@ export default class GoogleSigninSampleApp extends Component<{}, State> {
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
-    alignItems: 'center',
+    // alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
   welcomeText: { fontSize: 18, fontWeight: 'bold', marginBottom: 20, color: 'black' },

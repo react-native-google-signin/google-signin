@@ -947,7 +947,7 @@ PODS:
     - React-RCTAppDelegate
     - React-RCTFabric
     - ReactCommon/turbomodule/core
-  - ReactTestApp-DevSupport (2.5.8):
+  - ReactTestApp-DevSupport (2.5.10):
     - React-Core
     - React-jsi
   - ReactTestApp-Resources (1.0.0-dev)
@@ -1169,7 +1169,7 @@ SPEC CHECKSUMS:
   React-utils: 0a70ea97d4e2749f336b450c082905be1d389435
   ReactCommon: 4cbf891957cb9fdb7193f85f8dded6c62e6d112e
   ReactNativeHost: aad996f92ff13fc83089a5bd14c668f25b718f0e
-  ReactTestApp-DevSupport: 38084e32eb96fc84ee11a426e6a61b541064c877
+  ReactTestApp-DevSupport: 4bef8745d6a67987c92113f503805066ff268f97
   ReactTestApp-Resources: 1f512f66574607bcfa614e9c0d30e7a990fecf30
   RNGoogleSignin: efbee66f1483bbfc8c45687a38fd6b00b9245809
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
