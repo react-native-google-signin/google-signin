@@ -4,7 +4,7 @@
   <a href="https://www.npmjs.com/package/@react-native-google-signin/google-signin"><img src="https://badge.fury.io/js/@react-native-google-signin%2Fgoogle-signin.svg" alt="NPM Version"></a>
 </p>
 
-### 🚧🚧 New features planned: looking for financial backers and collaborators 🚧🚧
+### 🚧🚧 New features planned: looking for sponsors and collaborators 🚧🚧
 
 See this [issue](https://github.com/react-native-google-signin/google-signin/issues/942)
 
