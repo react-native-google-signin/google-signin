@@ -22,7 +22,16 @@ See this [issue](https://github.com/react-native-google-signin/google-signin/iss
 
 ## Project setup and initialization
 
-`yarn add @react-native-google-signin/google-signin`
+There are two ways to install the package:
+
+The latest version that supports the React Native [New Architecture](https://reactnative.dev/docs/new-architecture-intro), and includes some minor fixes is only available to [GitHub sponsors](https://github.com/sponsors/vonovak) of the maintainer.
+
+When you become a sponsor, you will get access to a private repo with the latest version of the package. The package is published to a private GH packages registry under the same name as the public one.
+
+Alternatively, you can install from the public registry using `yarn add @react-native-google-signin/google-signin` which will install an older version.
+
+The public version will be kept working, but it may not include the latest fixes and features. This is to incentivize sponsorships and thus support the maintenance of the package in the long term.
+My goal is to include all improvements from the private package in the public one (and remove the private one) once there is sufficient support from sponsors. Thank you for understanding.
 
 Then follow the [Android guide](docs/android-guide.md) and [iOS guide](docs/ios-guide.md)
 
