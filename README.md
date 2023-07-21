@@ -30,7 +30,7 @@ The latest version that
 
 ✅ supports the React Native [New Architecture](https://reactnative.dev/docs/new-architecture-intro)
 
-✅ includes some other minor fixes
+✅ includes some API improvements and minor fixes
 
 is only available to [GitHub sponsors](https://github.com/sponsors/vonovak) of the maintainer.
 
