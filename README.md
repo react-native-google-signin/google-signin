@@ -34,7 +34,7 @@ The latest version that
 
 is only available to [GitHub sponsors](https://github.com/sponsors/vonovak) of the maintainer.
 
-When you become a sponsor, you will get access to a private repo with the latest version of the package. The package is published to a private GH packages registry under the same name as the public one.
+When you become a sponsor using one of the supported tiers, you will instantly get access to a private repo with the latest version of the package. The package is published to a private GH packages registry under the same name as the public one.
 
 Alternatively, you can install from the public registry using `yarn add @react-native-google-signin/google-signin` which will install an older version.
 
