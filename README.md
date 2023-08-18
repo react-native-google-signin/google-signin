@@ -26,7 +26,7 @@ There are two ways to install the package:
 
 The latest version that
 
-✅ supports the new [One Tap sign-in on Android](https://developers.google.com/identity/one-tap/android/overview)
+✅ supports the new [One Tap sign-in on Android](https://developers.google.com/identity/one-tap/android/overview) which can be easily used together with the Google Sign-In for iOS
 
 ✅ supports the React Native [New Architecture](https://reactnative.dev/docs/new-architecture-intro)
 
@@ -34,7 +34,7 @@ The latest version that
 
 is only available to [GitHub sponsors](https://github.com/sponsors/vonovak) of the maintainer.
 
-When you become a sponsor using one of the supported tiers, you will instantly get access to a private repo with the latest version of the package. The package is published to a private GH packages registry under the same name as the public one.
+When you become a sponsor using one of the marked tiers, you will automatically be invited to a private repo with the latest version of the package. The package is published to a private GH packages registry under the same name as the public one.
 
 Alternatively, you can install from the public registry using `yarn add @react-native-google-signin/google-signin` which will install an older version.
 
