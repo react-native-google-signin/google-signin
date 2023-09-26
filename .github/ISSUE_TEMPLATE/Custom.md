@@ -14,7 +14,7 @@ Configuring google sign in can sometimes be tricky. If you're hitting a wall, yo
 
 <!-- Describe your issue in detail. -->
 
-## Steps to Reproduce
+## Repository with code that reproduces the issue
 
 - You **must** provide a **minimal and easy-to-run** reproduction of your issue - [how to create a minimal reproduction?](https://stackoverflow.com/help/mcve). We're a small team of maintainers and do not have time to try reproduce bugs ourselves.
 
