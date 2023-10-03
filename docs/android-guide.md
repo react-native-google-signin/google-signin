@@ -10,70 +10,36 @@ Please see the **FAQ** at bottom before opening new issues
 
 - Place the generated configuration file (`google-services.json`) into project according to [this guide](https://developers.google.com/android/guides/google-services-plugin#adding_the_json_file).
 
+- Add the `googleServicesFile` parameter to your `app.json` or `app.config.js`:
+
+```json
+{
+  "expo": {
+    "android": {
+      "googleServicesFile": "./google-services.json"
+    },
+    "ios": {
+      "googleServicesFile": "./GoogleService-Info.plist"
+    },
+    "plugins": ["@react-native-google-signin/google-signin"]
+  }
+}
+```
+
 #### 1.b - if you're NOT using Firebase
 
-- Follow the instructions to [Configure a Google API Project](https://developers.google.com/identity/sign-in/android/start#configure-a-google-api-project) from the official docs.
+- Follow the [Start Integrating Google Sign-In into Your Android App](https://developers.google.com/identity/sign-in/android/start-integrating) instructions from the official docs.
 
 Please see more details here https://support.google.com/cloud/answer/6158849#installedapplications&android if needed.
 It's important that OAuth 2.0 android id has fingerprint set correspondingly to the fingerprint of certificate which is used to sign the apk. Also, package name should be the same as apk package name.
 
-### 2. Installation
+- Copy and paste the client ID into your project's `strings.xml`` file:
 
-Please note that this package requires android gradle plugin of version >= 3, which in turn requires at least gradle 4.1. Android studio should be able to do the upgrade for you.
-
-1 . link the native module
-
-In RN >= 0.60 you should not need to do anything thanks to [autolinking](https://github.com/react-native-community/cli/blob/master/docs/autolinking.md)
-
-2 . Update `android/build.gradle` with
-
-```gradle
-buildscript {
-    ext {
-        buildToolsVersion = "27.0.3"
-        minSdkVersion = 16
-        compileSdkVersion = 27
-        targetSdkVersion = 26
-        supportLibVersion = "27.1.1"
-        googlePlayServicesAuthVersion = "19.2.0" // <--- use this version or newer
-    }
-...
-    dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.1' // <--- use this version or newer
-        classpath 'com.google.gms:google-services:4.3.10' // <--- use this version or newer
-    }
-...
-allprojects {
-    repositories {
-        mavenLocal()
-        google() // <--- make sure this is included
-        jcenter()
-        maven {
-            // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
-            url "$rootDir/../node_modules/react-native/android"
-        }
-    }
-}
+```xml
+<string name="server_client_id">YOUR_SERVER_CLIENT_ID</string>
 ```
 
-3 . Update `android/app/build.gradle` with
-
-```gradle
-...
-dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "com.facebook.react:react-native:+"
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0' // <-- add this; newer versions should work too
-}
-
-apply plugin: 'com.google.gms.google-services' // <--- this should be the last line
-```
-
-#### Choose Dependency versions (optional)
-
-The library depends on `com.google.android.gms:play-services-auth`, as seen in [build.gradle](https://github.com/react-native-community/google-signin/blob/master/android/build.gradle). If needed, you may control their versions by the `ext` closure, as seen in [build.gradle](https://github.com/react-native-community/google-signin/blob/master/example/android/build.gradle) of the example app.
-
-### 3. Running on simulator
+### Running on simulator
 
 Make sure you have a simulator with Google Play Services installed.
 

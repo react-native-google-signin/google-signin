@@ -2,6 +2,28 @@
 
 ### 1. Installation
 
+#### if you're using Firebase
+
+- Follow [this](./get-config-file.md) guide to get the configuration file.
+
+- Place the generated configuration file (`google-services.json`) into project according to [this guide](https://developers.google.com/android/guides/google-services-plugin#adding_the_json_file).
+
+- Add the `googleServicesFile` parameter to your `app.json` or `app.config.js`:
+
+```json
+{
+  "expo": {
+    "android": {
+      "googleServicesFile": "./google-services.json"
+    },
+    "ios": {
+      "googleServicesFile": "./GoogleService-Info.plist"
+    },
+    "plugins": ["@react-native-google-signin/google-signin"]
+  }
+}
+```
+
 #### Link the native module
 
 - run `pod install` in `ios/` directory to install the module
