@@ -33,7 +33,7 @@ Please see the **FAQ** at bottom before opening new issues
 Please see more details here https://support.google.com/cloud/answer/6158849#installedapplications&android if needed.
 It's important that OAuth 2.0 android id has fingerprint set correspondingly to the fingerprint of certificate which is used to sign the apk. Also, package name should be the same as apk package name.
 
-- Copy and paste the client ID into your project's `strings.xml`` file:
+- Copy and paste the client ID into your project's `strings.xml` file:
 
 ```xml
 <string name="server_client_id">YOUR_SERVER_CLIENT_ID</string>
