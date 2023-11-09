@@ -12,7 +12,7 @@ The [podspec](https://github.com/react-native-google-signin/google-signin/blob/m
 
 First time using cocoapods? [check this out](./how-cocoapods.md)
 
-At the end, the dependencis should be linked like in this picture (this is _with_ pods, for RN >= 0.60).
+At the end, the dependencies should be linked like in this picture (this is _with_ pods, for RN >= 0.60).
 
 [![link config](../img/pods-rn60.png)](../img/buildPhasesWithPods.png?raw=true)
 
