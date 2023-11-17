@@ -4,9 +4,7 @@
   <a href="https://www.npmjs.com/package/@react-native-google-signin/google-signin"><img src="https://badge.fury.io/js/@react-native-google-signin%2Fgoogle-signin.svg" alt="NPM Version"></a>
 </p>
 
-### 🚧🚧 New features planned: looking for sponsors and collaborators 🚧🚧
-
-See this [issue](https://github.com/react-native-google-signin/google-signin/issues/942)
+❤️❤️ [New documentation site available!](https://react-native-google-signin.github.io/docs/install) ❤️❤️
 
 ## Features
 
@@ -16,58 +14,11 @@ See this [issue](https://github.com/react-native-google-signin/google-signin/iss
 - Mock of the native module for testing with Jest
 - Native sign in buttons
 
-## Requirements
-
-- RN >= 0.60
-
 ## Project setup and initialization
 
-There are two ways to install the package:
+Please follow the "Installation" and "Setting up" guides at [react-native-google-signin.github.io](https://react-native-google-signin.github.io/).
 
-The latest version that
-
-✅ supports the new [One Tap sign-in on Android](https://developers.google.com/identity/one-tap/android/overview) which can be easily used together with the Google Sign-In for iOS
-
-✅ supports the React Native [New Architecture](https://reactnative.dev/docs/new-architecture-intro)
-
-✅ includes some API improvements and minor fixes
-
-is only available to [GitHub sponsors](https://github.com/sponsors/vonovak) of the maintainer.
-
-When you become a sponsor using one of the marked tiers, you will automatically be invited to a private repo with the latest version of the package. The package is published to a private GH packages registry under the same name as the public one.
-
-Alternatively, you can install from the public registry using `yarn add @react-native-google-signin/google-signin` which will install an older version.
-
-The public version will be kept working, but it may not include the latest fixes and features. This is to incentivize sponsorships and thus support the maintenance of the package in the long term.
-My goal is to include all improvements from the private package in the public one (and remove the private one) once there is sufficient support from sponsors :+1:.
-
-Then follow the [Android guide](docs/android-guide.md) and [iOS guide](docs/ios-guide.md)
-
-## Expo installation
-
-> This package cannot be used in the "Expo Go" app because [it requires custom native code](https://docs.expo.io/workflow/customizing/). _However, you can add custom native code to expo by following the guide below._
-
-```sh
-npx expo install @react-native-google-signin/google-signin
-```
-
-After installing this npm package, add the [config plugin](https://docs.expo.io/guides/config-plugins/) to the [`plugins`](https://docs.expo.io/versions/latest/config/app/#plugins) array of your `app.json` or `app.config.js`:
-
-```json
-{
-  "expo": {
-    "android": {
-      "googleServicesFile": "./google-services.json"
-    },
-    "ios": {
-      "googleServicesFile": "./GoogleService-Info.plist"
-    },
-    "plugins": ["@react-native-google-signin/google-signin"]
-  }
-}
-```
-
-Next, rebuild your app as described in the ["Adding custom native code"](https://docs.expo.io/workflow/customizing/) guide.
+Then, if you're a sponsor (as explained [here](https://react-native-google-signin.github.io/docs/install)), you can continue using the guides on the dedicated documentation site. If not, please use this readme file.
 
 ## Public API
 
@@ -100,7 +51,7 @@ An example with all options enumerated:
 ```js
 GoogleSignin.configure({
   scopes: ['https://www.googleapis.com/auth/drive.readonly'], // what API you want to access on behalf of the user, default is email and profile
-  webClientId: '<FROM DEVELOPER CONSOLE>', // client ID of type WEB for your server (needed to verify user ID and offline access)
+  webClientId: '<FROM DEVELOPER CONSOLE>', // client ID of type WEB for your server. Required to get the idToken on the user object, and for offline access.
   offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
   hostedDomain: '', // specifies a hosted domain restriction
   forceCodeForRefreshToken: true, // [Android] related to `serverAuthCode`, read the docs link below *.
