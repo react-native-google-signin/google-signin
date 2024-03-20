@@ -1,4 +1,1 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.reactnativegooglesignin">
-
-</manifest>
+<manifest package="com.reactnativegooglesignin"/>
