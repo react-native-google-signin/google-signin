@@ -332,7 +332,7 @@ Please visit https://developers.google.com/identity/protocols/googlescopes or ht
 
 ## Troubleshooting
 
-Please see the troubleshooting section in the [Android guide](docs/android-guide.md) and [iOS guide](docs/ios-guide.md).
+Please see the troubleshooting section in the [Android guide](https://react-native-google-signin.github.io/docs/setting-up/android) and [iOS guide](https://react-native-google-signin.github.io/docs/setting-up/ios).
 
 ## Licence
 
