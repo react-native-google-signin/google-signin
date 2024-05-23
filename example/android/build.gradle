@@ -1,6 +1,14 @@
 buildscript {
-    def androidTestAppDir = "../../node_modules/react-native-test-app/android"
-    apply(from: "${androidTestAppDir}/dependencies.gradle")
+    apply(from: {
+        def searchDir = rootDir.toPath()
+        do {
+            def p = searchDir.resolve("node_modules/react-native-test-app/android/dependencies.gradle")
+            if (p.toFile().exists()) {
+                return p.toRealPath().toString()
+            }
+        } while (searchDir = searchDir.getParent())
+        throw new GradleException("Could not find `react-native-test-app`");
+    }())
 
     repositories {
         mavenCentral()
@@ -11,7 +19,6 @@ buildscript {
         getReactNativeDependencies().each { dependency ->
             classpath(dependency)
         }
-        classpath 'com.google.gms:google-services:4.3.15'
     }
 }
 
@@ -19,7 +26,16 @@ allprojects {
     repositories {
         maven {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
-            url("${rootDir}/../../node_modules/react-native/android")
+            url({
+                def searchDir = rootDir.toPath()
+                do {
+                    def p = searchDir.resolve("node_modules/react-native/android")
+                    if (p.toFile().exists()) {
+                        return p.toRealPath().toString()
+                    }
+                } while (searchDir = searchDir.getParent())
+                throw new GradleException("Could not find `react-native`");
+            }())
         }
         mavenCentral()
         google()

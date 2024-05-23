@@ -17,6 +17,10 @@ RCT_EXPORT_MODULE();
 static NSString *const PLAY_SERVICES_NOT_AVAILABLE = @"PLAY_SERVICES_NOT_AVAILABLE";
 static NSString *const ASYNC_OP_IN_PROGRESS = @"ASYNC_OP_IN_PROGRESS";
 
+static NSString *const NO_SAVED_CREDENTIAL_FOUND = @"NO_SAVED_CREDENTIAL_FOUND";
+static NSString *const ONE_TAP_START_FAILED = @"ONE_TAP_START_FAILED";
+
+
 
 // The key in `GoogleService-Info.plist` client id.
 // For more see https://developers.google.com/identity/sign-in/ios/start
@@ -28,14 +32,35 @@ static NSString *const kClientIdKey = @"CLIENT_ID";
            @"BUTTON_SIZE_ICON": @(kGIDSignInButtonStyleIconOnly),
            @"BUTTON_SIZE_STANDARD": @(kGIDSignInButtonStyleStandard),
            @"BUTTON_SIZE_WIDE": @(kGIDSignInButtonStyleWide),
-           @"BUTTON_COLOR_LIGHT": @(kGIDSignInButtonColorSchemeLight),
-           @"BUTTON_COLOR_DARK": @(kGIDSignInButtonColorSchemeDark),
            @"SIGN_IN_CANCELLED": [@(kGIDSignInErrorCodeCanceled) stringValue],
            @"SIGN_IN_REQUIRED": [@(kGIDSignInErrorCodeHasNoAuthInKeychain) stringValue],
+           @"SCOPES_ALREADY_GRANTED": [@(kGIDSignInErrorCodeScopesAlreadyGranted) stringValue],
            @"IN_PROGRESS": ASYNC_OP_IN_PROGRESS,
-           PLAY_SERVICES_NOT_AVAILABLE: PLAY_SERVICES_NOT_AVAILABLE // this never happens on iOS
+           // these never happen on iOS
+           PLAY_SERVICES_NOT_AVAILABLE: PLAY_SERVICES_NOT_AVAILABLE,
+           NO_SAVED_CREDENTIAL_FOUND: NO_SAVED_CREDENTIAL_FOUND,
+           ONE_TAP_START_FAILED: ONE_TAP_START_FAILED,
            };
 }
+
+#ifdef RCT_NEW_ARCH_ENABLED
+- (facebook::react::ModuleConstants<JS::NativeGoogleSignin::Constants>)getConstants {
+  return facebook::react::typedConstants<JS::NativeGoogleSignin::Constants>(
+          {.BUTTON_SIZE_ICON = kGIDSignInButtonStyleIconOnly,
+                  .BUTTON_SIZE_STANDARD = kGIDSignInButtonStyleStandard,
+                  .BUTTON_SIZE_WIDE = kGIDSignInButtonStyleWide,
+                  .SIGN_IN_CANCELLED = [@(kGIDSignInErrorCodeCanceled) stringValue],
+                  .SIGN_IN_REQUIRED = [@(kGIDSignInErrorCodeHasNoAuthInKeychain) stringValue],
+                  .IN_PROGRESS = ASYNC_OP_IN_PROGRESS,
+                  .SCOPES_ALREADY_GRANTED = [@(kGIDSignInErrorCodeScopesAlreadyGranted) stringValue],
+
+                  // these never happen on iOS
+                  .PLAY_SERVICES_NOT_AVAILABLE = PLAY_SERVICES_NOT_AVAILABLE,
+                  .NO_SAVED_CREDENTIAL_FOUND = NO_SAVED_CREDENTIAL_FOUND,
+                  .ONE_TAP_START_FAILED = ONE_TAP_START_FAILED,
+          });
+}
+#endif
 
 + (BOOL)requiresMainQueueSetup
 {
@@ -43,17 +68,17 @@ static NSString *const kClientIdKey = @"CLIENT_ID";
 }
 
 RCT_EXPORT_METHOD(configure:(NSDictionary *)options
-                  resolver:(RCTPromiseResolveBlock)resolve
-                  rejecter:(RCTPromiseRejectBlock)reject)
+                  resolve:(RCTPromiseResolveBlock)resolve
+                  reject:(RCTPromiseRejectBlock)reject)
 {
   NSString *pathName = options[@"googleServicePlistPath"] ? options[@"googleServicePlistPath"] : @"GoogleService-Info";
 
   NSURL *path = [[NSBundle mainBundle] URLForResource:pathName withExtension:@"plist"];
 
   if (!options[@"iosClientId"] && !path) {
-    NSString* message = @"RNGoogleSignin: failed to determine clientID - GoogleService-Info.plist was not found and iosClientId was not provided. To fix this error: if you have GoogleService-Info.plist file (usually downloaded from firebase) place it into the project as seen in the iOS guide. Otherwise pass iosClientId option to configure()";
+    NSString* message = @"RNGoogleSignin: failed to determine clientID - GoogleService-Info.plist was not found and iosClientId was not provided. To fix this error:\nIf you use Firebase, download GoogleService-Info.plist file from Firebase and place it into the project. Read the iOS guide / Expo guide to learn more.\nOtherwise pass 'iosClientId' option to configure().";
     RCTLogError(@"%@", message);
-    reject(@"INTERNAL_MISSING_CONFIG", message, nil);
+    reject(@"configure", message, nil);
     return;
   }
 
@@ -66,7 +91,7 @@ RCT_EXPORT_METHOD(configure:(NSDictionary *)options
     if (error) {
       NSString* message = [NSString stringWithFormat:@"RNGoogleSignin: Failed to read GoogleService-Info.plist."];
       RCTLogError(@"%@", message);
-      reject(@"INTERNAL_PLIST_READ_ERR", message, error);
+      reject(@"configure", message, error);
       return;
     }
     clientId = plist[kClientIdKey];
@@ -87,7 +112,7 @@ RCT_EXPORT_METHOD(configure:(NSDictionary *)options
 }
 
 RCT_EXPORT_METHOD(signInSilently:(RCTPromiseResolveBlock)resolve
-                  rejecter:(RCTPromiseRejectBlock)reject)
+                  reject:(RCTPromiseRejectBlock)reject)
 {
   [GIDSignIn.sharedInstance restorePreviousSignInWithCompletion:^(GIDGoogleUser * _Nullable user, NSError * _Nullable error) {
     [self handleCompletion:user serverAuthCode:nil withError:error withResolver:resolve withRejector:reject fromCallsite:@"signInSilently"];
@@ -95,8 +120,8 @@ RCT_EXPORT_METHOD(signInSilently:(RCTPromiseResolveBlock)resolve
 }
 
 RCT_EXPORT_METHOD(signIn:(NSDictionary *)options
-                  resolver:(RCTPromiseResolveBlock)resolve
-                  rejecter:(RCTPromiseRejectBlock)reject)
+                  resolve:(RCTPromiseResolveBlock)resolve
+                  reject:(RCTPromiseRejectBlock)reject)
 {
   dispatch_async(dispatch_get_main_queue(), ^{
       UIViewController* presentingViewController = RCTPresentedViewController();
@@ -110,8 +135,8 @@ RCT_EXPORT_METHOD(signIn:(NSDictionary *)options
 }
 
 RCT_EXPORT_METHOD(addScopes:(NSDictionary *)options
-                  resolver:(RCTPromiseResolveBlock)resolve
-                  rejecter:(RCTPromiseRejectBlock)reject)
+                  resolve:(RCTPromiseResolveBlock)resolve
+                  reject:(RCTPromiseRejectBlock)reject)
 {
   dispatch_async(dispatch_get_main_queue(), ^{
       GIDGoogleUser *currentUser = GIDSignIn.sharedInstance.currentUser;
@@ -129,14 +154,14 @@ RCT_EXPORT_METHOD(addScopes:(NSDictionary *)options
 }
 
 RCT_EXPORT_METHOD(signOut:(RCTPromiseResolveBlock)resolve
-                  signOutReject:(RCTPromiseRejectBlock)reject)
+                  reject:(RCTPromiseRejectBlock)reject)
 {
   [GIDSignIn.sharedInstance signOut];
   resolve([NSNull null]);
 }
 
 RCT_EXPORT_METHOD(revokeAccess:(RCTPromiseResolveBlock)resolve
-                  revokeAccessReject:(RCTPromiseRejectBlock)reject)
+                  reject:(RCTPromiseRejectBlock)reject)
 {
   [GIDSignIn.sharedInstance disconnectWithCompletion:^(NSError * _Nullable error) {
     if (error) {
@@ -147,22 +172,20 @@ RCT_EXPORT_METHOD(revokeAccess:(RCTPromiseResolveBlock)resolve
   }];
 }
 
-RCT_EXPORT_METHOD(isSignedIn:(RCTPromiseResolveBlock)resolve
-                  rejecter:(RCTPromiseRejectBlock)reject)
+RCT_EXPORT_SYNCHRONOUS_TYPED_METHOD(NSNumber *, hasPreviousSignIn)
 {
-  BOOL isSignedIn = [GIDSignIn.sharedInstance hasPreviousSignIn];
-  resolve(@(isSignedIn));
+  BOOL hasPreviousSignIn = [GIDSignIn.sharedInstance hasPreviousSignIn];
+  return @(hasPreviousSignIn);
 }
 
-RCT_EXPORT_METHOD(getCurrentUser:(RCTPromiseResolveBlock)resolve
-                  rejecter:(RCTPromiseRejectBlock)reject)
+RCT_EXPORT_SYNCHRONOUS_TYPED_METHOD(NSDictionary*, getCurrentUser)
 {
   GIDGoogleUser *currentUser = GIDSignIn.sharedInstance.currentUser;
-  resolve(RCTNullIfNil([self createUserDictionary:currentUser serverAuthCode:nil]));
+  return RCTNullIfNil([self createUserDictionary:currentUser serverAuthCode:nil]);
 }
 
 RCT_EXPORT_METHOD(getTokens:(RCTPromiseResolveBlock)resolve
-                    rejecter:(RCTPromiseRejectBlock)reject)
+                    reject:(RCTPromiseRejectBlock)reject)
 {
   GIDGoogleUser *currentUser = GIDSignIn.sharedInstance.currentUser;
   if (currentUser == nil) {
@@ -184,6 +207,17 @@ RCT_EXPORT_METHOD(getTokens:(RCTPromiseResolveBlock)resolve
     }
   }];
 }
+
+- (void)playServicesAvailable:(BOOL)showPlayServicesUpdateDialog resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
+    // never called on ios
+    resolve(@(YES));
+}
+
+- (void)clearCachedAccessToken:(NSString *)tokenString resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
+    // never called on ios
+    resolve([NSNull null]);
+}
+
 
 - (NSDictionary*)createUserDictionary: (nullable GIDSignInResult *) result {
   return [self createUserDictionary:result.user serverAuthCode:result.serverAuthCode];
@@ -213,7 +247,6 @@ RCT_EXPORT_METHOD(getTokens:(RCTPromiseResolveBlock)resolve
   return params;
 }
 
-
 - (void)handleCompletion: (GIDSignInResult * _Nullable) signInResult withError: (NSError * _Nullable) error withResolver: (RCTPromiseResolveBlock) resolve withRejector: (RCTPromiseRejectBlock) reject fromCallsite: (NSString *) from {
   [self handleCompletion:signInResult.user serverAuthCode:signInResult.serverAuthCode withError:error withResolver:resolve withRejector:reject fromCallsite:from];
 }
@@ -230,7 +263,7 @@ RCT_EXPORT_METHOD(getTokens:(RCTPromiseResolveBlock)resolve
   }
 }
 
-+ (void)rejectWithSigninError: (NSError *) error withRejector: (RCTPromiseRejectBlock) rejector {
++ (void)rejectWithSigninError: (NSError *) error withRejector: (RCTPromiseRejectBlock) reject {
   NSString *errorMessage = @"Unknown error in google sign in.";
   switch (error.code) {
     case kGIDSignInErrorCodeUnknown:
@@ -240,7 +273,7 @@ RCT_EXPORT_METHOD(getTokens:(RCTPromiseResolveBlock)resolve
       errorMessage = @"A problem reading or writing to the application keychain.";
       break;
     case kGIDSignInErrorCodeHasNoAuthInKeychain:
-      errorMessage = @"The user has never signed in before with the given scopes, or they have since signed out.";
+      errorMessage = @"The user has never signed in before, or they have since signed out.";
       break;
     case kGIDSignInErrorCodeCanceled:
       errorMessage = @"The user canceled the sign in request.";
@@ -255,15 +288,17 @@ RCT_EXPORT_METHOD(getTokens:(RCTPromiseResolveBlock)resolve
       errorMessage = @"There was an operation on a previous user.";
       break;
   }
-  NSString* message = [NSString stringWithFormat:@"RNGoogleSignInError: %@, %@", errorMessage, error.description];
+  NSString* message = [NSString stringWithFormat:@"RNGoogleSignIn: %@, %@", errorMessage, error.description];
   NSString* errorCode = [NSString stringWithFormat:@"%ld", error.code];
-  rejector(errorCode, message, error);
+  reject(errorCode, message, error);
 }
 
-+ (BOOL)application:(UIApplication *)app
-            openURL:(NSURL *)url
-            options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
-  return [GIDSignIn.sharedInstance handleURL:url];
+#ifdef RCT_NEW_ARCH_ENABLED
+- (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:
+   (const facebook::react::ObjCTurboModule::InitParams &)params
+{
+   return std::make_shared<facebook::react::NativeGoogleSigninSpecJSI>(params);
 }
+#endif
 
 @end

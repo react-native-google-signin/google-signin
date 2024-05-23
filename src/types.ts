@@ -1,69 +1,42 @@
-// Type definitions for @react-native-google-signin/google-signin
-// Project: https://github.com/react-native-community/google-signin
-// Definitions by: Jacob Froman <https://github.com/j-fro>
-//                 Michele Bombardi <https://github.com/bm-software>
-//                 Christian Chown <https://github.com/christianchown>
-//                 Eric Chen <https://github.com/echentw>
-
-import type { StyleProp, ViewProps, ViewStyle } from 'react-native';
-
-export interface HasPlayServicesParams {
+/**
+ * @group Original Google sign in
+ * */
+export type SignInParams = {
   /**
-   * When showPlayServicesUpdateDialog is true, the user will be prompted to
-   * install Play Services if on Android and they are not installed.
-   * Default is true
-   */
-  showPlayServicesUpdateDialog?: boolean;
-}
-
-export interface SignInParams {
-  /**
-   * iOS ONLY. The user's ID, or email address, to be prefilled in the authentication UI if possible.
-   * https://developers.google.com/identity/sign-in/ios/api/interface_g_i_d_sign_in.html#a0a68c7504c31ab0b728432565f6e33fd
+   * iOS only. The user's ID, or email address, to be prefilled in the authentication UI if possible.
+   * [See docs here](https://developers.google.com/identity/sign-in/ios/reference/Classes/GIDSignIn#-signinwithpresentingviewcontroller:hint:completion:)
    */
   loginHint?: string;
-}
+};
 
-export interface AddScopesParams {
-  /**
-   * The Google API scopes to request access to. Default is email and profile.
-   */
-  scopes?: string[];
-}
-
-export interface ConfigureParams {
+/**
+ * @group Original Google sign in
+ * */
+export type ConfigureParams = {
   /**
    * The Google API scopes to request access to. Default is email and profile.
    */
   scopes?: string[];
   /**
-   * Web client ID from Developer Console. Required for offline access
+   * Web client ID from Developer Console. Required for offline access.
    */
   webClientId?: string;
 
   /**
-   * If you want to specify the client ID of type iOS
-   */
-  iosClientId?: string;
-
-  /**
-   * If you want to specify a different bundle path name for the GoogleService-Info, e.g. GoogleService-Info-Staging
-   */
-  googleServicePlistPath?: string;
-
-  /**
-   * Must be true if you wish to access user APIs on behalf of the user from
-   * your own server
+   * Must be true if you wish to access user APIs on behalf of the user from your own server.
+   *
+   * When offline access is requested, an authorization code is returned so the server can use the authorization code to exchange for a refresh token.
+   * The refresh token allows the server to access Google data when the user is not actively using the app.
    */
   offlineAccess?: boolean;
 
   /**
-   * Specifies a hosted domain restriction
+   * Specifies a hosted domain restriction. By setting this, authorization will be restricted to accounts of the user in the specified domain.
    */
   hostedDomain?: string;
 
   /**
-   * ANDROID ONLY. If true, the granted server auth code can be exchanged for an access token and a refresh token.
+   * ANDROID ONLY. Only use `true` if your server has suffered some failure and lost the user's refresh token.
    */
   forceCodeForRefreshToken?: boolean;
 
@@ -79,12 +52,58 @@ export interface ConfigureParams {
    */
   openIdRealm?: string;
   /**
-   * iOS ONLY The desired height (and width) of the profile image. Defaults to 120px
+   * iOS ONLY: The desired height and width of the profile image. Defaults to 120px
    */
   profileImageSize?: number;
-}
+} & ClientIdOrPlistPath;
 
-export interface User {
+export type ClientIdOrPlistPath =
+  | {
+      /**
+       * If you want to specify the client ID of type iOS
+       */
+      iosClientId?: string;
+    }
+  | {
+      /**
+       * iOS only: If you want to specify a different bundle path name for the GoogleService-Info, e.g. GoogleService-Info-Staging
+       */
+      googleServicePlistPath?: string;
+    };
+
+/**
+ * @group Original Google sign in
+ * */
+export type HasPlayServicesParams = {
+  /**
+   * Optional. Whether to show a dialog that promps the user to install Google Play Services,
+   * if they don't have them installed
+   */
+  showPlayServicesUpdateDialog: boolean;
+};
+
+/**
+ * @group Original Google sign in
+ * */
+export type AddScopesParams = {
+  /**
+   * The Google API scopes to request access to. Default is email and profile.
+   */
+  scopes: string[];
+};
+
+/**
+ * @group Original Google sign in
+ * */
+export type GetTokensResponse = {
+  idToken: string;
+  accessToken: string;
+};
+
+/**
+ * @group Original Google sign in
+ * */
+export type User = {
   user: {
     id: string;
     name: string | null;
@@ -93,23 +112,31 @@ export interface User {
     familyName: string | null;
     givenName: string | null;
   };
-  scopes?: string[];
+  scopes: string[];
+  /**
+   * JWT (JSON Web Token) that serves as a secure credential for your user's identity.
+   */
   idToken: string | null;
   /**
    * Not null only if a valid webClientId and offlineAccess: true was
    * specified in configure().
    */
   serverAuthCode: string | null;
-}
+};
 
+/**
+ * @hidden
+ * */
 export interface NativeModuleError extends Error {
   code: string;
 }
 
-export interface GoogleSigninButtonProps extends ViewProps {
-  style?: StyleProp<ViewStyle>;
-  size?: number;
-  color?: number;
-  disabled?: boolean;
-  onPress?(): void;
-}
+/**
+ * TypeScript helper to check if an object has the `code` property.
+ * This is used to avoid `as` casting when you access the `code` property on errors returned by the module.
+ */
+export const isErrorWithCode = (error: any): error is NativeModuleError => {
+  // to account for https://github.com/facebook/react-native/issues/41950
+  const isNewArchErrorIOS = typeof error === 'object' && error != null;
+  return (error instanceof Error || isNewArchErrorIOS) && 'code' in error;
+};

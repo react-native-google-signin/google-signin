@@ -9,7 +9,10 @@ module.exports = {
       '@semantic-release/release-notes-generator',
       {
         writerOpts: {
-          footerPartial: readFileSync(join(__dirname, '.github/footer.hbs'), 'utf-8'),
+          footerPartial: readFileSync(
+            join(__dirname, '.github/footer.hbs'),
+            'utf-8',
+          ),
         },
       },
     ],
@@ -19,7 +22,8 @@ module.exports = {
       '@semantic-release/git',
       {
         assets: 'package.json',
-        message: 'chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}',
+        message:
+          'chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}',
       },
     ],
   ],

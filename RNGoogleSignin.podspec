@@ -11,10 +11,16 @@ Pod::Spec.new do |s|
   s.authors      = package["author"]
 
   s.platforms    = { :ios => "10.0" }
-  s.source       = { :git => "https://github.com/react-native-google-signin/google-signin.git", :tag => "#{s.version}" }
+  # source should not really matter in RN but it's required
+  s.source       = { :git => "https://github.com/react-native-google-signin/google-signin-next.git", :tag => "#{s.version}" }
 
   s.source_files = "ios/**/*.{h,m,mm}"
 
-  s.dependency "React-Core"
-  s.dependency "GoogleSignIn", "~> 7.0.0"
+  s.dependency "GoogleSignIn", package["GoogleSignInPodVersion"]
+
+  if ENV['RCT_NEW_ARCH_ENABLED'] == '1'
+    install_modules_dependencies(s)
+  else
+    s.dependency "React-Core"
+  end
 end

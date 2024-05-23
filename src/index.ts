@@ -1,3 +1,9 @@
-export { GoogleSigninSingleton as GoogleSignin, statusCodes } from './GoogleSignin';
-export { GoogleSigninButton } from './GoogleSigninButton';
+export { GoogleSignin } from './signIn/GoogleSignin';
+export { statusCodes } from './errors/errorCodes';
+
+export {
+  GoogleSigninButton,
+  type GoogleSigninButtonProps,
+} from './buttons/GoogleSigninButton';
+
 export * from './types';

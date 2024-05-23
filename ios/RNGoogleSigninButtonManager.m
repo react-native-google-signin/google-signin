@@ -1,8 +1,6 @@
 #import <React/RCTViewManager.h>
-#import <React/RCTLog.h>
 #import "RCTConvert+RNGoogleSignin.h"
-#import "RNGoogleSignin.h"
-#import "RNGoogleSignInButton.h"
+#import "RNGoogleSigninButtonPaper.h"
 
 @interface RNGoogleSigninButtonManager : RCTViewManager
 @end
@@ -13,7 +11,7 @@ RCT_EXPORT_MODULE()
 
 - (UIView *)view
 {
-  RNGoogleSignInButton *button = [[RNGoogleSignInButton alloc] init];
+  RNGoogleSignInButton *button = [RNGoogleSignInButton new];
 
   [button addTarget:self action:@selector(onButtonPress:) forControlEvents:UIControlEventTouchUpInside];
 
