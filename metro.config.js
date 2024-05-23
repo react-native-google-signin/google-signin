@@ -25,6 +25,10 @@ const config = {
   watchFolders: [__dirname],
   resolver: {
     blockList,
+    // for some reason, since 0.73, metro does not see this
+    extraNodeModules: {
+      '@react-native-google-signin/google-signin': __dirname,
+    },
   },
 };
 

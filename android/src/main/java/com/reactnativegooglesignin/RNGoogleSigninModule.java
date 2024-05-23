@@ -20,13 +20,11 @@ import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.BaseActivityEventListener;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.UiThreadUtil;
 import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.module.annotations.ReactModule;
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.UserRecoverableAuthException;
@@ -49,51 +47,48 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
-
-@ReactModule(name = RNGoogleSigninModule.MODULE_NAME)
-public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
+public class RNGoogleSigninModule extends NativeGoogleSigninSpec {
     private GoogleSignInClient _apiClient;
 
     public static final int RC_SIGN_IN = 9001;
     public static final int REQUEST_CODE_RECOVER_AUTH = 53294;
     public static final int REQUEST_CODE_ADD_SCOPES = 53295;
-    public static final String MODULE_NAME = "RNGoogleSignin";
     public static final String PLAY_SERVICES_NOT_AVAILABLE = "PLAY_SERVICES_NOT_AVAILABLE";
-    public static final String ERROR_USER_RECOVERABLE_AUTH = "ERROR_USER_RECOVERABLE_AUTH";
     private static final String SHOULD_RECOVER = "SHOULD_RECOVER";
 
     private PendingAuthRecovery pendingAuthRecovery;
 
-    private PromiseWrapper promiseWrapper;
+    private final PromiseWrapper signInOrAddScopesPromiseWrapper = new PromiseWrapper(NativeGoogleSigninSpec.NAME);
+    private final PromiseWrapper silentSignInPromiseWrapper = new PromiseWrapper(NativeGoogleSigninSpec.NAME);
+    private final PromiseWrapper tokenRetrievalPromiseWrapper = new PromiseWrapper(NativeGoogleSigninSpec.NAME);
+    private final PromiseWrapper tokenClearingPromiseWrapper = new PromiseWrapper(NativeGoogleSigninSpec.NAME);
 
-    public PromiseWrapper getPromiseWrapper() {
-        return promiseWrapper;
+    public PromiseWrapper getTokenClearingPromiseWrapper() {
+        return tokenClearingPromiseWrapper;
     }
-
-    @Override
-    public String getName() {
-        return MODULE_NAME;
+    public PromiseWrapper getTokenRetrievalPromiseWrapper() {
+        return tokenRetrievalPromiseWrapper;
     }
 
     public RNGoogleSigninModule(final ReactApplicationContext reactContext) {
         super(reactContext);
-        promiseWrapper = new PromiseWrapper();
         reactContext.addActivityEventListener(new RNGoogleSigninActivityEventListener());
     }
 
     @Override
-    public Map<String, Object> getConstants() {
+    protected Map<String, Object> getTypedExportedConstants() {
         final Map<String, Object> constants = new HashMap<>();
         constants.put("BUTTON_SIZE_ICON", SignInButton.SIZE_ICON_ONLY);
         constants.put("BUTTON_SIZE_STANDARD", SignInButton.SIZE_STANDARD);
         constants.put("BUTTON_SIZE_WIDE", SignInButton.SIZE_WIDE);
-        constants.put("BUTTON_COLOR_AUTO", SignInButton.COLOR_AUTO);
-        constants.put("BUTTON_COLOR_LIGHT", SignInButton.COLOR_LIGHT);
-        constants.put("BUTTON_COLOR_DARK", SignInButton.COLOR_DARK);
         constants.put("SIGN_IN_CANCELLED", String.valueOf(GoogleSignInStatusCodes.SIGN_IN_CANCELLED));
         constants.put("SIGN_IN_REQUIRED", String.valueOf(CommonStatusCodes.SIGN_IN_REQUIRED));
+        constants.put("SCOPES_ALREADY_GRANTED", "NEVER_HAPPENS_ON_ANDROID");
+        constants.put("ONE_TAP_START_FAILED", "ONE_TAP_START_FAILED");
+        constants.put("NO_SAVED_CREDENTIAL_FOUND", "NO_SAVED_CREDENTIAL_FOUND");
         constants.put("IN_PROGRESS", ASYNC_OP_IN_PROGRESS);
         constants.put(PLAY_SERVICES_NOT_AVAILABLE, PLAY_SERVICES_NOT_AVAILABLE);
+
         return constants;
     }
 
@@ -102,7 +97,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         Activity activity = getCurrentActivity();
 
         if (activity == null) {
-            Log.w(MODULE_NAME, "could not determine playServicesAvailable, activity is null");
+            Log.w(NAME, "could not determine playServicesAvailable, activity is null");
             rejectWithNullActivity(promise);
             return;
         }
@@ -121,8 +116,8 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         }
     }
 
-    private static void rejectWithNullActivity(Promise promise) {
-        promise.reject(MODULE_NAME, "activity is null");
+    static void rejectWithNullActivity(Promise promise) {
+        promise.reject(NAME, "activity is null");
     }
 
     @ReactMethod
@@ -143,44 +138,34 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void signInSilently(Promise promise) {
+    public void signInSilently(final Promise promise) {
         if (_apiClient == null) {
             rejectWithNullClientError(promise);
             return;
         }
-        promiseWrapper.setPromiseWithInProgressCheck(promise, "signInSilently");
-        UiThreadUtil.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Task<GoogleSignInAccount> result = _apiClient.silentSignIn();
-                if (result.isSuccessful()) {
-                    // There's immediate result available.
-                    handleSignInTaskResult(result);
-                } else {
-                    result.addOnCompleteListener(new OnCompleteListener() {
-                        @Override
-                        public void onComplete(@NonNull Task task) {
-                            handleSignInTaskResult(task);
-                        }
-                    });
-                }
+        silentSignInPromiseWrapper.setPromiseWithInProgressCheck(promise, "signInSilently");
+        UiThreadUtil.runOnUiThread(() -> {
+            Task<GoogleSignInAccount> result = _apiClient.silentSignIn();
+            if (result.isSuccessful()) {
+                // There's an immediate result available.
+                handleSignInTaskResult(result, silentSignInPromiseWrapper);
+            } else {
+                result.addOnCompleteListener((OnCompleteListener) task -> handleSignInTaskResult(task, silentSignInPromiseWrapper));
             }
         });
     }
 
-    private void handleSignInTaskResult(Task<GoogleSignInAccount> result) {
+    private void handleSignInTaskResult(Task<GoogleSignInAccount> result, final PromiseWrapper promiseWrapper) {
         try {
             GoogleSignInAccount account = result.getResult(ApiException.class);
             if (account == null) {
-                promiseWrapper.reject(MODULE_NAME, "GoogleSignInAccount instance was null");
+                promiseWrapper.reject("GoogleSignInAccount instance was null");
             } else {
                 WritableMap userParams = getUserProperties(account);
                 promiseWrapper.resolve(userParams);
             }
         } catch (ApiException e) {
-            int code = e.getStatusCode();
-            String errorDescription = GoogleSignInStatusCodes.getStatusCodeString(code);
-            promiseWrapper.reject(String.valueOf(code), errorDescription);
+            promiseWrapper.reject(e);
         }
     }
 
@@ -197,13 +182,10 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
             rejectWithNullActivity(promise);
             return;
         }
-        promiseWrapper.setPromiseWithInProgressCheck(promise, "signIn");
-        UiThreadUtil.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Intent signInIntent = _apiClient.getSignInIntent();
-                activity.startActivityForResult(signInIntent, RC_SIGN_IN);
-            }
+        signInOrAddScopesPromiseWrapper.setPromiseWithInProgressCheck(promise, "signIn");
+        UiThreadUtil.runOnUiThread(() -> {
+            Intent signInIntent = _apiClient.getSignInIntent();
+            activity.startActivityForResult(signInIntent, RC_SIGN_IN);
         });
     }
 
@@ -219,13 +201,9 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         promise.resolve(false);
         return;
       }
-      promiseWrapper.setPromiseWithInProgressCheck(promise, "addScopes");
+      signInOrAddScopesPromiseWrapper.setPromiseWithInProgressCheck(promise, "addScopes");
 
-      ReadableArray scopes = config.getArray("scopes");
-      Scope[] scopeArr = new Scope[scopes.size()];
-      for (int i = 0; i < scopes.size(); i++) {
-        scopeArr[i] = new Scope(scopes.getString(i));
-      }
+      Scope[] scopeArr = createScopesArray(config.getArray("scopes"));
 
       GoogleSignIn.requestPermissions(
         activity, REQUEST_CODE_ADD_SCOPES, account, scopeArr);
@@ -237,18 +215,18 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
             if (requestCode == RC_SIGN_IN) {
                 // The Task returned from this call is always completed, no need to attach a listener.
                 Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(intent);
-                handleSignInTaskResult(task);
+                handleSignInTaskResult(task, signInOrAddScopesPromiseWrapper);
             } else if (requestCode == REQUEST_CODE_RECOVER_AUTH) {
                 if (resultCode == Activity.RESULT_OK) {
                     rerunFailedAuthTokenTask();
                 } else {
-                    promiseWrapper.reject(MODULE_NAME, "Failed authentication recovery attempt, probably user-rejected.");
+                    tokenRetrievalPromiseWrapper.reject("Failed authentication recovery attempt, probably user-rejected.");
                 }
             } else if (requestCode == REQUEST_CODE_ADD_SCOPES) {
                 if (resultCode == Activity.RESULT_OK) {
-                  promiseWrapper.resolve(true);
+                  signInOrAddScopesPromiseWrapper.resolve(true);
                 } else {
-                  promiseWrapper.reject(MODULE_NAME, "Failed to add scopes.");
+                  signInOrAddScopesPromiseWrapper.reject("Failed to add scopes.");
                 }
             }
         }
@@ -260,7 +238,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
             new AccessTokenRetrievalTask(this).execute(userProperties, null);
         } else {
             // this is unlikely to happen, since we set the pendingRecovery in AccessTokenRetrievalTask
-            promiseWrapper.reject(MODULE_NAME, "rerunFailedAuthTokenTask: recovery failed");
+            tokenRetrievalPromiseWrapper.reject("rerunFailedAuthTokenTask: recovery failed");
         }
     }
 
@@ -272,12 +250,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         }
 
         _apiClient.signOut()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        handleSignOutOrRevokeAccessTask(task, promise);
-                    }
-                });
+                .addOnCompleteListener(task -> handleSignOutOrRevokeAccessTask(task, promise));
     }
 
     private void handleSignOutOrRevokeAccessTask(@NonNull Task<Void> task, final Promise promise) {
@@ -298,29 +271,24 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
         }
 
         _apiClient.revokeAccess()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        handleSignOutOrRevokeAccessTask(task, promise);
-                    }
-                });
+                .addOnCompleteListener(task -> handleSignOutOrRevokeAccessTask(task, promise));
     }
 
-    @ReactMethod
-    public void isSignedIn(Promise promise) {
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    public boolean hasPreviousSignIn() {
         boolean isSignedIn = GoogleSignIn.getLastSignedInAccount(getReactApplicationContext()) != null;
-        promise.resolve(isSignedIn);
+        return isSignedIn;
     }
 
-    @ReactMethod
-    public void getCurrentUser(Promise promise) {
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    public @Nullable WritableMap getCurrentUser() {
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getReactApplicationContext());
-        promise.resolve(account == null ? null : getUserProperties(account));
+        return account == null ? null : getUserProperties(account);
     }
 
     @ReactMethod
     public void clearCachedAccessToken(String tokenToClear, Promise promise) {
-        promiseWrapper.setPromiseWithInProgressCheck(promise, "clearCachedAccessToken");
+        tokenClearingPromiseWrapper.setPromiseWithInProgressCheck(promise, "clearCachedAccessToken");
         new TokenClearingTask(this).execute(tokenToClear);
     }
 
@@ -328,11 +296,11 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
     public void getTokens(final Promise promise) {
         final GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getReactApplicationContext());
         if (account == null) {
-            promise.reject(MODULE_NAME, "getTokens requires a user to be signed in");
+            promise.reject("getTokens", "getTokens requires a user to be signed in");
             return;
         }
 
-        promiseWrapper.setPromiseWithInProgressCheck(promise, "getTokens");
+        tokenRetrievalPromiseWrapper.setPromiseWithInProgressCheck(promise, "getTokens");
         startTokenRetrievalTaskWithRecovery(account);
     }
 
@@ -345,7 +313,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
 
     private static class AccessTokenRetrievalTask extends AsyncTask<WritableMap, Void, Void> {
 
-        private WeakReference<RNGoogleSigninModule> weakModuleRef;
+        private final WeakReference<RNGoogleSigninModule> weakModuleRef;
 
         AccessTokenRetrievalTask(RNGoogleSigninModule module) {
             this.weakModuleRef = new WeakReference<>(module);
@@ -360,7 +328,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
             }
             try {
                 insertAccessTokenIntoUserProperties(moduleInstance, userProperties);
-                moduleInstance.getPromiseWrapper().resolve(userProperties);
+                moduleInstance.getTokenRetrievalPromiseWrapper().resolve(userProperties);
             } catch (Exception e) {
                 WritableMap recoverySettings = params.length >= 2 ? params[1] : null;
                 handleException(moduleInstance, e, userProperties, recoverySettings);
@@ -387,10 +355,10 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
                 if (shouldRecover) {
                     attemptRecovery(moduleInstance, cause, userProperties);
                 } else {
-                    moduleInstance.promiseWrapper.reject(ERROR_USER_RECOVERABLE_AUTH, cause);
+                    moduleInstance.getTokenRetrievalPromiseWrapper().reject(cause);
                 }
             } else {
-                moduleInstance.promiseWrapper.reject(MODULE_NAME, cause);
+                moduleInstance.getTokenRetrievalPromiseWrapper().reject(cause);
             }
         }
 
@@ -398,8 +366,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
             Activity activity = moduleInstance.getCurrentActivity();
             if (activity == null) {
                 moduleInstance.pendingAuthRecovery = null;
-                moduleInstance.promiseWrapper.reject(MODULE_NAME,
-                        "Cannot attempt recovery auth because app is not in foreground. "
+                moduleInstance.getTokenRetrievalPromiseWrapper().reject("Cannot attempt recovery auth because app is not in foreground. "
                                 + e.getLocalizedMessage());
             } else {
                 moduleInstance.pendingAuthRecovery = new PendingAuthRecovery(userProperties);
@@ -412,7 +379,7 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
 
     private static class TokenClearingTask extends AsyncTask<String, Void, Void> {
 
-        private WeakReference<RNGoogleSigninModule> weakModuleRef;
+        private final WeakReference<RNGoogleSigninModule> weakModuleRef;
 
         TokenClearingTask(RNGoogleSigninModule module) {
             this.weakModuleRef = new WeakReference<>(module);
@@ -424,18 +391,19 @@ public class RNGoogleSigninModule extends ReactContextBaseJavaModule {
             if (moduleInstance == null) {
                 return null;
             }
+            PromiseWrapper promiseWrapper = moduleInstance.getTokenClearingPromiseWrapper();
             try {
                 GoogleAuthUtil.clearToken(moduleInstance.getReactApplicationContext(), tokenToClear[0]);
-                moduleInstance.getPromiseWrapper().resolve(null);
+                promiseWrapper.resolve(null);
             } catch (Exception e) {
-                moduleInstance.promiseWrapper.reject(MODULE_NAME, e);
+                promiseWrapper.reject(e);
             }
             return null;
         }
     }
 
     private void rejectWithNullClientError(Promise promise) {
-        promise.reject(MODULE_NAME, "apiClient is null - call configure first");
+        promise.reject(NAME, "apiClient is null - call configure() first");
     }
 
 }

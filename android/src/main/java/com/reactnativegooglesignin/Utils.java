@@ -1,6 +1,7 @@
 package com.reactnativegooglesignin;
 
 import android.net.Uri;
+
 import androidx.annotation.NonNull;
 
 import com.facebook.react.bridge.Arguments;
@@ -9,10 +10,10 @@ import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.common.api.Scope;
-import com.google.android.gms.common.Scopes;
 import com.google.android.gms.tasks.Task;
 
 public class Utils {
@@ -45,9 +46,7 @@ public class Utils {
         WritableArray scopes = Arguments.createArray();
         for (Scope scope : acct.getGrantedScopes()) {
             String scopeString = scope.toString();
-            if (scopeString.startsWith("http")) {
-                scopes.pushString(scopeString);
-            }
+            scopes.pushString(scopeString);
         }
         params.putArray("scopes", scopes);
         return params;

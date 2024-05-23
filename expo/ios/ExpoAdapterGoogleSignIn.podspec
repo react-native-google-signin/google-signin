@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
 
   s.dependency 'ExpoModulesCore'
   s.dependency 'React-Core'
-  s.dependency "GoogleSignIn", "~> 7.0"
+  s.dependency "GoogleSignIn", package["GoogleSignInPodVersion"]
 
   # Swift/Objective-C compatibility
   s.pod_target_xcconfig = {

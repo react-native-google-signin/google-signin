@@ -2,7 +2,6 @@
   "$schema": "https://raw.githubusercontent.com/microsoft/react-native-test-app/trunk/schema.json",
   "name": "google-signin-example",
   "displayName": "google-signin-example",
-  "singleApp": "defaultApp",
   "components": [
     {
       "appKey": "google-signin-example",
@@ -22,7 +21,8 @@
     ],
     "ios": [
       "dist/assets",
-      "dist/main.ios.jsbundle"
+      "dist/main.ios.jsbundle",
+      "src/config/GoogleService-Info.plist"
     ],
     "macos": [
       "dist/assets",

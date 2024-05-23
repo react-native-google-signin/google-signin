@@ -3,8 +3,8 @@
   "compilerOptions": {
     "outDir": "./build",
     "jsx": "react",
-    "declaration": false,
-    "importsNotUsedAsValues": "error"
+    "lib": ["es2022"],
+    "declaration": false
   },
   "include": ["./setup.tsx"],
 }

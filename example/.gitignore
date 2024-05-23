@@ -9,7 +9,8 @@
 .xcode.env
 Pods/
 build/
-dist/
+dist/*
+!dist/.gitignore
 local.properties
 msbuild.binlog
 node_modules/
@@ -17,5 +18,5 @@ node_modules/
 # Configuration and credential files
 android/app/google-services.json
 ios/GoogleService-Info.plist
-config.js
-config.ts
+!src/config/config.example.ts
+src/config/*

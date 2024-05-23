@@ -11,6 +11,6 @@ RCT_ENUM_CONVERTER(GIDSignInButtonStyle, (@{
 RCT_ENUM_CONVERTER(GIDSignInButtonColorScheme, (@{
                                                   @"dark": @(kGIDSignInButtonColorSchemeDark),
                                                   @"light": @(kGIDSignInButtonColorSchemeLight),
-                                                  }), kGIDSignInButtonColorSchemeDark, integerValue)
+                                                  }), kGIDSignInButtonColorSchemeLight, integerValue)
 
 @end

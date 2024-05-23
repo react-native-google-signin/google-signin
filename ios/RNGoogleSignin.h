@@ -1,10 +1,17 @@
-#import <React/RCTBridgeModule.h>
 #import <React/RCTComponent.h>
 
-@interface RNGoogleSignin : NSObject<RCTBridgeModule>
+#ifdef RCT_NEW_ARCH_ENABLED
+  #import <RNGoogleSignInCGen/RNGoogleSignInCGen.h>
+#else
+  #import <React/RCTBridgeModule.h>
+#endif
 
-+ (BOOL)application:(UIApplication *)app
-            openURL:(NSURL *)url
-            options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options;
+@interface RNGoogleSignin : NSObject <
+#ifdef RCT_NEW_ARCH_ENABLED
+NativeGoogleSigninSpec
+#else
+RCTBridgeModule
+#endif
+>
 
 @end
