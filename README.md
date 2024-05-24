@@ -6,6 +6,8 @@
 
 ❤️❤️ [New documentation site available!](https://react-native-google-signin.github.io/docs/install) ❤️❤️
 
+[website sources live here](https://github.com/react-native-google-signin/docs/tree/main/docs)
+
 ## Licence
 
 (MIT)
