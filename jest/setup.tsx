@@ -1,6 +1,6 @@
 import React from 'react';
 import { Pressable, Text } from 'react-native';
-import {
+import type {
   GoogleSigninButton,
   GoogleSigninButtonProps,
   User,
