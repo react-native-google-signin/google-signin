@@ -24,7 +24,7 @@
     "app.plugin.js",
     "expo-module.config.json",
     "plugin/build",
-    "jest/build/setup.js",
+    "jest/build",
     "README.md"
   ],
   "scripts": {
