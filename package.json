@@ -32,7 +32,7 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "nuke-ios": "rm -rf example/ios/Podfile.lock && rm -rf example/ios/Pods && rm -rf example/ios/build",
-    "build:mock": "tsc --build jest && cp jest/build/jest/setup.js jest/build/setup.js",
+    "build:mock": "tsc --build jest",
     "build:plugin": "tsc --build plugin",
     "clean:plugin": "expo-module clean plugin",
     "test": "jest",
