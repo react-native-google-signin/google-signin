@@ -19,4 +19,4 @@ jobs:
 
             Please create a new issue with this and the maintainer will do his best to review it!.
           close-issue: true
-          lock-issue: false
+          lock-issue: true
