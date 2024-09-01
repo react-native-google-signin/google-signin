@@ -24,6 +24,11 @@ function configure(options: ConfigureParams = {}): void {
   if (options.offlineAccess && !options.webClientId) {
     throw new Error('RNGoogleSignin: offline use requires server web ClientID');
   }
+  if ('androidClientId' in options) {
+    console.error(
+      'RNGoogleSignIn: `androidClientId` is not a valid configuration parameter, please remove it.',
+    );
+  }
 
   configPromise = NativeModule.configure(options);
 }
