@@ -5,7 +5,7 @@ import {
   GoogleSigninButton,
   isErrorWithCode,
 } from '@react-native-google-signin/google-signin';
-import { mockUserInfo } from '../../jest/setup';
+import { mockGoogleSignInResponse, mockUserInfo } from '../../jest/setup';
 
 describe('GoogleSignin', () => {
   describe('sanity checks for exported mocks', () => {
@@ -20,7 +20,9 @@ describe('GoogleSignin', () => {
 
     it('original sign in', async () => {
       expect(GoogleSignin.hasPreviousSignIn()).toBe(true);
-      expect(await GoogleSignin.signIn()).toStrictEqual(mockUserInfo);
+      expect(await GoogleSignin.signIn()).toStrictEqual(
+        mockGoogleSignInResponse,
+      );
       expect(GoogleSignin.getCurrentUser()).toStrictEqual(mockUserInfo);
       expect(await GoogleSignin.signOut()).toBeNull();
       expect(GoogleSigninButton).toBeInstanceOf(Function);

@@ -47,17 +47,17 @@ export class GoogleSigninSampleApp extends Component<{}, State> {
 
   async _getCurrentUser() {
     try {
-      const userInfo = await GoogleSignin.signInSilently();
-      this.setState({ userInfo, error: undefined });
+      const { type, data } = await GoogleSignin.signInSilently();
+      if (type === 'success') {
+        this.setState({ userInfo: data, error: undefined });
+      } else if (type === 'noSavedCredentialFound') {
+        this.setState({
+          error: new Error('User not signed in yet, please sign in :)'),
+        });
+      }
     } catch (error) {
       const typedError = error as NativeModuleError;
-      if (typedError.code === statusCodes.SIGN_IN_REQUIRED) {
-        this.setState({
-          error: new Error('User not signed it yet, please sign in :)'),
-        });
-      } else {
-        this.setState({ error: typedError });
-      }
+      this.setState({ error: typedError });
     }
   }
 
@@ -156,6 +156,7 @@ export class GoogleSigninSampleApp extends Component<{}, State> {
         <TokenClearingView />
 
         <Button onPress={this._signOut} title="Log out" />
+        <Button onPress={this._revokeAccess} title="Revoke access" />
       </View>
     );
   }
@@ -163,18 +164,20 @@ export class GoogleSigninSampleApp extends Component<{}, State> {
   _signIn = async () => {
     try {
       await GoogleSignin.hasPlayServices();
-      const userInfo = await GoogleSignin.signIn();
-      this.setState({ userInfo, error: undefined });
+      const { type, data } = await GoogleSignin.signIn();
+      if (type === 'success') {
+        console.log({ data });
+        this.setState({ userInfo: data, error: undefined });
+      } else {
+        // sign in was cancelled by user
+        setTimeout(() => {
+          Alert.alert('cancelled');
+        }, 500);
+      }
     } catch (error) {
       if (isErrorWithCode(error)) {
         console.log('error', error.message);
         switch (error.code) {
-          case statusCodes.SIGN_IN_CANCELLED:
-            // sign in was cancelled by user
-            setTimeout(() => {
-              Alert.alert('cancelled');
-            }, 500);
-            break;
           case statusCodes.IN_PROGRESS:
             // operation (eg. sign in) already in progress
             Alert.alert(
@@ -202,6 +205,18 @@ export class GoogleSigninSampleApp extends Component<{}, State> {
     try {
       await GoogleSignin.revokeAccess();
       await GoogleSignin.signOut();
+
+      this.setState({ userInfo: undefined, error: undefined });
+    } catch (error) {
+      this.setState({
+        error: error as NativeModuleError,
+      });
+    }
+  };
+
+  _revokeAccess = async () => {
+    try {
+      await GoogleSignin.revokeAccess();
 
       this.setState({ userInfo: undefined, error: undefined });
     } catch (error) {
