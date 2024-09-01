@@ -36,7 +36,7 @@ export const isErrorWithCode = (error: any): error is NativeModuleError => {
  * ```
  */
 export function isCancelledResponse(
-  response: SignInResponse, // should this signature be included too?
+  response: SignInResponse,
 ): response is CancelledResponse {
   return response.type === 'cancelled';
 }

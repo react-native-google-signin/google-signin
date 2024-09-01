@@ -107,7 +107,7 @@ async function addScopes(
     }
     // on Android, the user returned in onActivityResult() will contain only the scopes added, not the ones present previously
     // we work around it by calling signInSilently() which returns the user object with all scopes
-    // @ts-expect-error `no_saved_credential_found` is not possible here, because we just added scopes
+    // @ts-expect-error `noSavedCredentialFound` is not possible here, because we just added scopes
     return signInSilently();
   }
 }

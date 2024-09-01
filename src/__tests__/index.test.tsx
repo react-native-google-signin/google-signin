@@ -23,6 +23,9 @@ describe('GoogleSignin', () => {
       expect(await GoogleSignin.signIn()).toStrictEqual(
         mockGoogleSignInResponse,
       );
+      expect(await GoogleSignin.signInSilently()).toStrictEqual(
+        mockGoogleSignInResponse,
+      );
       expect(GoogleSignin.getCurrentUser()).toStrictEqual(mockUserInfo);
       expect(await GoogleSignin.signOut()).toBeNull();
       expect(GoogleSigninButton).toBeInstanceOf(Function);
