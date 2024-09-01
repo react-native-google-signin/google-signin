@@ -1,15 +1,13 @@
-import React from 'react';
-import { Pressable, Text } from 'react-native';
-import type {
-  GoogleSigninButton,
-  GoogleSigninButtonProps,
-  User,
-  GoogleSignin,
-} from '../src';
-import type { statusCodes } from '../src';
-import { isErrorWithCode } from '../src/types';
+import type { Spec as GoogleSignInSpec } from '../src/spec/NativeGoogleSignin';
 
-export const mockUserInfo: User = {
+import type {
+  AddScopesParams,
+  GetTokensResponse,
+  SignInResponse,
+  User,
+} from '../src';
+
+export const mockUserInfo = Object.freeze({
   idToken: 'mockIdToken',
   serverAuthCode: 'mockServerAuthCode',
   scopes: [],
@@ -21,57 +19,62 @@ export const mockUserInfo: User = {
     photo: null,
     name: 'mockFullName',
   },
-};
+}) satisfies User;
 
-const MockGoogleSigninButton = (props: GoogleSigninButtonProps) => {
-  return (
-    <Pressable {...props}>
-      <Text>Mock Sign in with Google</Text>
-    </Pressable>
-  );
-};
-MockGoogleSigninButton.Size = { Standard: 0, Wide: 1, Icon: 2 };
-MockGoogleSigninButton.Color = { Dark: 'dark', Light: 'light' } as const;
+export const mockGoogleSignInResponse: SignInResponse = Object.freeze({
+  type: 'success',
+  data: mockUserInfo,
+} satisfies SignInResponse);
 
-const MockGoogleSigninButtonTyped: typeof GoogleSigninButton =
-  MockGoogleSigninButton;
-
-const mockStatusCodesRaw: typeof statusCodes = {
-  SIGN_IN_CANCELLED: 'mock_SIGN_IN_CANCELLED',
-  IN_PROGRESS: 'mock_IN_PROGRESS',
-  PLAY_SERVICES_NOT_AVAILABLE: 'mock_PLAY_SERVICES_NOT_AVAILABLE',
-  SIGN_IN_REQUIRED: 'mock_SIGN_IN_REQUIRED',
-};
-
-const mockStatusCodes = Object.freeze(mockStatusCodesRaw);
-
-const mockGoogleSignin: typeof GoogleSignin = {
-  configure: jest.fn(),
-  hasPlayServices: jest.fn().mockResolvedValue(true),
-  getTokens: jest.fn().mockResolvedValue({
-    accessToken: 'mockAccessToken',
-    idToken: 'mockIdToken',
-  }),
-  signIn: jest.fn().mockResolvedValue(mockUserInfo),
-  signInSilently: jest.fn().mockResolvedValue(mockUserInfo),
-  revokeAccess: jest.fn().mockResolvedValue(null),
-  signOut: jest.fn().mockResolvedValue(null),
-  hasPreviousSignIn: jest.fn().mockReturnValue(true),
-  addScopes: jest.fn().mockResolvedValue(mockUserInfo),
-  getCurrentUser: jest.fn().mockReturnValue(mockUserInfo),
-  clearCachedAccessToken: jest.fn().mockResolvedValue(null),
-};
-
-type ExportedModuleType = typeof import('../src/index');
-
-// TODO @vonovak mock closer to native level?
-const mockModule: ExportedModuleType = Object.freeze({
-  statusCodes: mockStatusCodes,
-  GoogleSignin: mockGoogleSignin,
-  GoogleSigninButton: MockGoogleSigninButtonTyped,
-  isErrorWithCode,
-});
-
-jest.mock('@react-native-google-signin/google-signin', () => {
-  return mockModule;
+// mock very close to native module to be able to test JS logic too
+jest.mock('../src/spec/NativeGoogleSignin', () => {
+  const mockNativeModule: GoogleSignInSpec = Object.freeze({
+    configure: jest.fn(),
+    playServicesAvailable: jest.fn().mockReturnValue(true),
+    getTokens: jest
+      .fn<Promise<GetTokensResponse>, Object[]>()
+      .mockResolvedValue({
+        accessToken: 'mockAccessToken',
+        idToken: 'mockIdToken',
+      }),
+    signIn: jest.fn<Promise<User>, Object[]>().mockResolvedValue(mockUserInfo),
+    signInSilently: jest
+      .fn<Promise<User>, Object[]>()
+      .mockResolvedValue(mockUserInfo),
+    revokeAccess: jest.fn().mockResolvedValue(null),
+    signOut: jest.fn().mockResolvedValue(null),
+    // enableAppCheck: jest.fn().mockResolvedValue(null),
+    hasPreviousSignIn: jest.fn().mockReturnValue(true),
+    addScopes: jest
+      .fn<Promise<User | null>, AddScopesParams[]>()
+      .mockImplementation(({ scopes }) => {
+        const userWithScopes: User = {
+          ...mockUserInfo,
+          scopes,
+        };
+        return Promise.resolve(userWithScopes);
+      }),
+    getCurrentUser: jest
+      .fn<User | null, void[]>()
+      .mockReturnValue(mockUserInfo),
+    clearCachedAccessToken: jest.fn().mockResolvedValue(null),
+    getConstants: jest
+      .fn<ReturnType<GoogleSignInSpec['getConstants']>, void[]>()
+      .mockReturnValue({
+        SIGN_IN_CANCELLED: 'mock_SIGN_IN_CANCELLED',
+        IN_PROGRESS: 'mock_IN_PROGRESS',
+        PLAY_SERVICES_NOT_AVAILABLE: 'mock_PLAY_SERVICES_NOT_AVAILABLE',
+        SIGN_IN_REQUIRED: 'mock_SIGN_IN_REQUIRED',
+        SCOPES_ALREADY_GRANTED: 'mock_SCOPES_ALREADY_GRANTED',
+        NO_SAVED_CREDENTIAL_FOUND: 'mock_NO_SAVED_CREDENTIAL_FOUND',
+        BUTTON_SIZE_ICON: 2,
+        BUTTON_SIZE_WIDE: 1,
+        BUTTON_SIZE_STANDARD: 0,
+        // one-tap specific constants
+        ONE_TAP_START_FAILED: 'mock_ONE_TAP_START_FAILED',
+      }),
+  });
+  return {
+    NativeModule: mockNativeModule,
+  };
 });

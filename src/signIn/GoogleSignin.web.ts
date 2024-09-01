@@ -8,7 +8,9 @@ import type {
 } from '../types';
 import { statusCodes } from '../errors/errorCodes.web';
 const errorMessage =
-  'RNGoogleSignIn: you are calling a not-implemented method on web platform.';
+  'RNGoogleSignIn: you are calling a not-implemented method on web platform. Web support is only available to sponsors. \n' +
+  'If you are a sponsor, please follow the installation instructions carefully to obtain the implementation.';
+
 const logNotImplementedError = () => {
   console.warn(errorMessage);
 };

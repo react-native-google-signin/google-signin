@@ -80,15 +80,31 @@ type StatusCodes = $ReadOnly<{
 
 declare export var statusCodes: StatusCodes;
 
-// the functions are not static in fact, but the module exports a
-// singleton instance of the class; not the class itself
-// using static keyword works well for this case
+export type SignInSuccessResponse = {|
+  type: 'success';
+  data: User;
+|};
+export type CancelledResponse = {|
+  type: 'cancelled';
+  data: null;
+|};
+export type NoSavedCredentialFound = {|
+  type: 'noSavedCredentialFound';
+  data: null;
+|};
+export type SignInResponse = SignInSuccessResponse | CancelledResponse;
+export type SignInSilentlyResponse =
+  | SignInSuccessResponse
+  | NoSavedCredentialFound;
+
+// the functions are not static class functions in fact
+// but using static keyword works well for this case
 declare export class GoogleSignin {
   static hasPlayServices: (params?: HasPlayServicesParams) => Promise<boolean>;
   static configure: (params?: ConfigureParams) => void;
-  static signInSilently: () => Promise<User>;
-  static signIn: (params?: SignInParams) => Promise<User>;
-  static addScopes: (params: AddScopesParams) => Promise<User | null>;
+  static signInSilently: () => Promise<SignInSilentlyResponse>;
+  static signIn: (params?: SignInParams) => Promise<SignInResponse>;
+  static addScopes: (params: AddScopesParams) => Promise<SignInResponse | null>;
   static signOut: () => Promise<null>;
   static revokeAccess: () => Promise<null>;
   static hasPreviousSignIn: () => boolean;
