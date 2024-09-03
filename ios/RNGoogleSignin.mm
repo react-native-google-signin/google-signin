@@ -264,6 +264,13 @@ RCT_EXPORT_METHOD(getTokens:(RCTPromiseResolveBlock)resolve
 }
 
 + (void)rejectWithSigninError: (NSError *) error withRejector: (RCTPromiseRejectBlock) reject {
+  if (error.code == kGIDSignInErrorCodeUnknown && [kGIDSignInErrorDomain isEqualToString:error.domain] && [@"access_denied" isEqualToString:error.localizedDescription]) {
+    // https://github.com/google/GoogleSignIn-iOS/pull/472
+    // https://github.com/react-native-google-signin/google-signin/issues/1327
+    NSString* errorCode = [NSString stringWithFormat:@"%ld", kGIDSignInErrorCodeCanceled];
+    reject(errorCode, @"The user canceled the sign in request.", error);
+    return;
+  }
   NSString *errorMessage = @"Unknown error in google sign in.";
   switch (error.code) {
     case kGIDSignInErrorCodeUnknown:
