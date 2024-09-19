@@ -35,7 +35,7 @@
     "build:mock": "tsc --build jest",
     "build:plugin": "tsc --build plugin",
     "clean:plugin": "expo-module clean plugin",
-    "test": "jest",
+    "test": "SILENCE_MOCK_NOT_FOUND=true jest",
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "prepare": "bob build && yarn build:plugin && yarn build:mock && husky install",

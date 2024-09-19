@@ -26,8 +26,7 @@ export const mockGoogleSignInResponse: SignInResponse = Object.freeze({
   data: mockUserInfo,
 } satisfies SignInResponse);
 
-// mock very close to native module to be able to test JS logic too
-jest.mock('../src/spec/NativeGoogleSignin', () => {
+function mockFactory() {
   const mockNativeModule: GoogleSignInSpec = Object.freeze({
     configure: jest.fn(),
     playServicesAvailable: jest.fn().mockReturnValue(true),
@@ -77,4 +76,28 @@ jest.mock('../src/spec/NativeGoogleSignin', () => {
   return {
     NativeModule: mockNativeModule,
   };
+}
+
+// mock very close to native module to be able to test JS logic too
+jest.mock('../src/spec/NativeGoogleSignin', () => mockFactory());
+
+// the following are for jest testing outside of the library, where the paths are different
+// alternative is to use moduleNameMapper in user space
+const mockModulePaths = [
+  '../../../lib/commonjs/spec/NativeGoogleSignin',
+  '../../../lib/module/spec/NativeGoogleSignin',
+];
+mockModulePaths.forEach((path) => {
+  try {
+    require.resolve(path);
+    jest.mock(path, () => mockFactory());
+  } catch (error: any) {
+    if ('code' in error && error.code === 'MODULE_NOT_FOUND') {
+      if (!process.env.SILENCE_MOCK_NOT_FOUND) {
+        console.warn(`Unable to resolve ${path}`);
+      }
+    } else {
+      throw error;
+    }
+  }
 });
