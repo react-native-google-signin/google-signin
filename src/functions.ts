@@ -6,6 +6,7 @@ import type {
 import type {
   SignInResponse,
   SignInSilentlyResponse,
+  SignInSuccessResponse,
 } from './signIn/GoogleSignin';
 
 /**
@@ -64,7 +65,7 @@ export function isNoSavedCredentialFoundResponse(
 }
 
 /**
- * TypeScript helper to check if a response is a `cancelled` response. This is the same as checking if the `response.type === "cancelled"`.
+ * TypeScript helper to check if a response is a `cancelled` response. This is the same as checking if the `response.type === "success"`.
  *
  * Use this if you prefer to use a function instead of comparing with a raw string.
  *
@@ -79,6 +80,6 @@ export function isNoSavedCredentialFoundResponse(
  * }
  * ```
  */
-export function isSuccessResponse(response: SignInResponse): boolean {
+export function isSuccessResponse(response: SignInResponse): response is SignInSuccessResponse {
   return response.type === 'success';
 }
