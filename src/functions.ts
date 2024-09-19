@@ -80,6 +80,8 @@ export function isNoSavedCredentialFoundResponse(
  * }
  * ```
  */
-export function isSuccessResponse(response: SignInResponse): response is SignInSuccessResponse {
+export function isSuccessResponse(
+  response: SignInResponse,
+): response is SignInSuccessResponse {
   return response.type === 'success';
 }
