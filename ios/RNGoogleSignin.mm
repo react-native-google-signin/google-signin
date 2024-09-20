@@ -124,13 +124,22 @@ RCT_EXPORT_METHOD(signIn:(NSDictionary *)options
                   reject:(RCTPromiseRejectBlock)reject)
 {
   dispatch_async(dispatch_get_main_queue(), ^{
-      UIViewController* presentingViewController = RCTPresentedViewController();
       NSString* hint = options[@"loginHint"];
       NSArray* scopes = self.scopes;
 
-      [GIDSignIn.sharedInstance signInWithPresentingViewController:presentingViewController hint:hint additionalScopes:scopes completion:^(GIDSignInResult * _Nullable signInResult, NSError * _Nullable error) {
-          [self handleCompletion:signInResult withError:error withResolver:resolve withRejector:reject fromCallsite:@"signIn"];
+#if DEBUG
+    @try {
+#endif
+      [GIDSignIn.sharedInstance signInWithPresentingViewController:RCTPresentedViewController() hint:hint additionalScopes:scopes completion:^(GIDSignInResult * _Nullable signInResult, NSError * _Nullable error) {
+        [self handleCompletion:signInResult withError:error withResolver:resolve withRejector:reject fromCallsite:@"signIn"];
       }];
+#if DEBUG
+    }
+    @catch (NSException *exception) {
+      NSString *errorMessage = [NSString stringWithFormat:@"Encountered an error when signing in (see more below). If the error is 'Your app is missing support for the following URL schemes...', follow the troubleshooting guide at https://react-native-google-signin.github.io/docs/troubleshooting#ios\n\n%@", exception.description];
+      reject(@"SIGN_IN_ERROR", errorMessage, nil);
+    }
+#endif
   });
 }
 
