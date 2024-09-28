@@ -41,6 +41,7 @@ body:
       required: true
   - type: textarea
     attributes:
+      render: text
       label: Summary
       description: |
         Explain the steps we need to take to reproduce the issue. Include a video or screenshots if you think it may help.
@@ -49,6 +50,7 @@ body:
       required: true
   - type: textarea
     attributes:
+      render: text
       label: Your computer environment
       description: Run the `npx react-native info` command and paste its output in the field below.
     validations:
