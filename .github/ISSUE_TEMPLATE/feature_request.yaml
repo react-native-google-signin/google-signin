@@ -1,0 +1,25 @@
+name: "Feature request template"
+description: 'Request a feature in the RN Google Sign In package'
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for taking the time to file a feature request! Please fill out this form.
+  - type: input
+    attributes:
+      label: Feature description
+      description: |
+        Please describe what feature you think is missing and link to the documentation of the underlying Google's SDKs which covers the functionality.
+  
+        Thank you!
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: What platform(s) should this be implemented on?
+      multiple: true
+      options:
+        - Android
+        - iOS
+        - web
+    validations:
+      required: true
