@@ -12,8 +12,8 @@ body:
           required: true
   - type: checkboxes
     attributes:
-      label: This is not a bug report for `DEVELOPER_ERROR`
-      description: If you have an issue with `DEVELOPER_ERROR`, please read the [troubleshooting guide](https://react-native-google-signin.github.io/docs/troubleshooting#developer_error).
+      label: This is not a bug report for `DEVELOPER_ERROR`. If it is, read the [troubleshooting guide](https://react-native-google-signin.github.io/docs/troubleshooting#developer_error)
+      description: If you have an issue with `DEVELOPER_ERROR`, read the [troubleshooting guide](https://react-native-google-signin.github.io/docs/troubleshooting#developer_error). Your issue will probably be closed without response.
       options:
         - label: I have read the troubleshooting guide
           required: true
@@ -23,7 +23,7 @@ body:
       description: |
         A link to a GitHub repository containing a minimal reproducible example. This repository should include as little code as possible and not include extraneous dependencies.
 
-        Please try to reproduce the bugs on the provided example app. Either provide a link to the repo that reproduces the bug or provide your version of the [`App.tsx` file](https://github.com/react-native-google-signin/google-signin/blob/master/example/src/App.tsx) that reproduces the issue and that we can easily use.
+        Try to reproduce the bugs on the provided example app. Either provide a link to the repo that reproduces the bug or provide your version of the [`App.tsx` file](https://github.com/react-native-google-signin/google-signin/blob/master/example/src/App.tsx) that reproduces the issue and that we can easily use.
 
         If a reproducible example is not provided, your issue may be closed.
         [Learn more about creating a minimal reproducible example](https://stackoverflow.com/help/mcve).
