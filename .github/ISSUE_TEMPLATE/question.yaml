@@ -7,7 +7,7 @@ body:
       value: Please use the [GH discussions](https://github.com/react-native-google-signin/google-signin/discussions) for questions. Thank you!
   - type: dropdown
     attributes:
-      label: I will post my question to [GH discussions](https://github.com/react-native-google-signin/google-signin/discussions), not this issue tracker.
+      label: I will post my question to GH discussions.
       options:
         - 'Yes'
     validations:
