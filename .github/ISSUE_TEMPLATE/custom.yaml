@@ -12,10 +12,10 @@ body:
           required: true
   - type: checkboxes
     attributes:
-      label: This is not a bug report for `DEVELOPER_ERROR`. If it is, read the [troubleshooting guide](https://react-native-google-signin.github.io/docs/troubleshooting#developer_error). ⚠️ An issue which reports `DEVELOPER_ERROR` will likely be closed without a response because the troubleshooting guide describes how to fix the error. ⚠️
+      label: This is not a bug report for `DEVELOPER_ERROR`. If it is, read the [troubleshooting guide](https://react-native-google-signin.github.io/docs/troubleshooting#developer_error) to resolve it.
       description: If you have an issue with `DEVELOPER_ERROR`, read the [troubleshooting guide](https://react-native-google-signin.github.io/docs/troubleshooting#developer_error). Your issue will probably be closed without response.
       options:
-        - label: I have read the troubleshooting guide
+        - label: I confirm this is not a bug report for `DEVELOPER_ERROR`.
           required: true
   - type: input
     attributes:
@@ -41,10 +41,10 @@ body:
       required: true
   - type: textarea
     attributes:
-      label: Summary
+      label: Steps to reproduce
       description: |
         Explain the steps we need to take to reproduce the issue. Include a video or screenshots if you think it may help.
-        Clearly describe what the expected behavior is and what instead is actually happening. Be concise and precise in your description. Include the affected platforms (iOS, Android).
+        Clearly describe what the expected behavior is and what instead is actually happening. Be concise and precise in your description.
     validations:
       required: true
   - type: textarea

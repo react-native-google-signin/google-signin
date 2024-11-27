@@ -1,0 +1,14 @@
+name: "Question template"
+description: 'Ask a question about Google Sign'
+labels: ['question']
+body:
+  - type: markdown
+    attributes:
+      value: Please use the [GH discussions](https://github.com/react-native-google-signin/google-signin/discussions) for questions. Thank you!
+  - type: dropdown
+    attributes:
+      label: I will post my question to [GH discussions](https://github.com/react-native-google-signin/google-signin/discussions), not this issue tracker.
+      options:
+        - 'Yes'
+    validations:
+      required: true
