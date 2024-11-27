@@ -20,3 +20,19 @@ jobs:
             Please create a new issue with this and the maintainer will do his best to review it!.
           close-issue: true
           lock-issue: true
+      - uses: dessant/support-requests@v4
+        with:
+          github-token: ${{ github.token }}
+          support-label: 'developer-error'
+          issue-comment: >
+            :wave: @{issue-author}, sorry you're having the `DEVELOPER_ERROR`. The error can be resolved by following [these troubleshooting instructions](https://react-native-google-signin.github.io/docs/troubleshooting#developer_error).
+          close-issue: true
+          lock-issue: true
+      - uses: dessant/support-requests@v4
+        with:
+          github-token: ${{ github.token }}
+          support-label: 'question'
+          issue-comment: >
+            :wave: @{issue-author}, please post your question to [discussions](https://github.com/react-native-google-signin/google-signin/discussions) instead.
+          close-issue: true
+          lock-issue: true
