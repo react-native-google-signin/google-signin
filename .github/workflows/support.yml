@@ -25,9 +25,9 @@ jobs:
           github-token: ${{ github.token }}
           support-label: 'developer-error'
           issue-comment: >
-            :wave: @{issue-author}, sorry you're having the `DEVELOPER_ERROR`. The error can be resolved by following [these troubleshooting instructions](https://react-native-google-signin.github.io/docs/troubleshooting#developer_error).
+            :wave: @{issue-author}, sorry you're encountering the `DEVELOPER_ERROR`. Don't worry - this is a common issue! Follow [these troubleshooting instructions](https://react-native-google-signin.github.io/docs/troubleshooting#developer_error) to resolve it.
           close-issue: true
-          lock-issue: true
+          lock-issue: false
       - uses: dessant/support-requests@v4
         with:
           github-token: ${{ github.token }}
