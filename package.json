@@ -137,6 +137,11 @@
     "jsSrcsDir": "src/spec",
     "android": {
       "javaPackageName": "com.reactnativegooglesignin"
+    },
+    "ios": {
+      "componentProvider": {
+        "RNGoogleSignInButton": "RNGoogleSignInButtonComponentView"
+      }
     }
   },
   "packageManager": "yarn@4.1.1",
