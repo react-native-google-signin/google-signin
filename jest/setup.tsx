@@ -83,9 +83,7 @@ jest.mock('../src/spec/NativeGoogleSignin', () => mockFactory());
 
 // the following are for jest testing outside of the library, where the paths are different
 // alternative is to use moduleNameMapper in user space
-const mockModulePaths = [
-  '../../../lib/module/spec/NativeGoogleSignin',
-];
+const mockModulePaths = ['../../../lib/module/spec/NativeGoogleSignin'];
 mockModulePaths.forEach((path) => {
   try {
     require.resolve(path);
