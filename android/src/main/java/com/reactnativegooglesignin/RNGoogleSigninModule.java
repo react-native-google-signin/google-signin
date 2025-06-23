@@ -165,7 +165,11 @@ public class RNGoogleSigninModule extends NativeGoogleSigninSpec {
                 promiseWrapper.resolve(userParams);
             }
         } catch (ApiException e) {
-            promiseWrapper.reject(e);
+            if (e.getStatusCode() == CommonStatusCodes.DEVELOPER_ERROR) {
+                promiseWrapper.reject(String.valueOf(CommonStatusCodes.DEVELOPER_ERROR), "DEVELOPER_ERROR: Follow troubleshooting instructions at https://react-native-google-signin.github.io/docs/troubleshooting");
+            } else {
+                promiseWrapper.reject(e);
+            }
         }
     }
 
