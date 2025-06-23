@@ -34,7 +34,7 @@
     "README.md"
   ],
   "scripts": {
-    "start": "react-native start --reset-cache --experimental-debugger",
+    "start": "react-native start --reset-cache",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "nuke-ios": "rm -rf example/ios/Podfile.lock && rm -rf example/ios/Pods && rm -rf example/ios/build",
@@ -76,9 +76,10 @@
     "@babel/eslint-parser": "^7.24.1",
     "@commitlint/cli": "^18.6.1",
     "@commitlint/config-conventional": "^18.6.3",
+    "@react-native-community/cli": "15",
     "@react-native-community/eslint-config": "^3.2.0",
-    "@react-native/eslint-config": "^0.74.83",
-    "@react-native/metro-config": "^0.74.83",
+    "@react-native/eslint-config": "^0.76.9",
+    "@react-native/metro-config": "^0.76.9",
     "@semantic-release/git": "^10.0.1",
     "@types/jest": "^29.5.12",
     "@types/react": "^18.2.79",
@@ -95,24 +96,20 @@
     "patch-package": "^7.0.2",
     "pod-install": "^0.2.2",
     "prettier": "^3.2.5",
-    "react": "18.2.0",
-    "react-native": "^0.74.1",
+    "react": "18.3.1",
+    "react-native": "^0.76.9",
     "react-native-builder-bob": "^0.40.10",
-    "react-native-test-app": "3.7.2",
+    "react-native-test-app": "3.10.22",
     "semantic-release": "^22.0.12",
     "typescript": "^5.4.5"
   },
   "peerDependencies": {
     "expo": ">=52.0.40",
     "react": "*",
-    "react-dom": "*",
     "react-native": "*"
   },
   "peerDependenciesMeta": {
     "expo": {
-      "optional": true
-    },
-    "react-dom": {
       "optional": true
     }
   },
@@ -139,9 +136,6 @@
       ]
     ]
   },
-  "resolutions": {
-    "@react-native/metro-config": "0.74.76"
-  },
   "codegenConfig": {
     "name": "RNGoogleSignInCGen",
     "type": "all",
@@ -156,5 +150,5 @@
     }
   },
   "packageManager": "yarn@4.1.1",
-  "GoogleSignInPodVersion": "~> 7.1"
+  "GoogleSignInPodVersion": "~> 8.0"
 }
