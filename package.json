@@ -150,5 +150,5 @@
     }
   },
   "packageManager": "yarn@4.1.1",
-  "GoogleSignInPodVersion": "~> 8.0"
+  "GoogleSignInPodVersion": "~> 9.0"
 }
