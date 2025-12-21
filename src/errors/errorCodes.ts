@@ -20,4 +20,5 @@ export const statusCodes = Object.freeze({
   IN_PROGRESS,
   PLAY_SERVICES_NOT_AVAILABLE,
   SIGN_IN_REQUIRED,
+  NULL_PRESENTER: 'NULL_PRESENTER',
 });

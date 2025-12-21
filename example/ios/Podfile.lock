@@ -1613,7 +1613,7 @@ PODS:
     - React-Core
     - React-jsi
   - ReactTestApp-Resources (1.0.0-dev)
-  - RNGoogleSignin (15.0.0):
+  - RNGoogleSignin (16.0.0):
     - GoogleSignIn (~> 9.0)
     - React-Core
   - SocketRocket (0.7.1)
@@ -1915,7 +1915,7 @@ SPEC CHECKSUMS:
   ReactNativeHost: 59adcde41e44740a4112fdd5804891dec025f01f
   ReactTestApp-DevSupport: 52ac76197e5accf579592aa3b9aa07fd0766f211
   ReactTestApp-Resources: 50d8a70a704c9a46b76e6f0980040c809270976b
-  RNGoogleSignin: eb948239906b3ee677c73adcaae0bdab94003ab2
+  RNGoogleSignin: 2792145770d2bbd5656bf91c5c83db4cadb5ebe0
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
   Yoga: feb4910aba9742cfedc059e2b2902e22ffe9954a
 

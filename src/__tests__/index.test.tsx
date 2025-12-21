@@ -15,6 +15,7 @@ describe('GoogleSignin', () => {
         PLAY_SERVICES_NOT_AVAILABLE: 'mock_PLAY_SERVICES_NOT_AVAILABLE',
         SIGN_IN_CANCELLED: 'mock_SIGN_IN_CANCELLED',
         SIGN_IN_REQUIRED: 'mock_SIGN_IN_REQUIRED',
+        NULL_PRESENTER: 'NULL_PRESENTER',
       });
     });
 

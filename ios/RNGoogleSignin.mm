@@ -124,13 +124,18 @@ RCT_EXPORT_METHOD(signIn:(NSDictionary *)options
                   reject:(RCTPromiseRejectBlock)reject)
 {
   dispatch_async(dispatch_get_main_queue(), ^{
+      UIViewController *presentingViewController = [self getPresentingViewControllerOrReject:reject];
+      if (presentingViewController == nil) {
+        return;
+      }
+
       NSString* hint = options[@"loginHint"];
       NSArray* scopes = self.scopes;
 
 #if DEBUG
     @try {
 #endif
-      [GIDSignIn.sharedInstance signInWithPresentingViewController:RCTPresentedViewController() hint:hint additionalScopes:scopes completion:^(GIDSignInResult * _Nullable signInResult, NSError * _Nullable error) {
+      [GIDSignIn.sharedInstance signInWithPresentingViewController:presentingViewController hint:hint additionalScopes:scopes completion:^(GIDSignInResult * _Nullable signInResult, NSError * _Nullable error) {
         [self handleCompletion:signInResult withError:error withResolver:resolve withRejector:reject fromCallsite:@"signIn"];
       }];
 #if DEBUG
@@ -153,8 +158,13 @@ RCT_EXPORT_METHOD(addScopes:(NSDictionary *)options
         resolve([NSNull null]);
         return;
       }
+
+      UIViewController *presentingViewController = [self getPresentingViewControllerOrReject:reject];
+      if (presentingViewController == nil) {
+        return;
+      }
+
       NSArray* scopes = options[@"scopes"];
-      UIViewController* presentingViewController = RCTPresentedViewController();
 
       [currentUser addScopes:scopes presentingViewController:presentingViewController completion:^(GIDSignInResult * _Nullable signInResult, NSError * _Nullable error) {
           [self handleCompletion:signInResult withError:error withResolver:resolve withRejector:reject fromCallsite:@"addScopes"];
@@ -227,6 +237,13 @@ RCT_EXPORT_METHOD(getTokens:(RCTPromiseResolveBlock)resolve
     resolve([NSNull null]);
 }
 
+- (UIViewController *)getPresentingViewControllerOrReject:(RCTPromiseRejectBlock)reject {
+  UIViewController *viewController = RCTPresentedViewController();
+  if (viewController == nil) {
+    reject(@"NULL_PRESENTER", @"No presenting view controller found. Cannot present sign-in UI.", nil);
+  }
+  return viewController;
+}
 
 - (NSDictionary*)createUserDictionary: (nullable GIDSignInResult *) result {
   return [self createUserDictionary:result.user serverAuthCode:result.serverAuthCode];

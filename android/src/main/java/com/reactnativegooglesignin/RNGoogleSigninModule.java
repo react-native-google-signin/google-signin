@@ -117,7 +117,7 @@ public class RNGoogleSigninModule extends NativeGoogleSigninSpec {
     }
 
     static void rejectWithNullActivity(Promise promise) {
-        promise.reject(NAME, "activity is null");
+        promise.reject("NULL_PRESENTER", "Current activity is null. Cannot present sign-in UI.");
     }
 
     @ReactMethod
