@@ -101,7 +101,7 @@
     "react-native": "^0.76.9",
     "react-native-builder-bob": "^0.40.10",
     "react-native-test-app": "3.10.22",
-    "semantic-release": "^22.0.12",
+    "semantic-release": "^25.0.2",
     "typescript": "^5.4.5"
   },
   "peerDependencies": {
