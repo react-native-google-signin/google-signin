@@ -70,7 +70,8 @@
   },
   "homepage": "https://github.com/react-native-google-signin/google-signin#readme",
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://registry.npmjs.org/",
+    "provenance": true
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.24.1",
@@ -149,6 +150,6 @@
       }
     }
   },
-  "packageManager": "yarn@4.1.1",
+  "packageManager": "yarn@4.12.0",
   "GoogleSignInPodVersion": "~> 9.0"
 }
