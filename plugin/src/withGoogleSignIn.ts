@@ -1,4 +1,3 @@
-import { appendScheme } from '@expo/config-plugins/build/ios/Scheme';
 import type { ExpoConfig } from 'expo/config';
 import {
   ConfigPlugin,
@@ -46,7 +45,7 @@ const withGoogleSignInWithoutFirebase: ConfigPlugin<Options> = (
 
 export const withGoogleUrlScheme: ConfigPlugin<Options> = (config, options) => {
   return withInfoPlist(config, (config) => {
-    config.modResults = appendScheme(options.iosUrlScheme, config.modResults);
+    config.modResults = IOSConfig.Scheme.appendScheme(options.iosUrlScheme, config.modResults);
     return config;
   });
 };
