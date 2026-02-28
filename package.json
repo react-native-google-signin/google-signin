@@ -1,6 +1,6 @@
 {
   "name": "@react-native-google-signin/google-signin",
-  "version": "16.1.1",
+  "version": "16.1.2",
   "description": "Google sign in for your react native applications",
   "funding": "https://universal-sign-in.com",
   "main": "./lib/module/index.js",
