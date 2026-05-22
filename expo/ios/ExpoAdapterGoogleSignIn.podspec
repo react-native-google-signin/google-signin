@@ -5,7 +5,7 @@ package = JSON.parse(File.read(File.join(__dir__, '..', '..', 'package.json')))
 # ExpoAdapterGoogleSignIn imports ExpoModulesCore, so its iOS deployment target
 # must be >= ExpoModulesCore's. That floor changes per Expo SDK (SDK 56 = 16.4),
 # so derive it from the installed ExpoModulesCore.podspec instead of hardcoding.
-ios_deployment_target = '15.1'
+ios_deployment_target = '15.1' # fallback if derivation fails; iOS floor shared by every supported Expo SDK
 begin
   expo_modules_core_dir = File.dirname(
     `node --print "require.resolve('expo-modules-core/package.json', { paths: ['#{__dir__}'] })"`.strip
