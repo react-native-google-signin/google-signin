@@ -18,6 +18,9 @@ Pod::Spec.new do |s|
   s.dependency 'ExpoModulesCore'
   s.dependency 'React-Core'
   s.dependency "GoogleSignIn", package["GoogleSignInPodVersion"]
+  s.dependency 'GoogleUtilities/Environment'
+  s.dependency 'GoogleUtilities/UserDefaults'
+  s.dependency 'RecaptchaInterop'
 
   # Swift/Objective-C compatibility
   s.pod_target_xcconfig = {
