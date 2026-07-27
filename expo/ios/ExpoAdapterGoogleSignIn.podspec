@@ -18,6 +18,9 @@ Pod::Spec.new do |s|
   s.dependency 'ExpoModulesCore'
   s.dependency 'React-Core'
   s.dependency "GoogleSignIn", package["GoogleSignInPodVersion"]
+
+  # Expo gives direct dependencies of Expo modules modular headers. AppCheckCore,
+  # pulled in by GoogleSignIn, imports these Objective-C pods from Swift.
   s.dependency 'GoogleUtilities/Environment'
   s.dependency 'GoogleUtilities/UserDefaults'
   s.dependency 'RecaptchaInterop'
