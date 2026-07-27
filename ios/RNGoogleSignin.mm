@@ -130,12 +130,13 @@ RCT_EXPORT_METHOD(signIn:(NSDictionary *)options
       }
 
       NSString* hint = options[@"loginHint"];
+      NSString* nonce = options[@"nonce"];
       NSArray* scopes = self.scopes;
 
 #if DEBUG
     @try {
 #endif
-      [GIDSignIn.sharedInstance signInWithPresentingViewController:presentingViewController hint:hint additionalScopes:scopes completion:^(GIDSignInResult * _Nullable signInResult, NSError * _Nullable error) {
+      [GIDSignIn.sharedInstance signInWithPresentingViewController:presentingViewController hint:hint additionalScopes:scopes nonce:nonce completion:^(GIDSignInResult * _Nullable signInResult, NSError * _Nullable error) {
         [self handleCompletion:signInResult withError:error withResolver:resolve withRejector:reject fromCallsite:@"signIn"];
       }];
 #if DEBUG
