@@ -64,7 +64,7 @@ public class RNGoogleSigninButtonViewManager extends SimpleViewManager<SignInBut
         if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
             return mDelegate;
         } else {
-            return null;
+            return super.getDelegate();
         }
     }
 
