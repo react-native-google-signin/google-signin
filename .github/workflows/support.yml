@@ -20,7 +20,7 @@ jobs:
             If you create a new issue with this in mind, the maintainer will do his best to review it!
           close-issue: true
           lock-issue: true
-      - uses: dessant/support-requests@v4
+      - uses: dessant/support-requests@v5
         with:
           github-token: ${{ github.token }}
           support-label: 'developer-error'
@@ -28,7 +28,7 @@ jobs:
             :wave: @{issue-author}, sorry you're encountering the `DEVELOPER_ERROR`. Don't worry - this is a common issue! Follow [these troubleshooting instructions](https://react-native-google-signin.github.io/docs/troubleshooting#developer_error) to resolve it.
           close-issue: true
           lock-issue: false
-      - uses: dessant/support-requests@v4
+      - uses: dessant/support-requests@v5
         with:
           github-token: ${{ github.token }}
           support-label: 'question'
