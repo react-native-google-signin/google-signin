@@ -7,6 +7,15 @@ export type SignInParams = {
    * [See docs here](https://developers.google.com/identity/sign-in/ios/reference/Classes/GIDSignIn#-signinwithpresentingviewcontroller:hint:completion:)
    */
   loginHint?: string;
+  /**
+   * iOS only. Optional nonce value to include in the ID token.
+   *
+   * Pass the value your identity provider expects in the token's `nonce` claim.
+   * For providers that compare against a hash of a raw nonce, pass the hashed
+   * nonce here and the raw nonce to the provider when verifying the ID token.
+   * [See docs here](https://developers.google.com/identity/sign-in/ios/reference/Classes/GIDSignIn#-signinwithpresentingviewcontroller:hint:additionalscopes:nonce:completion:)
+   */
+  nonce?: string;
 };
 
 /**
