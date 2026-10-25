@@ -1,4 +1,5 @@
 require "json"
+require_relative "ios/dependency_manager"
 
 package = JSON.parse(File.read(File.join(__dir__, "package.json")))
 
@@ -16,7 +17,15 @@ Pod::Spec.new do |s|
 
   s.source_files = "ios/**/*.{h,m,mm}"
 
-  s.dependency "GoogleSignIn", package["GoogleSignInPodVersion"]
+  if rngooglesignin_use_spm?
+    spm_dependency(s,
+      url: GOOGLE_SIGN_IN_SPM_URL,
+      requirement: { kind: "upToNextMajorVersion", minimumVersion: package["GoogleSignInSPMVersion"] },
+      products: ["GoogleSignIn"]
+    )
+  else
+    s.dependency "GoogleSignIn", package["GoogleSignInPodVersion"]
+  end
 
   if ENV['RCT_NEW_ARCH_ENABLED'] == '1'
     install_modules_dependencies(s)

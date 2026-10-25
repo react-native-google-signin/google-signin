@@ -335,3 +335,11 @@ RCT_EXPORT_METHOD(getTokens:(RCTPromiseResolveBlock)resolve
 #endif
 
 @end
+
+// Called by the Expo adapter (GoogleSignInAppDelegate) when GoogleSignIn comes from SPM.
+// The adapter is a static framework: linking GoogleSignIn into it as well would give the
+// app a second copy of the SDK, so it forwards sign-in URLs here instead.
+FOUNDATION_EXPORT BOOL RNGoogleSigninHandleURL(NSURL *url)
+{
+  return [GIDSignIn.sharedInstance handleURL:url];
+}
