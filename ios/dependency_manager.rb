@@ -5,11 +5,17 @@
 #
 #   $RNGoogleSigninDependencyManager = 'spm'
 #
+# SPM mode needs React Native 0.75+ (spm_dependency), iOS 15+ (GoogleSignIn 10) and
+# `use_frameworks! :linkage => :dynamic`.
+#
 # SPM is for apps that already resolve Google's SDKs through SPM, e.g. React Native
 # Firebase 27+ (Firebase 13 is SPM-only). Mixing the two would link GTMSessionFetcher,
 # GoogleUtilities and the other shared libraries twice.
 
 GOOGLE_SIGN_IN_SPM_URL = 'https://github.com/google/GoogleSignIn-iOS.git'
+# GoogleSignIn 10 raised its minimum to iOS 15. CocoaPods can't see an SPM package's
+# minimum, so the pods declare it, and pod install rejects older targets.
+GOOGLE_SIGN_IN_SPM_MIN_IOS = '15.0'
 
 def rngooglesignin_use_spm?
   manager = ($RNGoogleSigninDependencyManager || 'cocoapods').to_s

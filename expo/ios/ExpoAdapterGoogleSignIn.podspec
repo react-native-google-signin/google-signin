@@ -2,6 +2,7 @@ require 'json'
 require_relative '../../ios/dependency_manager'
 
 package = JSON.parse(File.read(File.join(__dir__, '..', '..', 'package.json')))
+use_spm = rngooglesignin_use_spm?
 
 Pod::Spec.new do |s|
   s.name           = 'ExpoAdapterGoogleSignIn'
@@ -11,11 +12,10 @@ Pod::Spec.new do |s|
   s.license        = package['license']
   s.author         = package['author']
   s.homepage       = package['homepage']
-  s.platform       = :ios, '13.4'
+  s.platform       = :ios, use_spm ? GOOGLE_SIGN_IN_SPM_MIN_IOS : '13.4'
   s.swift_version  = '5.4'
   s.source         = { :git => 'https://github.com/react-native-google-signin/google-signin.git', :tag => "v#{package['version']}" }
   s.static_framework = true
-  use_spm = rngooglesignin_use_spm?
 
   s.dependency 'ExpoModulesCore'
   s.dependency 'React-Core'
