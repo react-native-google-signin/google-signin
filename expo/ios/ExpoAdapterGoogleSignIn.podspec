@@ -43,7 +43,8 @@ Pod::Spec.new do |s|
   xcconfig['SWIFT_ACTIVE_COMPILATION_CONDITIONS'] = '$(inherited) RNGOOGLESIGNIN_SPM' if use_spm
   s.pod_target_xcconfig = xcconfig
 
-  if !$ExpoUseSources&.include?(package['name']) && ENV['EXPO_USE_SOURCE'].to_i == 0 && File.exist?("#{s.name}.xcframework") && Gem::Version.new(Pod::VERSION) >= Gem::Version.new('1.10.0')
+  # A prebuilt adapter may have been compiled for CocoaPods mode, so SPM mode always builds from source.
+  if !use_spm && !$ExpoUseSources&.include?(package['name']) && ENV['EXPO_USE_SOURCE'].to_i == 0 && File.exist?("#{s.name}.xcframework") && Gem::Version.new(Pod::VERSION) >= Gem::Version.new('1.10.0')
     s.source_files = "#{s.name}/**/*.h"
     s.vendored_frameworks = "#{s.name}.xcframework"
   else
