@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
   if use_spm
     spm_dependency(s,
       url: GOOGLE_SIGN_IN_SPM_URL,
-      requirement: { kind: "upToNextMajorVersion", minimumVersion: package["GoogleSignInSPMVersion"] },
+      requirement: { kind: "upToNextMajorVersion", minimumVersion: package["GoogleSignInPodVersion"] },
       products: ["GoogleSignIn"]
     )
   else
