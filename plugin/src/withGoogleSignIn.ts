@@ -131,9 +131,11 @@ const withGoogleSignInRoot: ConfigPlugin<
   Options | DependencyManagerOptions | void
 > = (config: ExpoConfig, options) => {
   const { iosDependencyManager, ...signInOptions } = options ?? {};
-  if (iosDependencyManager !== undefined) {
-    config = withIosDependencyManager(config, iosDependencyManager);
-  }
+  // Always runs, so dropping the option also removes the line a previous prebuild wrote.
+  config = withIosDependencyManager(
+    config,
+    iosDependencyManager ?? 'cocoapods',
+  );
   // Options with only `iosDependencyManager` keep the Firebase setup.
   const withoutFirebase =
     options &&
