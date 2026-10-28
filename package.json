@@ -32,7 +32,8 @@
     "expo-module.config.json",
     "plugin/build",
     "jest/build",
-    "README.md"
+    "README.md",
+    "Package.swift"
   ],
   "scripts": {
     "start": "react-native start --reset-cache",
@@ -152,5 +153,8 @@
     }
   },
   "packageManager": "yarn@4.12.0",
-  "GoogleSignInPodVersion": "~> 9.0"
+  "GoogleSignInPodVersion": "~> 9.0",
+  "swiftpmConfig": {
+    "name": "RNGoogleSignin"
+  }
 }
