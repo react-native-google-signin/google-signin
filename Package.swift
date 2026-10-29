@@ -12,7 +12,7 @@ let package = Package(
     dependencies: [
         .package(name: "ReactNative", path: "../../../../xcframeworks"),
         .package(name: "React-GeneratedCode", path: "../../../ios"),
-        .package(url: "https://github.com/google/GoogleSignIn-iOS", from: "9.0.0"),
+        .package(url: "https://github.com/google/GoogleSignIn-iOS", from: "10.1.0"),
     ],
     targets: [
         .target(

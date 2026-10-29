@@ -1,11 +1,18 @@
 #if canImport(ExpoModulesCore)
 import ExpoModulesCore
+#if !RNGOOGLESIGNIN_SPM
 import GoogleSignIn
+#endif
 
 public class GoogleSignInAppDelegate: ExpoAppDelegateSubscriber {
   private func handleSignInURL(_ url: URL) throws -> Bool {
     // marked as `throws` to make compiler warning go away
+#if RNGOOGLESIGNIN_SPM
+    // GoogleSignIn is linked into RNGoogleSignin only, see RNGoogleSigninURLHandler.h
+    return RNGoogleSigninHandleURL(url)
+#else
     return GIDSignIn.sharedInstance.handle(url)
+#endif
   }
 
   public func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
